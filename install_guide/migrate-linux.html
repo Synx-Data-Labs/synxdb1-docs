@@ -279,14 +279,14 @@ DETAIL:  Partition key of the failing row contains (date) = ("01").
 <blockquote>
 <p><strong>Note</strong> SynxDB does not support a rolling upgrade, such that some SynxDB Segment Hosts are operating with EL 7 and others with EL 8 or EL 9. All Segment Hosts must be upgraded together or otherwise before SynxDB is started and workload continued after an upgrade.</p>
 </blockquote>
-<h3 id="synxdb-copy-utility"><a class="header" href="#synxdb-copy-utility"><a id="gpcopy"></a>SynxDB Copy Utility</a></h3>
+<h3 id="synxdb-copy-utility"><a class="header" href="#synxdb-copy-utility"><a id="cbcopy"></a>SynxDB Copy Utility</a></h3>
 <p>The <a href="https://docs.vmware.com/en/VMware-SynxDB-Data-Copy-Utility/index.html">SynxDB Copy Utility</a> is a utility for transferring data between databases in different SynxDB systems.</p>
 <p>This utility is compatible with the SynxDB cluster from the source and destination running on different operating systems, including EL 7 to EL 8 or EL 9. The <code>glibc</code> changes are not relevant for this migration method because the data is rewritten on copy to the target cluster, which addresses any locale sorting changes. However, since SynxDB Copy enables the option <code>-parallelize-leaf-partitions</code> by default, which copies the leaf partition tables of a partitioned table in parallel, it may lead to data being copied to an incorrect partition caused by the <code>glibc</code> changes. You must disable this option so that the table is copied as one single table based on the root partition table.</p>
 <p>As part of the overall process of this upgrade method, you:</p>
 <ul>
 <li>Create a new SynxDB cluster using EL 8 or EL 9 with no data.</li>
 <li>Address any <a href="#os_config">Operating System Configuration Differences</a>.</li>
-<li>Use <code>gpcopy</code> to migrate data from the source SynxDB cluster on EL 7 to the destination SynxDB cluster on EL 8 or EL 9. You must disable the option <code>-parallelize-leaf-partitions</code> to ensure that partitioned tables are copied as one single table based on the root partition.</li>
+<li>Use <code>cbcopy</code> to migrate data from the source SynxDB cluster on EL 7 to the destination SynxDB cluster on EL 8 or EL 9. You must disable the option <code>-parallelize-leaf-partitions</code> to ensure that partitioned tables are copied as one single table based on the root partition.</li>
 <li>Remove the source SynxDB cluster from the EL 7 systems.</li>
 </ul>
 <p>The advantages of this method are optimized performance, migration issues not impacting the source cluster, and that it does not require table locks. The disadvantage of this method is that it requires two separate SynxDB clusters during the migration.</p>

@@ -1539,7 +1539,7 @@ Significant SynxDB performance degradation has been observed when enabling resou
 </table>
 </div>
 <h3 id="synxdb-on-dca-systems"><a class="header" href="#synxdb-on-dca-systems"><a id="topic_elb_4ss_n4b"></a>SynxDB on DCA Systems</a></h3>
-<p>You must run SynxDB version 6.9 or later on Dell EMC DCA systems, with software version 4.2.0.0 and later.</p>
+<p>You must run SynxDB Version 1 on Dell EMC DCA systems, with software version 4.2.0.0 and later.</p>
 <h2 id="storage"><a class="header" href="#storage"><a id="topic_pnz_5zd_xs"></a>Storage</a></h2>
 <p>The only file system supported for running SynxDB is the XFS file system. All other file systems are explicitly <em>not</em> supported by Synx Data Labs.</p>
 <p>SynxDB is supported on network or shared storage if the shared storage is presented as a block device to the servers running SynxDB and the XFS file system is mounted on the block device. Network file systems are <em>not</em> supported. When using network or shared storage, SynxDB mirroring must be used in the same way as with local storage, and no modifications may be made to the mirroring scheme or the recovery scheme of the segments.</p>
@@ -3629,25 +3629,25 @@ $ gpstop -r
 <p>If the client character set is defined as <code>SQL_ASCII</code>, encoding conversion is deactivated, regardless of the server’s character set. The use of <code>SQL_ASCII</code> is unwise unless you are working with all-ASCII data. <code>SQL_ASCII</code> is not supported as a server encoding.</p>
 <p>1 Not all APIs support all the listed character sets. For example, the JDBC driver does not support MULE_INTERNAL, LATIN6, LATIN8, and LATIN10.
 2 The SQL_ASCII setting behaves considerably differently from the other settings. Byte values 0-127 are interpreted according to the ASCII standard, while byte values 128-255 are taken as uninterpreted characters. If you are working with any non-ASCII data, it is unwise to use the SQL_ASCII setting as a client encoding. SQL_ASCII is not supported as a server encoding.</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="upgrading-to-synxdb-6"><a class="header" href="#upgrading-to-synxdb-6">Upgrading to SynxDB 6</a></h1>
-<p>This topic identifies the upgrade paths for upgrading a SynxDB 6.x release to a newer 6.x release. The topic also describes the migration paths for migrating SynxDB 4.x or 5.x data to SynxDB 6.x.</p>
-<p>SynxDB 6 supports upgrading from a SynxDB 6.x release to a newer 6.x release. Direct upgrade from SynxDB 5.28.10 to SynxDB 6.24.0 and later is provided via gpupgrade; for more information, see the <a href="https://docs.vmware.com/en/VMware-SynxDB-Upgrade/index.html">gpupgrade documentation</a>. Direct upgrade from SynxDB 4.3, or from SynxDB 5.27 and earlier, to SynxDB 6 is not supported; you must migrate the data to SynxDB 6.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="upgrading-to-synxdb-1"><a class="header" href="#upgrading-to-synxdb-1">Upgrading to SynxDB 1</a></h1>
+<p>This topic identifies the upgrade paths for upgrading a SynxDB 1.x release to a newer 1.x release. The topic also describes the migration paths for migrating SynxDB 4.x or 5.x data to SynxDB 1.x.</p>
+<p>SynxDB 1 supports upgrading from a SynxDB 1.x release to a newer 1.x release. Direct upgrade from SynxDB 5.28.10 to SynxDB 1 and later is provided via gpupgrade; for more information, see the <a href="https://docs.vmware.com/en/VMware-SynxDB-Upgrade/index.html">gpupgrade documentation</a>. Direct upgrade from SynxDB 4.3, or from SynxDB 5.27 and earlier, to SynxDB 1 is not supported; you must migrate the data to SynxDB 1.</p>
 <ul>
 <li>
-<p><strong><a href="install_guide/upgrading.html">Upgrading from an Earlier SynxDB 6 Release</a></strong><br />
-The upgrade path supported for this release is SynxDB 6.x to a newer SynxDB 6.x release.</p>
+<p><strong><a href="install_guide/upgrading.html">Upgrading from an Earlier SynxDB 1 Release</a></strong><br />
+The upgrade path supported for this release is SynxDB 1.x to a newer SynxDB 1.x release.</p>
 </li>
 <li>
 <p><strong><a href="install_guide/../pxf/pxf_upgrade_migration.html">PXF Upgrade and Migration</a></strong></p>
 </li>
 <li>
-<p><strong><a href="install_guide/migrate.html">Migrating Data from SynxDB 4.3 or 5 to SynxDB 6</a></strong><br />
-You can migrate data from SynxDB 4.3 or 5 to SynxDB 6 using the standard backup and restore procedures, <code>gpbackup</code> and <code>gprestore</code>, or by using <code>gpcopy</code> for SynxDB.</p>
+<p><strong><a href="install_guide/migrate.html">Migrating Data from SynxDB 4.3 or 5 to SynxDB 1</a></strong><br />
+You can migrate data from SynxDB 4.3 or 5 to SynxDB 1 using the standard backup and restore procedures, <code>gpbackup</code> and <code>gprestore</code>, or by using <code>cbcopy</code> for SynxDB.</p>
 </li>
 </ul>
 <p><strong>Parent topic:</strong> <a href="install_guide/install_guide.html">Installing and Upgrading SynxDB</a></p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="upgrading-from-an-earlier-synxdb-6-release"><a class="header" href="#upgrading-from-an-earlier-synxdb-6-release">Upgrading from an Earlier SynxDB 6 Release</a></h1>
-<p>The upgrade path supported for this release is SynxDB 6.x to a newer SynxDB 6.x release.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="upgrading-from-an-earlier-synxdb-1-release"><a class="header" href="#upgrading-from-an-earlier-synxdb-1-release">Upgrading from an Earlier SynxDB 1 Release</a></h1>
+<p>The upgrade path supported for this release is SynxDB 1.x to a newer SynxDB 1.x release.</p>
 <blockquote>
 <p><strong>Important</strong> Set the SynxDB timezone to a value that is compatible with your host systems. Setting the SynxDB timezone prevents SynxDB from selecting a timezone each time the cluster is restarted and sets the timezone for the SynxDB master and segment instances. After you upgrade to this release and if you have not set a SynxDB timezone value, verify that the selected SynxDB timezone is acceptable for your deployment. See <a href="install_guide/localization.html">Configuring Timezone and Localization Settings</a> for more information.</p>
 </blockquote>
@@ -3675,9 +3675,9 @@ You can migrate data from SynxDB 4.3 or 5 to SynxDB 6 using the standard backup 
 <p>If you do not plan to use GPSS, or you have not yet configured GPSS, no action is necessary.</p>
 </li>
 </ul>
-<p><strong>Parent topic:</strong> <a href="install_guide/upgrade_intro.html">Upgrading to SynxDB 6</a></p>
+<p><strong>Parent topic:</strong> <a href="install_guide/upgrade_intro.html">Upgrading to SynxDB 1</a></p>
 <h2 id="upgrading-from-6x-to-a-newer-6x-release"><a class="header" href="#upgrading-from-6x-to-a-newer-6x-release"><a id="topic17"></a>Upgrading from 6.x to a Newer 6.x Release</a></h2>
-<p>An upgrade from SynxDB 6.x to a newer 6.x release involves stopping SynxDB, updating the SynxDB software binaries, and restarting SynxDB. If you are using SynxDB extension packages there are additional requirements. See <a href="install_guide/upgrading.html#gpdb_prereq">Prerequisites</a> in the previous section.</p>
+<p>An upgrade from SynxDB 1.x to a newer 6.x release involves stopping SynxDB, updating the SynxDB software binaries, and restarting SynxDB. If you are using SynxDB extension packages there are additional requirements. See <a href="install_guide/upgrading.html#gpdb_prereq">Prerequisites</a> in the previous section.</p>
 <ol>
 <li>
 <p>Log in to your SynxDB master host as the SynxDB administrative user:</p>
@@ -3685,7 +3685,7 @@ You can migrate data from SynxDB 4.3 or 5 to SynxDB 6 using the standard backup 
 </code></pre>
 </li>
 <li>
-<p>Perform a smart shutdown of your SynxDB 6.x system (there can be no active connections to the database). This example uses the <code>-a</code> option to deactivate confirmation prompts:</p>
+<p>Perform a smart shutdown of your SynxDB 1.x system (there can be no active connections to the database). This example uses the <code>-a</code> option to deactivate confirmation prompts:</p>
 <pre><code>$ gpstop -a
 </code></pre>
 </li>
@@ -3796,7 +3796,7 @@ This process replaces the application and software but does not migrate any data
 </code></pre>
 </li>
 <li>
-<p>Terminate any active connections to the database, and then perform a smart shutdown of your SynxDB 6.x system. This example uses the <code>-a</code> option to deactivate confirmation prompts:</p>
+<p>Terminate any active connections to the database, and then perform a smart shutdown of your SynxDB 1.x system. This example uses the <code>-a</code> option to deactivate confirmation prompts:</p>
 <pre><code>$ gpstop -a
 </code></pre>
 </li>
@@ -3980,14 +3980,14 @@ DETAIL:  Partition key of the failing row contains (date) = ("01").
 <blockquote>
 <p><strong>Note</strong> SynxDB does not support a rolling upgrade, such that some SynxDB Segment Hosts are operating with EL 7 and others with EL 8 or EL 9. All Segment Hosts must be upgraded together or otherwise before SynxDB is started and workload continued after an upgrade.</p>
 </blockquote>
-<h3 id="synxdb-copy-utility"><a class="header" href="#synxdb-copy-utility"><a id="gpcopy"></a>SynxDB Copy Utility</a></h3>
+<h3 id="synxdb-copy-utility"><a class="header" href="#synxdb-copy-utility"><a id="cbcopy"></a>SynxDB Copy Utility</a></h3>
 <p>The <a href="https://docs.vmware.com/en/VMware-SynxDB-Data-Copy-Utility/index.html">SynxDB Copy Utility</a> is a utility for transferring data between databases in different SynxDB systems.</p>
 <p>This utility is compatible with the SynxDB cluster from the source and destination running on different operating systems, including EL 7 to EL 8 or EL 9. The <code>glibc</code> changes are not relevant for this migration method because the data is rewritten on copy to the target cluster, which addresses any locale sorting changes. However, since SynxDB Copy enables the option <code>-parallelize-leaf-partitions</code> by default, which copies the leaf partition tables of a partitioned table in parallel, it may lead to data being copied to an incorrect partition caused by the <code>glibc</code> changes. You must disable this option so that the table is copied as one single table based on the root partition table.</p>
 <p>As part of the overall process of this upgrade method, you:</p>
 <ul>
 <li>Create a new SynxDB cluster using EL 8 or EL 9 with no data.</li>
 <li>Address any <a href="install_guide/migrate-linux.html#os_config">Operating System Configuration Differences</a>.</li>
-<li>Use <code>gpcopy</code> to migrate data from the source SynxDB cluster on EL 7 to the destination SynxDB cluster on EL 8 or EL 9. You must disable the option <code>-parallelize-leaf-partitions</code> to ensure that partitioned tables are copied as one single table based on the root partition.</li>
+<li>Use <code>cbcopy</code> to migrate data from the source SynxDB cluster on EL 7 to the destination SynxDB cluster on EL 8 or EL 9. You must disable the option <code>-parallelize-leaf-partitions</code> to ensure that partitioned tables are copied as one single table based on the root partition.</li>
 <li>Remove the source SynxDB cluster from the EL 7 systems.</li>
 </ul>
 <p>The advantages of this method are optimized performance, migration issues not impacting the source cluster, and that it does not require table locks. The disadvantage of this method is that it requires two separate SynxDB clusters during the migration.</p>
@@ -4303,7 +4303,7 @@ COMMIT
 </li>
 <li class="li"><a class="xref" href="install_guide/../utility_guide/ref/gpcheckperf.html">gpcheckperf</a>
 </li>
-<li class="li"><a class="xref" href="install_guide/../utility_guide/ref/gpcopy.html">gpcopy</a> (SynxDB only) </li>
+<li class="li"><a class="xref" href="install_guide/../utility_guide/ref/cbcopy.html">cbcopy</a> (SynxDB only) </li>
 <li class="li"><a class="xref" href="install_guide/../utility_guide/ref/gpdeletesystem.html">gpdeletesystem</a>
 </li>
 <li class="li"><a class="xref" href="install_guide/../utility_guide/ref/gpinitstandby.html">gpinitstandby</a>
@@ -7947,7 +7947,7 @@ The gpfdist protocol is used in a <code>CREATE EXTERNAL TABLE</code> SQL command
 <p>Data managed by your organization may already reside in external sources such as Hadoop, object stores, and other SQL databases. The SynxDB Platform Extension Framework (PXF) provides access to this external data via built-in connectors that map an external data source to a SynxDB table definition.</p>
 <p>PXF is installed with Hadoop and Object Storage connectors. These connectors enable you to read external data stored in text, Avro, JSON, RCFile, Parquet, SequenceFile, and ORC formats. You can use the JDBC connector to access an external SQL database.</p>
 <blockquote>
-<p><strong>Note</strong> In previous versions of SynxDB, you may have used the <code>gphdfs</code> external table protocol to access data stored in Hadoop. SynxDB version 6.0.0 removes the <code>gphdfs</code> protocol. Use PXF and the <code>pxf</code> external table protocol to access Hadoop in SynxDB version 6.x.</p>
+<p><strong>Note</strong> In previous versions of SynxDB, you may have used the <code>gphdfs</code> external table protocol to access data stored in Hadoop. SynxDB version 1 removes the <code>gphdfs</code> protocol. Use PXF and the <code>pxf</code> external table protocol to access Hadoop in SynxDB version 1.</p>
 </blockquote>
 <p>The SynxDB Platform Extension Framework includes a C-language extension and a Java service. After you configure and initialize PXF, you start a single PXF JVM process on each SynxDB segment host. This long- running process concurrently serves multiple query requests.</p>
 <p>For detailed information about the architecture of and using PXF, refer to the <a href="https://docs.vmware.com/en/VMware-SynxDB-Platform-Extension-Framework/6.6/greenplum-platform-extension-framework/overview_pxf.html">SynxDB Platform Extension Framework (PXF)</a> documentation.</p>
@@ -9456,7 +9456,7 @@ FORMAT 'TEXT';
 <div style="break-before: page; page-break-before: always;"></div><h1 id="loading-data-with-gpload"><a class="header" href="#loading-data-with-gpload">Loading Data with gpload</a></h1>
 <p>The SynxDB <code>gpload</code> utility loads data using readable external tables and the SynxDB parallel file server (gpfdist or <code>gpfdists</code>). It handles parallel file-based external table setup and allows users to configure their data format, external table definition, and gpfdist or <code>gpfdists</code> setup in a single configuration file.</p>
 <blockquote>
-<p><strong>Note</strong> <code>gpfdist</code> and <code>gpload</code> are compatible only with the SynxDB major version in which they are shipped. For example, a <code>gpfdist</code> utility that is installed with SynxDB 4.x cannot be used with SynxDB 5.x or 6.x.</p>
+<p><strong>Note</strong> <code>gpfdist</code> and <code>gpload</code> are compatible only with the SynxDB major version in which they are shipped. For example, a <code>gpfdist</code> utility that is installed with SynxDB 4.x cannot be used with SynxDB 0.x or 1.x.</p>
 </blockquote>
 <blockquote>
 <p><strong>Note</strong> <code>MERGE</code> and <code>UPDATE</code> operations are not supported if the target table column name is a reserved keyword, has capital letters, or includes any character that requires quotes (“ “) to identify the column.</p>
@@ -9521,7 +9521,7 @@ SQL:
 <p>Data managed by your organization may already reside in external sources such as Hadoop, object stores, and other SQL databases. The SynxDB Platform Extension Framework (PXF) provides access to this external data via built-in connectors that map an external data source to a SynxDB table definition.</p>
 <p>PXF is installed with Hadoop and Object Storage connectors. These connectors enable you to read external data stored in text, Avro, JSON, RCFile, Parquet, SequenceFile, and ORC formats. You can use the JDBC connector to access an external SQL database.</p>
 <blockquote>
-<p><strong>Note</strong> In previous versions of SynxDB, you may have used the <code>gphdfs</code> external table protocol to access data stored in Hadoop. SynxDB version 6.0.0 removes the <code>gphdfs</code> protocol. Use PXF and the <code>pxf</code> external table protocol to access Hadoop in SynxDB version 6.x.</p>
+<p><strong>Note</strong> In previous versions of SynxDB, you may have used the <code>gphdfs</code> external table protocol to access data stored in Hadoop. SynxDB version 1 removes the <code>gphdfs</code> protocol. Use PXF and the <code>pxf</code> external table protocol to access Hadoop in SynxDB version 1.</p>
 </blockquote>
 <p>The SynxDB Platform Extension Framework includes a C-language extension and a Java service. After you configure and initialize PXF, you start a single PXF JVM process on each SynxDB segment host. This long- running process concurrently serves multiple query requests.</p>
 <p>For detailed information about the architecture of and using PXF, refer to the <a href="https://docs.vmware.com/en/VMware-SynxDB-Platform-Extension-Framework/6.6/greenplum-platform-extension-framework/overview_pxf.html">SynxDB Platform Extension Framework (PXF)</a> documentation.</p>
@@ -9530,7 +9530,7 @@ SQL:
 <div style="break-before: page; page-break-before: always;"></div><h1 id="transforming-external-data-with-gpfdist-and-gpload"><a class="header" href="#transforming-external-data-with-gpfdist-and-gpload">Transforming External Data with gpfdist and gpload</a></h1>
 <p>The <code>gpfdist</code> parallel file server allows you to set up transformations that enable SynxDB external tables to read and write files in formats that are not supported with the <code>CREATE EXTERNAL TABLE</code> command’s <code>FORMAT</code> clause. An <em>input</em> transformation reads a file in the foreign data format and outputs rows to <code>gpfdist</code> in the CSV or other text format specified in the external table’s <code>FORMAT</code> clause. An <em>output</em> transformation receives rows from <code>gpfdist</code> in text format and converts them to the foreign data format.</p>
 <blockquote>
-<p><strong>Note</strong> <code>gpfdist</code> and <code>gpload</code> are compatible only with the SynxDB major version in which they are shipped. For example, a <code>gpfdist</code> utility that is installed with SynxDB 4.x cannot be used with SynxDB 5.x or 6.x.</p>
+<p><strong>Note</strong> <code>gpfdist</code> and <code>gpload</code> are compatible only with the SynxDB major version in which they are shipped. For example, a <code>gpfdist</code> utility that is installed with SynxDB 4.x cannot be used with SynxDB 0.x or 1.x.</p>
 </blockquote>
 <p>This topic describes the tasks to set up data transformations that work with <code>gpfdist</code> to read or write external data files with formats that SynxDB does not support.</p>
 <ul>
@@ -16588,9 +16588,6 @@ SELECT AddGeometryColumn('public', 'geometries', 'geom', 0, 'LINESTRING', 2);
 <p>You can use SynxDBR with SynxDB and the PL/R and PL/Container procedural languages. Before you install and run SynxDBR on a client system:</p>
 <ul>
 <li>
-<p>Ensure that your SynxDB installation is running version 6.1 or newer.</p>
-</li>
-<li>
 <p>Ensure that your client development system has connectivity to the SynxDB master host.</p>
 </li>
 <li>
@@ -19960,8 +19957,8 @@ The fault tolerance and the high-availability features of SynxDB can be configur
 This topic describes how to use SynxDB backup and restore features.</li>
 <li><strong><a href="admin_guide/managing/../expand/expand-main.html">Expanding a SynxDB System</a></strong><br />
 To scale up performance and storage capacity, expand your SynxDB system by adding hosts to the system. In general, adding nodes to a SynxDB cluster achieves a linear scaling of performance and storage capacity.</li>
-<li><strong><a href="admin_guide/managing/../managing/gpcopy-migrate.html">Migrating Data with gpcopy</a></strong><br />
-You can use the <code>gpcopy</code> utility to transfer data between databases in different SynxDB clusters.</li>
+<li><strong><a href="admin_guide/managing/../managing/cbcopy-migrate.html">Migrating Data with cbcopy</a></strong><br />
+You can use the <code>cbcopy</code> utility to transfer data between databases in different SynxDB clusters.</li>
 <li><strong><a href="admin_guide/managing/../managing/monitor.html">Monitoring a SynxDB System</a></strong><br />
 You can monitor a SynxDB system using a variety of tools included with the system or available as add-ons.</li>
 <li><strong><a href="admin_guide/managing/../managing/maintain.html">Routine System Maintenance Tasks</a></strong><br />
@@ -21307,7 +21304,7 @@ kinit
 <p>SynxDB supports SHA-256 and SCRAM-SHA-256 password hash algorithms as well. The <a href="admin_guide/../ref_guide/config_params/guc-list.html#password_hash_algorithm">password_hash_algorithm</a> server configuration parameter value and pg_hba.conf settings determine how passwords are hashed and what authentication method is in effect.</p>
 <div class="table-wrapper"><table><thead><tr><th>password_hash_algorithm Parameter Value</th><th>pg_hba.conf Authentication Method</th><th>Comments</th></tr></thead><tbody>
 <tr><td>MD5</td><td> md5</td><td>The default SynxDB password hash algorithm.</td></tr>
-<tr><td>SCRAM-SHA-256</td><td> scram-sha-256</td><td>The most secure method, <strong>but is not supported by SynxDB version 6.20.x and older clients</strong>.</td></tr>
+<tr><td>SCRAM-SHA-256</td><td> scram-sha-256</td><td>The most secure method.</td></tr>
 <tr><td>SHA-256</td><td> password</td><td>Clear text passwords are sent over the network, SSL-secured client connections are recommended.</td></tr>
 </tbody></table>
 </div>
@@ -21493,7 +21490,7 @@ SHUTDOWN;
 <p>If you used stunnel to secure PgBouncer connections in your old installation, you must configure SSL/TLS in your new installation using the built-in TLS capabilities of PgBouncer 1.8.1 and later.</p>
 </li>
 <li>
-<p>If you currently use the built-in PAM LDAP integration, you may choose to migrate to the new native LDAP PgBouncer integration introduced in SynxDB version 6.22; refer to <a href="admin_guide/access_db/topics/pgbouncer.html#pgb_ldap">Configuring LDAP-based Authentication for PgBouncer</a> for configuration information.</p>
+<p>If you currently use the built-in PAM LDAP integration, you may choose to migrate to the new native LDAP PgBouncer integration introduced in SynxDB version 1; refer to <a href="admin_guide/access_db/topics/pgbouncer.html#pgb_ldap">Configuring LDAP-based Authentication for PgBouncer</a> for configuration information.</p>
 </li>
 </ul>
 <h2 id="configuring-pgbouncer"><a class="header" href="#configuring-pgbouncer"><a id="pgb_config"></a>Configuring PgBouncer</a></h2>
@@ -21559,7 +21556,7 @@ auth_hba_file = hba_bouncer.conf
 </code></pre>
 <p>Refer to the <a href="https://pgbouncer.github.io/config.html#hba-file-format">HBA file format</a> discussion in the PgBouncer documentation for information about PgBouncer support of the HBA authentication file format.</p>
 <h3 id="configuring-ldap-based-authentication-for-pgbouncer"><a class="header" href="#configuring-ldap-based-authentication-for-pgbouncer"><a id="pgb_ldap"></a>Configuring LDAP-based Authentication for PgBouncer</a></h3>
-<p>Starting in SynxDB version 6.22, PgBouncer supports native LDAP authentication between the <code>psql</code> client and the <code>pgbouncer</code> process. Configuring this LDAP-based authentication is similar to configuring HBA-based authentication for PgBouncer:</p>
+<p>PgBouncer supports native LDAP authentication between the <code>psql</code> client and the <code>pgbouncer</code> process. Configuring this LDAP-based authentication is similar to configuring HBA-based authentication for PgBouncer:</p>
 <ul>
 <li>Specify <code>auth-type=hba</code> in the <code>pgbouncer.ini</code> configuration file.</li>
 <li>Provide the file name of an HBA-format file in the <code>auth_hba_file</code> parameter of the <code>pgbouncer.ini</code> file, and specify the LDAP parameters (server address, base DN, bind DN, bind password, search attribute, etc.) in the file.</li>
@@ -21585,7 +21582,7 @@ auth_hba_file = hba_bouncer_for_ldap.conf
 ...
 </code></pre>
 <h4 id="about-specifying-an-encrypted-ldap-password"><a class="header" href="#about-specifying-an-encrypted-ldap-password"><a id="pgb_ldap_encrypt_passwd"></a>About Specifying an Encrypted LDAP Password</a></h4>
-<p>Starting in SynxDB version 6.26, PgBouncer supports encrypted LDAP passwords. To utilize an encrypted LDAP password with PgBouncer, you must:</p>
+<p>PgBouncer supports encrypted LDAP passwords. To utilize an encrypted LDAP password with PgBouncer, you must:</p>
 <ul>
 <li>Place the encrypted password in the <code>${HOME}/.ldapbindpass</code> file.</li>
 <li>Specify <code>ldapbindpasswd="$bindpasswd"</code> in the HBA-based authentication file for PgBouncer.</li>
@@ -21854,7 +21851,7 @@ DETAIL:
 <li>User-defined data types can be defined to compress data. See <a href="admin_guide/managing/../../ref_guide/sql_commands/CREATE_TYPE.html">CREATE TYPE</a>.</li>
 <li>The external table protocols <a href="admin_guide/managing/../external/g-gpfdist-protocol.html">gpfdist</a> (<a href="admin_guide/managing/../external/g-gpfdists-protocol.html">gpfdists</a>), <a href="admin_guide/managing/../external/g-s3-protocol.html">s3</a>, and <a href="admin_guide/managing/../external/pxf-overview.html">pxf</a> support compression when accessing external data. For information about external tables, see <a href="admin_guide/managing/../../ref_guide/sql_commands/CREATE_EXTERNAL_TABLE.html">CREATE EXTERNAL TABLE</a>.</li>
 <li>Workfiles (temporary spill files that are created when running a query that requires more memory than it is allocated) can be compressed. See the server configuration parameter <a href="admin_guide/managing/../../ref_guide/config_params/guc-list.html">gp_workfile_compression</a>.</li>
-<li>The SynxDB utilities <a href="admin_guide/managing/../../utility_guide/ref/gpbackup.html">gpbackup</a>, <a href="admin_guide/managing/../../utility_guide/ref/restore.html">gprestore</a>, <a href="admin_guide/managing/../../utility_guide/ref/gpcopy.html">gpcopy</a>, <a href="admin_guide/managing/../../utility_guide/ref/gpload.html">gpload</a>, and <a href="admin_guide/managing/../../utility_guide/ref/gplogfilter.html">gplogfilter</a> support compression.</li>
+<li>The SynxDB utilities <a href="admin_guide/managing/../../utility_guide/ref/gpbackup.html">gpbackup</a>, <a href="admin_guide/managing/../../utility_guide/ref/restore.html">gprestore</a>, <a href="admin_guide/managing/../../utility_guide/ref/cbcopy.html">cbcopy</a>, <a href="admin_guide/managing/../../utility_guide/ref/gpload.html">gpload</a>, and <a href="admin_guide/managing/../../utility_guide/ref/gplogfilter.html">gplogfilter</a> support compression.</li>
 </ul>
 <p>For some compression algorithms (such as zlib) SynxDB requires software packages installed on the host system. For information about required software packages, see the <em>SynxDB Installation Guide</em>.</p>
 <p><strong>Parent topic:</strong> <a href="admin_guide/managing/../managing/partII.html">Managing a SynxDB System</a></p>
@@ -22733,8 +22730,8 @@ $ gpactivatestandby -d /data/master/gpseg-1
 <h2 id="requirements-and-limitations"><a class="header" href="#requirements-and-limitations"><a id="topic_vh5_1hd_tbb"></a>Requirements and Limitations</a></h2>
 <p>The <code>gpbackup</code> and <code>gprestore</code> utilities are compatible with these SynxDB versions:</p>
 <ul>
-<li>Pivotal SynxDB 4.3.22 and later</li>
-<li>Pivotal SynxDB 5.5.0 and later</li>
+<li>Pivotal Greenplum 4.3.22 and later</li>
+<li>SynxDB 0 and later</li>
 <li>SynxDB 1 and later</li>
 </ul>
 <p><code>gpbackup</code> and <code>gprestore</code> have the following limitations:</p>
@@ -24650,15 +24647,12 @@ gpadmin@gpmaster$ pxf cluster sync
 </code></pre>
 </li>
 </ul>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="migrating-data-with-gpcopy"><a class="header" href="#migrating-data-with-gpcopy">Migrating Data with gpcopy</a></h1>
-<p>You can use the <code>gpcopy</code> utility to transfer data between databases in different SynxDB clusters.</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="migrating-data-with-cbcopy"><a class="header" href="#migrating-data-with-cbcopy">Migrating Data with cbcopy</a></h1>
+<p>You can use the <code>cbcopy</code> utility to transfer data between databases in different SynxDB clusters.</p>
 <blockquote>
-<p><strong>Note</strong> <code>gpcopy</code> is available only with the commercial release of SynxDB.</p>
+<p><strong>Note</strong> <code>cbcopy</code> is available only with the commercial release of SynxDB.</p>
 </blockquote>
-<p><code>gpcopy</code> is a high-performance utility that can copy metadata and data from one SynxDB database to another SynxDB database. You can migrate the entire contents of a database, or just selected tables. The clusters can have different SynxDB versions. For example, you can use <code>gpcopy</code> to migrate data from a SynxDB version 4.3.26 (or later) system to a 5.9 (or later) or a 6.x SynxDB system, or from a SynxDB version 5.9+ system to a SynxDB 1 system.</p>
-<blockquote>
-<p><strong>Note</strong> The <code>gpcopy</code> utility is available as a separate download for the commercial release of SynxDB. See the <a href="https://docs.vmware.com/en/VMware-SynxDB-Data-Copy-Utility/index.html">SynxDB Data Copy Utility Documentation</a>.</p>
-</blockquote>
+<p><code>cbcopy</code> is a high-performance utility that can copy metadata and data from one SynxDB database to another SynxDB database. You can migrate the entire contents of a database, or just selected tables. The clusters can have different SynxDB versions. For example, you can use <code>cbcopy</code> to migrate data from a SynxDB version 4.3.26 (or later) system to a 5.9 (or later) or a 6.x SynxDB system, or from a SynxDB version 5.9+ system to a SynxDB 1 system.</p>
 <p><strong>Parent topic:</strong> <a href="admin_guide/managing/../managing/partII.html">Managing a SynxDB System</a></p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="monitoring-a-synxdb-system"><a class="header" href="#monitoring-a-synxdb-system">Monitoring a SynxDB System</a></h1>
 <p>You can monitor a SynxDB system using a variety of tools included with the system or available as add-ons.</p>
@@ -26129,7 +26123,7 @@ gp_vmem_protect_limit = gp_vmem_rq / maximum_acting_primary_segments
 <p>This mode is active when <code>gp_resource_group_cpu_ceiling_enforcement</code> is set to <code>true</code>. The resource group is enforced to not use more CPU resources than the defined value <code>CPU_RATE_LIMIT</code>, avoiding the use of the CPU burst feature.</p>
 <h2 id="memory-limits"><a class="header" href="#memory-limits"><a id="topic8339717"></a>Memory Limits</a></h2>
 <blockquote>
-<p><strong>Caution</strong> Beginning in version 6.21.0, the Resource Groups implementation was changed to calculate segment memory using <code>gp_segment_configuration.hostname</code> instead of <code>gp_segment_configuration.address</code>. This implementation can result in a lower memory limit value compared to the earlier code, for deployments where each host uses multiple IP addresses.  In some cases, this change in behavior could lead to Out Of Memory errors when upgrading from an earlier version. Version 6.23.4 introduces a configuration parameter, <code>gp_count_host_segments_using_address</code>, that can be enabled to calculate of segment memory using <code>gp_segment_configuration.address</code> if Out Of Memory errors are encountered after an upgrade. This parameter is disabled by default. This parameter will not be provided in SynxDB Version 7 because resource group memory calculation will no longer be dependent on the segments per host value.</p>
+<p><strong>Caution</strong> The Resource Groups implementation was changed to calculate segment memory using <code>gp_segment_configuration.hostname</code> instead of <code>gp_segment_configuration.address</code>. This implementation can result in a lower memory limit value compared to the earlier code, for deployments where each host uses multiple IP addresses.  In some cases, this change in behavior could lead to Out Of Memory errors when upgrading from an earlier version. Version 1 introduces a configuration parameter, <code>gp_count_host_segments_using_address</code>, that can be enabled to calculate of segment memory using <code>gp_segment_configuration.address</code> if Out Of Memory errors are encountered after an upgrade. This parameter is disabled by default. This parameter will not be provided in SynxDB Version 7 because resource group memory calculation will no longer be dependent on the segments per host value.</p>
 </blockquote>
 <p>When resource groups are enabled, memory usage is managed at the SynxDB node, segment, and resource group levels. You can also manage memory at the transaction level with a resource group for roles.</p>
 <p>The <a href="admin_guide/../ref_guide/config_params/guc-list.html">gp_resource_group_memory_limit</a> server configuration parameter identifies the maximum percentage of system memory resources to allocate to resource groups on each SynxDB segment host. The default <code>gp_resource_group_memory_limit</code> value is .7 (70%).</p>
@@ -26512,7 +26506,6 @@ gpstart
 <p>After SynxDB moves the query, there is no way to guarantee that a query currently running in the destination resource group does not exceed the group memory quota. In this situation, one or more running queries in the destination group may fail, including the moved query. Reserve enough resource group global shared memory to minimize the potential for this scenario to occur.</p>
 <p><code>pg_resgroup_move_query()</code> moves only the specified query to the destination resource group. SynxDB assigns subsequent queries that you submit in the session to the original resource group.</p>
 <p>Successful return of <code>pg_resgroup_move_query()</code> doesn’t mean target process was successfully moved. Process movement is asynchronous. The current resource group can be checked via <code>pg_stat_activity</code> system view.</p>
-<p><strong>Note:</strong> SynxDB version 6.8 introduced support for moving a query to a different resource group.</p>
 <ul>
 <li>
 <p>If you upgraded from a previous SynxDB 1 installation, you must manually register the supporting functions for this feature, and grant access to the functions as follows:</p>
@@ -26527,12 +26520,6 @@ RETURNS bool
 AS 'gp_resource_group', 'pg_resgroup_move_query'
 VOLATILE LANGUAGE C;
 GRANT EXECUTE ON FUNCTION gp_toolkit.pg_resgroup_move_query(int4, text) TO public;
-</code></pre>
-</li>
-<li>
-<p>If you register the supporting functions and then you downgrade your SynxDB installation to version 6.7.x or older, manually drop these functions as follows:</p>
-<pre><code>DROP FUNCTION gp_toolkit.pg_resgroup_check_move_query(IN int, IN oid, OUT int, OUT int);
-DROP FUNCTION gp_toolkit.pg_resgroup_move_query(int4, text);
 </code></pre>
 </li>
 </ul>
@@ -28100,7 +28087,7 @@ GROUP BY gp_segment_id ORDER BY 2;
 <p>The first scan of tuples after bulk data load, modification, or deletion jobs on heap tables are running slow or hanging.</p>
 <p><strong>Potential Cause</strong>:</p>
 <p>When a workload involves a bulk load, modification, or deletion of data in a heap table, the first scan post-operation may generate a large amount of WAL data when checksums are enabled (<code>data_check_sums=true</code>) or hint bits are logged (<code>wal_log_hints=true</code>), leading to slow or hung jobs.</p>
-<p>Affected workloads include: restoring from a backup, loading data with <code>gpcopy</code> or <code>COPY</code>, cluster expansion, <code>CTAS</code>/<code>INSERT</code>/<code>UPDATE</code>/<code>DELETE</code> operations, and <code>ALTER TABLE</code> operations that modify tuples.</p>
+<p>Affected workloads include: restoring from a backup, loading data with <code>cbcopy</code> or <code>COPY</code>, cluster expansion, <code>CTAS</code>/<code>INSERT</code>/<code>UPDATE</code>/<code>DELETE</code> operations, and <code>ALTER TABLE</code> operations that modify tuples.</p>
 <p><strong>Explanation</strong>:</p>
 <p>SynxDB uses hint bits to mark tuples as created and/or deleted by transactions. Hint bits, when set, can help in determining visibility of tuples without expensive <code>pg_clog</code> and <code>pg_subtrans</code> commit log lookups.</p>
 <p>Hint bits are updated for every tuple on the first scan of the tuple after its creation or deletion. Because hint bits are checked and set on a per-tuple basis, even a read can result in heavy writes. When data checksums are enabled for heap tables (the default), hint bit updates are always WAL-logged.</p>
@@ -34734,7 +34721,7 @@ COPY { &lt;table_name&gt; [(&lt;column_name&gt; [, ...])] | (&lt;query&gt;)} TO 
 <p>The ordinary functions used to define a new aggregate function must be defined first. Note that in this release of SynxDB, it is required that the statefunc, ffunc, and combinefunc functions used to create the aggregate are defined as <code>IMMUTABLE</code>.</p>
 <p>If the value of the SynxDB server configuration parameter <code>gp_enable_multiphase_agg</code> is <code>off</code>, only single-level aggregation is performed.</p>
 <p>Any compiled code (shared library files) for custom functions must be placed in the same location on every host in your SynxDB array (master and all segments). This location must also be in the <code>LD_LIBRARY_PATH</code> so that the server can locate the files.</p>
-<p>In previous versions of SynxDB, there was a concept of ordered aggregates. Since version 6, any aggregate can be called as an ordered aggregate, using the syntax:</p>
+<p>In previous versions of SynxDB, there was a concept of ordered aggregates. Since version 1, any aggregate can be called as an ordered aggregate, using the syntax:</p>
 <pre><code>name ( arg [ , ... ] [ORDER BY sortspec [ , ...]] )
 </code></pre>
 <p>The <code>ORDERED</code> keyword is accepted for backwards compatibility, but is ignored.</p>
@@ -36669,7 +36656,7 @@ NOREPLICATION
 :   The number maximum of concurrent connections this role can make. The default of -1 means there is no limitation.</p>
 <p>PASSWORD password
 :   Sets the user password for roles with the <code>LOGIN</code> attribute. If you do not plan to use password authentication you can omit this option. If no password is specified, the password will be set to null and password authentication will always fail for that user. A null password can optionally be written explicitly as <code>PASSWORD NULL</code>.
-: Specifying an empty string will also set the password to null, but that was not the case before SynxDB version 6.21. In earlier versions, an empty string could be used, or not, depending on the authentication method and the exact version, and libpq would refuse to use it in any case.  To avoid the ambiguity, specifying an empty string should be avoided.
+: Specifying an empty string will also set the password to null. In earlier versions, an empty string could be used, or not, depending on the authentication method and the exact version, and libpq would refuse to use it in any case.  To avoid the ambiguity, specifying an empty string should be avoided.
 :   The <code>ENCRYPTED</code> and <code>UNENCRYPTED</code> key words control whether the password is stored encrypted in the system catalogs. (If neither is specified, the default behavior is determined by the configuration parameter <code>password_encryption</code>.) If the presented password string is already in MD5-encrypted or SCRAM-encrypted format, then it is stored encrypted as-is, regardless of whether <code>ENCRYPTED</code> or <code>UNENCRYPTED</code> is specified (since the system cannot decrypt the specified encrypted password string). This allows reloading of encrypted passwords during dump/restore.
 : Note that older clients might lack support for the SCRAM authentication mechanism.</p>
 <p>VALID UNTIL ‘timestamp’
@@ -41594,7 +41581,7 @@ READ ONLY
 <div style="break-before: page; page-break-before: always;"></div><h1 id="truncate-1"><a class="header" href="#truncate-1">TRUNCATE</a></h1>
 <p>Empties a table of all rows.</p>
 <blockquote>
-<p><strong>Note</strong> SynxDB does not enforce referential integrity syntax (foreign key constraints). As of version 6.12 <code>TRUNCATE</code> truncates a table that is referenced in a foreign key constraint even if the <code>CASCADE</code> option is omitted.</p>
+<p><strong>Note</strong> SynxDB does not enforce referential integrity syntax (foreign key constraints). <code>TRUNCATE</code> truncates a table that is referenced in a foreign key constraint even if the <code>CASCADE</code> option is omitted.</p>
 </blockquote>
 <h2 id="synopsis-169"><a class="header" href="#synopsis-169"><a id="section2"></a>Synopsis</a></h2>
 <pre><code class="language-{#sql_command_synopsis}">TRUNCATE [TABLE] [ONLY] &lt;name&gt; [ * ] [, ...] 
@@ -43344,7 +43331,7 @@ missing, special character missing (needs to be one listed in "&lt;list-of-speci
 <p>The <code>dblink</code> module supports connections to other SynxDB databases from within a database session. These databases can reside in the same SynxDB system, or in a remote system.</p>
 <p>SynxDB supports <code>dblink</code> connections between databases in SynxDB installations with the same major version number. You can also use <code>dblink</code> to connect to other SynxDB installations that use compatible <code>libpq</code> libraries.</p>
 <blockquote>
-<p><strong>Note</strong> <code>dblink</code> is intended for database users to perform short ad hoc queries in other databases. <code>dblink</code> is not intended for use as a replacement for external tables or for administrative tools such as <code>gpcopy</code>.</p>
+<p><strong>Note</strong> <code>dblink</code> is intended for database users to perform short ad hoc queries in other databases. <code>dblink</code> is not intended for use as a replacement for external tables or for administrative tools such as <code>cbcopy</code>.</p>
 </blockquote>
 <p>The SynxDB <code>dblink</code> module is a modified version of the PostgreSQL <code>dblink</code> module. There are some restrictions and limitations when you use the module in SynxDB.</p>
 <h2 id="installing-and-registering-the-module-2"><a class="header" href="#installing-and-registering-the-module-2"><a id="topic_reg"></a>Installing and Registering the Module</a></h2>
@@ -44447,7 +44434,6 @@ END;
 </code></pre>
 <p>Refer to <a href="ref_guide/modules/../../install_guide/install_modules.html">Installing Additional Supplied Modules</a> for more information.</p>
 <h2 id="upgrading-the-module-1"><a class="header" href="#upgrading-the-module-1"><a id="topic_upgrade"></a>Upgrading the Module</a></h2>
-<p>If you upgraded from and used the <code>gp_percentile_agg</code> module in SynxDB version 6.21.x, you must upgrade the module to obtain the bug fix and improvements introduced in SynxDB version 6.22.0.</p>
 <p>To upgrade, drop and recreate the <code>gp_percentile_agg</code> extension in each database in which you are using the module:</p>
 <pre><code>DROP EXTENSION gp_percentile_agg;
 CREATE EXTENSION gp_percentile_agg;
@@ -44474,7 +44460,6 @@ CREATE EXTENSION gp_percentile_agg;
 CREATE EXTENSION gp_sparse_vector;
 </code></pre>
 <h2 id="about-the-gp_sparse_vector-module"><a class="header" href="#about-the-gp_sparse_vector-module"><a id="topic_about"></a>About the gp_sparse_vector Module</a></h2>
-<p><code>gp_sparse_vector</code> functions and objects are installed in the schema named <code>sparse_vector</code> starting in SynxDB version 6.16. In earlier versions of SynxDB, the <code>gp_sparse_vector</code> objects are installed in the <code>public</code> schema.</p>
 <p>To access <code>gp_sparse_vector</code> objects, you must add <code>sparse_vector</code> to a <code>search_path</code>, or alternative you can prepend <code>sparse_vector.</code> to the function or object name. For example:</p>
 <pre><code>SELECT sparse_vector.array_agg( col1 ) FROM table1;
 </code></pre>
@@ -44622,7 +44607,7 @@ ORDER BY 1;
 </code></pre>
 <p>You can see that the angular distance between document 1 and itself is 0 degrees, and between document 1 and 3 is 90 degrees because they share no features at all.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="greenplum_fdw"><a class="header" href="#greenplum_fdw">greenplum_fdw</a></h1>
-<p>The <code>greenplum_fdw</code> module is a foreign-data wrapper (FDW) that you can use to run queries between one or more SynxDB version 6.20+ and 7 clusters.</p>
+<p>The <code>greenplum_fdw</code> module is a foreign-data wrapper (FDW) that you can use to run queries between one or more SynxDB clusters.</p>
 <p>The SynxDB <code>greenplum_fdw</code> module is an MPP extension of the PostgreSQL <code>postgres_fdw</code> module.</p>
 <p>This topic includes the following sections:</p>
 <ul>
@@ -44770,7 +44755,7 @@ CREATE USER MAPPING FOR greenplum_fdw_user2 SERVER gpc1_testdb
 <li><code>greenplum_fdw</code> does not support <code>UPDATE</code> and <code>DELETE</code> operations on foreign tables.</li>
 </ul>
 <h2 id="compatibility-160"><a class="header" href="#compatibility-160"><a id="topic_compat"></a>Compatibility</a></h2>
-<p>You can use <code>greenplum_fdw</code> to access other remote SynxDB clusters running version 6.20+ and 7.</p>
+<p>You can use <code>greenplum_fdw</code> to access other remote SynxDB clusters .</p>
 <h2 id="example-9"><a class="header" href="#example-9"><a id="topic_examples"></a>Example</a></h2>
 <p>In this example, you query data residing in a database named <code>rdb</code> on the remote 16-segment SynxDB cluster whose master is running on host <code>gpc2_master</code>, port <code>5432</code>:</p>
 <ol>
@@ -46687,7 +46672,7 @@ SELECT '2023-02-20 00:00:00.123456789'::TIMESTAMP9_LTZ;
 </tbody></table>
 </div>
 <h2 id="gp_count_host_segments_using_address"><a class="header" href="#gp_count_host_segments_using_address"><a id="gp_count_host_segments_using_address"></a>gp_count_host_segments_using_address</a></h2>
-<p>Beginning in version 6.21.0, the Resource Groups implementation was changed to calculate segment memory using <code>gp_segment_configuration.hostname</code> instead of <code>gp_segment_configuration.address</code>. This implementation can result in a lower memory limit value compared to the earlier code, for deployments where each host uses multiple IP addresses.  In some cases, this change in behavior could lead to Out Of Memory errors when upgrading from an earlier version. Version 6.23.4 introduces a configuration parameter, <code>gp_count_host_segments_using_address</code>, that can be enabled to calculate of segment memory using <code>gp_segment_configuration.address</code> if Out Of Memory errors are encountered after an upgrade. This parameter is disabled by default. This parameter will not be provided in SynxDB Version 7 because resource group memory calculation will no longer be dependent on the segments per host value.</p>
+<p>The Resource Groups implementation was changed to calculate segment memory using <code>gp_segment_configuration.hostname</code> instead of <code>gp_segment_configuration.address</code>. This implementation can result in a lower memory limit value compared to the earlier code, for deployments where each host uses multiple IP addresses.  In some cases, this change in behavior could lead to Out Of Memory errors when upgrading from an earlier version. Version 1 introduces a configuration parameter, <code>gp_count_host_segments_using_address</code>, that can be enabled to calculate of segment memory using <code>gp_segment_configuration.address</code> if Out Of Memory errors are encountered after an upgrade. This parameter is disabled by default. This parameter will not be provided in SynxDB Version 7 because resource group memory calculation will no longer be dependent on the segments per host value.</p>
 <div class="table-wrapper"><table><thead><tr><th>Value Range</th><th>Default</th><th>Set Classifications</th></tr></thead><tbody>
 <tr><td>boolean</td><td>off</td><td>master, system, restart</td></tr>
 </tbody></table>
@@ -48822,7 +48807,7 @@ Additional programs available in the SynxDB installation.</li>
 <li><a href="utility_guide/ref/gpcheckcat.html">gpcheckcat</a></li>
 <li><a href="utility_guide/ref/gpcheckperf.html">gpcheckperf</a></li>
 <li><a href="utility_guide/ref/gpconfig.html">gpconfig</a></li>
-<li><a href="utility_guide/ref/gpcopy.html">gpcopy</a></li>
+<li><a href="utility_guide/ref/cbcopy.html">cbcopy</a></li>
 <li><a href="utility_guide/ref/gpdeletesystem.html">gpdeletesystem</a></li>
 <li><a href="utility_guide/ref/gpexpand.html">gpexpand</a></li>
 <li><a href="utility_guide/ref/gpfdist.html">gpfdist</a></li>
@@ -49981,11 +49966,8 @@ dynamic_library_path='$libdir'
 </code></pre>
 <h2 id="see-also-168"><a class="header" href="#see-also-168"><a id="section6"></a>See Also</a></h2>
 <p><a href="utility_guide/ref/gpstop.html">gpstop</a></p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="gpcopy"><a class="header" href="#gpcopy">gpcopy</a></h1>
-<p>The <code>gpcopy</code> utility copies objects from databases in a source SynxDB system to databases in a destination SynxDB system.</p>
-<blockquote>
-<p><strong>Note</strong> The <code>gpcopy</code> utility is available as a separate download for the commercial release of VMware SynxDB. See the <a href="https://docs.vmware.com/en/VMware-SynxDB-Data-Copy-Utility/index.html">VMware SynxDB Copy Utility Documentation</a>.</p>
-</blockquote>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="cbcopy"><a class="header" href="#cbcopy">cbcopy</a></h1>
+<p>The <code>cbcopy</code> utility copies objects from databases in a source SynxDB system to databases in a destination SynxDB system.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="gpdeletesystem"><a class="header" href="#gpdeletesystem">gpdeletesystem</a></h1>
 <p>Deletes a SynxDB system that was initialized using <code>gpinitsystem</code>.</p>
 <h2 id="synopsis-186"><a class="header" href="#synopsis-186"><a id="section2"></a>Synopsis</a></h2>
@@ -51773,8 +51755,8 @@ gpmt -verbose
 <ul>
 <li><code>$GPCC_HOME/logs/*</code></li>
 <li><code>$GPCC_HOME/conf/app.conf</code></li>
-<li><code>$HOME/gpmetrics/*</code> (SynxDB Command Center 6.8.0 and later on SynxDB 6.x or SynxDB Command Center 4.16.0 and later on SynxDB 5.x)</li>
-<li><code>$MASTER_DATA_DIRECTORY/gpmetrics</code> (SynxDB Command Center 6.7.0 and earlier on SynxDB 6.x or SynxDB Command Center 4.15.0 and earlier on SynxDB 5.x)</li>
+<li><code>$HOME/gpmetrics/*</code> (SynxDB Command Center 6.8.0 and later on SynxDB 1.x or SynxDB Command Center 4.16.0 and later on SynxDB 5.x)</li>
+<li><code>$MASTER_DATA_DIRECTORY/gpmetrics</code> (SynxDB Command Center 6.7.0 and earlier on SynxDB 1.x or SynxDB Command Center 4.15.0 and earlier on SynxDB 5.x)</li>
 <li>The output of the <code>gppkg -q --all</code> command</li>
 </ul>
 <p>-with-gpss
@@ -61819,9 +61801,9 @@ GRANT SELECT ON TABLE gp_toolkit.__gp_user_tables TO public;
 <tr><td>pg_catalog.<del>&gt;</del></td><td>name_pattern_gt</td></tr>
 </tbody></table>
 </div><div style="break-before: page; page-break-before: always;"></div><h1 id="server-configuration-parameter-changes-from-synxdb-5-to-6"><a class="header" href="#server-configuration-parameter-changes-from-synxdb-5-to-6">Server Configuration Parameter Changes from SynxDB 5 to 6</a></h1>
-<p>SynxDB 6 includes new server configuration parameters, and removes or updates the default values of certain server configuration parameters as described below.</p>
+<p>SynxDB 1 includes new server configuration parameters, and removes or updates the default values of certain server configuration parameters as described below.</p>
 <h2 id="new-parameters"><a class="header" href="#new-parameters"><a id="new"></a>New Parameters</a></h2>
-<p>The following new server configuration parameters are available in SynxDB 6:</p>
+<p>The following new server configuration parameters are available in SynxDB 1:</p>
 <ul>
 <li><code>default_text_search_config</code> selects the text search configuration.</li>
 <li><code>default_transaction_deferrable</code> controls the default deferrable status of each new transaction.</li>
@@ -61833,7 +61815,7 @@ GRANT SELECT ON TABLE gp_toolkit.__gp_user_tables TO public;
 <li><code>temp_tablespaces</code> specifies the tablespace in which SynxDB creates temporary objects.</li>
 </ul>
 <h2 id="removed-parameters"><a class="header" href="#removed-parameters"><a id="removed"></a>Removed Parameters</a></h2>
-<p>The following server configuration parameters are removed in SynxDB 6:</p>
+<p>The following server configuration parameters are removed in SynxDB 1:</p>
 <ul>
 <li><code>add_missing_from</code></li>
 <li><code>custom_variable_classes</code></li>
@@ -61873,7 +61855,7 @@ GRANT SELECT ON TABLE gp_toolkit.__gp_user_tables TO public;
 <li><code>max_fsm_relations</code></li>
 </ul>
 <h2 id="changed-parameters"><a class="header" href="#changed-parameters"><a id="changed"></a>Changed Parameters</a></h2>
-<p>These server configuration parameters are changed in SynxDB 6:</p>
+<p>These server configuration parameters are changed in SynxDB 1:</p>
 <ul>
 <li>
 <p>These configuration parameter values are changed from strings to enums:</p>

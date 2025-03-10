@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Identifying and Mitigating Heap Table Performance Issues - SynxDB 1 Documentation (PRERELEASE DRAFT)</title>
+        <title>cbcopy - SynxDB 1 Documentation (PRERELEASE DRAFT)</title>
 
 
         <!-- Custom HTML head -->
@@ -12,32 +12,32 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="theme-color" content="#ffffff">
 
-        <link rel="icon" href="../favicon.svg">
-        <link rel="shortcut icon" href="../favicon.png">
-        <link rel="stylesheet" href="../css/variables.css">
-        <link rel="stylesheet" href="../css/general.css">
-        <link rel="stylesheet" href="../css/chrome.css">
-        <link rel="stylesheet" href="../css/print.css" media="print">
+        <link rel="icon" href="../../favicon.svg">
+        <link rel="shortcut icon" href="../../favicon.png">
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        <link rel="stylesheet" href="../../css/print.css" media="print">
 
         <!-- Fonts -->
-        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
-        <link rel="stylesheet" href="../fonts/fonts.css">
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../../fonts/fonts.css">
 
         <!-- Highlight.js Stylesheets -->
-        <link rel="stylesheet" href="../highlight.css">
-        <link rel="stylesheet" href="../tomorrow-night.css">
-        <link rel="stylesheet" href="../ayu-highlight.css">
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
 
         <!-- Custom theme stylesheets -->
 
 
         <!-- Provide site root to javascript -->
         <script>
-            var path_to_root = "../";
+            var path_to_root = "../../";
             var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "dark";
         </script>
         <!-- Start loading toc.js asap -->
-        <script src="../toc.js"></script>
+        <script src="../../toc.js"></script>
     </head>
     <body>
     <div id="body-container">
@@ -90,7 +90,7 @@
             <!-- populated by js -->
             <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
             <noscript>
-                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+                <iframe class="sidebar-iframe-outer" src="../../toc.html"></iframe>
             </noscript>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle">
                 <div class="sidebar-resize-indicator"></div>
@@ -124,12 +124,12 @@
                     <h1 class="menu-title">SynxDB 1 Documentation (PRERELEASE DRAFT)</h1>
 
                     <div class="right-buttons">
-                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
                             <i id="print-button" class="fa fa-print"></i>
                         </a>
 
                         &nbsp;&nbsp;&nbsp;&nbsp;
-                        <img id="fa fa-print" src="../SYNX-Text-and-Circular-Logo-142x28-White-text-Black-background.png" alt="Synx Data Labs Logo"/>
+                        <img id="fa fa-print" src="../../SYNX-Text-and-Circular-Logo-142x28-White-text-Black-background.png" alt="Synx Data Labs Logo"/>
 
                     </div>
                 </div>
@@ -156,38 +156,18 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="identifying-and-mitigating-heap-table-performance-issues"><a class="header" href="#identifying-and-mitigating-heap-table-performance-issues">Identifying and Mitigating Heap Table Performance Issues</a></h1>
-<h2 id="slow-or-hanging-jobs"><a class="header" href="#slow-or-hanging-jobs"><a id="bulkloadslow"></a>Slow or Hanging Jobs</a></h2>
-<p><strong>Symptom</strong>:</p>
-<p>The first scan of tuples after bulk data load, modification, or deletion jobs on heap tables are running slow or hanging.</p>
-<p><strong>Potential Cause</strong>:</p>
-<p>When a workload involves a bulk load, modification, or deletion of data in a heap table, the first scan post-operation may generate a large amount of WAL data when checksums are enabled (<code>data_check_sums=true</code>) or hint bits are logged (<code>wal_log_hints=true</code>), leading to slow or hung jobs.</p>
-<p>Affected workloads include: restoring from a backup, loading data with <code>cbcopy</code> or <code>COPY</code>, cluster expansion, <code>CTAS</code>/<code>INSERT</code>/<code>UPDATE</code>/<code>DELETE</code> operations, and <code>ALTER TABLE</code> operations that modify tuples.</p>
-<p><strong>Explanation</strong>:</p>
-<p>SynxDB uses hint bits to mark tuples as created and/or deleted by transactions. Hint bits, when set, can help in determining visibility of tuples without expensive <code>pg_clog</code> and <code>pg_subtrans</code> commit log lookups.</p>
-<p>Hint bits are updated for every tuple on the first scan of the tuple after its creation or deletion. Because hint bits are checked and set on a per-tuple basis, even a read can result in heavy writes. When data checksums are enabled for heap tables (the default), hint bit updates are always WAL-logged.</p>
-<p><strong>Solution</strong>:</p>
-<p>If you have restored or loaded a complete database comprised primarily of heap tables, you may choose to run <code>VACUUM</code> against the entire database.</p>
-<p>Alternatively, if you can identify the individual tables affected, you have two options:</p>
-<ol>
-<li>
-<p>Schedule and take a maintenance window and run <code>VACUUM</code> on the specific tables that have been loaded, updated, or deleted in bulk. This operation should scan all of the tuples and set and WAL-log the hint bits, taking the performance hit up-front.</p>
-</li>
-<li>
-<p>Run <code>SELECT count(*) FROM &lt;table-name&gt;</code> on each table. This operation similarly scans all of the tuples and sets and WAL-logs the hint bits.</p>
-</li>
-</ol>
-<p>All subsequent scans as part of regular workloads on the tables should not be required to generate hints or their accompanying full page image WAL records.</p>
+                        <h1 id="cbcopy"><a class="header" href="#cbcopy">cbcopy</a></h1>
+<p>The <code>cbcopy</code> utility copies objects from databases in a source SynxDB system to databases in a destination SynxDB system.</p>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../best_practices/data_loading.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../../utility_guide/ref/gpconfig.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="../best_practices/security.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="../../utility_guide/ref/gpdeletesystem.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -197,11 +177,11 @@
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../best_practices/data_loading.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../../utility_guide/ref/gpconfig.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="../best_practices/security.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="../../utility_guide/ref/gpdeletesystem.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>
@@ -216,13 +196,13 @@
         </script>
 
 
-        <script src="../elasticlunr.min.js"></script>
-        <script src="../mark.min.js"></script>
-        <script src="../searcher.js"></script>
+        <script src="../../elasticlunr.min.js"></script>
+        <script src="../../mark.min.js"></script>
+        <script src="../../searcher.js"></script>
 
-        <script src="../clipboard.min.js"></script>
-        <script src="../highlight.js"></script>
-        <script src="../book.js"></script>
+        <script src="../../clipboard.min.js"></script>
+        <script src="../../highlight.js"></script>
+        <script src="../../book.js"></script>
 
         <!-- Custom JS scripts -->
 

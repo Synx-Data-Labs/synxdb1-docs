@@ -159,7 +159,7 @@
                         <h1 id="truncate"><a class="header" href="#truncate">TRUNCATE</a></h1>
 <p>Empties a table of all rows.</p>
 <blockquote>
-<p><strong>Note</strong> SynxDB does not enforce referential integrity syntax (foreign key constraints). As of version 6.12 <code>TRUNCATE</code> truncates a table that is referenced in a foreign key constraint even if the <code>CASCADE</code> option is omitted.</p>
+<p><strong>Note</strong> SynxDB does not enforce referential integrity syntax (foreign key constraints). <code>TRUNCATE</code> truncates a table that is referenced in a foreign key constraint even if the <code>CASCADE</code> option is omitted.</p>
 </blockquote>
 <h2 id="synopsis"><a class="header" href="#synopsis"><a id="section2"></a>Synopsis</a></h2>
 <pre><code class="language-{#sql_command_synopsis}">TRUNCATE [TABLE] [ONLY] &lt;name&gt; [ * ] [, ...] 

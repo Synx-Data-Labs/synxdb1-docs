@@ -171,7 +171,6 @@
 CREATE EXTENSION gp_sparse_vector;
 </code></pre>
 <h2 id="about-the-gp_sparse_vector-module"><a class="header" href="#about-the-gp_sparse_vector-module"><a id="topic_about"></a>About the gp_sparse_vector Module</a></h2>
-<p><code>gp_sparse_vector</code> functions and objects are installed in the schema named <code>sparse_vector</code> starting in SynxDB version 6.16. In earlier versions of SynxDB, the <code>gp_sparse_vector</code> objects are installed in the <code>public</code> schema.</p>
 <p>To access <code>gp_sparse_vector</code> objects, you must add <code>sparse_vector</code> to a <code>search_path</code>, or alternative you can prepend <code>sparse_vector.</code> to the function or object name. For example:</p>
 <pre><code>SELECT sparse_vector.array_agg( col1 ) FROM table1;
 </code></pre>

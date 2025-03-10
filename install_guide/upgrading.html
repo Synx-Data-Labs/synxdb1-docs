@@ -156,8 +156,8 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="upgrading-from-an-earlier-synxdb-6-release"><a class="header" href="#upgrading-from-an-earlier-synxdb-6-release">Upgrading from an Earlier SynxDB 6 Release</a></h1>
-<p>The upgrade path supported for this release is SynxDB 6.x to a newer SynxDB 6.x release.</p>
+                        <h1 id="upgrading-from-an-earlier-synxdb-1-release"><a class="header" href="#upgrading-from-an-earlier-synxdb-1-release">Upgrading from an Earlier SynxDB 1 Release</a></h1>
+<p>The upgrade path supported for this release is SynxDB 1.x to a newer SynxDB 1.x release.</p>
 <blockquote>
 <p><strong>Important</strong> Set the SynxDB timezone to a value that is compatible with your host systems. Setting the SynxDB timezone prevents SynxDB from selecting a timezone each time the cluster is restarted and sets the timezone for the SynxDB master and segment instances. After you upgrade to this release and if you have not set a SynxDB timezone value, verify that the selected SynxDB timezone is acceptable for your deployment. See <a href="localization.html">Configuring Timezone and Localization Settings</a> for more information.</p>
 </blockquote>
@@ -185,9 +185,9 @@
 <p>If you do not plan to use GPSS, or you have not yet configured GPSS, no action is necessary.</p>
 </li>
 </ul>
-<p><strong>Parent topic:</strong> <a href="upgrade_intro.html">Upgrading to SynxDB 6</a></p>
+<p><strong>Parent topic:</strong> <a href="upgrade_intro.html">Upgrading to SynxDB 1</a></p>
 <h2 id="upgrading-from-6x-to-a-newer-6x-release"><a class="header" href="#upgrading-from-6x-to-a-newer-6x-release"><a id="topic17"></a>Upgrading from 6.x to a Newer 6.x Release</a></h2>
-<p>An upgrade from SynxDB 6.x to a newer 6.x release involves stopping SynxDB, updating the SynxDB software binaries, and restarting SynxDB. If you are using SynxDB extension packages there are additional requirements. See <a href="#gpdb_prereq">Prerequisites</a> in the previous section.</p>
+<p>An upgrade from SynxDB 1.x to a newer 6.x release involves stopping SynxDB, updating the SynxDB software binaries, and restarting SynxDB. If you are using SynxDB extension packages there are additional requirements. See <a href="#gpdb_prereq">Prerequisites</a> in the previous section.</p>
 <ol>
 <li>
 <p>Log in to your SynxDB master host as the SynxDB administrative user:</p>
@@ -195,7 +195,7 @@
 </code></pre>
 </li>
 <li>
-<p>Perform a smart shutdown of your SynxDB 6.x system (there can be no active connections to the database). This example uses the <code>-a</code> option to deactivate confirmation prompts:</p>
+<p>Perform a smart shutdown of your SynxDB 1.x system (there can be no active connections to the database). This example uses the <code>-a</code> option to deactivate confirmation prompts:</p>
 <pre><code>$ gpstop -a
 </code></pre>
 </li>

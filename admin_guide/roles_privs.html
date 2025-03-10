@@ -459,7 +459,7 @@
 <p>SynxDB supports SHA-256 and SCRAM-SHA-256 password hash algorithms as well. The <a href="../ref_guide/config_params/guc-list.html#password_hash_algorithm">password_hash_algorithm</a> server configuration parameter value and pg_hba.conf settings determine how passwords are hashed and what authentication method is in effect.</p>
 <div class="table-wrapper"><table><thead><tr><th>password_hash_algorithm Parameter Value</th><th>pg_hba.conf Authentication Method</th><th>Comments</th></tr></thead><tbody>
 <tr><td>MD5</td><td> md5</td><td>The default SynxDB password hash algorithm.</td></tr>
-<tr><td>SCRAM-SHA-256</td><td> scram-sha-256</td><td>The most secure method, <strong>but is not supported by SynxDB version 6.20.x and older clients</strong>.</td></tr>
+<tr><td>SCRAM-SHA-256</td><td> scram-sha-256</td><td>The most secure method.</td></tr>
 <tr><td>SHA-256</td><td> password</td><td>Clear text passwords are sent over the network, SSL-secured client connections are recommended.</td></tr>
 </tbody></table>
 </div>

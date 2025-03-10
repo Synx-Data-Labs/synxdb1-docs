@@ -207,7 +207,7 @@ SHUTDOWN;
 <p>If you used stunnel to secure PgBouncer connections in your old installation, you must configure SSL/TLS in your new installation using the built-in TLS capabilities of PgBouncer 1.8.1 and later.</p>
 </li>
 <li>
-<p>If you currently use the built-in PAM LDAP integration, you may choose to migrate to the new native LDAP PgBouncer integration introduced in SynxDB version 6.22; refer to <a href="#pgb_ldap">Configuring LDAP-based Authentication for PgBouncer</a> for configuration information.</p>
+<p>If you currently use the built-in PAM LDAP integration, you may choose to migrate to the new native LDAP PgBouncer integration introduced in SynxDB version 1; refer to <a href="#pgb_ldap">Configuring LDAP-based Authentication for PgBouncer</a> for configuration information.</p>
 </li>
 </ul>
 <h2 id="configuring-pgbouncer"><a class="header" href="#configuring-pgbouncer"><a id="pgb_config"></a>Configuring PgBouncer</a></h2>
@@ -273,7 +273,7 @@ auth_hba_file = hba_bouncer.conf
 </code></pre>
 <p>Refer to the <a href="https://pgbouncer.github.io/config.html#hba-file-format">HBA file format</a> discussion in the PgBouncer documentation for information about PgBouncer support of the HBA authentication file format.</p>
 <h3 id="configuring-ldap-based-authentication-for-pgbouncer"><a class="header" href="#configuring-ldap-based-authentication-for-pgbouncer"><a id="pgb_ldap"></a>Configuring LDAP-based Authentication for PgBouncer</a></h3>
-<p>Starting in SynxDB version 6.22, PgBouncer supports native LDAP authentication between the <code>psql</code> client and the <code>pgbouncer</code> process. Configuring this LDAP-based authentication is similar to configuring HBA-based authentication for PgBouncer:</p>
+<p>PgBouncer supports native LDAP authentication between the <code>psql</code> client and the <code>pgbouncer</code> process. Configuring this LDAP-based authentication is similar to configuring HBA-based authentication for PgBouncer:</p>
 <ul>
 <li>Specify <code>auth-type=hba</code> in the <code>pgbouncer.ini</code> configuration file.</li>
 <li>Provide the file name of an HBA-format file in the <code>auth_hba_file</code> parameter of the <code>pgbouncer.ini</code> file, and specify the LDAP parameters (server address, base DN, bind DN, bind password, search attribute, etc.) in the file.</li>
@@ -299,7 +299,7 @@ auth_hba_file = hba_bouncer_for_ldap.conf
 ...
 </code></pre>
 <h4 id="about-specifying-an-encrypted-ldap-password"><a class="header" href="#about-specifying-an-encrypted-ldap-password"><a id="pgb_ldap_encrypt_passwd"></a>About Specifying an Encrypted LDAP Password</a></h4>
-<p>Starting in SynxDB version 6.26, PgBouncer supports encrypted LDAP passwords. To utilize an encrypted LDAP password with PgBouncer, you must:</p>
+<p>PgBouncer supports encrypted LDAP passwords. To utilize an encrypted LDAP password with PgBouncer, you must:</p>
 <ul>
 <li>Place the encrypted password in the <code>${HOME}/.ldapbindpass</code> file.</li>
 <li>Specify <code>ldapbindpasswd="$bindpasswd"</code> in the HBA-based authentication file for PgBouncer.</li>

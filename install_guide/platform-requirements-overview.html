@@ -440,7 +440,7 @@ Significant SynxDB performance degradation has been observed when enabling resou
 </table>
 </div>
 <h3 id="synxdb-on-dca-systems"><a class="header" href="#synxdb-on-dca-systems"><a id="topic_elb_4ss_n4b"></a>SynxDB on DCA Systems</a></h3>
-<p>You must run SynxDB version 6.9 or later on Dell EMC DCA systems, with software version 4.2.0.0 and later.</p>
+<p>You must run SynxDB Version 1 on Dell EMC DCA systems, with software version 4.2.0.0 and later.</p>
 <h2 id="storage"><a class="header" href="#storage"><a id="topic_pnz_5zd_xs"></a>Storage</a></h2>
 <p>The only file system supported for running SynxDB is the XFS file system. All other file systems are explicitly <em>not</em> supported by Synx Data Labs.</p>
 <p>SynxDB is supported on network or shared storage if the shared storage is presented as a block device to the servers running SynxDB and the XFS file system is mounted on the block device. Network file systems are <em>not</em> supported. When using network or shared storage, SynxDB mirroring must be used in the same way as with local storage, and no modifications may be made to the mirroring scheme or the recovery scheme of the segments.</p>

@@ -157,7 +157,7 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="greenplum_fdw"><a class="header" href="#greenplum_fdw">greenplum_fdw</a></h1>
-<p>The <code>greenplum_fdw</code> module is a foreign-data wrapper (FDW) that you can use to run queries between one or more SynxDB version 6.20+ and 7 clusters.</p>
+<p>The <code>greenplum_fdw</code> module is a foreign-data wrapper (FDW) that you can use to run queries between one or more SynxDB clusters.</p>
 <p>The SynxDB <code>greenplum_fdw</code> module is an MPP extension of the PostgreSQL <code>postgres_fdw</code> module.</p>
 <p>This topic includes the following sections:</p>
 <ul>
@@ -305,7 +305,7 @@ CREATE USER MAPPING FOR greenplum_fdw_user2 SERVER gpc1_testdb
 <li><code>greenplum_fdw</code> does not support <code>UPDATE</code> and <code>DELETE</code> operations on foreign tables.</li>
 </ul>
 <h2 id="compatibility"><a class="header" href="#compatibility"><a id="topic_compat"></a>Compatibility</a></h2>
-<p>You can use <code>greenplum_fdw</code> to access other remote SynxDB clusters running version 6.20+ and 7.</p>
+<p>You can use <code>greenplum_fdw</code> to access other remote SynxDB clusters .</p>
 <h2 id="example"><a class="header" href="#example"><a id="topic_examples"></a>Example</a></h2>
 <p>In this example, you query data residing in a database named <code>rdb</code> on the remote 16-segment SynxDB cluster whose master is running on host <code>gpc2_master</code>, port <code>5432</code>:</p>
 <ol>

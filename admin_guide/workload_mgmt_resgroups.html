@@ -266,7 +266,7 @@
 <p>This mode is active when <code>gp_resource_group_cpu_ceiling_enforcement</code> is set to <code>true</code>. The resource group is enforced to not use more CPU resources than the defined value <code>CPU_RATE_LIMIT</code>, avoiding the use of the CPU burst feature.</p>
 <h2 id="memory-limits"><a class="header" href="#memory-limits"><a id="topic8339717"></a>Memory Limits</a></h2>
 <blockquote>
-<p><strong>Caution</strong> Beginning in version 6.21.0, the Resource Groups implementation was changed to calculate segment memory using <code>gp_segment_configuration.hostname</code> instead of <code>gp_segment_configuration.address</code>. This implementation can result in a lower memory limit value compared to the earlier code, for deployments where each host uses multiple IP addresses.  In some cases, this change in behavior could lead to Out Of Memory errors when upgrading from an earlier version. Version 6.23.4 introduces a configuration parameter, <code>gp_count_host_segments_using_address</code>, that can be enabled to calculate of segment memory using <code>gp_segment_configuration.address</code> if Out Of Memory errors are encountered after an upgrade. This parameter is disabled by default. This parameter will not be provided in SynxDB Version 7 because resource group memory calculation will no longer be dependent on the segments per host value.</p>
+<p><strong>Caution</strong> The Resource Groups implementation was changed to calculate segment memory using <code>gp_segment_configuration.hostname</code> instead of <code>gp_segment_configuration.address</code>. This implementation can result in a lower memory limit value compared to the earlier code, for deployments where each host uses multiple IP addresses.  In some cases, this change in behavior could lead to Out Of Memory errors when upgrading from an earlier version. Version 1 introduces a configuration parameter, <code>gp_count_host_segments_using_address</code>, that can be enabled to calculate of segment memory using <code>gp_segment_configuration.address</code> if Out Of Memory errors are encountered after an upgrade. This parameter is disabled by default. This parameter will not be provided in SynxDB Version 7 because resource group memory calculation will no longer be dependent on the segments per host value.</p>
 </blockquote>
 <p>When resource groups are enabled, memory usage is managed at the SynxDB node, segment, and resource group levels. You can also manage memory at the transaction level with a resource group for roles.</p>
 <p>The <a href="../ref_guide/config_params/guc-list.html">gp_resource_group_memory_limit</a> server configuration parameter identifies the maximum percentage of system memory resources to allocate to resource groups on each SynxDB segment host. The default <code>gp_resource_group_memory_limit</code> value is .7 (70%).</p>
@@ -649,7 +649,6 @@ gpstart
 <p>After SynxDB moves the query, there is no way to guarantee that a query currently running in the destination resource group does not exceed the group memory quota. In this situation, one or more running queries in the destination group may fail, including the moved query. Reserve enough resource group global shared memory to minimize the potential for this scenario to occur.</p>
 <p><code>pg_resgroup_move_query()</code> moves only the specified query to the destination resource group. SynxDB assigns subsequent queries that you submit in the session to the original resource group.</p>
 <p>Successful return of <code>pg_resgroup_move_query()</code> doesn’t mean target process was successfully moved. Process movement is asynchronous. The current resource group can be checked via <code>pg_stat_activity</code> system view.</p>
-<p><strong>Note:</strong> SynxDB version 6.8 introduced support for moving a query to a different resource group.</p>
 <ul>
 <li>
 <p>If you upgraded from a previous SynxDB 1 installation, you must manually register the supporting functions for this feature, and grant access to the functions as follows:</p>
@@ -664,12 +663,6 @@ RETURNS bool
 AS 'gp_resource_group', 'pg_resgroup_move_query'
 VOLATILE LANGUAGE C;
 GRANT EXECUTE ON FUNCTION gp_toolkit.pg_resgroup_move_query(int4, text) TO public;
-</code></pre>
-</li>
-<li>
-<p>If you register the supporting functions and then you downgrade your SynxDB installation to version 6.7.x or older, manually drop these functions as follows:</p>
-<pre><code>DROP FUNCTION gp_toolkit.pg_resgroup_check_move_query(IN int, IN oid, OUT int, OUT int);
-DROP FUNCTION gp_toolkit.pg_resgroup_move_query(int4, text);
 </code></pre>
 </li>
 </ul>

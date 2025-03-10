@@ -306,7 +306,7 @@
 <p>The ordinary functions used to define a new aggregate function must be defined first. Note that in this release of SynxDB, it is required that the statefunc, ffunc, and combinefunc functions used to create the aggregate are defined as <code>IMMUTABLE</code>.</p>
 <p>If the value of the SynxDB server configuration parameter <code>gp_enable_multiphase_agg</code> is <code>off</code>, only single-level aggregation is performed.</p>
 <p>Any compiled code (shared library files) for custom functions must be placed in the same location on every host in your SynxDB array (master and all segments). This location must also be in the <code>LD_LIBRARY_PATH</code> so that the server can locate the files.</p>
-<p>In previous versions of SynxDB, there was a concept of ordered aggregates. Since version 6, any aggregate can be called as an ordered aggregate, using the syntax:</p>
+<p>In previous versions of SynxDB, there was a concept of ordered aggregates. Since version 1, any aggregate can be called as an ordered aggregate, using the syntax:</p>
 <pre><code>name ( arg [ , ... ] [ORDER BY sortspec [ , ...]] )
 </code></pre>
 <p>The <code>ORDERED</code> keyword is accepted for backwards compatibility, but is ignored.</p>
