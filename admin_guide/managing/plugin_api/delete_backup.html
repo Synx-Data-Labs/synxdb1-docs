@@ -162,14 +162,14 @@
 <pre><code>&lt;delete_backup&gt; &lt;plugin_config_file&gt; &lt;timestamp&gt;
 </code></pre>
 <h2 id="description"><a class="header" href="#description"><a id="section3"></a>Description</a></h2>
-<p><code>gpbackup_manager</code> invokes the <code>delete_backup</code> plugin command to delete the directory specified by the backup timestamp on the remote system.</p>
+<p>Deletes the directory specified by the backup timestamp on the remote system.</p>
 <h2 id="arguments"><a class="header" href="#arguments"><a id="section4"></a>Arguments</a></h2>
 <p>plugin_config_file
 :   The absolute path to the plugin configuration YAML file.</p>
 <p>timestamp
 :   The timestamp for the backup to delete.</p>
 <h2 id="exit-code"><a class="header" href="#exit-code"><a id="section5"></a>Exit Code</a></h2>
-<p>The <code>delete_backup</code> command must exit with a value of 0 on success, or a non-zero value if an error occurs. In the case of a non-zero exit code, <code>gpbackup_manager</code> displays the contents of <code>stderr</code> to the user.</p>
+<p>The <code>delete_backup</code> command must exit with a value of 0 on success, or a non-zero value if an error occurs. In the case of a non-zero exit code, displays the contents of <code>stderr</code> to the user.</p>
 <h2 id="example"><a class="header" href="#example"><a id="exls"></a>Example</a></h2>
 <pre><code>my_plugin delete_backup /home/my-plugin_config.yaml 20191208130802
 </code></pre>

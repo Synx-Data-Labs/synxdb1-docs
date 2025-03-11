@@ -1,0 +1,408 @@
+<!DOCTYPE HTML>
+<html lang="en" class="dark sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Migrating PXF from Greenplum 5.x - SynxDB 1 Documentation (PRERELEASE DRAFT)</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "dark";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('dark')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">SynxDB 1 Documentation (PRERELEASE DRAFT)</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <img id="fa fa-print" src="../SYNX-Text-and-Circular-Logo-142x28-White-text-Black-background.png" alt="Synx Data Labs Logo"/>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="migrating-pxf-from-greenplum-5x"><a class="header" href="#migrating-pxf-from-greenplum-5x">Migrating PXF from Greenplum 5.x</a></h1>
+<blockquote>
+<p><strong>Note</strong> PXF also supports <code>gpupgrade</code>-based Greenplum upgrade in additional to the manual migration described in this topic.</p>
+</blockquote>
+<p>If you are using PXF in your Greenplum Database 5.x installation, upgrade Greenplum Database to version <strong>5.21.2</strong> or newer before you migrate PXF to SynxDB 1.</p>
+<p>The PXF Greenplum Database 5.x migration procedure has two parts. You perform one PXF procedure in your Greenplum Database 5.x installation, then install, configure, and migrate data to SynxDB 1:</p>
+<ul>
+<li><a href="#pxf5pre">Step 1: Complete PXF Greenplum Database 5.x Pre-Migration Actions</a></li>
+<li><a href="#pxfmig">Step 2: Migrate PXF to SynxDB 1</a></li>
+</ul>
+<h2 id="prerequisites"><a class="header" href="#prerequisites"><a id="prerequisites"></a>Prerequisites</a></h2>
+<p>Before migrating PXF from Greenplum 5.x to SynxDB 1, ensure that you can:</p>
+<ul>
+<li>
+<p>Identify your OS Version. Greenplum Database 6.x does not support running PXF on CentOS 6.x or RHEL 6.x due to a limitation with the version of <code>cURL</code>.</p>
+</li>
+<li>
+<p>Identify the version number of your Greenplum 5.x installation. If it is older than 5.21.2, upgrade to a newer 5.x version.</p>
+</li>
+<li>
+<p>Identify the version of PXF running in the Greenplum 5.x cluster.</p>
+</li>
+<li>
+<p>Identify the location of your PXF installation:</p>
+<ul>
+<li>If you installed PXF from a separate <code>rpm</code> or <code>deb</code>, the PXF install location is <code>/usr/local/pxf-gp&lt;greenplum-major-version&gt;</code>.</li>
+<li>If you are running the PXF bundled in the Greenplum Database 5.x Server installation, the PXF install location is <code>$GPHOME/pxf</code>.</li>
+</ul>
+</li>
+<li>
+<p>Determine if you have <code>gphdfs</code> external tables defined in your Greenplum 5.x installation.</p>
+</li>
+<li>
+<p>Identify the file system location of the PXF <code>$PXF_CONF</code> directory in your Greenplum 5.x installation. (If you are unsure of the location, you can find the value in <code>pxf-env-default.sh</code>.) In Greenplum 5.15 and later, <code>$PXF_CONF</code> identifies the user configuration directory that was provided to the <code>pxf cluster init</code> command. This directory contains PXF server configurations, security keytab files, and log files.</p>
+</li>
+</ul>
+<h2 id="step-1-complete-pxf-greenplum-database-5x-pre-migration-actions"><a class="header" href="#step-1-complete-pxf-greenplum-database-5x-pre-migration-actions"><a id="pxf5pre"></a>Step 1: Complete PXF Greenplum Database 5.x Pre-Migration Actions</a></h2>
+<p>Perform this procedure in your Greenplum Database 5.x installation:</p>
+<ol>
+<li>
+<p>Log in to the Greenplum Database master node. For example:</p>
+<pre><code class="language-shell">$ ssh gpadmin@&lt;gp5master&gt;
+</code></pre>
+</li>
+<li>
+<p>Identify and note the Greenplum Database version number of your 5.x installation. For example:</p>
+<pre><code class="language-shell">gpadmin@gp5master$ psql -d postgres
+</code></pre>
+<pre><code class="language-sql">SELECT version();
+
+           version 
+</code></pre>
+</li>
+</ol>
+<hr />
+<p>PostgreSQL 8.3.23 (Greenplum Database 5.21.2 build commit:610b6d777436fe4a281a371cae85ac40f01f4f5e) on x86_64-pc-linux-gnu, compiled by GCC gcc (GCC) 6.2.0, 64-bit compiled on Aug  7 2019 20:38:47
+(1 row)
+```</p>
+<ol start="2">
+<li>
+<p>Identify and note the version number of PXF running in your Greenplum 5.x installation. For example:</p>
+<pre><code class="language-shell">gpadmin@gp5master$ pxf version
+</code></pre>
+</li>
+<li>
+<p>SynxDB 1 removes the <code>gphdfs</code> external table protocol. If you have <code>gphdfs</code> external tables defined in your Greenplum 5.x installation, you must delete or migrate them to <code>pxf</code> as described in <a href="gphdfs-pxf-migrate.html">Migrating gphdfs External Tables to PXF</a>.</p>
+</li>
+<li>
+<p>Stop PXF on each segment host as described in <a href="https://docs.vmware.com/en/VMware-Greenplum-Platform-Extension-Framework/6.6/greenplum-platform-extension-framework/cfginitstart_pxf.html#stop_pxf">Stopping PXF</a>.</p>
+</li>
+<li>
+<p>If you plan to install Greenplum Database 6.x on a new set of hosts, be sure to save a copy of the <code>$PXF_CONF</code> directory in your Greenplum 5.x installation.</p>
+</li>
+<li>
+<p>Install and configure Greenplum Database 6.x, migrate Greenplum 5.x table definitions and data to your SynxDB 1 installation, and then continue your PXF migration with <a href="#pxfmig">Step 2: Migrating PXF to SynxDB 1</a>.</p>
+</li>
+</ol>
+<h2 id="step-2-migrating-pxf-to-synxdb-1"><a class="header" href="#step-2-migrating-pxf-to-synxdb-1"><a id="pxfmig"></a>Step 2: Migrating PXF to SynxDB 1</a></h2>
+<p>After you upgrade to Greenplum Database 6.x, and table definitions and data from the Greenplum 5.x installation have been migrated or upgraded, perform the following procedure to configure and start the new PXF software:</p>
+<ol>
+<li>
+<p>Log in to the Greenplum Database 6.x master node. For example:</p>
+<pre><code class="language-shell">$ ssh gpadmin@&lt;gp6master&gt;
+</code></pre>
+</li>
+<li>
+<p>Identify and note the version number of your Greenplum Database 6.x installation.</p>
+</li>
+<li>
+<p>PXF releases different software packages for Greenplum Database version 5 and }} 1.</p>
+<ol>
+<li>
+<p>If you are running }} 1.x of the independent PXF distribution that you installed via an <code>rpm</code> or <code>deb</code> in your Greenplum 5.x installation:</p>
+<ol>
+<li>
+<p>Install the same PXF 6.x version <em>for SynxDB 1</em> on your SynxDB 1 hosts as described in <a href="https://docs.vmware.com/en/VMware-Greenplum-Platform-Extension-Framework/6.6/greenplum-platform-extension-framework/installing_pxf.html">Installing PXF</a>.</p>
+</li>
+<li>
+<p>Copy the PXF extension control file from the PXF installation directory to the new SynxDB 1 install directory:</p>
+<pre><code class="language-shell">gpadmin@gp6master$ pxf cluster register
+</code></pre>
+</li>
+<li>
+<p>Start PXF on each host:</p>
+<pre><code class="language-shell">gpadmin@gp6master$ pxf cluster start
+</code></pre>
+</li>
+<li>
+<p>Skip the following steps and exit this procedure.</p>
+</li>
+</ol>
+</li>
+<li>
+<p>If you are running PXF version 5.x, you must install the latest independent PXF 5.16.x distribution for SynxDB 1 on your SynxDB 1 hosts as described in <a href="https://docs.vmware.com/en/VMware-Greenplum-Platform-Extension-Framework/6.6/greenplum-platform-extension-framework/installing_pxf.html">Installing PXF</a>.</p>
+<blockquote>
+<p><strong>Note</strong> If you are interested in running PXF }} 1.x, upgrade to that version <strong>after</strong> you complete this entire procedure and verify that PXF is working in your SynxDB 1 installation.</p>
+</blockquote>
+</li>
+</ol>
+</li>
+<li>
+<p>Identify and note the PXF (to) version number. For example:</p>
+<pre><code class="language-shell">gpadmin@gp6master$ pxf version
+</code></pre>
+</li>
+<li>
+<p>If you installed Greenplum Database 6.x on a new set of hosts, copy the <code>$PXF_CONF</code> directory from your Greenplum 5.x installation to the master node. Consider copying the directory to the same file system location at which it resided in the 5.x cluster. For example, if <code>PXF_CONF=/usr/local/greenplum-pxf</code>:</p>
+<pre><code class="language-shell">gpadmin@gp6master$ scp -r gpadmin@&lt;gp5master&gt;:/usr/local/greenplum-pxf /usr/local/
+</code></pre>
+</li>
+<li>
+<p>Initialize PXF on each segment host, specifying the <code>PXF_CONF</code> directory that you copied in the step above. For example:</p>
+<pre><code class="language-shell">gpadmin@gp6master$ export JAVA_HOME=&lt;system-java-home&gt;
+gpadmin@gp6master$ PXF_CONF=/usr/local/greenplum-pxf pxf cluster init
+</code></pre>
+</li>
+<li>
+<p><strong>If you are migrating PXF from Greenplum Database version 5.23 or earlier</strong> and you have configured any JDBC servers that access Kerberos-secured Hive, you must now set the <code>hadoop.security.authentication</code> property in the <code>jdbc-site.xml</code> file to explicitly identify use of the Kerberos authentication method. Perform the following for each of these server configs:</p>
+<ol>
+<li>
+<p>Navigate to the server configuration directory.</p>
+</li>
+<li>
+<p>Open the <code>jdbc-site.xml</code> file in the editor of your choice and uncomment or add the following property block to the file:</p>
+<pre><code class="language-xml">&lt;property&gt;
+    &lt;name&gt;hadoop.security.authentication&lt;/name&gt;
+    &lt;value&gt;kerberos&lt;/value&gt;
+&lt;/property&gt;
+</code></pre>
+</li>
+<li>
+<p>Save the file and exit the editor.</p>
+</li>
+</ol>
+</li>
+<li>
+<p><strong>If you are migrating PXF from Greenplum Database version 5.26 or earlier</strong>: The PXF <code>Hive</code> and <code>HiveRC</code> profiles now support column projection using column name-based mapping. If you have any existing PXF external tables that specify one of these profiles, and the external table relied on column index-based mapping, you may be required to drop and recreate the tables:</p>
+<ol>
+<li>
+<p>Identify all PXF external tables that you created that specify a <code>Hive</code> or <code>HiveRC</code> profile.</p>
+</li>
+<li>
+<p>For <em>each</em> external table that you identify in step 1, examine the definitions of both the PXF external table and the referenced Hive table. If the column names of the PXF external table <em>do not</em> match the column names of the Hive table:</p>
+<ol>
+<li>
+<p>Drop the existing PXF external table. For example:</p>
+<pre><code class="language-sql">DROP EXTERNAL TABLE pxf_hive_table1;
+</code></pre>
+</li>
+<li>
+<p>Recreate the PXF external table using the Hive column names. For example:</p>
+<pre><code class="language-sql">CREATE EXTERNAL TABLE pxf_hive_table1( hivecolname int, hivecolname2 text )
+  LOCATION( 'pxf://default.hive_table_name?PROFILE=Hive')
+FORMAT 'custom' (FORMATTER='pxfwritable_import');
+</code></pre>
+</li>
+<li>
+<p>Review any SQL scripts that you may have created that reference the PXF external table, and update column names if required.</p>
+</li>
+</ol>
+</li>
+</ol>
+</li>
+<li>
+<p>Synchronize the PXF configuration from the Greenplum Database 6.x master host to the standby master and each segment host in the cluster. For example:</p>
+<pre><code class="language-shell">gpadmin@gp6master$ pxf cluster sync
+</code></pre>
+</li>
+<li>
+<p>Start PXF on each Greenplum Database 6.x segment host:</p>
+<pre><code class="language-shell">gpadmin@gp6master$ pxf cluster start
+</code></pre>
+<p>Your Greenplum Database cluster is now running version 5.16.x of PXF, and running it from the PXF installation directory (<code>/usr/local/pxf-gp&lt;greenplum-major-version&gt;</code>). Should you wish to upgrade PXF in the future, consult the <a href="https://docs.vmware.com/en/VMware-Greenplum-Platform-Extension-Framework/6.6/greenplum-platform-extension-framework/upgrade_landing.html">PXF upgrade documentation</a>.</p>
+</li>
+<li>
+<p>Verify the migration by testing that each PXF external table can access the referenced data store.</p>
+</li>
+</ol>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../pxf/pxf_upgrade_migration.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../pxf/gphdfs-pxf-migrate.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../pxf/pxf_upgrade_migration.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../pxf/gphdfs-pxf-migrate.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

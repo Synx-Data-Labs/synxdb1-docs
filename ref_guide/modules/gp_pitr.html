@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>gp_endpoints - SynxDB 1 Documentation (PRERELEASE DRAFT)</title>
+        <title>gp_pitr - SynxDB 1 Documentation (PRERELEASE DRAFT)</title>
 
 
         <!-- Custom HTML head -->
@@ -156,30 +156,23 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="gp_endpoints"><a class="header" href="#gp_endpoints">gp_endpoints</a></h1>
-<p>The <code>gp_endpoints</code> view lists the endpoints created for all active parallel retrieve cursors declared by the current session user in the current database. When the SynxDB superuser accesses this view, it returns a list of all endpoints created for all parallel retrieve cursors declared by all users in the current database.</p>
-<p>Endpoints exist only for the duration of the transaction that defines the parallel retrieve cursor, or until the cursor is closed.</p>
-<div class="table-wrapper"><table><thead><tr><th>name</th><th>type</th><th>references</th><th>description</th></tr></thead><tbody>
-<tr><td>gp_segment_id</td><td>integer</td><td> </td><td>The QE’s endpoint <code>gp_segment_id</code>.</td></tr>
-<tr><td>auth_token</td><td>text</td><td> </td><td>The authentication token for a retrieve session.</td></tr>
-<tr><td>cursorname</td><td>text</td><td> </td><td>The name of the parallel retrieve cursor.</td></tr>
-<tr><td>sessionid</td><td>integer</td><td> </td><td>The identifier of the session in which the parallel retrieve cursor was created.</td></tr>
-<tr><td>hostname</td><td>varchar(64)</td><td> </td><td>The name of the host from which to retrieve the data for the endpoint.</td></tr>
-<tr><td>port</td><td>integer</td><td> </td><td>The port number from which to retrieve the data for the endpoint.</td></tr>
-<tr><td>username</td><td>text</td><td> </td><td>The name of the session user (not the current user); <em>you must initiate the retrieve session as this user</em>.</td></tr>
-<tr><td>state</td><td>text</td><td> </td><td>The state of the endpoint; the valid states are:<br/><br/>READY: The endpoint is ready to be retrieved.<br/><br/>ATTACHED: The endpoint is attached to a retrieve connection.<br/><br/>RETRIEVING: A retrieve session is retrieving data from the endpoint at this moment.<br/><br/>FINISHED: The endpoint has been fully retrieved.<br/><br/>RELEASED: Due to an error, the endpoint has been released and the connection closed.</td></tr>
-<tr><td>endpointname</td><td>text</td><td> </td><td>The endpoint identifier; you provide this identifier to the <code>RETRIEVE</code> command.</td></tr>
-</tbody></table>
-</div>
+                        <h1 id="gp_pitr"><a class="header" href="#gp_pitr">gp_pitr</a></h1>
+<p>The <code>gp_pitr</code> module supports implementing Point-in-Time Recovery for SynxDB 1. In service of this it creates a new view – <code>gp_stat_archiver</code> – as well as two user-defined functions that are called internally.</p>
+<p>The <code>gp_pitr</code> module is a SynxDB extension.</p>
+<h2 id="installing-and-registering-the-module"><a class="header" href="#installing-and-registering-the-module"><a id="topic_reg"></a>Installing and Registering the Module</a></h2>
+<p>The <code>gp_pitr</code> module is installed when you install SynxDB. Before you can use the view defined in the module, you must register the <code>gp_pitr</code> extension in each database where you want to use the function, using the following command:</p>
+<pre><code>CREATE EXTENSION gp_pitr;
+</code></pre>
+
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../../ref_guide/system_catalogs/gpexpand_expansion_progress.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../../ref_guide/modules/gp_percentile_agg.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="../../ref_guide/system_catalogs/gp_global_sequence.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="../../ref_guide/modules/gp_sparse_vector.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -189,11 +182,11 @@
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../../ref_guide/system_catalogs/gpexpand_expansion_progress.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../../ref_guide/modules/gp_percentile_agg.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="../../ref_guide/system_catalogs/gp_global_sequence.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="../../ref_guide/modules/gp_sparse_vector.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>

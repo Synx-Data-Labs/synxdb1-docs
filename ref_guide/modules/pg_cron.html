@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>gp_endpoints - SynxDB 1 Documentation (PRERELEASE DRAFT)</title>
+        <title>pg_cron - SynxDB 1 Documentation (PRERELEASE DRAFT)</title>
 
 
         <!-- Custom HTML head -->
@@ -156,30 +156,80 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="gp_endpoints"><a class="header" href="#gp_endpoints">gp_endpoints</a></h1>
-<p>The <code>gp_endpoints</code> view lists the endpoints created for all active parallel retrieve cursors declared by the current session user in the current database. When the SynxDB superuser accesses this view, it returns a list of all endpoints created for all parallel retrieve cursors declared by all users in the current database.</p>
-<p>Endpoints exist only for the duration of the transaction that defines the parallel retrieve cursor, or until the cursor is closed.</p>
-<div class="table-wrapper"><table><thead><tr><th>name</th><th>type</th><th>references</th><th>description</th></tr></thead><tbody>
-<tr><td>gp_segment_id</td><td>integer</td><td> </td><td>The QE’s endpoint <code>gp_segment_id</code>.</td></tr>
-<tr><td>auth_token</td><td>text</td><td> </td><td>The authentication token for a retrieve session.</td></tr>
-<tr><td>cursorname</td><td>text</td><td> </td><td>The name of the parallel retrieve cursor.</td></tr>
-<tr><td>sessionid</td><td>integer</td><td> </td><td>The identifier of the session in which the parallel retrieve cursor was created.</td></tr>
-<tr><td>hostname</td><td>varchar(64)</td><td> </td><td>The name of the host from which to retrieve the data for the endpoint.</td></tr>
-<tr><td>port</td><td>integer</td><td> </td><td>The port number from which to retrieve the data for the endpoint.</td></tr>
-<tr><td>username</td><td>text</td><td> </td><td>The name of the session user (not the current user); <em>you must initiate the retrieve session as this user</em>.</td></tr>
-<tr><td>state</td><td>text</td><td> </td><td>The state of the endpoint; the valid states are:<br/><br/>READY: The endpoint is ready to be retrieved.<br/><br/>ATTACHED: The endpoint is attached to a retrieve connection.<br/><br/>RETRIEVING: A retrieve session is retrieving data from the endpoint at this moment.<br/><br/>FINISHED: The endpoint has been fully retrieved.<br/><br/>RELEASED: Due to an error, the endpoint has been released and the connection closed.</td></tr>
-<tr><td>endpointname</td><td>text</td><td> </td><td>The endpoint identifier; you provide this identifier to the <code>RETRIEVE</code> command.</td></tr>
-</tbody></table>
-</div>
+                        <h1 id="pg_cron"><a class="header" href="#pg_cron">pg_cron</a></h1>
+<p>The <code>pg_cron</code> module is a cron-based job scheduler that runs inside the database.</p>
+<h2 id="installing-and-registering-the-module"><a class="header" href="#installing-and-registering-the-module"><a id="topic_reg"></a>Installing and Registering the Module</a></h2>
+<p>The <code>pg_cron</code> module is installed when you install SynxDB. Before you can use it, you must perform the following steps:</p>
+<p>You can only install the <code>pg_cron</code> module in one database per SynxDB cluster. First, set the database where you want <code>pg_cron</code> to create its metadata tables, by default it uses the <code>postgres</code> database. In order to change it, run the following command and restart SynxDB:</p>
+<pre><code>gpconfig -c cron.database_name -v 'db_name' --skipvalidation
+</code></pre>
+<p>Enable the extension as a preloaded library. First, check if there are any preloaded shared libraries by running the <code>gpconfig</code> command. The following example shows that the <code>auto_explain</code> libraries are already enabled for the cluster:</p>
+<pre><code>gpconfig -s shared_preload_libraries
+Values on all segments are consistent
+GUC              : shared_preload_libraries
+Coordinator value: auto_explain
+Segment     value: auto_explain
+</code></pre>
+<p>Use the output of the above command to enable the <code>pg_cron</code> module, along any other shared libraries, and restart SynxDB:</p>
+<pre><code>gpconfig -c shared_preload_libraries -v 'auto_explain,pg_cron'
+gpstop -ar 
+</code></pre>
+<p>Register the <code>pg_cron</code> extension in the desired database. You can only install <code>pg_cron</code> in one database per cluster.</p>
+<pre><code>CREATE EXTENSION pg_cron;
+</code></pre>
+<p>Optionally, grant usage to specific users:</p>
+<pre><code>GRANT USAGE ON SCHEMA cron TO user1;
+</code></pre>
+<p>Refer to <a href="../../install_guide/install_modules.html">Installing Additional Supplied Modules</a> for more information.</p>
+<h2 id="upgrading-the-module"><a class="header" href="#upgrading-the-module"><a id="topic_upgrading"></a>Upgrading the Module</a></h2>
+<p>The <code>pg_cron</code> module is installed when you install or upgrade SynxDB. A previous version of the extension will continue to work in existing databases after you upgrade SynxDB. To upgrade to the most recent version of the extension, you must:</p>
+<pre><code>ALTER EXTENSION pg_cron UPDATE TO '1.6.2';
+</code></pre>
+<h2 id="using-the-pg_cron-module"><a class="header" href="#using-the-pg_cron-module"><a id="topic_using"></a>Using the pg_cron Module</a></h2>
+<p>Use the user-defined functions (UDFs) under the <code>cron</code> schema to schedule cron jobs in your default database. For example, configure a job that deletes old database data every Saturday at 3:30am (GMT):</p>
+<pre><code>SELECT cron.schedule('30 3 * * 6', $$DELETE FROM events WHERE event_time &lt; now() - interval '1 week'$$);
+ schedule
+----------
+       42
+</code></pre>
+<p>Optionally, you may update the database column for the job that you just created so that it runs in another database within your SynxDB cluster. Run the following command as a user with the superuser role:</p>
+<pre><code>UPDATE cron.job SET database = 'database1' WHERE jobid = 106;
+SELECT cron.reload_job();
+</code></pre>
+<p>You may use the UDF <code>cron.schedule_in_database()</code> to schedule jobs in multiple databases. Below are the function arguments:</p>
+<pre><code>cron.schedule_in_database(job_name text,
+schedule text,
+command text,
+database text,
+username text default null,
+active boolean default 'true')
+</code></pre>
+<p>For example, run <code>VACUUM</code> every Sunday at 4:00am (GMT) in a database other than the one <code>pg_cron</code> is installed on:</p>
+<pre><code>SELECT cron.schedule_in_database('weekly-vacuum', '0 4 * * 0', 'VACUUM', 'some_other_database');
+ schedule
+----------
+       44
+</code></pre>
+<blockquote>
+<p><strong>Important</strong> Since the <code>TRIGGER</code> statement is not supported in SynxDB, if a user runs an <code>UPDATE</code> or <code>INSERT</code> statement, or manually deletes any of the cron jobs instead of using the UDFs in the <code>cron</code> schema, you must run the following UDF to update the <code>pg_cron</code> cache:</p>
+<pre><code>SELECT cron.reload_job();
+</code></pre>
+</blockquote>
+<blockquote>
+<p><strong>Note</strong> The server configuration parameter <code>cron.use_background_workers</code> is not supported on SynxDB 1.</p>
+</blockquote>
+<h2 id="module-documentation"><a class="header" href="#module-documentation"><a id="topic_docs"></a>Module Documentation</a></h2>
+<p>Refer to the <a href="https://github.com/citusdata/pg_cron/tree/main">pg_cron github documentation</a> for more information about using the module.</p>
+
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../../ref_guide/system_catalogs/gpexpand_expansion_progress.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../../ref_guide/modules/pageinspect.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="../../ref_guide/system_catalogs/gp_global_sequence.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="../../ref_guide/modules/pg_trgm.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -189,11 +239,11 @@
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../../ref_guide/system_catalogs/gpexpand_expansion_progress.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../../ref_guide/modules/pageinspect.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="../../ref_guide/system_catalogs/gp_global_sequence.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="../../ref_guide/modules/pg_trgm.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>

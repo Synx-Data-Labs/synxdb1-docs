@@ -336,7 +336,7 @@ Connection  :    1
 [1] "public.abalone_from_r"
 </code></pre>
 <h3 id="running-r-functions-in-synxdb"><a class="header" href="#running-r-functions-in-synxdb"><a id="run_greenplum"></a>Running R Functions in SynxDB</a></h3>
-<p>SynxDBR supports two functions that allow you to run an R function, in-database, on every row of a SynxDB table: <a href="https://github.com/greenplum-db/SynxDBR/blob/main/db.gpapply.md">db.gpapply()</a> and <a href="https://github.com/greenplum-db/SynxDBR/blob/main/db.gptapply.md">db.gptapply()</a>. You can use the SynxDB PL/R or PL/Container procedural language as the vehicle in which to run the function.</p>
+<p>SynxDBR supports two functions that allow you to run an R function, in-database, on every row of a SynxDB table: <a href="https://github.com/greenplum-db/GreenplumR/blob/main/db.gpapply.md">db.gpapply()</a> and <a href="https://github.com/greenplum-db/GreenplumR/blob/main/db.gptapply.md">db.gptapply()</a>. You can use the SynxDB PL/R or PL/Container procedural language as the vehicle in which to run the function.</p>
 <p>The function signatures follow:</p>
 <pre><code>db.gpapply( X, MARGIN = NULL, FUN = NULL, output.name = NULL, output.signature = NULL,
             clear.existing = FALSE, case.sensitive = FALSE, output.distributeOn = NULL,
@@ -448,7 +448,7 @@ testdb=# \q
 <p>SynxDBR has the following limitations:</p>
 <ul>
 <li>The <code>db.gpapply()</code> and <code>db.gptapply()</code> functions currently operate only on <code>conn.id = 1</code>.</li>
-<li>The SynxDBR function reference pages are not yet published. You can find <code>html</code> versions of the reference pages in your R library <code>R/&lt;platform&gt;-library/3.6/SynxDBR/html</code> directory. Open the <code>00Index.html</code> file in the browser of your choice and select the function of interest.</li>
+<li>The SynxDBR function reference pages are not yet published. You can find <code>html</code> versions of the reference pages in your R library <code>R/&lt;platform&gt;-library/3.6/GreenplumR/html</code> directory. Open the <code>00Index.html</code> file in the browser of your choice and select the function of interest.</li>
 <li>The <code>SynxDBR()</code> graphical user interface is currently unsupported.</li>
 </ul>
 <h2 id="function-summary"><a class="header" href="#function-summary"><a id="ref"></a>Function Summary</a></h2>

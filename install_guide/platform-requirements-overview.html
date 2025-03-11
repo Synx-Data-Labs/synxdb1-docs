@@ -380,33 +380,7 @@ Significant SynxDB performance degradation has been observed when enabling resou
 <li>pgcrypto Extension</li>
 </ul>
 <h3 id="data-connectors"><a class="header" href="#data-connectors"><a id="topic_xpf_25b_hbb"></a>Data Connectors</a></h3>
-<ul>
-<li>
-<p>SynxDB Platform Extension Framework (PXF) - PXF provides access to Hadoop, object store, and SQL external data stores. Refer to <a href="../admin_guide/external/pxf-overview.html">Accessing External Data with PXF</a> in the <em>SynxDB Administrator Guide</em> for PXF configuration and usage information.</p>
-<blockquote>
-<p><strong>Note</strong> SynxDB versions starting with 6.19.0 no longer bundle a version of PXF. You can install PXF in your SynxDB cluster by installing <a href="https://docs.vmware.com/en/VMware-SynxDB-Platform-Extension-Framework/index.html">the independent distribution of PXF</a> as described in the PXF documentation.</p>
-</blockquote>
-</li>
-<li>
-<p>SynxDB Connector for Apache Spark v1.6.2 - The SynxDB Connector for Apache Spark supports high speed, parallel data transfer between SynxDB and an Apache Spark cluster using Spark’s Scala API.</p>
-</li>
-<li>
-<p>SynxDB Connector for Apache NiFi v1.0.0 - The SynxDB Connector for Apache NiFi enables you to set up a NiFi dataflow to load record-oriented data from any source into SynxDB.</p>
-</li>
-<li>
-<p>SynxDB Informatica Connector v1.0.5 - The SynxDB Connector for Informatica supports high speed data transfer from an Informatica PowerCenter cluster to a SynxDB cluster for batch and streaming ETL operations.</p>
-</li>
-<li>
-<p>R2B X-LOG v5.x and v6.x - Real-time data replication solution that achieves high-speed database replication through the use of Redo Log Capturing method.</p>
-</li>
-</ul>
-<blockquote>
-<p><strong>Note</strong> SynxDB 5.x clients (gpload, gpfdist) are supported with SynxDB 1.x Server and Informatica PowerCenter and PowerExchange 10.4.</p>
-</blockquote>
-<blockquote>
-<p><strong>Note</strong> SynxDB 1 does not support the ODBC driver for Cognos Analytics V11.</p>
-</blockquote>
-<p>Connecting to IBM Cognos software with an ODBC driver is not supported.</p>
+<p>SynxDB Platform Extension Framework (PXF) provides access to Hadoop, object store, and SQL external data stores. Refer to <a href="../admin_guide/external/pxf-overview.html">Accessing External Data with PXF</a> in the <em>SynxDB Administrator Guide</em> for PXF configuration and usage information.</p>
 <h2 id="hardware-requirements"><a class="header" href="#hardware-requirements"><a id="topic_tnl_3mx_zgb"></a>Hardware Requirements</a></h2>
 <p>The following table lists minimum recommended specifications for hardware servers intended to support SynxDB on Linux systems in a production environment. All host servers in your SynxDB system must have the same hardware and software configuration. SynxDB also provides hardware build guides for its certified hardware platforms. It is recommended that you work with a SynxDB Systems Engineer to review your anticipated environment to ensure an appropriate hardware configuration for SynxDB.</p>
 <div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" id="topic_tnl_3mx_zgb__ji162790" class="table" frame="border" border="1" rules="all"><caption><span class="tablecap">Minimum Hardware Requirements</span></caption><colgroup><col style="width:120pt" /><col style="width:255pt" /></colgroup><tbody class="tbody">

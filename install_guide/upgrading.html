@@ -180,10 +180,6 @@
 <p>If you have configured the SynxDB Platform Extension Framework (PXF) in your previous SynxDB installation, you must stop the PXF service, and you might need to back up PXF configuration files before upgrading to a new version of SynxDB. Refer to <a href="../pxf/upgrade_pxf_6x.html#pxfpre">PXF Pre-Upgrade Actions</a> for instructions.</p>
 <p>If you have not yet configured PXF, no action is necessary.</p>
 </li>
-<li>
-<p>If you have configured and used the SynxDB Streaming Server (GPSS) in your previous SynxDB installation, you must stop any running GPSS jobs and service instances before you upgrade to a new version of SynxDB. Refer to <a href="https://docs.vmware.com/en/VMware-SynxDB-Streaming-Server/1.10/greenplum-streaming-server/upgrading-gpss.html#step1-gpss-pre-upgrade-actions">GPSS Pre-Upgrade Actions</a> for instructions.</p>
-<p>If you do not plan to use GPSS, or you have not yet configured GPSS, no action is necessary.</p>
-</li>
 </ul>
 <h2 id="upgrading-from-6x-to-a-newer-6x-release"><a class="header" href="#upgrading-from-6x-to-a-newer-6x-release"><a id="topic17"></a>Upgrading from 6.x to a Newer 6.x Release</a></h2>
 <p>An upgrade from SynxDB 1.x to a newer 6.x release involves stopping SynxDB, updating the SynxDB software binaries, and restarting SynxDB. If you are using SynxDB extension packages there are additional requirements. See <a href="#gpdb_prereq">Prerequisites</a> in the previous section.</p>
@@ -268,9 +264,6 @@ $ gpstart
 <li>
 <p>If you configured PXF in your previous SynxDB installation, you may need to install PXF in your new SynxDB installation, and you may be required to re-initialize or register the PXF service after you upgrade SynxDB. Refer to the <a href="../pxf/upgrade_pxf_6x.html#pxfup">Step 2</a> PXF upgrade procedure for instructions.</p>
 </li>
-<li>
-<p>For SynxDB, if you configured GPSS in your previous installation, you may be required to perform some upgrade actions, and you must re-restart the GPSS service instances and jobs. Refer to <a href="https://docs.vmware.com/en/VMware-SynxDB-Streaming-Server/1.10/greenplum-streaming-server/upgrading-gpss.html#step2-upgrading-gpss">Step 2</a> of the GPSS upgrade procedure for instructions.</p>
-</li>
 </ol>
 <p>After upgrading SynxDB, ensure that all features work as expected. For example, test that backup and restore perform as expected, and SynxDB features such as user-defined functions, and extensions such as MADlib and PostGIS perform as expected.</p>
 <h2 id="troubleshooting-a-failed-upgrade"><a class="header" href="#troubleshooting-a-failed-upgrade"><a id="topic_zbx_szy_kbb"></a>Troubleshooting a Failed Upgrade</a></h2>
@@ -289,7 +282,7 @@ $ gpstart
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="../install_guide/migrate-oss-to-vmware.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="../pxf/pxf_upgrade_migration.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -303,7 +296,7 @@ $ gpstart
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="../install_guide/migrate-oss-to-vmware.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="../pxf/pxf_upgrade_migration.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>

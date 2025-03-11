@@ -1,0 +1,487 @@
+<!DOCTYPE HTML>
+<html lang="en" class="dark sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Migrating Data from Greenplum 4.3 or 5 to SynxDB 1 - SynxDB 1 Documentation (PRERELEASE DRAFT)</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "dark";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('dark')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">SynxDB 1 Documentation (PRERELEASE DRAFT)</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <img id="fa fa-print" src="../SYNX-Text-and-Circular-Logo-142x28-White-text-Black-background.png" alt="Synx Data Labs Logo"/>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="migrating-data-from-greenplum-43-or-5-to-synxdb-1"><a class="header" href="#migrating-data-from-greenplum-43-or-5-to-synxdb-1">Migrating Data from Greenplum 4.3 or 5 to SynxDB 1</a></h1>
+<p>You can migrate data from SynxDB 4.3 or 5 to SynxDB 1 using the standard backup and restore procedures, <code>gpbackup</code> and <code>gprestore</code>, or by using <code>cbcopy</code> for SynxDB.</p>
+<blockquote>
+<p><strong>Note</strong> Open source SynxDB is available only for SynxDB 5 and later.</p>
+</blockquote>
+<blockquote>
+<p><strong>Note</strong> You can upgrade a Greenplum 5.28.10 system directly to SynxDB 1 using <a href="https://docs.vmware.com/en/VMware-SynxDB-Upgrade/index.html">gpupgrade</a>. You cannot upgrade a SynxDB 4.3 system directly to SynxDB 1.</p>
+</blockquote>
+<p>This topic identifies known issues you may encounter when moving data from Greenplum 4.3 to SynxDB 1. You can work around these problems by making needed changes to your Greenplum 4.3 databases so that you can create backups that can be restored successfully to SynxDB 1.</p>
+<ul>
+<li><a href="#prep-gpdb6">Preparing the SynxDB 1 Cluster</a></li>
+<li><a href="#prep-gpdb4">Preparing Greenplum 4.3 and 5 Databases for Backup</a></li>
+<li><a href="#backup-and-restore">Backing Up and Restoring a Database</a></li>
+<li><a href="#after-migration">Completing the Migration</a></li>
+</ul>
+<h2 id="preparing-the-synxdb-1-cluster"><a class="header" href="#preparing-the-synxdb-1-cluster"><a id="prep-gpdb6"></a>Preparing the SynxDB 1 Cluster</a></h2>
+<ul>
+<li>
+<p>Install and initialize a new SynxDB 1 cluster using the }} 1 <code>gpinitsystem</code> utility.</p>
+<blockquote>
+<p><strong>Note</strong> <code>gprestore</code> only supports restoring data to a cluster that has an identical number of hosts and an identical number of segments per host, with each segment having the same <code>content_id</code> as the segment in the original cluster. Use <code>cbcopy</code> (SynxDB) if you need to migrate data to a different-sized SynxDB 1 cluster.</p>
+</blockquote>
+<blockquote>
+<p><strong>Note</strong> Set the SynxDB 1 timezone to a value that is compatible with your host systems. Setting the SynxDB timezone prevents SynxDB from selecting a timezone each time the cluster is restarted. See <a href="localization.html">Configuring Timezone and Localization Settings</a> for more information.</p>
+</blockquote>
+</li>
+<li>
+<p>Install the latest release of the SynxDB Backup and Restore utilities, available to download from <a href="https://www.synxdata.com/">Synx Data Labs</a> or <a href="https://github.com/greenplum-db/gpbackup/releases">github</a>.</p>
+</li>
+<li>
+<p>If you intend to install SynxDB 1 on the same hardware as your 4.3 system, you will need enough disk space to accommodate over five times the original data set (two full copies of the primary and mirror data sets, plus the original backup data in ASCII format) in order to migrate data with <code>gpbackup</code> and <code>gprestore</code>. Keep in mind that the ASCII backup data will require more disk space than the original data, which may be stored in compressed binary format. Offline backup solutions such as Dell EMC Data Domain can reduce the required disk space on each host.</p>
+<p>If you want to migrate your data on the same hardware but do not have enough free disk space on your host systems, <code>cbcopy</code> for SynxDB provides the <code>--truncate-source-after</code> option to truncate each source table after copying the table to the destination cluster and validating that the copy succeeded. This reduces the amount of free space needed to migrate clusters that reside on the same hardware. See <a href="../admin_guide/managing/cbcopy-migrate.html">Migrating Data with cbcopy</a> for more information.</p>
+</li>
+<li>
+<p>Install any external modules used in your Greenplum 4.3 system in the SynxDB 1 system before you restore the backup, for example MADlib or PostGIS. If versions of the external modules are not compatible, you may need to exclude tables that reference them when restoring the Greenplum 4.3 backup to SynxDB 1.</p>
+</li>
+<li>
+<p>The Greenplum 4.3 Oracle Compatibility Functions module is not compatible with SynxDB 1. Uninstall the module from Greenplum 4.3 by running the <code>uninstall_orafunc.sql</code> script before you back up your databases:</p>
+<pre><code>$ $GPHOME/share/postgresql/contrib/uninstall_orafunc.sql
+</code></pre>
+<p>You will also need to drop any dependent database objects that reference compatibility functions.</p>
+<p>Install the Oracle Compatibility Functions in SynxDB 1 by creating the <code>orafce</code> module in each database where you require the functions:</p>
+<pre><code>$ psql -d &lt;dbname&gt; -c 'CREATE EXTENSION orafce'
+</code></pre>
+<p>See <a href="install_modules.html">Installing Additional Supplied Modules</a> for information about installing <code>orafce</code> and other modules.</p>
+</li>
+<li>
+<p>When restoring language-based user-defined functions, the shared object file must be in the location specified in the <code>CREATE FUNCTION</code> SQL command and must have been recompiled on the SynxDB 1 system. This applies to user-defined functions, user-defined types, and any other objects that use custom functions, such as aggregates created with the <code>CREATE AGGREGATE</code> command.</p>
+</li>
+<li>
+<p>SynxDB 1 provides <em>resource groups</em>, an alternative to managing resources using resource queues. Setting the <code>gp_resource_manager</code> server configuration parameter to <code>queue</code> or <code>group</code> selects the resource management scheme the SynxDB system will use. The default is <code>queue</code>, so no action is required when you move from SynxDB version 4.3 to }} 1. To more easily transition from resource queues to resource groups, you can set resource groups to allocate and manage memory in a way that is similar to resource queue memory management. To select this feature, set the <code>MEMORY_LIMIT</code> and <code>MEMORY_SPILL_RATIO</code> attributes of your resource groups to 0. See <a href="../admin_guide/workload_mgmt_resgroups.html">Using Resource Groups</a> for information about enabling and configuring resource groups.</p>
+</li>
+<li>
+<p>Filespaces are removed in SynxDB 1. When creating a tablespace, note that different tablespace locations for a primary-mirror pair is no longer supported in SynxDB 1. See <a href="../admin_guide/ddl/ddl-tablespace.html">Creating and Managing Tablespaces</a> for information about creating and configuring tablespaces.</p>
+</li>
+</ul>
+<h2 id="preparing-greenplum-43-and-5-databases-for-backup"><a class="header" href="#preparing-greenplum-43-and-5-databases-for-backup"><a id="prep-gpdb4"></a>Preparing Greenplum 4.3 and 5 Databases for Backup</a></h2>
+<blockquote>
+<p><strong>Note</strong> A Greenplum 4 system must be at least version 4.3.22 to use the <code>gpbackup</code> and <code>gprestore</code> utilities. A Greenplum 5 system must be at least version 5.5. Be sure to use the latest release of the backup and restore utilities, available for download from <a href="https://www.synxdata.com/">Synx Data Labs</a> or <a href="https://github.com/greenplum-db/gpbackup/releases">github</a>.</p>
+</blockquote>
+<blockquote>
+<p><strong>Important</strong> Make sure that you have a complete backup of all data in the SynxDB 4.3 or 5 cluster, and that you can successfully restore the SynxDB cluster if necessary.</p>
+</blockquote>
+<p>Following are some issues that are known to cause errors when restoring a Greenplum 4.3 or 5 backup to SynxDB 1. Keep a list of any changes you make to the Greenplum 4.3 or 5 database to enable migration so that you can fix them in SynxDB 1 after restoring the backup.</p>
+<ul>
+<li>
+<p>If you have configured PXF in your SynxDB 5 installation, review <a href="../pxf/migrate_5to6.html">Migrating PXF from Greenplum 5</a> to plan for the PXF migration.</p>
+</li>
+<li>
+<p>SynxDB }} 1 removes support for the <code>gphdfs</code> protocol. If you have created external tables that use gphdfs, remove the external table definitions and (optionally) recreate them to use SynxDB Platform Extension Framework (PXF) before you migrate the data to SynxDB 1. Refer to <a href="../pxf/gphdfs-pxf-migrate.html">Migrating gphdfs External Tables to PXF</a> in the PXF documentation for the migration procedure.</p>
+</li>
+<li>
+<p>References to catalog tables or their attributes can cause a restore to fail due to catalog changes from Greenplum 4.3 or 5 to SynxDB 1. Here are some catalog issues to be aware of when migrating to SynxDB 1:</p>
+<ul>
+<li>In the <code>pg_class</code> system table, the <code>reltoastidxid</code> column has been removed.</li>
+<li>In the <code>pg_stat_replication</code> system table, the <code>procpid</code> column is renamed to <code>pid</code>.</li>
+<li>In the <code>pg_stat_activity</code> system table, the <code>procpid</code> column is renamed to <code>pid</code>. The <code>current_query</code> column is replaced by two columns: <code>state</code> (the state of the backend), and <code>query</code> (the last run query, or currently running query if <code>state</code> is <code>active</code>).</li>
+<li>In the <code>gp_distribution_policy</code> system table, the <code>attrnums</code> column is renamed to <code>distkey</code> and its data type is changed to <code>int2vector</code>. A backend function <code>pg_get_table_distributedby()</code> was added to get the distribution policy for a table as a string.</li>
+<li>The <code>__gp_localid</code> and <code>__gp_masterid</code> columns are removed from the <code>session_level_memory_consumption</code> system view in SynxDB 1. The underlying external tables and functions are removed from the <code>gp_toolkit</code> schema.</li>
+<li>Filespaces are removed in SynxDB 1. The <code>pg_filespace</code> and <code>pg_filespace_entry</code> system tables are removed. Any reference to <code>pg_filespace</code> or <code>pg_filespace_entry</code> will fail in SynxDB 1.</li>
+<li>Restoring a Greenplum 4 backup can fail due to lack of dependency checking in Greenplum 4 catalog tables. For example, restoring a UDF can fail if it references a custom data type that is created later in the backup file.</li>
+</ul>
+</li>
+<li>
+<p>The <code>INTO error_table</code> clause of the <code>CREATE EXTERNAL TABLE</code> and <code>COPY</code> commands was deprecated in Greenplum 4.3 and is unsupported in Greenplum 5 and 6. Remove this clause from any external table definitions before you create a backup of your Greenplum 4.3 system. The <code>ERROR_TABLE</code> parameter of the <code>gpload</code> utility load control YAML file must also be removed from any <code>gpload</code> YAML files before you run <code>gpload</code>.</p>
+</li>
+<li>
+<p>The <code>int4_avg_accum()</code> function signature changed in SynxDB 1 from <code>int4_avg_accum(bytea, integer)</code> to <code>int4_avg_accum(bigint[], integer)</code>. This function is the state transition function (<em>sfunc</em>) called when calculating the average of a series of 4-byte integers. If you have created a custom aggregate in a previous SynxDB release that called the built-in <code>int4_avg_accum()</code> function, you will need to revise your aggregate for the new signature.</p>
+</li>
+<li>
+<p>The <code>string_agg(expression)</code> function has been removed from SynxDB 1. The function concatenates text values into a string. You can replace the single argument function with the function <code>string_agg(expression, delimiter)</code> and specify an empty string as the <code>delimiter</code>, for example <code>string_agg(txt_col1, '').</code></p>
+</li>
+<li>
+<p>The <code>offset</code> argument of the <code>lag(value, offset[, default])</code> and <code>lead(value, offset[, default])</code> window functions has changed from data type <code>int8</code> (<code>bigint</code>) in Greenplum 4.3 and 5 to <code>int4</code> (<code>integer</code>) in SynxDB 1. If you used these functions to create views in Greenplum 5, you must remove the views before you migrate to SynxDB 1. Refer to <a href="#laglead">About Migrating Views Created with lag()/lead() Functions</a> for additional information and migration actions.</p>
+</li>
+<li>
+<p><code>gpbackup</code> saves the distribution policy and distribution key for each table in the backup so that data can be restored to the same segment. If a table’s distribution key in the Greenplum 4.3 or 5 database is incompatible with SynxDB 1, <code>gprestore</code> cannot restore the table to the correct segment in the SynxDB 1 database. This can happen if the distribution key in the older SynxDB release has columns with data types not allowed in SynxDB 1 distribution keys, or if the data representation for data types has changed or is insufficient for SynxDB 1 to generate the same hash value for a distribution key. You should correct these kinds of problems by altering distribution keys in the tables before you back up the SynxDB database.</p>
+</li>
+<li>
+<p>SynxDB 1 requires primary keys and unique index keys to match a table’s distribution key. The leaf partitions of partitioned tables must have the same distribution policy as the root partition. These known issues should be corrected in the source SynxDB database before you back up the database:</p>
+<ul>
+<li>If the primary key is different than the distribution key for a table, alter the table to either remove the primary key or change the primary key to match the distribution key.</li>
+<li>If the key columns for a unique index are not a subset of the distribution key columns, before you back up the source database, drop the index and, optionally, recreate it with a compatible key.</li>
+<li>If a partitioned table in the source database has a <code>DISTRIBUTED BY</code> distribution policy, but has leaf partitions that are <code>DISTRIBUTED RANDOMLY</code>, alter the leaf tables to match the root table distribution policy before you back up the source database.</li>
+</ul>
+</li>
+<li>
+<p>In Greenplum 4.3, the name provided for a constraint in a <code>CREATE TABLE</code> command was the name of the index created to enforce the constraint, which could lead to indexes having the same name. In SynxDB 1, duplicate index names are not allowed; restoring from a Greenplum 4.3 backup that has duplicate index names will generate errors.</p>
+</li>
+<li>
+<p>Columns of type <code>abstime</code>, <code>reltime</code>, <code>tinterval</code>, <code>money</code>, or <code>anyarray</code> are not supported as distribution keys in SynxDB 1.</p>
+<p>If you have tables distributed on columns of type <code>abstime</code>, <code>reltime</code>, <code>tinterval</code>, <code>money</code>, or <code>anyarray</code>, use the <code>ALTER TABLE</code> command to set the distribution to <code>RANDOM</code> before you back up the database. After the data is restored, you can set a new distribution policy.</p>
+</li>
+<li>
+<p>In Greenplum 4.3 and 5, it was possible to <code>ALTER</code> a table that has a primary key or unique index to be <code>DISTRIBUTED RANDOMLY</code>. SynxDB 1 does not permit tables <code>DISTRIBUTED RANDOMLY</code> to have primary keys or unique indexes. Restoring such a table from a Greenplum 4.3 or 5 backup will cause an error.</p>
+</li>
+<li>
+<p>SynxDB 1 no longer automatically converts from the deprecated timestamp format <code>YYYYMMDDHH24MISS</code>. The format could not be parsed unambiguously in previous SynxDB releases. You can still specify the <code>YYYYMMDDHH24MISS</code> format in conversion functions such as <code>to_timestamp</code> and <code>to_char</code> for compatibility with other database systems. You can use input formats for converting text to date or timestamp values to avoid unexpected results or query execution failures. For example, this <code>SELECT</code> command returns a timestamp in SynxDB 5 and fails in 6.</p>
+<pre><code>SELECT to_timestamp('20190905140000');
+</code></pre>
+<p>To convert the string to a timestamp in SynxDB 1, you must use a valid format. Both of these commands return a timestamp in SynxDB 1. The first example explicitly specifies a timestamp format. The second example uses the string in a format that SynxDB recognizes.</p>
+<pre><code>SELECT to_timestamp('20190905140000','YYYYMMDDHH24MISS');
+SELECT to_timestamp('201909051 40000');
+</code></pre>
+<p>The timestamp issue also applies when you use the <code>::</code> syntax. In SynxDB 1, the first command returns an error. The second command returns a timestamp.</p>
+<pre><code>SELECT '20190905140000'::timestamp ;
+SELECT '20190905 140000'::timestamp ;
+</code></pre>
+</li>
+<li>
+<p>Creating a table using the <code>CREATE TABLE AS</code> command in Greenplum 4.3 or 5 could create a table with a duplicate distribution key. The <code>gpbackup</code> utility saves the table to the backup using a <code>CREATE TABLE</code> command that lists the duplicate keys in the <code>DISTRIBUTED BY</code> clause. Restoring this backup will cause a duplicate distribution key error. The <code>CREATE TABLE AS</code> command was fixed in Greenplum 5.10 to disallow duplicate distribution keys.</p>
+</li>
+<li>
+<p>Greenplum 4.3 supports foreign key constraints on columns of different types, for example, <code>numeric</code> and <code>bigint</code>, with implicit type conversion. Greenplum 5 and 6 do not support implicit type conversion. Restoring a table with a foreign key on columns with different data types causes an error.</p>
+</li>
+<li>
+<p>Only Boolean operators can use Boolean negators. In SynxDB 4.3 and 5 it was possible to create a non-Boolean operator that specifies a Boolean negator function. For example, this <code>CREATE OPERATOR</code> command creates an integer <code>@@</code> operator with a Boolean negator:</p>
+<pre><code>CREATE OPERATOR public.@@ (
+        PROCEDURE = int4pl,
+        LEFTARG = integer,
+        RIGHTARG = integer,
+        NEGATOR = OPERATOR(public.!!)
+);
+</code></pre>
+<p>If you restore a backup containing an operator like this to a SynxDB 1 system, <code>gprestore</code> produces an error: <code>ERROR: only boolean operators can have negators (SQLSTATE 42P13)</code>.</p>
+</li>
+<li>
+<p>In SynxDB 4.3 and 5, the undocumented server configuration parameter <code>allow_system_table_mods</code> could have a value of <code>none</code>, <code>ddl</code>, <code>dml</code>, or <code>all</code>. In SynxDB 1, this parameter has changed to a Boolean value, with a default value of <code>false</code>. If there are any references to this parameter in the source database, remove them to prevent errors during the restore.</p>
+</li>
+</ul>
+<h3 id="about-migrating-views-created-with-laglead-functions"><a class="header" href="#about-migrating-views-created-with-laglead-functions"><a id="laglead"></a>About Migrating Views Created with lag()/lead() Functions</a></h3>
+<p>The <code>offset</code> argument of the <code>lag(value, offset[, default])</code> and <code>lead(value, offset[, default])</code> window functions has changed from data type <code>int8</code> (<code>bigint</code>) in Greenplum 4.3 and 5 to <code>int4</code> (<code>integer</code>) in SynxDB 1. If you used these functions to create views in Greenplum 5, you must remove the views before you migrate to SynxDB 1.</p>
+<p>In addition to the <code>offset</code> argument data type change, SynxDB 1 removes all data-type-specific <code>lag()</code> and <code>lead()</code> functions:</p>
+<pre><code>&lt;data-type&gt; lag( value &lt;data-type&gt;[, offset bigint[, default &lt;data-type&gt;]] )
+</code></pre>
+<pre><code>&lt;data-type&gt; lead( value &lt;data-type&gt;[, offset bigint[, default &lt;data-type&gt;]] )
+</code></pre>
+<p>And replaces them with these more generic function signatures:</p>
+<pre><code>anyelement lag( value anyelement[, offset integer[, default anyelement]] )
+</code></pre>
+<pre><code>anyelement lead( value anyelement[, offset integer[, default anyelement]] )
+</code></pre>
+<p>To migrate to the <code>lag()</code> and <code>lead()</code> functions in SynxDB 1, you must:</p>
+<ol>
+<li>
+<p>Identify all views in your SynxDB 5 installation that were created using the two- or three-argument <code>lag()</code> or <code>lead()</code> functions. Run the following SQL command to identify the views:</p>
+<pre><code class="language-sql">SELECT ev_class::regclass::text viewname
+  FROM pg_rewrite pgr
+  WHERE ev_action ~
+    (SELECT $$:winfnoid ($$||string_agg(oid::text,'|')||$$) :$$
+      FROM (SELECT DISTINCT oid FROM pg_catalog.pg_proc WHERE (proname, pronamespace) IN
+      (('lag', 11), ('lead', 11)) AND proargtypes[1]=20)s1);
+</code></pre>
+</li>
+<li>
+<p>For each view that you identify:</p>
+<ol>
+<li>
+<p>Note the command that you used to create the view.</p>
+</li>
+<li>
+<p>Drop the view in your Greenplum 5 installation.</p>
+</li>
+<li>
+<p>After you migrate to SynxDB 1:</p>
+<ol>
+<li>Recreate the view, if desired, in your SynxDB 1 installation; be sure to specify an <code>integer</code>-type <code>offset</code> argument to the function. (You are not required to modify the <code>value</code> or <code>default</code> argument types in the function because an <code>anyelement</code> type accepts any data type.)</li>
+<li>If you have any scripts that invoke <code>lag()</code> or <code>lead()</code> functions, ensure that that they reference an <code>integer</code>-type <code>offset</code>.</li>
+</ol>
+</li>
+</ol>
+</li>
+</ol>
+<h2 id="backing-up-and-restoring-a-database"><a class="header" href="#backing-up-and-restoring-a-database"><a id="backup-and-restore"></a>Backing Up and Restoring a Database</a></h2>
+<p>First use <code>gpbackup</code> to create a <code>--metadata-only</code> backup from the source SynxDB database and restore it to the SynxDB 1 system. This helps find any additional problems that are not identified in <a href="#prep-gpdb4">Preparing Greenplum 4.3 and 5 Databases for Backup</a>. Refer to the <a href="../admin_guide/managing/backup-gpbackup.html">SynxDB Backup and Restore documentation</a> for syntax and examples for the <code>gpbackup</code> and <code>gprestore</code> utilities.</p>
+<p>Review the <code>gprestore</code> log file for error messages and correct any remaining problems in the source SynxDB database.</p>
+<p>When you are able to restore a metadata backup successfully, create the full backup and then restore it to the SynxDB 1 system, or use <code>cbcopy</code> (SynxDB) to transfer the data. If needed, use the <code>gpbackup</code> or <code>gprestore</code> filter options to omit schemas or tables that cannot be restored without error.</p>
+<p>If you use <code>cbcopy</code> to migrate SynxDB data, initiate the <code>cbcopy</code> operation from the Greenplum 4.3.26 (or later) or the 5.9 (or later) cluster. See <a href="../admin_guide/managing/cbcopy-migrate.html">Migrating Data with cbcopy</a> for more information.</p>
+<blockquote>
+<p><strong>Important</strong> When you restore a backup taken from a SynxDB 4.3 or 5 system, <code>gprestore</code> warns that the restore will use legacy hash operators when loading the data. This is because SynxDB 1 has new hash algorithms that map distribution keys to segments, but the data in the backup set must be restored to the same segments as the cluster from which the backup was taken. The <code>gprestore</code> utility sets the <code>gp_use_legacy_hashops</code> server configuration parameter to <code>on</code> when restoring to SynxDB 1 from an earlier version so that the restored tables are created using the legacy operator classes instead of the new default operator classes.</p>
+</blockquote>
+<p>After restoring, you can redistribute these tables with the <code>gp_use_legacy_hashops</code> parameter set to <code>off</code> so that the tables use the new SynxDB 1 hash operators. See <a href="#redistribute">Working With Hash Operator Classes in SynxDB 1</a> for more information and examples.</p>
+<h2 id="completing-the-migration"><a class="header" href="#completing-the-migration"><a id="after-migration"></a>Completing the Migration</a></h2>
+<p>Migrate any tables you skipped during the restore using other methods, for example using the <code>COPY TO</code> command to create an external file and then loading the data from the external file into SynxDB 1 with the <code>COPY FROM</code> command.</p>
+<p>Recreate any objects you dropped in the Greenplum 4.3 or 5 database to enable migration, such as external tables, indexes, user-defined functions, or user-defined aggregates.</p>
+<p>Here are some additional items to consider to complete your migration to SynxDB 1.</p>
+<ul>
+<li>SynxDB 5 and 6 remove automatic casts between the text type and other data types. After you migrate from SynxDB version 4.3 to }} 1, this changed behavior may impact existing applications and queries. Refer to <a href="43x_to_5x.html">About Implicit Text Casting in SynxDB</a> for information, including a discussion about Synx Data Labs supported and unsupported workarounds.</li>
+<li>After migrating data you may need to modify SQL scripts, administration scripts, and user-defined functions as necessary to account for changes in SynxDB }} 1. Review the Release Notes for features and changes that may necessitate post-migration tasks.</li>
+<li>To use the new SynxDB 1 default hash operator classes, use the command <code>ALTER TABLE &lt;table&gt; SET DISTRIBUTED BY (&lt;key&gt;)</code> to redistribute tables restored from Greenplum 4.3 or 5 backups. The <code>gp_use_legacy_hashops</code> parameter must be set to <code>off</code> when you run the command. See <a href="#redistribute">Working With Hash Operator Classes in SynxDB 1</a> for more information about hash operator classes.</li>
+</ul>
+<h3 id="working-with-hash-operator-classes-in-synxdb-1"><a class="header" href="#working-with-hash-operator-classes-in-synxdb-1"><a id="redistribute"></a>Working With Hash Operator Classes in SynxDB 1</a></h3>
+<p>SynxDB 1 has new <em>jump consistent</em> hash operators that map distribution keys for distributed tables to the segments. The new hash operators enable faster database expansion because they don’t require redistributing rows unless they map to a different segment. The hash operators used in Greenplum 4.3 and 5 are present in SynxDB 1 as non-default legacy hash operator classes. For example, for integer columns, the new hash operator class is named <code>int_ops</code> and the legacy operator class is named <code>cdbhash_int_ops</code>.</p>
+<p>This example creates a table using the legacy hash operator class <code>cdbhash_int_ops</code>.</p>
+<pre><code>test=# SET gp_use_legacy_hashops=on;
+SET            
+test=# CREATE TABLE t1 (
+    c1 integer,
+    c2 integer,
+    p integer
+) DISTRIBUTED BY (c1);
+CREATE TABLE
+test=# \d+ t1
+                          Table "public.t1"
+ Column |  Type   | Modifiers | Storage | Stats target | Description
+--------+---------+-----------+---------+--------------+-------------
+ c1     | integer |           | plain   |              |
+ c2     | integer |           | plain   |              |
+ p      | integer |           | plain   |              |
+Distributed by: (c1)
+</code></pre>
+<p>Notice that the distribution key is <code>c1</code>. If the <code>gp_use_legacy_hashops</code> parameter is <code>on</code> and the operator class is a legacy operator class, the operator class name is not shown. However, if <code>gp_use_legacy_hashops</code> is <code>off</code>, the legacy operator class name is reported with the distribution key.</p>
+<pre><code>test=# SET gp_use_legacy_hashops=off;
+SET
+test=# \d+ t1
+                          Table "public.t1"
+ Column |  Type   | Modifiers | Storage | Stats target | Description
+--------+---------+-----------+---------+--------------+-------------
+ c1     | integer |           | plain   |              |
+ c2     | integer |           | plain   |              |
+ p      | integer |           | plain   |              |
+Distributed by: (c1 cdbhash_int4_ops)
+</code></pre>
+<p>The operator class name is reported only when it does not match the setting of the <code>gp_use_legacy_hashops</code> parameter.</p>
+<p>To change the table to use the new jump consistent operator class, use the <code>ALTER TABLE</code> command to redistribute the table with the <code>gp_use_legacy_hashops</code> parameter set to <code>off</code>.</p>
+<blockquote>
+<p><strong>Note</strong> Redistributing tables with a large amount of data can take a long time.</p>
+</blockquote>
+<pre><code>test=# SHOW gp_use_legacy_hashops;
+ gp_use_legacy_hashops
+-----------------------
+ off
+(1 row)
+
+test=# ALTER TABLE t1 SET DISTRIBUTED BY (c1);
+ALTER TABLE
+test=# \d+ t1
+                          Table "public.t1"
+ Column |  Type   | Modifiers | Storage | Stats target | Description
+--------+---------+-----------+---------+--------------+-------------
+ c1     | integer |           | plain   |              |
+ c2     | integer |           | plain   |              |
+ p      | integer |           | plain   |              |
+Distributed by: (c1)
+</code></pre>
+<p>To verify the default jump consistent operator class has been used, set <code>gp_use_legacy_hashops</code> to on before you show the table definition.</p>
+<pre><code>test=# SET gp_use_legacy_hashops=on;
+SET
+test=# \d+ t1
+                          Table "public.t1"
+ Column |  Type   | Modifiers | Storage | Stats target | Description
+--------+---------+-----------+---------+--------------+-------------
+ c1     | integer |           | plain   |              |
+ c2     | integer |           | plain   |              |
+ p      | integer |           | plain   |              |
+Distributed by: (c1 int4_ops)
+</code></pre>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../pxf/upgrade_pxf_6x.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../install_guide/migrate-oss-to-vmware.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../pxf/upgrade_pxf_6x.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../install_guide/migrate-oss-to-vmware.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>
