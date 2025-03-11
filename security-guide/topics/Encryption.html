@@ -163,7 +163,6 @@
 <li>SynxDB allows SSL encryption of data in transit between the SynxDB parallel file distribution server, <code>gpfdist</code>, and segment hosts. See <a href="#gpfdist_connections">Encrypting gpfdist Connections</a> for more information. </li>
 <li>The <code>pgcrypto</code> module of encryption/decryption functions protects data at rest in the database. Encryption at the column level protects sensitive information, such as social security numbers or credit card numbers. See <a href="#pgcrypto">Encrypting Data at Rest with pgcrypto</a> for more information.</li>
 </ul>
-<p><strong>Parent topic:</strong> <a href="../topics/preface.html">SynxDB Security Configuration Guide</a></p>
 <h2 id="encrypting-gpfdist-connections"><a class="header" href="#encrypting-gpfdist-connections"><a id="gpfdist_connections"></a>Encrypting gpfdist Connections</a></h2>
 <p>The <code>gpfdists</code> protocol is a secure version of the <code>gpfdist</code> protocol that securely identifies the file server and the SynxDB and encrypts the communications between them. Using <code>gpfdists</code> protects against eavesdropping and man-in-the-middle attacks.</p>
 <p>The <code>gpfdists</code> protocol implements client/server SSL security with the following notable features:</p>

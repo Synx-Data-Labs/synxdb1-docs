@@ -159,7 +159,6 @@
                         <h1 id="text-search-data-types"><a class="header" href="#text-search-data-types">Text Search Data Types</a></h1>
 <p>SynxDB provides two data types that are designed to support full text search, which is the activity of searching through a collection of natural-language <em>documents</em> to locate those that best match a <em>query</em>. The <code>tsvector</code> type represents a document in a form optimized for text search; the <code>tsquery</code> type similarly represents a text query. <a href="../admin_guide/textsearch/full-text-search.html">Using Full Text Search</a> provides a detailed explanation of this facility, and <a href="function-summary.html">Text Search Functions and Operators</a> summarizes the related functions and operators.</p>
 <p>The <code>tsvector</code> and <code>tsquery</code> types cannot be part of the distribution key of a SynxDB table.</p>
-<p><strong>Parent topic:</strong> <a href="data_types.html">Data Types</a></p>
 <h2 id="tsvector"><a class="header" href="#tsvector"><a id="topic_mzv_44c_qfb"></a>tsvector</a></h2>
 <p>A <code>tsvector</code> value is a sorted list of distinct <em>lexemes</em>, which are words that have been <em>normalized</em> to merge different variants of the same word (see <a href="../admin_guide/textsearch/full-text-search.html">Using Full Text Search</a> for details). Sorting and duplicate-elimination are done automatically during input, as shown in this example:</p>
 <pre><code>SELECT 'a fat cat sat on a mat and ate a fat rat'::tsvector;

@@ -173,7 +173,6 @@
 <p><strong><a href="validate.html">Validating Disk I/O and Memory Bandwidth</a></strong></p>
 </li>
 </ul>
-<p><strong>Parent topic:</strong> <a href="install_guide.html">Installing and Upgrading SynxDB</a></p>
 <h2 id="validating-network-performance"><a class="header" href="#validating-network-performance"><a id="topic4"></a>Validating Network Performance</a></h2>
 <p>To test network performance, run <a href="../utility_guide/ref/gpcheckperf.html">gpcheckperf</a> with one of the network test run options: parallel pair test (<code>-r N</code>), serial pair test (<code>-r n</code>), or full matrix test (<code>-r M</code>). The utility runs a network benchmark program that transfers a 5 second stream of data from the current host to each remote host included in the test. By default, the data is transferred in parallel to each remote host and the minimum, maximum, average and median network transfer rates are reported in megabytes (MB) per second. If the summary transfer rate is slower than expected (less than 100 MB/s), you can run the network test serially using the <code>-r n</code> option to obtain per-host results. To run a full-matrix bandwidth test, you can specify <code>-r M</code> which will cause every host to send and receive data from every other host specified. This test is best used to validate if the switch fabric can tolerate a full-matrix workload.</p>
 <p>Most systems in a SynxDB array are configured with multiple network interface cards (NICs), each NIC on its own subnet. When testing network performance, it is important to test each subnet individually. For example, considering the following network configuration of two NICs per host:</p>
@@ -195,7 +194,6 @@
 $ gpcheckperf -f hostfile_gpchecknet_ic2 -r N -d /tmp &gt; subnet2.out
 </code></pre>
 <p>If you have an <em>odd</em> number of hosts to test, you can run in serial test mode (<code>-r n</code>).</p>
-<p><strong>Parent topic:</strong> <a href="validate.html">Validating Your Systems</a></p>
 <h2 id="validating-disk-io-and-memory-bandwidth"><a class="header" href="#validating-disk-io-and-memory-bandwidth"><a id="topic5"></a>Validating Disk I/O and Memory Bandwidth</a></h2>
 <p>To test disk and memory bandwidth performance, run <a href="../utility_guide/ref/gpcheckperf.html">gpcheckperf</a> with the disk and stream test run options (<code>-r ds</code>). The disk test uses the <code>dd</code> command (a standard UNIX utility) to test the sequential throughput performance of a logical disk or file system. The memory test uses the STREAM benchmark program to measure sustainable memory bandwidth. Results are reported in MB per second (MB/s).</p>
 <h3 id="to-run-the-disk-and-stream-tests"><a class="header" href="#to-run-the-disk-and-stream-tests"><a id="jj161569"></a>To run the disk and stream tests</a></h3>
@@ -227,7 +225,6 @@ sdw4
 <p>The utility may take a while to perform the tests as it is copying very large files between the hosts. When it is finished you will see the summary results for the Disk Write, Disk Read, and Stream tests.</p>
 </li>
 </ol>
-<p><strong>Parent topic:</strong> <a href="validate.html">Validating Your Systems</a></p>
 
                     </main>
 

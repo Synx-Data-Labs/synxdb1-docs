@@ -171,7 +171,6 @@
 <p><strong>Note</strong> To simplify the creation of database tables, you can specify the default values for some table storage options with the SynxDB server configuration parameter <code>gp_default_storage_options</code>.</p>
 </blockquote>
 <p>For information about the parameter, see “Server Configuration Parameters” in the <em>SynxDB Reference Guide</em>.</p>
-<p><strong>Parent topic:</strong> <a href="../ddl/ddl.html">Defining Database Objects</a></p>
 <h2 id="heap-storage"><a class="header" href="#heap-storage"><a id="topic37"></a>Heap Storage</a></h2>
 <p>By default, SynxDB uses the same heap storage model as PostgreSQL. Heap table storage works best with OLTP-type workloads where the data is often modified after it is initially loaded. <code>UPDATE</code> and <code>DELETE</code> operations require storing row-level versioning information to ensure reliable database transaction processing. Heap tables are best suited for smaller tables, such as dimension tables, that are often updated after they are initially loaded.</p>
 <h2 id="append-optimized-storage"><a class="header" href="#append-optimized-storage"><a id="topic38"></a>Append-Optimized Storage</a></h2>

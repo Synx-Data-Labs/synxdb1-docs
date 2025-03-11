@@ -168,7 +168,6 @@
 <li><a href="#topic30">Redistributing Tables Using gpexpand</a></li>
 <li><a href="#topic31">Monitoring Table Redistribution</a></li>
 </ul>
-<p><strong>Parent topic:</strong> <a href="../expand/expand-main.html">Expanding a SynxDB System</a></p>
 <h2 id="ranking-tables-for-redistribution"><a class="header" href="#ranking-tables-for-redistribution"><a id="topic29"></a>Ranking Tables for Redistribution</a></h2>
 <p>For large systems, you can control the table redistribution order. Adjust tables’ <code>rank</code> values in the expansion schema to prioritize heavily-used tables and minimize performance impact. Available free disk space can affect table ranking; see <a href="expand-planning.html">Managing Redistribution in Large-Scale SynxDB Systems</a>.</p>
 <p>To rank tables for redistribution by updating <code>rank</code> values in <em><a href="../../ref_guide/system_catalogs/gp_expansion_tables.html">gpexpand.status_detail</a></em>, connect to SynxDB using <code>psql</code> or another supported client. Update <em>gpexpand.status_detail</em> with commands such as:</p>

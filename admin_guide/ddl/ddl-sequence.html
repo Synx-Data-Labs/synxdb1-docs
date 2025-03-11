@@ -163,7 +163,6 @@
 <p><strong>Note</strong> The PostgreSQL <code>currval()</code> and <code>lastval()</code> sequence functions are not supported in SynxDB.</p>
 </blockquote>
 <p>Attributes of a sequence object include the name of the sequence, its increment value, and the last, minimum, and maximum values of the sequence counter. Sequences also have a special boolean attribute named <code>is_called</code> that governs the auto-increment behavior of a <code>nextval()</code> operation on the sequence counter. When a sequence’s <code>is_called</code> attribute is <code>true</code>, <code>nextval()</code> increments the sequence counter before returning the value. When the <code>is_called</code> attribute value of a sequence is <code>false</code>, <code>nextval()</code> does not increment the counter before returning the value.</p>
-<p><strong>Parent topic:</strong> <a href="../ddl/ddl.html">Defining Database Objects</a></p>
 <h2 id="creating-a-sequence"><a class="header" href="#creating-a-sequence"><a id="topic87"></a>Creating a Sequence</a></h2>
 <p>The <a href="../../ref_guide/sql_commands/CREATE_SEQUENCE.html">CREATE SEQUENCE</a> command creates and initializes a sequence with the given sequence name and optional start value. The sequence name must be distinct from the name of any other sequence, table, index, or view in the same schema. For example:</p>
 <pre><code>CREATE SEQUENCE myserial START 101;

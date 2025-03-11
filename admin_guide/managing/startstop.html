@@ -165,7 +165,6 @@
 </blockquote>
 <p>Issuing a <code>kill -9</code> or <code>kill -11</code> can introduce database corruption and prevent root cause analysis from being performed.</p>
 <p>For information about <code>gpstart</code> and <code>gpstop</code>, see the <em>SynxDB Utility Guide</em>.</p>
-<p><strong>Parent topic:</strong> <a href="../managing/partII.html">Managing a SynxDB System</a></p>
 <h2 id="starting-synxdb"><a class="header" href="#starting-synxdb"><a id="task_hkd_gzv_fp"></a>Starting SynxDB</a></h2>
 <p>Start an initialized SynxDB system by running the <code>gpstart</code> utility on the master instance.</p>
 <p>Use the <code>gpstart</code> utility to start a SynxDB system that has already been initialized by the <code>gpinitsystem</code> utility, but has been stopped by the <code>gpstop</code> utility. The <code>gpstart</code> utility starts SynxDB by starting all the Postgres database instances on the SynxDB cluster. <code>gpstart</code> orchestrates this process and performs the process in parallel.</p>

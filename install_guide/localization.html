@@ -158,7 +158,6 @@
                     <main>
                         <h1 id="configuring-timezone-and-localization-settings"><a class="header" href="#configuring-timezone-and-localization-settings">Configuring Timezone and Localization Settings</a></h1>
 <p>Describes the available timezone and localization features of SynxDB.</p>
-<p><strong>Parent topic:</strong> <a href="install_guide.html">Installing and Upgrading SynxDB</a></p>
 <h2 id="configuring-the-timezone"><a class="header" href="#configuring-the-timezone"><a id="topic_fvc_zh1_b2b"></a>Configuring the Timezone</a></h2>
 <p>SynxDB selects a timezone to use from a set of internally stored PostgreSQL timezones. The available PostgreSQL timezones are taken from the Internet Assigned Numbers Authority (IANA) Time Zone Database, and SynxDB updates its list of available timezones as necessary when the IANA database changes for PostgreSQL.</p>
 <p>SynxDB selects the timezone by matching a PostgreSQL timezone with the value of the <code>TimeZone</code> server configuration parameter, or the host system time zone if <code>TimeZone</code> is not set. For example, when selecting a default timezone from the host system time zone, SynxDB uses an algorithm to select a PostgreSQL timezone based on the host system timezone files. If the system timezone includes leap second information, SynxDB cannot match the system timezone with a PostgreSQL timezone. In this case, SynxDB calculates a “best match” with a PostgreSQL timezone based on information from the host system.</p>

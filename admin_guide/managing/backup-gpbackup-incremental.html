@@ -177,7 +177,6 @@
 <p><strong><a href="../managing/backup-gpbackup-incremental.html">Using Incremental Backups</a></strong></p>
 </li>
 </ul>
-<p><strong>Parent topic:</strong> <a href="../managing/backup-gpbackup.html">Parallel Backup with gpbackup and gprestore</a></p>
 <h2 id="about-incremental-backup-sets"><a class="header" href="#about-incremental-backup-sets"><a id="topic_kvf_mkr_t2b"></a>About Incremental Backup Sets</a></h2>
 <p>An incremental backup set includes the following backups:</p>
 <ul>
@@ -204,7 +203,6 @@
 <p>If you do not specify <code>--from-timestamp</code>, <code>gpbackup</code> attempts to find a compatible backup based on information in the <code>gpbackup</code> history file. See <a href="#incr_backup_notes">Incremental Backup Notes</a>.</p>
 </li>
 </ul>
-<p><strong>Parent topic:</strong> <a href="../managing/backup-gpbackup-incremental.html">Creating and Using Incremental Backups with gpbackup and gprestore</a></p>
 <h2 id="using-incremental-backups"><a class="header" href="#using-incremental-backups"><a id="topic_btr_xfr_t2b"></a>Using Incremental Backups</a></h2>
 <ul>
 <li><a href="#incr_backup_scenario">Example Using Incremental Backup Sets</a></li>
@@ -328,7 +326,6 @@ Tables backed up:  4 / 4 [======================================================
 <p>The incremental back up set, a full backup and associated incremental backups, must be on a single device. For example, the backups in a backup set must all be on a file system or must all be on a Data Domain system.</p>
 <p>If you specify the <code>gprestore</code> option <code>--incremental</code> to restore data from a specific incremental backup, you must also specify the <code>--data-only</code> option. Before performing the restore operation, <code>gprestore</code> ensures that the tables being restored exist. If a table does not exist, <code>gprestore</code> returns an error and exits.</p>
 <p><strong>Warning:</strong> Changes to the SynxDB segment configuration invalidate incremental backups. After you change the segment configuration (add or remove segment instances), you must create a full backup before you can create an incremental backup.</p>
-<p><strong>Parent topic:</strong> <a href="../managing/backup-gpbackup-incremental.html">Creating and Using Incremental Backups with gpbackup and gprestore</a></p>
 
                     </main>
 

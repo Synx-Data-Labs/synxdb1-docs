@@ -166,7 +166,6 @@
 <li><a href="#pgb_start">Starting PgBouncer</a></li>
 <li><a href="#topic_manage">Managing PgBouncer</a></li>
 </ul>
-<p><strong>Parent topic:</strong> <a href="../../access_db/topics/g-accessing-the-database.html">Accessing the Database</a></p>
 <h2 id="overview"><a class="header" href="#overview"><a id="topic_nzk_nqg_cs"></a>Overview</a></h2>
 <p>A database connection pool is a cache of database connections. Once a pool of connections is established, connection pooling eliminates the overhead of creating new database connections, so clients connect much faster and the server load is reduced.</p>
 <p>The PgBouncer connection pooler, from the PostgreSQL community, is included in your SynxDB installation. PgBouncer is a light-weight connection pool manager for SynxDB and PostgreSQL. PgBouncer maintains a pool for connections for each database and user combination. PgBouncer either creates a new database connection for a client or reuses an existing connection for the same user and database. When the client disconnects, PgBouncer returns the connection to the pool for re-use.</p>

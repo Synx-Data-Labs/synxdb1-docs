@@ -163,7 +163,6 @@
 <blockquote>
 <p><strong>Note</strong> SynxDB does not support different tablespace locations for a primary-mirror pair with the same content ID. It is only possible to configure different locations for different content IDs. Do not modify symbolic links under the <code>pg_tblspc</code> directory so that primary-mirror pairs point to different file locations; this will lead to erroneous behavior.</p>
 </blockquote>
-<p><strong>Parent topic:</strong> <a href="../ddl/ddl.html">Defining Database Objects</a></p>
 <h2 id="creating-a-tablespace"><a class="header" href="#creating-a-tablespace"><a id="topic13"></a>Creating a Tablespace</a></h2>
 <p>The <code>CREATE TABLESPACE</code> command defines a tablespace. For example:</p>
 <pre><code>CREATE TABLESPACE fastspace LOCATION '/fastdisk/gpdb';

@@ -194,7 +194,6 @@ COMMIT;
 <p>SQL requires a savepoint to be destroyed automatically when another savepoint with the same name is established. In SynxDB, the old savepoint is kept, though only the more recent one will be used when rolling back or releasing. (Releasing the newer savepoint will cause the older one to again become accessible to <a href="ROLLBACK_TO_SAVEPOINT.html">ROLLBACK TO SAVEPOINT</a> and <a href="RELEASE_SAVEPOINT.html">RELEASE SAVEPOINT</a>.) Otherwise, <code>SAVEPOINT</code> is fully SQL conforming.</p>
 <h2 id="see-also"><a class="header" href="#see-also"><a id="section8"></a>See Also</a></h2>
 <p><a href="BEGIN.html">BEGIN</a>, <a href="COMMIT.html">COMMIT</a>, <a href="ROLLBACK.html">ROLLBACK</a>, <a href="RELEASE_SAVEPOINT.html">RELEASE SAVEPOINT</a>, <a href="ROLLBACK_TO_SAVEPOINT.html">ROLLBACK TO SAVEPOINT</a></p>
-<p><strong>Parent topic:</strong> <a href="../sql_commands/sql_ref.html">SQL Commands</a></p>
 
                     </main>
 

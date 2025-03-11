@@ -159,7 +159,6 @@
                         <h1 id="schema-design"><a class="header" href="#schema-design">Schema Design</a></h1>
 <p>Best practices for designing SynxDB schemas.</p>
 <p>SynxDB is an analytical, shared-nothing database, which is much different than a highly normalized, transactional SMP database. SynxDB performs best with a denormalized schema design suited for MPP analytical processing, a star or snowflake schema, with large centralized fact tables connected to multiple smaller dimension tables.</p>
-<p><strong>Parent topic:</strong> <a href="intro.html">SynxDB Best Practices</a></p>
 <h2 id="data-types"><a class="header" href="#data-types"><a id="data_types"></a>Data Types</a></h2>
 <h3 id="use-types-consistently"><a class="header" href="#use-types-consistently"><a id="use_types"></a>Use Types Consistently</a></h3>
 <p>Use the same data types for columns used in joins between tables. If the data types differ, SynxDB must dynamically convert the data type of one of the columns so the data values can be compared correctly. With this in mind, you may need to increase the data type size to facilitate joins to other common objects.</p>

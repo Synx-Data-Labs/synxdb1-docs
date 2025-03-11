@@ -159,7 +159,6 @@
                         <h1 id="investigating-a-performance-problem"><a class="header" href="#investigating-a-performance-problem">Investigating a Performance Problem</a></h1>
 <p>This section provides guidelines for identifying and troubleshooting performance problems in a SynxDB system.</p>
 <p>This topic lists steps you can take to help identify the cause of a performance problem. If the problem affects a particular workload or query, you can focus on tuning that particular workload. If the performance problem is system-wide, then hardware problems, system failures, or resource contention may be the cause.</p>
-<p><strong>Parent topic:</strong> <a href="partV.html">Managing Performance</a></p>
 <h2 id="checking-system-state"><a class="header" href="#checking-system-state"><a id="topic2"></a>Checking System State</a></h2>
 <p>Use the <code>gpstate</code> utility to identify failed segments. A SynxDB system will incur performance degradation when segment instances are down because other hosts must pick up the processing responsibilities of the down segments.</p>
 <p>Failed segments can indicate a hardware failure, such as a failed disk drive or network card. SynxDB provides the hardware verification tool <code>gpcheckperf</code> to help identify the segment hosts with hardware issues.</p>

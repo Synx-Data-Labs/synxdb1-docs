@@ -165,7 +165,6 @@
 <li><a href="#topic30">Window Functions</a></li>
 <li><a href="#topic31">Advanced Aggregate Functions</a></li>
 </ul>
-<p><strong>Parent topic:</strong> <a href="../../query/topics/query.html">Querying Data</a></p>
 <h2 id="using-functions-in-synxdb"><a class="header" href="#using-functions-in-synxdb"><a id="topic27"></a>Using Functions in SynxDB</a></h2>
 <p>When you invoke a function in SynxDB, function attributes control the execution of the function. The volatility attributes (<code>IMMUTABLE</code>, <code>STABLE</code>, <code>VOLATILE</code>) and the <code>EXECUTE ON</code> attributes control two different aspects of function execution. In general, volatility indicates when the function is run, and <code>EXECUTE ON</code> indicates where it is run. The volatility attributes are PostgreSQL based attributes, the <code>EXECUTE ON</code> attributes are SynxDB attributes.</p>
 <p>For example, a function defined with the <code>IMMUTABLE</code> attribute can be run at query planning time, while a function with the <code>VOLATILE</code> attribute must be run for every row in the query. A function with the <code>EXECUTE ON MASTER</code> attribute runs only on the master instance, and a function with the <code>EXECUTE ON ALL SEGMENTS</code> attribute runs on all primary segment instances (not the master).</p>

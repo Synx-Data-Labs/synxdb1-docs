@@ -203,7 +203,6 @@
 <p><strong><a href="gp_toolkit.html">Checking for Uneven Data Distribution</a></strong></p>
 </li>
 </ul>
-<p><strong>Parent topic:</strong> <a href="ref_guide.html">SynxDB Reference Guide</a></p>
 <h2 id="checking-for-tables-that-need-routine-maintenance"><a class="header" href="#checking-for-tables-that-need-routine-maintenance"><a id="topic2"></a>Checking for Tables that Need Routine Maintenance</a></h2>
 <p>The following views can help identify tables that need routine table maintenance (<code>VACUUM</code> and/or <code>ANALYZE</code>).</p>
 <ul>
@@ -212,7 +211,6 @@
 </ul>
 <p>The <code>VACUUM</code> or <code>VACUUM FULL</code> command reclaims disk space occupied by deleted or obsolete rows. Because of the MVCC transaction concurrency model used in SynxDB, data rows that are deleted or updated still occupy physical space on disk even though they are not visible to any new transactions. Expired rows increase table size on disk and eventually slow down scans of the table.</p>
 <p>The <code>ANALYZE</code> command collects column-level statistics needed by the query optimizer. SynxDB uses a cost-based query optimizer that relies on database statistics. Accurate statistics allow the query optimizer to better estimate selectivity and the number of rows retrieved by a query operation in order to choose the most efficient query plan.</p>
-<p><strong>Parent topic:</strong> <a href="gp_toolkit.html">The gp_toolkit Administrative Schema</a></p>
 <h3 id="gp_bloat_diag"><a class="header" href="#gp_bloat_diag"><a id="topic3"></a>gp_bloat_diag</a></h3>
 <p>This view shows regular heap-storage tables that have bloat (the actual number of pages on disk exceeds the expected number of pages given the table statistics). Tables that are bloated require a <code>VACUUM</code> or a <code>VACUUM FULL</code> in order to reclaim disk space occupied by deleted or obsolete rows. This view is accessible to all users, however non-superusers will only be able to see the tables that they have permission to access.</p>
 <blockquote>
@@ -247,7 +245,6 @@
 <li><a href="#topic6">gp_locks_on_relation</a></li>
 <li><a href="#topic7">gp_locks_on_resqueue</a></li>
 </ul>
-<p><strong>Parent topic:</strong> <a href="gp_toolkit.html">The gp_toolkit Administrative Schema</a></p>
 <h3 id="gp_locks_on_relation"><a class="header" href="#gp_locks_on_relation"><a id="topic6"></a>gp_locks_on_relation</a></h3>
 <p>This view shows any locks currently being held on a relation, and the associated session information about the query associated with the lock. For more information on the types of locks, see “Managing Data” in the <em>SynxDB Administrator Guide</em>. This view is accessible to all users, however non-superusers will only be able to see the locks for relations that they have permission to access.</p>
 <div class="table-wrapper"><table><thead><tr><th>Column</th><th>Description</th></tr></thead><tbody>
@@ -285,7 +282,6 @@
 <p>Append-optimized tables may have non-visible rows—rows that have been updated or deleted, but remain in storage until the table is compacted using <code>VACUUM</code>. The hidden rows are tracked using an auxiliary visibility map table, or visimap.</p>
 <p>The following functions let you access the metadata for append-optimized and column-oriented tables and view non-visible rows.</p>
 <p>For most of the functions, the input argument is <code>regclass</code>, either the table <code>name</code> or the <code>oid</code> of a table.</p>
-<p><strong>Parent topic:</strong> <a href="gp_toolkit.html">The gp_toolkit Administrative Schema</a></p>
 <h3 id="__gp_aovisimap_compaction_infooid"><a class="header" href="#__gp_aovisimap_compaction_infooid"><a id="topic_ylp_gxw_yq"></a>__gp_aovisimap_compaction_info(oid)</a></h3>
 <p>This function displays compaction information for an append-optimized table. The information is for the on-disk data files on SynxDB segments that store the table data. You can use the information to determine the data files that will be compacted by a <code>VACUUM</code> operation on an append-optimized table.</p>
 <blockquote>
@@ -413,7 +409,6 @@
 <li><a href="#topic19">gp_log_master_concise</a></li>
 <li><a href="#topic20">gp_log_system</a></li>
 </ul>
-<p><strong>Parent topic:</strong> <a href="gp_toolkit.html">The gp_toolkit Administrative Schema</a></p>
 <h3 id="gp_log_command_timings"><a class="header" href="#gp_log_command_timings"><a id="topic17"></a>gp_log_command_timings</a></h3>
 <p>This view uses an external table to read the log files on the master and report the run time of SQL commands in a database session. The use of this view requires superuser permissions.</p>
 <div class="table-wrapper"><table><thead><tr><th>Column</th><th>Description</th></tr></thead><tbody>
@@ -514,7 +509,6 @@
 <li><a href="#topic22">gp_param_setting(‘parameter_name’)</a></li>
 <li><a href="#topic23">gp_param_settings_seg_value_diffs</a></li>
 </ul>
-<p><strong>Parent topic:</strong> <a href="gp_toolkit.html">The gp_toolkit Administrative Schema</a></p>
 <h3 id="gp_param_settingparameter_name"><a class="header" href="#gp_param_settingparameter_name"><a id="topic22"></a>gp_param_setting(‘parameter_name’)</a></h3>
 <p>This function takes the name of a server configuration parameter and returns the <code>postgresql.conf</code> value for the master and each active segment. This function is accessible to all users.</p>
 <div class="table-wrapper"><table><thead><tr><th>Column</th><th>Description</th></tr></thead><tbody>
@@ -536,7 +530,6 @@
 </div>
 <h2 id="checking-for-failed-segments"><a class="header" href="#checking-for-failed-segments"><a id="topic24"></a>Checking for Failed Segments</a></h2>
 <p>The <a href="#topic25">gp_pgdatabase_invalid</a> view can be used to check for down segments.</p>
-<p><strong>Parent topic:</strong> <a href="gp_toolkit.html">The gp_toolkit Administrative Schema</a></p>
 <h3 id="gp_pgdatabase_invalid"><a class="header" href="#gp_pgdatabase_invalid"><a id="topic25"></a>gp_pgdatabase_invalid</a></h3>
 <p>This view shows information about segments that are marked as down in the system catalog. This view is accessible to all users.</p>
 <div class="table-wrapper"><table><thead><tr><th>Column</th><th>Description</th></tr></thead><tbody>
@@ -559,7 +552,6 @@
 <li><a href="#perhost">gp_resgroup_status_per_host</a></li>
 <li><a href="#perseg">gp_resgroup_status_per_segment</a></li>
 </ul>
-<p><strong>Parent topic:</strong> <a href="gp_toolkit.html">The gp_toolkit Administrative Schema</a></p>
 <h3 id="gp_resgroup_config"><a class="header" href="#gp_resgroup_config"><a id="topic27x"></a>gp_resgroup_config</a></h3>
 <p>The <code>gp_resgroup_config</code> view allows administrators to see the current CPU, memory, and concurrency limits for a resource group.</p>
 <p>This view is accessible to all users.</p>
@@ -659,7 +651,6 @@
 <li><a href="#topic30">gp_resq_role</a></li>
 <li><a href="#topic31">gp_resqueue_status</a></li>
 </ul>
-<p><strong>Parent topic:</strong> <a href="gp_toolkit.html">The gp_toolkit Administrative Schema</a></p>
 <h3 id="gp_resq_activity"><a class="header" href="#gp_resq_activity"><a id="topic27"></a>gp_resq_activity</a></h3>
 <p>For the resource queues that have active workload, this view shows one row for each active statement submitted through a resource queue. This view is accessible to all users.</p>
 <div class="table-wrapper"><table><thead><tr><th>Column</th><th>Description</th></tr></thead><tbody>
@@ -722,7 +713,6 @@
 <li><a href="#topic34">gp_workfile_usage_per_query</a></li>
 <li><a href="#topic35">gp_workfile_usage_per_segment</a></li>
 </ul>
-<p><strong>Parent topic:</strong> <a href="gp_toolkit.html">The gp_toolkit Administrative Schema</a></p>
 <h3 id="gp_workfile_entries"><a class="header" href="#gp_workfile_entries"><a id="topic33"></a>gp_workfile_entries</a></h3>
 <p>This view contains one row for each operator using disk space for workfiles on a segment at the current time. The view is accessible to all users, however non-superusers only to see information for the databases that they have permission to access.</p>
 <div class="table-wrapper"><table><thead><tr><th>Column</th><th>Type</th><th>References</th><th>Description</th></tr></thead><tbody>
@@ -765,7 +755,6 @@
 <h2 id="viewing-users-and-groups-roles"><a class="header" href="#viewing-users-and-groups-roles"><a id="topic36"></a>Viewing Users and Groups (Roles)</a></h2>
 <p>It is frequently convenient to group users (roles) together to ease management of object privileges: that way, privileges can be granted to, or revoked from, a group as a whole. In SynxDB this is done by creating a role that represents the group, and then granting membership in the group role to individual user roles.</p>
 <p>The <a href="#topic37">gp_roles_assigned</a> view can be used to see all of the roles in the system, and their assigned members (if the role is also a group role).</p>
-<p><strong>Parent topic:</strong> <a href="gp_toolkit.html">The gp_toolkit Administrative Schema</a></p>
 <h3 id="gp_roles_assigned"><a class="header" href="#gp_roles_assigned"><a id="topic37"></a>gp_roles_assigned</a></h3>
 <p>This view shows all of the roles in the system, and their assigned members (if the role is also a group role). This view is accessible to all users.</p>
 <div class="table-wrapper"><table><thead><tr><th>Column</th><th>Description</th></tr></thead><tbody>
@@ -798,7 +787,6 @@ toast, sotdadditionalsize as other
 FROM gp_size_of_table_disk as sotd, pg_class 
 WHERE sotd.sotdoid=pg_class.oid ORDER BY relname;
 </code></pre>
-<p><strong>Parent topic:</strong> <a href="gp_toolkit.html">The gp_toolkit Administrative Schema</a></p>
 <h3 id="gp_size_of_all_table_indexes"><a class="header" href="#gp_size_of_all_table_indexes"><a id="topic39"></a>gp_size_of_all_table_indexes</a></h3>
 <p>This view shows the total size of all indexes for a table. This view is accessible to all users, however non-superusers will only be able to see relations that they have permission to access.</p>
 <div class="table-wrapper"><table><thead><tr><th>Column</th><th>Description</th></tr></thead><tbody>
@@ -947,7 +935,6 @@ WHERE sotd.sotdoid=pg_class.oid ORDER BY relname;
 <blockquote>
 <p><strong>Note</strong> By default, the <code>gp_skew_*</code> views do not display data for materialized views. Refer to <a href="#topic_matview">Including Data for Materialized Views</a> for instructions on adding this data to <code>gp_skew_*</code> view output.</p>
 </blockquote>
-<p><strong>Parent topic:</strong> <a href="gp_toolkit.html">The gp_toolkit Administrative Schema</a></p>
 <h3 id="gp_skew_coefficients"><a class="header" href="#gp_skew_coefficients"><a id="topic50"></a>gp_skew_coefficients</a></h3>
 <p>This view shows data distribution skew by calculating the coefficient of variation (CV) for the data stored on each segment. This view is accessible to all users, however non-superusers will only be able to see tables that they have permission to access</p>
 <div class="table-wrapper"><table><thead><tr><th>Column</th><th>Description</th></tr></thead><tbody>

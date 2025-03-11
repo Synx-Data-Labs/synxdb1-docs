@@ -185,7 +185,6 @@ CREATE INDEX myixcolumn_ix ON old_table;
 VACUUM ANALYZE old_table;
 
 </code></pre>
-<p><strong>Parent topic:</strong> <a href="../ddl/ddl.html">Defining Database Objects</a></p>
 <h2 id="index-types"><a class="header" href="#index-types"><a id="topic92"></a>Index Types</a></h2>
 <p>SynxDB supports the Postgres index types B-tree, GiST, SP-GiST, and GIN. Hash indexes are not supported. Each index type uses a different algorithm that is best suited to different types of queries. B-tree indexes fit the most common situations and are the default index type. See <a href="https://www.postgresql.org/docs/9.4/indexes-types.html">Index Types</a> in the PostgreSQL documentation for a description of these types.</p>
 <blockquote>

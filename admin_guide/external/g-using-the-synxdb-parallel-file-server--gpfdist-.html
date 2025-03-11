@@ -167,7 +167,6 @@
 <li><a href="#topic17">Starting and Stopping gpfdist</a></li>
 <li><a href="#topic18">Troubleshooting gpfdist</a></li>
 </ul>
-<p><strong>Parent topic:</strong> <a href="../external/g-working-with-file-based-ext-tables.html">Working with External Data</a></p>
 <h2 id="about-gpfdist-and-external-tables"><a class="header" href="#about-gpfdist-and-external-tables"><a id="topic_xkt_vjy_4bb"></a>About gpfdist and External Tables</a></h2>
 <p>The <code>gpfdist</code> file server utility is located in the <code>$GPHOME/bin</code> directory on your SynxDB master host and on each segment host. When you start a <code>gpfdist</code> instance you specify a listen port and the path to a directory containing files to read or where files are to be written. For example, this command runs <code>gpfdist</code> in the background, listening on port 8801, and serving files in the <code>/home/gpadmin/external_files</code> directory:</p>
 <pre><code>$ gpfdist -p 8801 -d /home/gpadmin/external_files &amp;

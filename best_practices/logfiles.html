@@ -185,7 +185,6 @@
 <p>Use <code>gplogfilter -t</code> (<code>--trouble</code>) first to search the master log for messages beginning with <code>ERROR:</code>, <code>FATAL:</code>, or <code>PANIC:</code>. Messages beginning with <code>WARNING</code> may also provide useful information.</p>
 <p>To search log files on the segment hosts, use the SynxDB <code>gplogfilter</code> utility with <code>gpssh</code> to connect to segment hosts from the master host. You can identify corresponding log entries in segment logs by the <code>statement_id</code>.</p>
 <p>SynxDB can be configured to rotate database logs based on the size and/or age of the current log file. The <code>log_rotation_size</code> configuration parameter sets the size of an individual log file that triggers rotation. When the current log file size is equal to or greater than this size, the file is closed and a new log file is created. The <code>log_rotation_age</code> configuration parameter specifies the age of the current log file that triggers rotation. When the specified time has elapsed since the current log file was created, a new log file is created. The default <code>log_rotation_age</code>, 1d, creates a new log file 24 hours after the current log file was created.</p>
-<p><strong>Parent topic:</strong> <a href="maintenance.html">System Monitoring and Maintenance</a></p>
 
                     </main>
 

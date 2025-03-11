@@ -165,7 +165,6 @@
 <li><a href="#simple_example">Simple Failover and Recovery Example</a></li>
 <li><a href="#types_of_recovery">The Three Types of Segment Recovery</a></li>
 </ul>
-<p><strong>Parent topic:</strong> <a href="../../highavail/topics/g-enabling-high-availability-features.html">Enabling High Availability and Data Consistency Features</a></p>
 <h2 id="segment-recovery-basics"><a class="header" href="#segment-recovery-basics"><a id="recovery_basics"></a>Segment Recovery Basics</a></h2>
 <p>If the master cannot connect to a segment instance, it marks that segment as down in the SynxDB <code>gp_segment_configuration</code> table. The segment instance remains offline until an administrator takes steps to bring the segment back online. The process for recovering a down segment instance or host depends on the cause of the failure and on whether or not mirroring is enabled. A segment instance can be marked as down for a number of reasons:</p>
 <ul>

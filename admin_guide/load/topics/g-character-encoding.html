@@ -165,7 +165,6 @@
 <blockquote>
 <p><strong>Note</strong> If you <em>change</em> the <code>ENCODING</code> value in an existing <code>gpload</code> control file, you must manually drop any external tables that were creating using the previous <code>ENCODING</code> configuration. <code>gpload</code> does not drop and recreate external tables to use the new <code>ENCODING</code> if <code>REUSE_TABLES</code> is set to <code>true</code>.</p>
 </blockquote>
-<p><strong>Parent topic:</strong> <a href="../../load/topics/g-formatting-data-files.html">Formatting Data Files</a></p>
 <h2 id="changing-the-client-side-character-encoding"><a class="header" href="#changing-the-client-side-character-encoding"><a id="topic103"></a>Changing the Client-Side Character Encoding</a></h2>
 <p>The client-side character encoding can be changed for a session by setting the server configuration parameter <code>client_encoding</code></p>
 <pre><code>SET client_encoding TO 'latin1';

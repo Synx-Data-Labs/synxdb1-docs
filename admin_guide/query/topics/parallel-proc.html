@@ -159,7 +159,6 @@
                         <h1 id="about-synxdb-query-processing"><a class="header" href="#about-synxdb-query-processing">About SynxDB Query Processing</a></h1>
 <p>This topic provides an overview of how SynxDB processes queries. Understanding this process can be useful when writing and tuning queries.</p>
 <p>Users issue queries to SynxDB as they would to any database management system. They connect to the database instance on the SynxDB master host using a client application such as <code>psql</code> and submit SQL statements.</p>
-<p><strong>Parent topic:</strong> <a href="../../query/topics/query.html">Querying Data</a></p>
 <h2 id="understanding-query-planning-and-dispatch"><a class="header" href="#understanding-query-planning-and-dispatch"><a id="topic2"></a>Understanding Query Planning and Dispatch</a></h2>
 <p>The master receives, parses, and optimizes the query. The resulting query plan is either parallel or targeted. The master dispatches parallel query plans to all segments, as shown in <a href="#iy139990">Figure 1</a>. The master dispatches targeted query plans to a single segment, as shown in <a href="#iy145883">Figure 2</a>. Each segment is responsible for running local database operations on its own set of data.</p>
 <p>Most database operations—such as table scans, joins, aggregations, and sorts—run across all segments in parallel. Each operation is performed on a segment database independent of the data stored in the other segment databases.</p>

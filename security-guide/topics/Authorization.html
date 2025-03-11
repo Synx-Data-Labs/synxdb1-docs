@@ -158,7 +158,6 @@
                     <main>
                         <h1 id="configuring-database-authorization"><a class="header" href="#configuring-database-authorization">Configuring Database Authorization</a></h1>
 <p>Describes how to restrict authorization access to database data at the user level by using roles and permissions.</p>
-<p><strong>Parent topic:</strong> <a href="../topics/preface.html">SynxDB Security Configuration Guide</a></p>
 <h2 id="access-permissions-and-roles"><a class="header" href="#access-permissions-and-roles"><a id="topic_k35_qtx_kr"></a>Access Permissions and Roles</a></h2>
 <p>SynxDB manages database access permissions using <em>roles</em>. The concept of roles subsumes the concepts of users and groups. A role can be a database user, a group, or both. Roles can own database objects (for example, tables) and can assign privileges on those objects to other roles to control access to the objects. Roles can be members of other roles, thus a member role can inherit the object privileges of its parent role.</p>
 <p>Every SynxDB system contains a set of database roles (users and groups). Those roles are separate from the users and groups managed by the operating system on which the server runs. However, for convenience you may want to maintain a relationship between operating system user names and SynxDB role names, since many of the client applications use the current operating system user name as the default.</p>

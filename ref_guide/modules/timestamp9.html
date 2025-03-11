@@ -176,7 +176,7 @@
 <p>The <code>TIMESTAMP9</code> data type is identical to the <code>TIMESTAMP9_LTZ</code> data type. Please see the next section for details.</p>
 <h3 id="more-about-timestamp9_ltz"><a class="header" href="#more-about-timestamp9_ltz">More about <code>TIMESTAMP9_LTZ</code></a></h3>
 <p><code>LTZ</code> is an abbreviation for “Local Time Zone.” SynxDB stores <code>TIMESTAMP9_LTZ</code> internally in UTC (Universal Coordinated Time, traditionally known as Greenwich Mean Time or GMT) time. An input value that has an explicit time zone specified is converted to UTC using the appropriate offset for that time zone.</p>
-<p>If no time zone is specified in the input string, then it is presumed to be in the time zone indicated by the system’s <a href="https://docs.vmware.com/en/VMware-SynxDB/6/greenplum-database/ref_guide-config_params-guc-list.html#timezone"><code>TIMEZONE</code> server configuration parameter</a> and is converted to UTC using the offset for the time zone.</p>
+<p>If no time zone is specified in the input string, then it is presumed to be in the time zone indicated by the system’s <code>TIMEZONE</code> server configuration parameter and is converted to UTC using the offset for the time zone.</p>
 <p>See <a href="#timestamp9_ltz-examples">TIMESTAMP9_LTZ Examples</a> for examples using this data type.</p>
 <h3 id="more-about-tiimestamp9_ntz"><a class="header" href="#more-about-tiimestamp9_ntz">More about <code>TIIMESTAMP9_NTZ</code></a></h3>
 <p><code>NTZ</code> is an abbreviation of ‘No Time Zone.’ SynxDB stores UTC time internally without considering any time zone information. If a time zone is embedded in the timestamp string, SynxDB will simply ignore it.</p>

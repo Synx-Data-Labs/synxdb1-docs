@@ -167,12 +167,10 @@
 <p><strong><a href="env_var_ref.html">Optional Environment Variables</a></strong></p>
 </li>
 </ul>
-<p><strong>Parent topic:</strong> <a href="install_guide.html">Installing and Upgrading SynxDB</a></p>
 <h2 id="required-environment-variables"><a class="header" href="#required-environment-variables"><a id="topic2"></a>Required Environment Variables</a></h2>
 <blockquote>
 <p><strong>Note</strong> <code>GPHOME</code>, <code>PATH</code> and <code>LD_LIBRARY_PATH</code> can be set by sourcing the <code>synxdb_path.sh</code> file from your SynxDB installation directory</p>
 </blockquote>
-<p><strong>Parent topic:</strong> <a href="env_var_ref.html">SynxDB Environment Variables</a></p>
 <h3 id="gphome"><a class="header" href="#gphome"><a id="topic3"></a>GPHOME</a></h3>
 <p>This is the installed location of your SynxDB software. For example:</p>
 <pre><code>GPHOME=/usr/local/greenplum-db-6.18.1
@@ -195,7 +193,6 @@ export MASTER_DATA_DIRECTORY
 </code></pre>
 <h2 id="optional-environment-variables"><a class="header" href="#optional-environment-variables"><a id="topic7"></a>Optional Environment Variables</a></h2>
 <p>The following are standard PostgreSQL environment variables, which are also recognized in SynxDB. You may want to add the connection-related environment variables to your profile for convenience, so you do not have to type so many options on the command line for client connections. Note that these environment variables should be set on the SynxDB master host only.</p>
-<p><strong>Parent topic:</strong> <a href="env_var_ref.html">SynxDB Environment Variables</a></p>
 <h3 id="pgappname"><a class="header" href="#pgappname"><a id="topic8"></a>PGAPPNAME</a></h3>
 <p>The name of the application that is usually set by an application when it connects to the server. This name is displayed in the activity view and in log entries. The <code>PGAPPNAME</code> environmental variable behaves the same as the <code>application_name</code> connection parameter. The default value for <code>application_name</code> is <code>psql</code>. The name cannot be longer than 63 characters.</p>
 <h3 id="pgdatabase"><a class="header" href="#pgdatabase"><a id="topic9"></a>PGDATABASE</a></h3>

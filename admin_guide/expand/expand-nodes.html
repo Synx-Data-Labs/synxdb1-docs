@@ -164,7 +164,6 @@
 <blockquote>
 <p><strong>Note</strong> Preparing host systems for use by a SynxDB system assumes that the new hosts’ operating system has been properly configured to match the existing hosts, described in <a href="../../install_guide/prep_os.html">Configuring Your Systems</a>.</p>
 </blockquote>
-<p><strong>Parent topic:</strong> <a href="../expand/expand-main.html">Expanding a SynxDB System</a></p>
 <h2 id="adding-new-hosts-to-the-trusted-host-environment"><a class="header" href="#adding-new-hosts-to-the-trusted-host-environment"><a id="topic18"></a>Adding New Hosts to the Trusted Host Environment</a></h2>
 <p>New hosts must exchange SSH keys with the existing hosts to enable SynxDB administrative utilities to connect to all segments without a password prompt. Perform the key exchange process twice with the <a href="../../utility_guide/ref/gpssh-exkeys.html">gpssh-exkeys</a> utility.</p>
 <p>First perform the process as <code>root</code>, for administration convenience, and then as the user <code>gpadmin</code>, for management utilities. Perform the following tasks in order:</p>

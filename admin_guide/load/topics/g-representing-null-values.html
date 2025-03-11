@@ -158,7 +158,6 @@
                     <main>
                         <h1 id="representing-null-values"><a class="header" href="#representing-null-values">Representing NULL Values</a></h1>
 <p><code>NULL</code> represents an unknown piece of data in a column or field. Within your data files you can designate a string to represent null values. The default string is <code>\N</code> (backslash-N) in <code>TEXT</code> mode, or an empty value with no quotations in <code>CSV</code> mode. You can also declare a different string using the <code>NULL</code> clause of <code>COPY</code>, <code>CREATE EXTERNAL TABLE</code>or <code>gpload</code> when defining your data format. For example, you can use an empty string if you do not want to distinguish nulls from empty strings. When using the SynxDB loading tools, any data item that matches the designated null string is considered a null value.</p>
-<p><strong>Parent topic:</strong> <a href="../../load/topics/g-formatting-data-files.html">Formatting Data Files</a></p>
 
                     </main>
 

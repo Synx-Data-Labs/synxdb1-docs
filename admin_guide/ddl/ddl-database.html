@@ -159,7 +159,6 @@
                         <h1 id="creating-and-managing-databases"><a class="header" href="#creating-and-managing-databases">Creating and Managing Databases</a></h1>
 <p>A SynxDB system is a single instance of SynxDB. There can be several separate SynxDB systems installed, but usually just one is selected by environment variable settings. See your SynxDB administrator for details.</p>
 <p>There can be multiple databases in a SynxDB system. This is different from some database management systems (such as Oracle) where the database instance <em>is</em> the database. Although you can create many databases in a SynxDB system, client programs can connect to and access only one database at a time — you cannot cross-query between databases.</p>
-<p><strong>Parent topic:</strong> <a href="../ddl/ddl.html">Defining Database Objects</a></p>
 <h2 id="about-template-and-default-databases"><a class="header" href="#about-template-and-default-databases"><a id="topic3"></a>About Template and Default Databases</a></h2>
 <p>SynxDB provides some template databases and a default database, <em>template1</em>, <em>template0</em>, and <em>postgres</em>.</p>
 <p>By default, each new database you create is based on a <em>template</em> database. SynxDB uses <em>template1</em> to create databases unless you specify another template. Creating objects in <em>template1</em> is not recommended. The objects will be in every database you create using the default template database.</p>

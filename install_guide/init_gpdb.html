@@ -166,7 +166,6 @@
 <li><a href="#topic8">Setting SynxDB Environment Variables</a></li>
 <li><a href="#topic9">Next Steps</a></li>
 </ul>
-<p><strong>Parent topic:</strong> <a href="install_guide.html">Installing and Upgrading SynxDB</a></p>
 <h2 id="overview"><a class="header" href="#overview"><a id="topic2"></a>Overview</a></h2>
 <p>Because SynxDB is distributed, the process for initializing a SynxDB management system (DBMS) involves initializing several individual PostgreSQL database instances (called <em>segment instances</em> in SynxDB).</p>
 <p>Each database instance (the master and all segments) must be initialized across all of the hosts in the system in such a way that they can all work together as a unified DBMS. SynxDB provides its own version of <code>initdb</code> called <a href="../utility_guide/ref/gpinitsystem.html">gpinitsystem</a>, which takes care of initializing the database on the master and on each segment instance, and starting each instance in the correct order.</p>

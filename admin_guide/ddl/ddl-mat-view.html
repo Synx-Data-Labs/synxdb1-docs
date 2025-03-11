@@ -176,7 +176,6 @@ CREATE UNIQUE INDEX sales_summary_seller
 <p>If you can tolerate periodic updates of materialized view data, the performance benefit can be substantial.</p>
 <p>One use of a materialized view is to allow faster access to data brought in from an external data source such as external table or a foreign data wrapper. Also, you can define indexes on a materialized view, whereas foreign data wrappers do not support indexes; this advantage might not apply for other types of external data access.</p>
 <p>If a subquery is associated with a single query, consider using the <code>WITH</code> clause of the <code>SELECT</code> command instead of creating a seldom-used materialized view.</p>
-<p><strong>Parent topic:</strong> <a href="../ddl/ddl.html">Defining Database Objects</a></p>
 <h2 id="creating-materialized-views"><a class="header" href="#creating-materialized-views"><a id="topic_hn3_xy5_kjb"></a>Creating Materialized Views</a></h2>
 <p>The <code>CREATE MATERIALIZED VIEW</code>command defines a materialized view based on a query.</p>
 <pre><code>CREATE MATERIALIZED VIEW us_users AS SELECT u.id, u.name, a.zone FROM users u, address a WHERE a.country = 'USA';

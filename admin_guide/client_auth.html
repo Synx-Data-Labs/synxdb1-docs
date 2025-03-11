@@ -169,7 +169,6 @@ You can configure Linux client applications to connect to a SynxDB system that i
 <li><strong><a href="kerberos-win-client.html">Configuring Kerberos For Windows Clients</a></strong><br />
 You can configure Microsoft Windows client applications to connect to a SynxDB system that is configured to authenticate with Kerberos.</li>
 </ul>
-<p><strong>Parent topic:</strong> <a href="partIII.html">Managing SynxDB Access</a></p>
 <h2 id="allowing-connections-to-synxdb"><a class="header" href="#allowing-connections-to-synxdb"><a id="topic2"></a>Allowing Connections to SynxDB</a></h2>
 <p>Client access and authentication is controlled by the standard PostgreSQL host-based authentication file, pg_hba.conf. For detailed information about this file, see <a href="https://www.postgresql.org/docs/9.4/auth-pg-hba-conf.html">The pg_hba.conf File</a> in the PostgreSQL documentation.</p>
 <p>In SynxDB, the pg_hba.conf file of the master instance controls client access and authentication to your SynxDB system. The SynxDB segments also have pg_hba.conf files, but these are already correctly configured to allow only client connections from the master host. The segments never accept outside client connections, so there is no need to alter the <code>pg_hba.conf</code> file on segments.</p>

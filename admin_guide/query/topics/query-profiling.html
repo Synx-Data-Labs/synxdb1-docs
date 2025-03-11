@@ -176,7 +176,6 @@
 <pre><code>SET gp_log_dynamic_partition_pruning = on;
 </code></pre>
 <p>For information about GPORCA, see <a href="query.html">Querying Data</a>.</p>
-<p><strong>Parent topic:</strong> <a href="../../query/topics/query.html">Querying Data</a></p>
 <h2 id="reading-explain-output"><a class="header" href="#reading-explain-output"><a id="topic40"></a>Reading EXPLAIN Output</a></h2>
 <p>A query plan is a tree of nodes. Each node in the plan represents a single operation, such as a table scan, join, aggregation, or sort.</p>
 <p>Read plans from the bottom to the top: each node feeds rows into the node directly above it. The bottom nodes of a plan are usually table scan operations: sequential, index, or bitmap index scans. If the query requires joins, aggregations, sorts, or other operations on the rows, there are additional nodes above the scan nodes to perform these operations. The topmost plan nodes are usually SynxDB motion nodes: redistribute, explicit redistribute, broadcast, or gather motions. These operations move rows between segment instances during query processing.</p>

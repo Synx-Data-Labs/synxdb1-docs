@@ -193,7 +193,6 @@
 <p><strong><a href="../managing/backup-plugin-api.html">Backup/Restore Storage Plugin API</a></strong></p>
 </li>
 </ul>
-<p><strong>Parent topic:</strong> <a href="../managing/backup-main.html">Backing Up and Restoring Databases</a></p>
 <h2 id="requirements-and-limitations"><a class="header" href="#requirements-and-limitations"><a id="topic_vh5_1hd_tbb"></a>Requirements and Limitations</a></h2>
 <p>The <code>gpbackup</code> and <code>gprestore</code> utilities are compatible with these SynxDB versions:</p>
 <ul>
@@ -234,7 +233,6 @@
 <p>A backup created with <code>gpbackup</code> can only be restored to a SynxDB cluster with the same number of segment instances as the source cluster. If you run <code>gpexpand</code> to add segments to the cluster, backups you made before starting the expand cannot be restored after the expansion has completed.</p>
 </li>
 </ul>
-<p><strong>Parent topic:</strong> <a href="../managing/backup-gpbackup.html">Parallel Backup with gpbackup and gprestore</a></p>
 <h2 id="objects-included-in-a-backup-or-restore"><a class="header" href="#objects-included-in-a-backup-or-restore"><a id="topic_x3s_lqj_tbb"></a>Objects Included in a Backup or Restore</a></h2>
 <p>The following table lists the objects that are backed up and restored with <code>gpbackup</code> and <code>gprestore</code>. Database objects are backed up for the database you specify with the <code>--dbname</code> option. Global objects (SynxDB system objects) are also backed up by default, but they are restored only if you include the <code>--with-globals</code> option to <code>gprestore</code>.</p>
 <table class="table frame-all" id="topic_x3s_lqj_tbb__table_vqq_3rj_tbb"><caption><span class="table--title-label">Table 1. </span><span class="title">Objects that are backed up and restored</span></caption><colgroup><col style="width:50%"><col style="width:50%"></colgroup><thead class="thead">
@@ -300,7 +298,6 @@
 </ul>
 <p>When restoring to an existing database, <code>gprestore</code> assumes the <code>public</code> schema exists when restoring objects to the <code>public</code> schema. When restoring to a new database (with the <code>--create-db</code> option), <code>gprestore</code> creates the <code>public</code> schema automatically when creating a database with the <code>CREATE DATABASE</code> command. The command uses the <code>template0</code> database that contains the <code>public</code> schema.</p>
 <p>See also <a href="#topic_xnj_b4c_tbb">Understanding Backup Files</a>.</p>
-<p><strong>Parent topic:</strong> <a href="../managing/backup-gpbackup.html">Parallel Backup with gpbackup and gprestore</a></p>
 <h2 id="performing-basic-backup-and-restore-operations"><a class="header" href="#performing-basic-backup-and-restore-operations"><a id="topic_qgj_b3d_tbb"></a>Performing Basic Backup and Restore Operations</a></h2>
 <p>To perform a complete backup of a database, as well as SynxDB system metadata, use the command:</p>
 <pre><code>$ gpbackup --dbname &lt;database_name&gt;
@@ -430,7 +427,6 @@ Restore Status: Success
 <li><strong>1</strong> – Backup or restore completed with non-fatal errors. See log file for more information.</li>
 <li><strong>2</strong> – Backup or restore failed with a fatal error. See log file for more information.</li>
 </ul>
-<p><strong>Parent topic:</strong> <a href="../managing/backup-gpbackup.html">Parallel Backup with gpbackup and gprestore</a></p>
 <h2 id="filtering-the-contents-of-a-backup-or-restore"><a class="header" href="#filtering-the-contents-of-a-backup-or-restore"><a id="topic_et4_b5d_tbb"></a>Filtering the Contents of a Backup or Restore</a></h2>
 <p><code>gpbackup</code> backs up all schemas and tables in the specified database, unless you exclude or include individual schema or table objects with schema level or table level filter options.</p>
 <p>The schema level options are <code>--include-schema</code>, <code>--include-schema-file</code>, or <code>--exclude-schema</code>, <code>--exclude-schema-file</code> command-line options to <code>gpbackup</code>. For example, if the “demo” database includes only two schemas, “wikipedia” and “twitter,” both of the following commands back up only the “wikipedia” schema:</p>
@@ -527,7 +523,6 @@ public.sales_1_prt_dec17
 <p>When restoring a backup set that contains data from some leaf partitions of a partitioned table, the partitioned table is restored along with the data for the leaf partitions. For example, you create a backup with the <code>gpbackup</code> option <code>--include-table-file</code> and the text file lists some leaf partitions of a partitioned table. Restoring the backup creates the partitioned table and restores the data only for the leaf partitions listed in the file.</p>
 </li>
 </ul>
-<p><strong>Parent topic:</strong> <a href="../managing/backup-gpbackup.html">Parallel Backup with gpbackup and gprestore</a></p>
 <h2 id="configuring-email-notifications"><a class="header" href="#configuring-email-notifications"><a id="topic_qwd_d5d_tbb"></a>Configuring Email Notifications</a></h2>
 <p><code>gpbackup</code> and <code>gprestore</code> can send email notifications after a back up or restore operation completes.</p>
 <p>To have <code>gpbackup</code> or <code>gprestore</code> send out status email notifications, you must place a file named <code>gp_email_contacts.yaml</code> in the home directory of the user running <code>gpbackup</code> or <code>gprestore</code> in the same directory as the utilities (<code>$GPHOME/bin</code>). A utility issues a message if it cannot locate a <code>gp_email_contacts.yaml</code> file in either location. If both locations contain a <code>.yaml</code> file, the utility uses the file in user <code>$HOME</code>.</p>
@@ -536,7 +531,6 @@ public.sales_1_prt_dec17
 </code></pre>
 <p>The email contains summary information about the operation including options, duration, and number of objects backed up or restored. For information about the contents of a notification email, see <a href="#report_files">Report Files</a>.</p>
 <p><strong>Note:</strong> The UNIX mail utility must be running on the SynxDB host and must be configured to allow the SynxDB superuser (<code>gpadmin</code>) to send email. Also ensure that the mail program executable is locatable via the <code>gpadmin</code> user’s <code>$PATH</code>.</p>
-<p><strong>Parent topic:</strong> <a href="../managing/backup-gpbackup.html">Parallel Backup with gpbackup and gprestore</a></p>
 <h3 id="gpbackup-and-gprestore-email-file-format"><a class="header" href="#gpbackup-and-gprestore-email-file-format"><a id="topic_uq5_v5v_scb"></a>gpbackup and gprestore Email File Format</a></h3>
 <p>The <code>gpbackup</code> and <code>gprestore</code> email notification YAML file <code>gp_email_contacts.yaml</code> uses indentation (spaces) to determine the document hierarchy and the relationships of the sections to one another. The use of white space is significant. White space should not be used simply for formatting purposes, and tabs should not be used at all.</p>
 <p><strong>Note:</strong> If the <code>status</code> parameters are not specified correctly, the utility does not issue a warning. For example, if the <code>success</code> parameter is misspelled and is set to <code>true</code>, a warning is not issued and an email is not sent to the email address after a successful operation. To ensure email notification is configured correctly, run tests with email notifications configured.</p>
@@ -697,7 +691,6 @@ public.sales_1_prt_dec17
 <li>&lt;oid&gt; is the object ID of the table. The metadata file gpbackup_&lt;YYYYMMDDHHMMSS&gt;_toc.yaml references this &lt;oid&gt; to locate the data for a specific table in a schema.</li>
 </ul>
 <p>You can optionally specify the gzip compression level (from 1-9) using the <code>--compression-level</code> option, or disable compression entirely with <code>--no-compression</code>. If you do not specify a compression level, <code>gpbackup</code> uses compression level 1 by default.</p>
-<p><strong>Parent topic:</strong> <a href="../managing/backup-gpbackup.html">Parallel Backup with gpbackup and gprestore</a></p>
 
                     </main>
 

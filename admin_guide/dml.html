@@ -169,7 +169,6 @@
 <li><a href="#topic9">Vacuuming the Database</a></li>
 <li><a href="#topic11">Running Out of Locks</a></li>
 </ul>
-<p><strong>Parent topic:</strong> <a href="admin_guide.html">SynxDB Administrator Guide</a></p>
 <h2 id="about-concurrency-control-in-synxdb"><a class="header" href="#about-concurrency-control-in-synxdb"><a id="topic2"></a>About Concurrency Control in SynxDB</a></h2>
 <p>SynxDB and PostgreSQL do not use locks for concurrency control. They maintain data consistency using a multiversion model, Multiversion Concurrency Control (MVCC). MVCC achieves transaction isolation for each database session, and each query transaction sees a snapshot of data. This ensures the transaction sees consistent data that is not affected by other concurrent transactions.</p>
 <p>Because MVCC does not use explicit locks for concurrency control, lock contention is minimized and SynxDB maintains reasonable performance in multiuser environments. Locks acquired for querying (reading) data do not conflict with locks acquired for writing data.</p>

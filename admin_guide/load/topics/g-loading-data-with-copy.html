@@ -160,7 +160,6 @@
 <p><code>COPY FROM</code> copies data from a file or standard input into a table and appends the data to the table contents. <code>COPY</code> is non-parallel: data is loaded in a single process using the SynxDB master instance. Using <code>COPY</code> is only recommended for very small data files.</p>
 <p>The <code>COPY</code> source file must be accessible to the <code>postgres</code> process on the master host. Specify the <code>COPY</code> source file name relative to the data directory on the master host, or specify an absolute path.</p>
 <p>SynxDB copies data from <code>STDIN</code> or <code>STDOUT</code> using the connection between the client and the master server.</p>
-<p><strong>Parent topic:</strong> <a href="../../load/topics/g-loading-and-unloading-data.html">Loading and Unloading Data</a></p>
 <h2 id="loading-from-a-file"><a class="header" href="#loading-from-a-file"><a id="topic1"></a>Loading From a File</a></h2>
 <p>The <code>COPY</code> command asks the <code>postgres</code> backend to open the specified file, read it and append it to the table. In order to be able to read the file, the backend needs to have read permissions on the file, and the file name must be specified using an absolute path on the master host, or a relative path to the master data directory.</p>
 <pre><code>COPY &lt;table_name&gt; FROM &lt;/path/to/filename&gt;;
