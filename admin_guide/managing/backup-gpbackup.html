@@ -243,7 +243,7 @@
                 <td class="entry colsep-1 rowsep-1" headers="topic_x3s_lqj_tbb__table_vqq_3rj_tbb__entry__1">
                   <ul class="ul" id="topic_x3s_lqj_tbb__ul_kpk_yrj_tbb">
                     <li class="li">Session-level configuration parameter settings (GUCs)</li>
-                    <li class="li">Schemas, see <a class="xref" href="#topic_x3s_lqj_tbb__schema_note">Note</a></li>
+                    <li class="li">Schemas, see <a class="xref" href="#schema_note">Note</a></li>
                     <li class="li">Procedural language extensions</li>
                     <li class="li">Sequences</li>
                     <li dir="ltr" class="li">Comments</li>
@@ -283,7 +283,7 @@
                 </td>
               </tr>
             </tbody></table>
-<p><strong>Note:</strong> These schemas are not included in a backup.</p>
+<p><a id="schema_note"></a><strong>Note:</strong> These schemas are not included in a backup.</p>
 <ul>
 <li><code>gp_toolkit</code></li>
 <li><code>information_schema</code></li>
@@ -564,7 +564,7 @@ public.sales_1_prt_dec17
 <p><strong>failure</strong>
 :   Optional. Specify if an email is sent if the operation fails. If the value is <code>true</code>, an email is sent if the operation fails. If the value is <code>false</code> (the default), an email is not sent.</p>
 <p><strong>gprestore</strong>
-:   Optional. Begins the <code>gprestore</code> email section. This section contains the <a href="#address_yml">address</a> and <a href="#status_yml">status</a> parameters that are used to send an email notification after a <code>gprestore</code> operation. The syntax is the same as the <a href="#gpbackup_yml">gpbackup</a> section.</p>
+:   Optional. Begins the <code>gprestore</code> email section. This section contains the <code>address</code> and <code>status</code> parameters that are used to send an email notification after a <code>gprestore</code> operation. The syntax is the same as the <code>gpbackup</code> section.</p>
 <h4 id="examples"><a class="header" href="#examples"><a id="exls"></a>Examples</a></h4>
 <p>This example YAML file specifies sending email to email addresses depending on the success or failure of an operation. For a backup operation, an email is sent to a different address depending on the success or failure of the backup operation. For a restore operation, an email is sent to <code>gpadmin@example.com</code> only when the operation succeeds or completes with errors.</p>
 <pre><code>contacts:
@@ -678,7 +678,7 @@ public.sales_1_prt_dec17
                     For information about incremental backups, see <a class="xref" href="backup-gpbackup-incremental.html">Creating and Using Incremental Backups with gpbackup and gprestore</a>.</p></td>
               </tr>
             </tbody></table>
-<h3 id="segment-data-files"><a class="header" href="#segment-data-files"><a id="section_oys_cpj_tbb"></a>Segment Data Files</a></h3>
+<h3 id="segment-data-files"><a class="header" href="#segment-data-files"><a id="topic_xnj_b4c_tbb__section_oys_cpj_tbb"></a>Segment Data Files</a></h3>
 <p>By default, each segment creates one compressed CSV file for each table that is backed up on the segment. You can optionally specify the <code>--single-data-file</code> option to create a single data file on each segment. The files are stored in &lt;seg_dir&gt;/backups/YYYYMMDD/YYYYMMDDHHMMSS/.</p>
 <p>If you specify a custom backup directory, segment data files are copied to this same file path as a subdirectory of the backup directory. If you include the <code>--leaf-partition-data</code> option, <code>gpbackup</code> creates one data file for each leaf partition of a partitioned table, instead of just one table for file.</p>
 <p>Each data file uses the file name format gpbackup_&lt;content_id&gt;_&lt;YYYYMMDDHHMMSS&gt;_&lt;oid&gt;.gz where:</p>

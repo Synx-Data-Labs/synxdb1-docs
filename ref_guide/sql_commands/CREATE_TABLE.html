@@ -356,7 +356,7 @@ CREATE [ [GLOBAL | LOCAL] {TEMPORARY | TEMP} | UNLOGGED ] TABLE [IF NOT EXISTS]
 <p>DEFAULT default_expr
 :   The <code>DEFAULT</code> clause assigns a default data value for the column whose column definition it appears within. The value is any variable-free expression (subqueries and cross-references to other columns in the current table are not allowed). The data type of the default expression must match the data type of the column. The default expression will be used in any insert operation that does not specify a value for the column. If there is no default for a column, then the default is null.</p>
 <p>ENCODING ( storage_directive [, …] )
-:   For a column, the optional <code>ENCODING</code> clause specifies the type of compression and block size for the column data. See <a href="#with_storage">storage_options</a> for <code>compresstype</code>, <code>compresslevel</code>, and <code>blocksize</code> values.</p>
+:   For a column, the optional <code>ENCODING</code> clause specifies the type of compression and block size for the column data. See <code>storage_options</code> for <code>compresstype</code>, <code>compresslevel</code>, and <code>blocksize</code> values.</p>
 <p>:   The clause is valid only for append-optimized, column-oriented tables.</p>
 <p>:   Column compression settings are inherited from the table level to the partition level to the subpartition level. The lowest-level settings have priority.</p>
 <p>INHERITS ( parent_table [, …])
@@ -456,7 +456,7 @@ If the value of the parameter is set to `on`, SynxDB follows these rules:
 </code></pre>
 <p>:   For more information about setting the default table distribution policy, see <a href="../config_params/guc-list.html"><code>gp_create_table_random_default_distribution</code></a>.</p>
 <p>:   The <code>DISTRIBUTED REPLICATED</code> clause replicates the entire table to all SynxDB segment instances. It can be used when it is necessary to run user-defined functions on segments when the functions require access to all rows in the table, or to improve query performance by preventing broadcast motions.</p>
-<p>PARTITION BY
+<p><a id="part_by"></a>PARTITION BY
 :   Declares one or more columns by which to partition the table.</p>
 <p>:   When creating a partitioned table, SynxDB creates the root partitioned table (the root partition) with the specified table name. SynxDB also creates a hierarchy of tables, child tables, that are the subpartitions based on the partitioning options that you specify. The SynxDB <em>pg_partition</em>* system views contain information about the subpartition tables.</p>
 <p>:   For each partition level (each hierarchy level of tables), a partitioned table can have a maximum of 32,767 partitions.</p>

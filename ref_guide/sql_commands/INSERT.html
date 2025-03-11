@@ -181,7 +181,7 @@ INSERT INTO &lt;table&gt; [( &lt;column&gt; [, ...] )]
 :   The <code>WITH</code> clause allows you to specify one or more subqueries that can be referenced by name in the <code>INSERT</code> query.</p>
 <p>:   For an <code>INSERT</code> command that includes a <code>WITH</code> clause, the clause can only contain <code>SELECT</code> statements, the <code>WITH</code> clause cannot contain a data-modifying command (<code>INSERT</code>, <code>UPDATE</code>, or <code>DELETE</code>).</p>
 <p>:   It is possible for the query (<code>SELECT</code> statement) to also contain a <code>WITH</code> clause. In such a case both sets of with_query can be referenced within the <code>INSERT</code> query, but the second one takes precedence since it is more closely nested.</p>
-<p>:   See <a href="../../admin_guide/query/topics/CTE-query.html#topic_zhs_r1s_w1b">WITH Queries (Common Table Expressions)</a> and <a href="SELECT.html">SELECT</a> for details.</p>
+<p>:   See <a href="../../admin_guide/query/topics/CTE-query.html">WITH Queries (Common Table Expressions)</a> and <a href="SELECT.html">SELECT</a> for details.</p>
 <p>table
 :   The name (optionally schema-qualified) of an existing table.</p>
 <p>column

@@ -268,13 +268,13 @@ FILE
 GPFDIST
 :   A sequence identifying one or more running `gpfdist` file servers in the format: `hostname[:port]/file_pattern`. You must be a SynxDB superuser to run MapReduce jobs with `GPFDIST` input.
 
-TABLE
+&lt;a id="TABLE"&lt;/a&gt;TABLE
 :   The name of an existing table in the database.
 
 QUERY
 :   A SQL `SELECT` command to run within the database.
 
-EXEC
+&lt;a id="EXEC"&gt;&lt;/a&gt;EXEC
 :   An operating system command to run on the SynxDB segment hosts. The command is run by all segment instances in the system by default. For example, if you have four segment instances per segment host, the command will be run four times on each host. You must be a SynxDB superuser to run MapReduce jobs with `EXEC` input.
 
 COLUMNS
@@ -301,16 +301,16 @@ ERROR\_LIMIT
 ENCODING
 :   Character set encoding to use for the data. Specify a string constant \(such as `'SQL_ASCII'`\), an integer encoding number, or `DEFAULT` to use the default client encoding. See [Character Set Support](../../ref_guide/character_sets.html) for more information.
 
-OUTPUT
+&lt;a id="OUTPUT"&gt;&lt;/a&gt;OUTPUT
 :   Optional. Defines where to output the formatted data of this MapReduce job. If output is not defined, the default is `STDOUT` \(standard output of the client\). You can send output to a file on the client host or to an existing table in the database.
 
-NAME
+&lt;a id="OUTPUTNAME"&gt;&lt;/a&gt;NAME
 :   A name for this output. The default output name is `STDOUT`. Names must be unique with regards to the names of other objects in this MapReduce job \(such as map function, task, reduce function and input names\). Also, names cannot conflict with existing objects in the database \(such as tables, functions or views\).
 
-FILE
+&lt;a id="OUTPUTFILE"&gt;&lt;/a&gt;FILE
 :   Specifies a file location on the MapReduce client machine to output data in the format: `/path/to/filename`.
 
-TABLE
+&lt;a id="OUTPUTTABLE"&gt;&lt;/a&gt;TABLE
 :   Specifies the name of a table in the database to output data. If this table does not exist prior to running the MapReduce job, it will be created using the distribution policy specified with [KEYS](#KEYS).
 
 KEYS

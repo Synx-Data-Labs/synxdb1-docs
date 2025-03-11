@@ -943,7 +943,7 @@ COMMIT;
 <ul>
 <li><a href="admin_guide/intro/mvcc_example.html#transactions">How transaction IDs are used to manage multiple, simultaneous transactions on a table.</a></li>
 <li><a href="admin_guide/intro/mvcc_example.html#managin_xid">How transaction IDs are managed with the frozen XID</a></li>
-<li><a href="admin_guide/intro/mvcc_example.html#table_itw_yck_wv">How the modulo calculation determines the order of transactions based on transaction IDs</a></li>
+<li><a href="admin_guide/intro/mvcc_example.html#modulo_calc">How the modulo calculation determines the order of transactions based on transaction IDs</a></li>
 </ul>
 <h3 id="managing-simultaneous-transactions"><a class="header" href="#managing-simultaneous-transactions"><a id="transactions"></a>Managing Simultaneous Transactions</a></h3>
 <p>This table is the initial table data on disk with no updates. The table contains two database columns for transaction IDs, <code>xmin</code> (transaction that created the row) and <code>xmax</code> (transaction that updated the row). In the table, changes are added, in order, to the bottom of the table.</p>
@@ -1056,7 +1056,7 @@ COMMIT;
 <p>When you deploy your SynxDB system, you can configure <em>mirror</em> segment instances. Mirror segments allow database queries to fail over to a backup segment if the primary segment becomes unavailable. The mirror segment is kept current by a transaction log replication process, which synchronizes the data between the primary and mirror instances. Mirroring is strongly recommended for production systems and required for Synx Data Labs support.</p>
 <p>As a best practice, the secondary (mirror) segment instance must always reside on a different host than its primary segment instance to protect against a single host failure. In virtualized environments, the secondary (mirror) segment must always reside on a different storage system than the primary. Mirror segments can be arranged over the remaining hosts in the cluster in configurations designed to maximize availability, or minimize the performance degradation when hosts or multiple primary segments fail.</p>
 <p>Two standard mirroring configurations are available when you initialize or expand a SynxDB system. The default configuration, called <em>group mirroring</em>, places all the mirrors for a host’s primary segments on one other host in the cluster. The other standard configuration, <em>spread mirroring</em>, can be selected with a command-line option. Spread mirroring spreads each host’s mirrors over the remaining hosts and requires that there are more hosts in the cluster than primary segments per host.</p>
-<p><a href="admin_guide/intro/about_ha.html#iw157574">Figure 1</a> shows how table data is distributed across segments when spread mirroring is configured.</p>
+<p>Figure 1 shows how table data is distributed across segments when spread mirroring is configured.</p>
 <p><img src="admin_guide/intro/../graphics/spread-mirroring.png" alt="Spread Mirroring in SynxDB" title="Spread Mirroring in SynxDB" /></p>
 <h2 id="segment-failover-and-recovery-1"><a class="header" href="#segment-failover-and-recovery-1"><a id="segment_failover"></a>Segment Failover and Recovery</a></h2>
 <p>When segment mirroring is enabled in a SynxDB system, the system will automatically fail over to the <em>mirror segment</em> instance if a <em>primary segment</em> instance becomes unavailable. A SynxDB system can remain operational if a segment instance or host goes down as long as all the data is available on the remaining active segment instances.</p>
@@ -3575,7 +3575,7 @@ $ gpstop -r
 <tr><td>LATIN10</td><td>ISO 8859-16, ASRO SR 14111</td><td>Romanian</td><td>Yes</td><td>1</td><td>ISO885916</td></tr>
 <tr><td>MULE_INTERNAL</td><td>Mule internal code</td><td>Multilingual Emacs</td><td>Yes</td><td>1-4</td><td> </td></tr>
 <tr><td>SJIS</td><td>Shift JIS</td><td>Japanese</td><td>No</td><td>1-2</td><td>Mskanji, ShiftJIS, WIN932, Windows932</td></tr>
-<tr><td>SQL_ASCII</td><td>unspecified<a href="install_guide/localization.html#jk168303">2</a></td><td>any</td><td>No</td><td>1</td><td> </td></tr>
+<tr><td>SQL_ASCII</td><td>unspecified</td><td>any</td><td>No</td><td>1</td><td> </td></tr>
 <tr><td>UHC</td><td>Unified Hangul Code</td><td>Korean</td><td>No</td><td>1-2</td><td>WIN949, Windows949</td></tr>
 <tr><td>UTF8</td><td>Unicode, 8-bit</td><td>all</td><td>Yes</td><td>1-4</td><td>Unicode</td></tr>
 <tr><td>WIN866</td><td>Windows CP866</td><td>Cyrillic</td><td>Yes</td><td>1</td><td>ALT</td></tr>
@@ -9466,7 +9466,7 @@ FORMAT 'TEXT' (DELIMITER '|');
 <div style="break-before: page; page-break-before: always;"></div><h1 id="writing-a-foreign-data-wrapper"><a class="header" href="#writing-a-foreign-data-wrapper">Writing a Foreign Data Wrapper</a></h1>
 <p>This chapter outlines how to write a new foreign-data wrapper.</p>
 <p>All operations on a foreign table are handled through its foreign-data wrapper (FDW), a library that consists of a set of functions that the core SynxDB server calls. The foreign-data wrapper is responsible for fetching data from the remote data store and returning it to the SynxDB executor. If updating foreign-data is supported, the wrapper must handle that, too.</p>
-<p>The foreign-data wrappers included in the SynxDB open source github repository are good references when trying to write your own. You may want to examine the source code for the <a href="https://github.com/greenplum-db/gpdb/tree/master/contrib/file_fdw">file_fdw</a> and <a href="https://github.com/greenplum-db/gpdb/tree/master/contrib/postgres_fdw">postgres_fdw</a> modules in the <code>contrib/</code> directory. The <a href="admin_guide/external/../../ref_guide/sql_commands/CREATE_FOREIGN_DATA_WRAPPER.html">CREATE FOREIGN DATA WRAPPER</a> reference page also provides some useful details.</p>
+<p>The foreign-data wrappers included in the SynxDB open source github repository are good references when trying to write your own. You may want to examine the source code for the file_fdw and postgres_fdw modules in the <code>contrib/</code> directory. The <a href="admin_guide/external/../../ref_guide/sql_commands/CREATE_FOREIGN_DATA_WRAPPER.html">CREATE FOREIGN DATA WRAPPER</a> reference page also provides some useful details.</p>
 <blockquote>
 <p><strong>Note</strong> The SQL standard specifies an interface for writing foreign-data wrappers. SynxDB does not implement that API, however, because the effort to accommodate it into SynxDB would be large, and the standard API hasn’t yet gained wide adoption.</p>
 </blockquote>
@@ -11279,7 +11279,7 @@ Examine the query plans of poorly performing queries to identify possible perfor
 <p>This topic provides an overview of how SynxDB processes queries. Understanding this process can be useful when writing and tuning queries.</p>
 <p>Users issue queries to SynxDB as they would to any database management system. They connect to the database instance on the SynxDB master host using a client application such as <code>psql</code> and submit SQL statements.</p>
 <h2 id="understanding-query-planning-and-dispatch"><a class="header" href="#understanding-query-planning-and-dispatch"><a id="topic2"></a>Understanding Query Planning and Dispatch</a></h2>
-<p>The master receives, parses, and optimizes the query. The resulting query plan is either parallel or targeted. The master dispatches parallel query plans to all segments, as shown in <a href="admin_guide/query/topics/parallel-proc.html#iy139990">Figure 1</a>. The master dispatches targeted query plans to a single segment, as shown in <a href="admin_guide/query/topics/parallel-proc.html#iy145883">Figure 2</a>. Each segment is responsible for running local database operations on its own set of data.</p>
+<p>The master receives, parses, and optimizes the query. The resulting query plan is either parallel or targeted. The master dispatches parallel query plans to all segments, as shown in Figure 1. The master dispatches targeted query plans to a single segment, as shown in Figure 2. Each segment is responsible for running local database operations on its own set of data.</p>
 <p>Most database operations—such as table scans, joins, aggregations, and sorts—run across all segments in parallel. Each operation is performed on a segment database independent of the data stored in the other segment databases.</p>
 <p><img src="admin_guide/query/topics/../../graphics/parallel_plan.jpg" alt="Dispatching the Parallel Query Plan" title="Dispatching the Parallel Query Plan" /></p>
 <p>Certain queries may access only data on a single segment, such as single-row <code>INSERT</code>, <code>UPDATE</code>, <code>DELETE</code>, or <code>SELECT</code> operations or queries that filter on the table distribution key column(s). In queries such as these, the query plan is not dispatched to all segments, but is targeted at the segment that contains the affected or relevant row(s).</p>
@@ -11294,7 +11294,7 @@ FROM sales JOIN customer USING (cust_id)
 WHERE dateCol = '04-30-2016';
 
 </code></pre>
-<p><a href="admin_guide/query/topics/parallel-proc.html#iy140224">Figure 3</a> shows the query plan. Each segment receives a copy of the query plan and works on it in parallel.</p>
+<p>Figure 3 shows the query plan. Each segment receives a copy of the query plan and works on it in parallel.</p>
 <p>The query plan for this example has a <em>redistribute motion</em> that moves tuples between the segments to complete the join. The redistribute motion is necessary because the customer table is distributed across the segments by <code>cust_id</code>, but the sales table is distributed across the segments by <code>sale_id</code>. To perform the join, the <code>sales</code> tuples must be redistributed by <code>cust_id</code>. The plan is sliced on either side of the redistribute motion, creating <em>slice 1</em> and <em>slice 2</em>.</p>
 <p>This query plan has another type of motion operation called a <em>gather motion</em>. A gather motion is when the segments send results back up to the master for presentation to the client. Because a query plan is always sliced wherever a motion occurs, this plan also has an implicit slice at the very top of the plan (<em>slice 3</em>). Not all query plans involve a gather motion. For example, a <code>CREATE TABLE x AS SELECT...</code> statement would not have a gather motion because tuples are sent to the newly created table, not to the master.</p>
 <p><img src="admin_guide/query/topics/../../graphics/slice_plan.jpg" alt="Query Slice Plan" title="Query Slice Plan" /></p>
@@ -11302,7 +11302,7 @@ WHERE dateCol = '04-30-2016';
 <p>SynxDB creates a number of database processes to handle the work of a query. On the master, the query worker process is called the <em>query dispatcher</em> (QD). The QD is responsible for creating and dispatching the query plan. It also accumulates and presents the final results. On the segments, a query worker process is called a <em>query executor</em> (QE). A QE is responsible for completing its portion of work and communicating its intermediate results to the other worker processes.</p>
 <p>There is at least one worker process assigned to each <em>slice</em> of the query plan. A worker process works on its assigned portion of the query plan independently. During query runtime, each segment will have a number of processes working on the query in parallel.</p>
 <p>Related processes that are working on the same slice of the query plan but on different segments are called <em>gangs</em>. As a portion of work is completed, tuples flow up the query plan from one gang of processes to the next. This inter-process communication between the segments is referred to as the <em>interconnect</em> component of SynxDB.</p>
-<p><a href="admin_guide/query/topics/parallel-proc.html#iy141495">Figure 4</a> shows the query worker processes on the master and two segment instances for the query plan illustrated in <a href="admin_guide/query/topics/parallel-proc.html#iy140224">Figure 3</a>.</p>
+<p>Figure 4 shows the query worker processes on the master and two segment instances for the query plan illustrated in Figure 3.</p>
 <p><img src="admin_guide/query/topics/../../graphics/gangs.jpg" alt="Query Worker Processes" title="Query Worker Processes" /></p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="about-gporca"><a class="header" href="#about-gporca">About GPORCA</a></h1>
 <p>In SynxDB, the default GPORCA optimizer co-exists with the Postgres Planner.</p>
@@ -13942,7 +13942,7 @@ XMLPARSE (CONTENT 'abc&lt;foo&gt;bar&lt;/foo&gt;&lt;bar&gt;foo&lt;/bar&gt;')
 </code></pre>
 <p>The default is CONTENT, so all forms of XML data are allowed.</p>
 <h2 id="encoding-handling"><a class="header" href="#encoding-handling"><a id="topic_eyt_3tw_mq"></a>Encoding Handling</a></h2>
-<p>Be careful when dealing with multiple character encodings on the client, server, and in the XML data passed through them. When using the text mode to pass queries to the server and query results to the client (which is the normal mode), SynxDB converts all character data passed between the client and the server, and vice versa, to the character encoding of the respective endpoint; see <a href="admin_guide/query/topics/../../../ref_guide/character_sets.html#ig167937">Character Set Support</a>. This includes string representations of XML values, such as in the above examples. Ordinarily, this means that encoding declarations contained in XML data can become invalid, as the character data is converted to other encodings while travelling between client and server, because the embedded encoding declaration is not changed. To cope with this behavior, encoding declarations contained in character strings presented for input to the <code>xml</code> type are ignored, and content is assumed to be in the current server encoding. Consequently, for correct processing, character strings of XML data must be sent from the client in the current client encoding. It is the responsibility of the client to either convert documents to the current client encoding before sending them to the server, or to adjust the client encoding appropriately. On output, values of type <code>xml</code> will not have an encoding declaration, and clients should assume all data is in the current client encoding.</p>
+<p>Be careful when dealing with multiple character encodings on the client, server, and in the XML data passed through them. When using the text mode to pass queries to the server and query results to the client (which is the normal mode), SynxDB converts all character data passed between the client and the server, and vice versa, to the character encoding of the respective endpoint; see <a href="admin_guide/query/topics/../../../ref_guide/character_sets.html">Character Set Support</a>. This includes string representations of XML values, such as in the above examples. Ordinarily, this means that encoding declarations contained in XML data can become invalid, as the character data is converted to other encodings while traveling between client and server, because the embedded encoding declaration is not changed. To cope with this behavior, encoding declarations contained in character strings presented for input to the <code>xml</code> type are ignored, and content is assumed to be in the current server encoding. Consequently, for correct processing, character strings of XML data must be sent from the client in the current client encoding. It is the responsibility of the client to either convert documents to the current client encoding before sending them to the server, or to adjust the client encoding appropriately. On output, values of type <code>xml</code> will not have an encoding declaration, and clients should assume all data is in the current client encoding.</p>
 <p>When using binary mode to pass query parameters to the server and query results back to the client, no character set conversion is performed, so the situation is different. In this case, an encoding declaration in the XML data will be observed, and if it is absent, the data will be assumed to be in UTF-8 (as required by the XML standard; note that SynxDB does not support UTF-16). On output, data will have an encoding declaration specifying the client encoding, unless the client encoding is UTF-8, in which case it will be omitted.</p>
 <blockquote>
 <p><strong>Note</strong> Processing XML data with SynxDB will be less error-prone and more efficient if the XML data encoding, client encoding, and server encoding are the same. Because XML data is internally processed in UTF-8, computations will be most efficient if the server encoding is also UTF-8.</p>
@@ -14287,7 +14287,7 @@ WHERE table_schema = 'pg_catalog';
 <p><code>xmlagg</code></p>
 <pre><code>xmlagg (&lt;xml&gt;)
 </code></pre>
-<p>The function <code>xmlagg</code> is, unlike the other functions described here, an aggregate function. It concatenates the input values to the aggregate function call, much like <code>xmlconcat</code> does, except that concatenation occurs across rows rather than across expressions in a single row. See <a href="admin_guide/query/topics/functions-operators.html#in151167">Using Functions and Operators</a> for additional information about aggregate functions.</p>
+<p>The function <code>xmlagg</code> is, unlike the other functions described here, an aggregate function. It concatenates the input values to the aggregate function call, much like <code>xmlconcat</code> does, except that concatenation occurs across rows rather than across expressions in a single row. See <a href="admin_guide/query/topics/functions-operators.html">Using Functions and Operators</a> for additional information about aggregate functions.</p>
 <p>Example:</p>
 <pre><code>CREATE TABLE test (y int, x xml);
 INSERT INTO test VALUES (1, '&lt;foo&gt;abc&lt;/foo&gt;');
@@ -20370,7 +20370,7 @@ CREATE TABLE wj_model_results_roi AS SELECT *
 </code></pre>
 <h3 id="downloading-and-installing-r-packages"><a class="header" href="#downloading-and-installing-r-packages"><a id="topic13"></a>Downloading and Installing R Packages</a></h3>
 <p>R packages are modules that contain R functions and data sets. You can install R packages to extend R and PL/R functionality in SynxDB.</p>
-<p>SynxDB provides a collection of data science-related R libraries that can be used with the SynxDB PL/R language. You can download these libraries in <code>.gppkg</code> format. For information about the libraries, see <a href="analytics/../install_guide/install_r_dslib.html#topic1">R Data Science Library Package</a>.</p>
+<p>SynxDB provides a collection of data science-related R libraries that can be used with the SynxDB PL/R language. You can download these libraries in <code>.gppkg</code> format. For information about the libraries, see <a href="analytics/../install_guide/install_r_dslib.html">R Data Science Library Package</a>.</p>
 <blockquote>
 <p><strong>Note</strong> If you expand SynxDB and add segment hosts, you must install the R packages in the R installation of the new hosts.</p>
 </blockquote>
@@ -22818,9 +22818,9 @@ $$ language plpythonu execute on master;
 </ul>
 <h2 id="about-segment-mirroring-configurations"><a class="header" href="#about-segment-mirroring-configurations"><a id="mirror_configs"></a>About Segment Mirroring Configurations</a></h2>
 <p>Mirror segment instances can be placed on hosts in the cluster in different configurations. As a best practice, a primary segment and the corresponding mirror are placed on different hosts. Each host must have the same number of primary and mirror segments. When you create segment mirrors with the SynxDB utilities <a href="admin_guide/highavail/topics/../../../utility_guide/ref/gpinitsystem.html">gpinitsystem</a> or <a href="admin_guide/highavail/topics/../../../utility_guide/ref/gpaddmirrors.html">gpaddmirrors</a> you can specify the segment mirror configuration, group mirroring (the default) or spread mirroring. With <code>gpaddmirrors</code>, you can create custom mirroring configurations with a <code>gpaddmirrors</code> configuration file and specify the file on the command line.</p>
-<p><em>Group mirroring</em> is the default mirroring configuration when you enable mirroring during system initialization. The mirror segments for each host’s primary segments are placed on one other host. If a single host fails, the number of active primary segments doubles on the host that backs the failed host. <a href="admin_guide/highavail/topics/g-overview-of-segment-mirroring.html#fig_rrr_nt2_xt">Figure 1</a> illustrates a group mirroring configuration.</p>
+<p><em>Group mirroring</em> is the default mirroring configuration when you enable mirroring during system initialization. The mirror segments for each host’s primary segments are placed on one other host. If a single host fails, the number of active primary segments doubles on the host that backs the failed host. Figure 1 illustrates a group mirroring configuration.</p>
 <p><img src="admin_guide/highavail/topics/../../graphics/group-mirroring.png" alt="Group Segment Mirroring in SynxDB" title="Group Segment Mirroring in SynxDB" /></p>
-<p><em>Spread mirroring</em> can be specified during system initialization. This configuration spreads each host’s mirrors over multiple hosts so that if any single host fails, no other host will have more than one mirror promoted to an active primary segment. Spread mirroring is possible only if there are more hosts than segments per host. <a href="admin_guide/highavail/topics/g-overview-of-segment-mirroring.html#fig_ew1_qgg_xt">Figure 2</a> illustrates the placement of mirrors in a spread segment mirroring configuration.</p>
+<p><em>Spread mirroring</em> can be specified during system initialization. This configuration spreads each host’s mirrors over multiple hosts so that if any single host fails, no other host will have more than one mirror promoted to an active primary segment. Spread mirroring is possible only if there are more hosts than segments per host. Figure 2 illustrates the placement of mirrors in a spread segment mirroring configuration.</p>
 <p><img src="admin_guide/highavail/topics/../../graphics/spread-mirroring.png" alt="Spread Segment Mirroring in SynxDB" title="Spread Segment Mirroring in SynxDB" /></p>
 <blockquote>
 <p><strong>Note</strong> You must ensure you have the appropriate number of host systems for your mirroring configuration when you create a system or when you expand a system. For example, to create a system that is configured with spread mirroring requires more hosts than segment instances per host, and a system that is configured with group mirroring requires at least two new hosts when expanding the system. For information about segment mirroring configurations, see <a href="admin_guide/highavail/topics/../../../best_practices/ha.html#topic_ngz_qf4_tt">Segment Mirroring Configurations</a>. For information about expanding systems with segment mirroring enabled, see <a href="admin_guide/highavail/topics/../../expand/expand-planning.html">Planning Mirror Segments</a>.</p>
@@ -23508,7 +23508,7 @@ $ gpactivatestandby -d /data/master/gpseg-1
                 <td class="entry colsep-1 rowsep-1" headers="topic_x3s_lqj_tbb__table_vqq_3rj_tbb__entry__1">
                   <ul class="ul" id="topic_x3s_lqj_tbb__ul_kpk_yrj_tbb">
                     <li class="li">Session-level configuration parameter settings (GUCs)</li>
-                    <li class="li">Schemas, see <a class="xref" href="admin_guide/managing/backup-gpbackup.html#topic_x3s_lqj_tbb__schema_note">Note</a></li>
+                    <li class="li">Schemas, see <a class="xref" href="admin_guide/managing/backup-gpbackup.html#schema_note">Note</a></li>
                     <li class="li">Procedural language extensions</li>
                     <li class="li">Sequences</li>
                     <li dir="ltr" class="li">Comments</li>
@@ -23548,7 +23548,7 @@ $ gpactivatestandby -d /data/master/gpseg-1
                 </td>
               </tr>
             </tbody></table>
-<p><strong>Note:</strong> These schemas are not included in a backup.</p>
+<p><a id="schema_note"></a><strong>Note:</strong> These schemas are not included in a backup.</p>
 <ul>
 <li><code>gp_toolkit</code></li>
 <li><code>information_schema</code></li>
@@ -23829,7 +23829,7 @@ public.sales_1_prt_dec17
 <p><strong>failure</strong>
 :   Optional. Specify if an email is sent if the operation fails. If the value is <code>true</code>, an email is sent if the operation fails. If the value is <code>false</code> (the default), an email is not sent.</p>
 <p><strong>gprestore</strong>
-:   Optional. Begins the <code>gprestore</code> email section. This section contains the <a href="admin_guide/managing/backup-gpbackup.html#address_yml">address</a> and <a href="admin_guide/managing/backup-gpbackup.html#status_yml">status</a> parameters that are used to send an email notification after a <code>gprestore</code> operation. The syntax is the same as the <a href="admin_guide/managing/backup-gpbackup.html#gpbackup_yml">gpbackup</a> section.</p>
+:   Optional. Begins the <code>gprestore</code> email section. This section contains the <code>address</code> and <code>status</code> parameters that are used to send an email notification after a <code>gprestore</code> operation. The syntax is the same as the <code>gpbackup</code> section.</p>
 <h4 id="examples-5"><a class="header" href="#examples-5"><a id="exls"></a>Examples</a></h4>
 <p>This example YAML file specifies sending email to email addresses depending on the success or failure of an operation. For a backup operation, an email is sent to a different address depending on the success or failure of the backup operation. For a restore operation, an email is sent to <code>gpadmin@example.com</code> only when the operation succeeds or completes with errors.</p>
 <pre><code>contacts:
@@ -23943,7 +23943,7 @@ public.sales_1_prt_dec17
                     For information about incremental backups, see <a class="xref" href="admin_guide/managing/backup-gpbackup-incremental.html">Creating and Using Incremental Backups with gpbackup and gprestore</a>.</p></td>
               </tr>
             </tbody></table>
-<h3 id="segment-data-files"><a class="header" href="#segment-data-files"><a id="section_oys_cpj_tbb"></a>Segment Data Files</a></h3>
+<h3 id="segment-data-files"><a class="header" href="#segment-data-files"><a id="topic_xnj_b4c_tbb__section_oys_cpj_tbb"></a>Segment Data Files</a></h3>
 <p>By default, each segment creates one compressed CSV file for each table that is backed up on the segment. You can optionally specify the <code>--single-data-file</code> option to create a single data file on each segment. The files are stored in &lt;seg_dir&gt;/backups/YYYYMMDD/YYYYMMDDHHMMSS/.</p>
 <p>If you specify a custom backup directory, segment data files are copied to this same file path as a subdirectory of the backup directory. If you include the <code>--leaf-partition-data</code> option, <code>gpbackup</code> creates one data file for each leaf partition of a partitioned table, instead of just one table for file.</p>
 <p>Each data file uses the file name format gpbackup_&lt;content_id&gt;_&lt;YYYYMMDDHHMMSS&gt;_&lt;oid&gt;.gz where:</p>
@@ -25228,7 +25228,7 @@ sdw5|sdw5-1|60012|/gpdata/mirror/gp10|14|10|m
 </li>
 </ol>
 <p>When the initialization process completes, you can connect to SynxDB and view the expansion schema. The <em>gpexpand</em> schema resides in the postgres database. For more information, see <a href="admin_guide/expand/expand-planning.html">About the Expansion Schema</a>.</p>
-<p>After segment initialization is complete, <a href="admin_guide/expand/expand-redistribute.html#expand-redistribute">redistribute the tables</a> to balance existing data over the new segments.</p>
+<p>After segment initialization is complete, <a href="admin_guide/expand/expand-redistribute.html">redistribute the tables</a> to balance existing data over the new segments.</p>
 <h2 id="monitoring-the-cluster-expansion-state"><a class="header" href="#monitoring-the-cluster-expansion-state"><a id="topic_wkv_kkd_chb"></a>Monitoring the Cluster Expansion State</a></h2>
 <p>At any time, you can check the state of cluster expansion by running the <code>gpstate</code> utility with the <code>-x</code> flag:</p>
 <pre><code>$ gpstate -x
@@ -28307,7 +28307,7 @@ FROM (SELECT count(*) c, gp_segment_id FROM facts GROUP BY 2) AS a;
 </ul>
 <p>Other considerations:</p>
 <ul>
-<li>Do not configure the operating system to use huge pages. See the <a href="best_practices/../install_guide/prep_os.html#topic3/huge_pages">Recommended OS Parameters Settings</a> in the <em>SynxDB Installation Guide</em>.</li>
+<li>Do not configure the operating system to use huge pages. See the <a href="best_practices/../install_guide/prep_os.html#topic3">Recommended OS Parameters Settings</a> in the <em>SynxDB Installation Guide</em>.</li>
 <li>When you configure resource group memory, consider memory requirements for mirror segments that become primary segments during a failure to ensure that database operations can continue when primary segments or segment hosts fail.</li>
 </ul>
 <h2 id="memory-considerations-when-using-resource-groups"><a class="header" href="#memory-considerations-when-using-resource-groups"><a id="toolowmem"></a>Memory Considerations when using Resource Groups</a></h2>
@@ -35845,7 +35845,7 @@ CREATE WRITABLE EXTERNAL WEB [TEMPORARY | TEMP] TABLE &lt;table_name&gt;
 :   The data type of the column.</p>
 <p>LOCATION (‘protocol://[host[:port]]/path/file’ [, …])
 :   If you use the <code>pxf</code> protocol to access an external data source, refer to <a href="ref_guide/sql_commands/../../admin_guide/external/g-pxf-protocol.html">pxf:// Protocol</a> for information about the <code>pxf</code> protocol.</p>
-<p>:   If you use the <code>s3</code> protocol to read or write to S3, refer to <a href="ref_guide/sql_commands/../../admin_guide/external/g-s3-protocol.html#amazon-emr/section_stk_c2r_kx">s3:// Protocol</a> for additional information about the <code>s3</code> protocol <code>LOCATION</code> clause syntax.</p>
+<p>:   If you use the <code>s3</code> protocol to read or write to S3, refer to <a href="ref_guide/sql_commands/../../admin_guide/external/g-s3-protocol.html">s3:// Protocol</a> for additional information about the <code>s3</code> protocol <code>LOCATION</code> clause syntax.</p>
 <p>:   For readable external tables, specifies the URI of the external data source(s) to be used to populate the external table or web table. Regular readable external tables allow the <code>gpfdist</code> or <code>file</code> protocols. External web tables allow the <code>http</code> protocol. If <code>port</code> is omitted, port <code>8080</code> is assumed for <code>http</code> and <code>gpfdist</code> protocols. If using the <code>gpfdist</code> protocol, the <code>path</code> is relative to the directory from which <code>gpfdist</code> is serving files (the directory specified when you started the <code>gpfdist</code> program). Also, <code>gpfdist</code> can use wildcards or other C-style pattern matching (for example, a whitespace character is <code>[[:space:]]</code>) to denote multiple files in a directory. For example:</p>
 <pre><code>```
 'gpfdist://filehost:8081/*'
@@ -37037,7 +37037,7 @@ To use this operator in a query:
 <p>validatorfunc=‘validate_handler’
 :   An optional validator function that validates the URL specified in the <code>CREATE EXTERNAL TABLE</code> command.</p>
 <h2 id="notes-41"><a class="header" href="#notes-41"><a id="section5"></a>Notes</a></h2>
-<p>SynxDB handles external tables of type <code>file</code>, <code>gpfdist</code>, and <code>gpfdists</code> internally. See <a href="ref_guide/sql_commands/../../admin_guide/external/g-s3-protocol.html#amazon-emr/s3_prereq">s3:// Protocol</a> for information about enabling the <code>S3</code> protocol. Refer to <a href="ref_guide/sql_commands/../../admin_guide/external/g-pxf-protocol.html">pxf:// Protocol</a> for information about using the <code>pxf</code> protocol.</p>
+<p>SynxDB handles external tables of type <code>file</code>, <code>gpfdist</code>, and <code>gpfdists</code> internally. See [s3:// Protocol](../../admin_guide/external/g-s3-protocol.html for information about enabling the <code>S3</code> protocol. Refer to <a href="ref_guide/sql_commands/../../admin_guide/external/g-pxf-protocol.html">pxf:// Protocol</a> for information about using the <code>pxf</code> protocol.</p>
 <p>Any shared library that implements a data access protocol must be located in the same location on all SynxDB segment hosts. For example, the shared library can be in a location specified by the operating system environment variable <code>LD_LIBRARY_PATH</code> on all hosts. You can also specify the location when you define the handler function. For example, when you define the <code>s3</code> protocol in the <code>CREATE PROTOCOL</code> command, you specify <code>$libdir/gps3ext.so</code> as the location of the shared object, where <code>$libdir</code> is located at <code>$GPHOME/lib</code>.</p>
 <h2 id="compatibility-61"><a class="header" href="#compatibility-61"><a id="section7"></a>Compatibility</a></h2>
 <p><code>CREATE PROTOCOL</code> is a SynxDB extension.</p>
@@ -37785,7 +37785,7 @@ CREATE [ [GLOBAL | LOCAL] {TEMPORARY | TEMP} | UNLOGGED ] TABLE [IF NOT EXISTS]
 <p>DEFAULT default_expr
 :   The <code>DEFAULT</code> clause assigns a default data value for the column whose column definition it appears within. The value is any variable-free expression (subqueries and cross-references to other columns in the current table are not allowed). The data type of the default expression must match the data type of the column. The default expression will be used in any insert operation that does not specify a value for the column. If there is no default for a column, then the default is null.</p>
 <p>ENCODING ( storage_directive [, …] )
-:   For a column, the optional <code>ENCODING</code> clause specifies the type of compression and block size for the column data. See <a href="ref_guide/sql_commands/CREATE_TABLE.html#with_storage">storage_options</a> for <code>compresstype</code>, <code>compresslevel</code>, and <code>blocksize</code> values.</p>
+:   For a column, the optional <code>ENCODING</code> clause specifies the type of compression and block size for the column data. See <code>storage_options</code> for <code>compresstype</code>, <code>compresslevel</code>, and <code>blocksize</code> values.</p>
 <p>:   The clause is valid only for append-optimized, column-oriented tables.</p>
 <p>:   Column compression settings are inherited from the table level to the partition level to the subpartition level. The lowest-level settings have priority.</p>
 <p>INHERITS ( parent_table [, …])
@@ -37885,7 +37885,7 @@ If the value of the parameter is set to `on`, SynxDB follows these rules:
 </code></pre>
 <p>:   For more information about setting the default table distribution policy, see <a href="ref_guide/sql_commands/../config_params/guc-list.html"><code>gp_create_table_random_default_distribution</code></a>.</p>
 <p>:   The <code>DISTRIBUTED REPLICATED</code> clause replicates the entire table to all SynxDB segment instances. It can be used when it is necessary to run user-defined functions on segments when the functions require access to all rows in the table, or to improve query performance by preventing broadcast motions.</p>
-<p>PARTITION BY
+<p><a id="part_by"></a>PARTITION BY
 :   Declares one or more columns by which to partition the table.</p>
 <p>:   When creating a partitioned table, SynxDB creates the root partitioned table (the root partition) with the specified table name. SynxDB also creates a hierarchy of tables, child tables, that are the subpartitions based on the partitioning options that you specify. The SynxDB <em>pg_partition</em>* system views contain information about the subpartition tables.</p>
 <p>:   For each partition level (each hierarchy level of tables), a partitioned table can have a maximum of 32,767 partitions.</p>
@@ -38121,7 +38121,7 @@ PARTITION BY RANGE (year)
 
 For columns of type `BIGINT`, `INTEGER`, `DATE`, `TIME`, or `TIMESTAMP`, delta compression is also applied if the `compresstype` option is set to `RLE_TYPE` compression. The delta compression algorithm is based on the delta between column values in consecutive rows and is designed to improve compression when data is loaded in sorted order or the compression is applied to column data that is in sorted order.
 
-For information about using table compression, see [Choosing the Table Storage Model](../../admin_guide/ddl/ddl-storage.html#topic1) in the *SynxDB Administrator Guide*.
+For information about using table compression, see [Choosing the Table Storage Model](../../admin_guide/ddl/ddl-storage.html) in the *SynxDB Administrator Guide*.
 </code></pre>
 <p>:   <strong>compresslevel</strong> — For Zstd compression of append-optimized tables, set to an integer value from 1 (fastest compression) to 19 (highest compression ratio). For zlib compression, the valid range is from 1 to 9. If not declared, the default is 1. The <code>compresslevel</code> option is valid only if <code>appendoptimized=TRUE</code>.</p>
 <p>:   <strong>fillfactor</strong> — See <a href="ref_guide/sql_commands/CREATE_INDEX.html">CREATE INDEX</a> for more information about this index storage parameter.</p>
@@ -38145,7 +38145,7 @@ DISTRIBUTED REPLICATED
 -   If the Postgres Planner creates the table, and the value of the parameter is `on`, the table distribution policy is random.
 -   If GPORCA creates the table, the table distribution policy is random. The parameter value has no effect.
 </code></pre>
-<p>:   For more information about setting the default table distribution policy, see <a href="ref_guide/sql_commands/../config_params/guc-list.html"><code>gp_create_table_random_default_distribution</code></a>. For information about the Postgres Planner and GPORCA, see <a href="ref_guide/sql_commands/../../admin_guide/query/topics/query.html#topic1">Querying Data</a> in the <em>SynxDB Administrator Guide</em>.</p>
+<p>:   For more information about setting the default table distribution policy, see <a href="ref_guide/sql_commands/../config_params/guc-list.html"><code>gp_create_table_random_default_distribution</code></a>. For information about the Postgres Planner and GPORCA, see <a href="ref_guide/sql_commands/../../admin_guide/query/topics/query.html">Querying Data</a> in the <em>SynxDB Administrator Guide</em>.</p>
 <h2 id="notes-50"><a class="header" href="#notes-50"><a id="section5"></a>Notes</a></h2>
 <p>This command is functionally similar to <a href="ref_guide/sql_commands/SELECT_INTO.html">SELECT INTO</a>, but it is preferred since it is less likely to be confused with other uses of the <code>SELECT INTO</code> syntax. Furthermore, <code>CREATE TABLE AS</code> offers a superset of the functionality offered by <code>SELECT INTO</code>.</p>
 <p><code>CREATE TABLE AS</code> can be used for fast data loading from external table data sources. See <a href="ref_guide/sql_commands/CREATE_EXTERNAL_TABLE.html">CREATE EXTERNAL TABLE</a>.</p>
@@ -38237,7 +38237,7 @@ EXECUTE recentfilms('2007-01-01');
 <p>If only the parser is specified, then the new text search configuration initially has no mappings from token types to dictionaries, and therefore will ignore all words. Subsequent <code>ALTER TEXT SEARCH CONFIGURATION</code> commands must be used to create mappings to make the configuration useful. Alternatively, an existing text search configuration can be copied.</p>
 <p>If a schema name is given then the text search configuration is created in the specified schema. Otherwise it is created in the current schema.</p>
 <p>The user who defines a text search configuration becomes its owner.</p>
-<p>Refer to <a href="ref_guide/sql_commands/../../admin_guide/textsearch/full-text-search.html#full-text-search">Using Full Text Search</a> for further information.</p>
+<p>Refer to <a href="ref_guide/sql_commands/../../admin_guide/textsearch/full-text-search.html">Using Full Text Search</a> for further information.</p>
 <h2 id="parameters-72"><a class="header" href="#parameters-72"><a id="section4"></a>Parameters</a></h2>
 <p>name
 :   The name of the text search configuration to be created. The name can be schema-qualified.</p>
@@ -38263,7 +38263,7 @@ EXECUTE recentfilms('2007-01-01');
 <p>CREATE TEXT SEARCH DICTIONARY creates a new text search dictionary. A text search dictionary specifies a way of recognizing interesting or uninteresting words for searching. A dictionary depends on a text search template, which specifies the functions that actually perform the work. Typically the dictionary provides some options that control the detailed behavior of the template’s functions.</p>
 <p>If a schema name is given then the text search dictionary is created in the specified schema. Otherwise it is created in the current schema.</p>
 <p>The user who defines a text search dictionary becomes its owner.</p>
-<p>Refer to <a href="ref_guide/sql_commands/../../admin_guide/textsearch/full-text-search.html#full-text-search">Using Full Text Search</a> for further information.</p>
+<p>Refer to <a href="ref_guide/sql_commands/../../admin_guide/textsearch/full-text-search.html">Using Full Text Search</a> for further information.</p>
 <h2 id="parameters-73"><a class="header" href="#parameters-73"><a id="section4"></a>Parameters</a></h2>
 <p><code>name</code>
 :   The name of the text search dictionary to be created. The name can be schema-qualified.</p>
@@ -38302,7 +38302,7 @@ EXECUTE recentfilms('2007-01-01');
 <p><code>CREATE TEXT SEARCH PARSER</code> creates a new text search parser. A text search parser defines a method for splitting a text string into tokens and assigning types (categories) to the tokens. A parser is not particularly useful by itself, but must be bound into a text search configuration along with some text search dictionaries to be used for searching.</p>
 <p>If a schema name is given then the text search parser is created in the specified schema. Otherwise it is created in the current schema.</p>
 <p>You must be a superuser to use <code>CREATE TEXT SEARCH PARSER</code>. (This restriction is made because an erroneous text search parser definition could confuse or even crash the server.)</p>
-<p>Refer to <a href="ref_guide/sql_commands/../../admin_guide/textsearch/full-text-search.html#full-text-search">Using Full Text Search</a> for further information.</p>
+<p>Refer to <a href="ref_guide/sql_commands/../../admin_guide/textsearch/full-text-search.html">Using Full Text Search</a> for further information.</p>
 <h2 id="parameters-74"><a class="header" href="#parameters-74"><a id="section4"></a>Parameters</a></h2>
 <p><code>name</code>
 :   The name of the text search parser to be created. The name can be schema-qualified.</p>
@@ -38335,7 +38335,7 @@ EXECUTE recentfilms('2007-01-01');
 <p><code>CREATE TEXT SEARCH TEMPLATE</code> creates a new text search template. Text search templates define the functions that implement text search dictionaries. A template is not useful by itself, but must be instantiated as a dictionary to be used. The dictionary typically specifies parameters to be given to the template functions.</p>
 <p>If a schema name is given then the text search template is created in the specified schema. Otherwise it is created in the current schema.</p>
 <p>You must be a superuser to use <code>CREATE TEXT SEARCH TEMPLATE</code>. This restriction is made because an erroneous text search template definition could confuse or even crash the server. The reason for separating templates from dictionaries is that a template encapsulates the “unsafe” aspects of defining a dictionary. The parameters that can be set when defining a dictionary are safe for unprivileged users to set, and so creating a dictionary need not be a privileged operation.</p>
-<p>Refer to <a href="ref_guide/sql_commands/../../admin_guide/textsearch/full-text-search.html#full-text-search">Using Full Text Search</a> for further information.</p>
+<p>Refer to <a href="ref_guide/sql_commands/../../admin_guide/textsearch/full-text-search.html">Using Full Text Search</a> for further information.</p>
 <h2 id="parameters-75"><a class="header" href="#parameters-75"><a id="section4"></a>Parameters</a></h2>
 <p><code>name</code>
 :   The name of the text search template to be created. The name can be schema-qualified.</p>
@@ -38517,7 +38517,7 @@ CREATE TYPE &lt;name&gt;
 <p>like_type
 :   The name of an existing data type that the new type will have the same representation as. The values internallength, passedbyvalue, alignment, and storage, are copied from that type, unless overridden by explicit specification elsewhere in this <code>CREATE TYPE</code> command.</p>
 <p>category
-:   The category code (a single ASCII character) for this type. The default is ‘<code>U</code>’, signifying a user-defined type. You can find the other standard category codes in <a href="ref_guide/sql_commands/../system_catalogs/pg_type.html#typcategory"><code>pg_type</code> Category Codes</a>. You may also assign unused ASCII characters to custom categories that you create.</p>
+:   The category code (a single ASCII character) for this type. The default is ‘<code>U</code>’, signifying a user-defined type. You can find the other standard category codes in <a href="ref_guide/sql_commands/../system_catalogs/pg_type.html"><code>pg_type</code> Category Codes</a>. You may also assign unused ASCII characters to custom categories that you create.</p>
 <p>preferred
 :   <code>true</code> if this type is a preferred type within its type category, else <code>false</code>. The default value is <code>false</code>. Be careful when you create a new preferred type within an existing type category; this could cause surprising behaviour changes.</p>
 <p>default
@@ -38895,7 +38895,7 @@ DELETE FROM [ONLY] &lt;table&gt; [[AS] &lt;alias&gt;]
 <p>with_query
 :   The <code>WITH</code> clause allows you to specify one or more subqueries that can be referenced by name in the <code>DELETE</code> query.</p>
 <p>:   For a <code>DELETE</code> command that includes a <code>WITH</code> clause, the clause can only contain <code>SELECT</code> statements, the <code>WITH</code> clause cannot contain a data-modifying command (<code>INSERT</code>, <code>UPDATE</code>, or <code>DELETE</code>).</p>
-<p>:   See <a href="ref_guide/sql_commands/../../admin_guide/query/topics/CTE-query.html#topic_zhs_r1s_w1b">WITH Queries (Common Table Expressions)</a> and <a href="ref_guide/sql_commands/SELECT.html">SELECT</a> for details.</p>
+<p>:   See <a href="ref_guide/sql_commands/../../admin_guide/query/topics/CTE-query.html">WITH Queries (Common Table Expressions)</a> and <a href="ref_guide/sql_commands/SELECT.html">SELECT</a> for details.</p>
 <p>ONLY
 :   If specified, delete rows from the named table only. When not specified, any tables inheriting from the named table are also processed.</p>
 <p>table
@@ -40258,7 +40258,7 @@ SynxDB does not support specifying <code>BUFFERS [true]</code> for distributed q
 <p><strong>Note</strong> You cannot <code>FETCH</code> from a <code>PARALLEL RETRIEVE CURSOR</code>, you must <a href="ref_guide/sql_commands/RETRIEVE.html">RETRIEVE</a> the rows from it.</p>
 </blockquote>
 <blockquote>
-<p><strong>Note</strong> This page describes usage of cursors at the SQL command level. If you are trying to use cursors inside a PL/pgSQL function, the rules are different. See <a href="ref_guide/sql_commands/../../analytics/pl_sql.html#topic1">PL/pgSQL function</a>.</p>
+<p><strong>Note</strong> This page describes usage of cursors at the SQL command level. If you are trying to use cursors inside a PL/pgSQL function, the rules are different. See <a href="ref_guide/sql_commands/../../analytics/pl_sql.html">PL/pgSQL function</a>.</p>
 </blockquote>
 <p>A cursor has an associated position, which is used by <code>FETCH</code>. The cursor position can be before the first row of the query result, on any particular row of the result, or after the last row of the result. When created, a cursor is positioned before the first row. After fetching some rows, the cursor is positioned on the row most recently retrieved. If <code>FETCH</code> runs off the end of the available rows then the cursor is left positioned after the last row. <code>FETCH ALL</code> will always leave the cursor positioned after the last row.</p>
 <p>The forms <code>NEXT</code>, <code>FIRST</code>, <code>ABSOLUTE</code>, <code>RELATIVE</code> fetch a single row after moving the cursor appropriately. If there is no such row, an empty result is returned, and the cursor is left positioned before the first row or after the last row as appropriate.</p>
@@ -40527,7 +40527,7 @@ INSERT INTO &lt;table&gt; [( &lt;column&gt; [, ...] )]
 :   The <code>WITH</code> clause allows you to specify one or more subqueries that can be referenced by name in the <code>INSERT</code> query.</p>
 <p>:   For an <code>INSERT</code> command that includes a <code>WITH</code> clause, the clause can only contain <code>SELECT</code> statements, the <code>WITH</code> clause cannot contain a data-modifying command (<code>INSERT</code>, <code>UPDATE</code>, or <code>DELETE</code>).</p>
 <p>:   It is possible for the query (<code>SELECT</code> statement) to also contain a <code>WITH</code> clause. In such a case both sets of with_query can be referenced within the <code>INSERT</code> query, but the second one takes precedence since it is more closely nested.</p>
-<p>:   See <a href="ref_guide/sql_commands/../../admin_guide/query/topics/CTE-query.html#topic_zhs_r1s_w1b">WITH Queries (Common Table Expressions)</a> and <a href="ref_guide/sql_commands/SELECT.html">SELECT</a> for details.</p>
+<p>:   See <a href="ref_guide/sql_commands/../../admin_guide/query/topics/CTE-query.html">WITH Queries (Common Table Expressions)</a> and <a href="ref_guide/sql_commands/SELECT.html">SELECT</a> for details.</p>
 <p>table
 :   The name (optionally schema-qualified) of an existing table.</p>
 <p>column
@@ -41715,7 +41715,7 @@ GROUP BY region, product;
   )
 SELECT distance, employee_name FROM employee_recursive;
 </code></pre>
-<p>The typical form of recursive queries: an initial condition, followed by <code>UNION [ALL]</code>, followed by the recursive part of the query. Be sure that the recursive part of the query will eventually return no tuples, or else the query will loop indefinitely. See <a href="ref_guide/sql_commands/../../admin_guide/query/topics/CTE-query.html#topic_zhs_r1s_w1b">WITH Queries (Common Table Expressions)</a>in the <em>SynxDB Administrator Guide</em> for more examples.</p>
+<p>The typical form of recursive queries: an initial condition, followed by <code>UNION [ALL]</code>, followed by the recursive part of the query. Be sure that the recursive part of the query will eventually return no tuples, or else the query will loop indefinitely. See <a href="ref_guide/sql_commands/../../admin_guide/query/topics/CTE-query.html">WITH Queries (Common Table Expressions)</a>in the <em>SynxDB Administrator Guide</em> for more examples.</p>
 <h2 id="compatibility-146"><a class="header" href="#compatibility-146"><a id="section19"></a>Compatibility</a></h2>
 <p>The <code>SELECT</code> statement is compatible with the SQL standard, but there are some extensions and some missing features.</p>
 <p><strong>Omitted FROM Clauses</strong></p>
@@ -42204,7 +42204,7 @@ UPDATE [ONLY] &lt;table&gt; [[AS] &lt;alias&gt;]
 :   The <code>WITH</code> clause allows you to specify one or more subqueries that can be referenced by name in the <code>UPDATE</code> query.</p>
 <p>:   For an <code>UPDATE</code> command that includes a <code>WITH</code> clause, the clause can only contain <code>SELECT</code> commands, the <code>WITH</code> clause cannot contain a data-modifying command (<code>INSERT</code>, <code>UPDATE</code>, or <code>DELETE</code>).</p>
 <p>:   It is possible for the query (<code>SELECT</code> statement) to also contain a <code>WITH</code> clause. In such a case both sets of with_query can be referenced within the <code>UPDATE</code> query, but the second one takes precedence since it is more closely nested.</p>
-<p>:   See <a href="ref_guide/sql_commands/../../admin_guide/query/topics/CTE-query.html#topic_zhs_r1s_w1b">WITH Queries (Common Table Expressions)</a> and <a href="ref_guide/sql_commands/SELECT.html">SELECT</a> for details.</p>
+<p>:   See <a href="ref_guide/sql_commands/../../admin_guide/query/topics/CTE-query.html">WITH Queries (Common Table Expressions)</a> and <a href="ref_guide/sql_commands/SELECT.html">SELECT</a> for details.</p>
 <p>ONLY
 :   If specified, update rows from the named table only. When not specified, any tables inheriting from the named table are also processed.</p>
 <p>table
@@ -43402,7 +43402,7 @@ SELECT foo();
 <h2 id="advanced-aggregate-functions-1"><a class="header" href="#advanced-aggregate-functions-1"><a id="topic31"></a>Advanced Aggregate Functions</a></h2>
 <p>The following built-in advanced analytic functions are SynxDB extensions of the PostgreSQL database. Analytic functions are <em>immutable</em>.</p>
 <blockquote>
-<p><strong>Note</strong> The SynxDB MADlib Extension for Analytics provides additional advanced functions to perform statistical analysis and machine learning with SynxDB data. See <a href="ref_guide/../analytics/madlib.html#topic1">MADlib Extension for Analytics</a>.</p>
+<p><strong>Note</strong> The SynxDB MADlib Extension for Analytics provides additional advanced functions to perform statistical analysis and machine learning with SynxDB data. See <a href="ref_guide/../analytics/madlib.html">MADlib Extension for Analytics</a>.</p>
 </blockquote>
 <div class="tablenoborder"><table cellpadding="4" cellspacing="0" summary="" id="topic31__in2073121" class="table" frame="border" border="1" rules="all"><caption><span class="tablecap"><span class="table--title-label">Table 10. </span>Advanced Aggregate Functions</span></caption><colgroup><col style="width:20.845288240441164%" /><col style="width:12.005779052967869%" /><col style="width:41.10249679506745%" /><col style="width:26.046435911523513%" /></colgroup><thead class="thead" style="text-align:left;">
 <tr class="row">
@@ -45020,7 +45020,7 @@ SELECT vec_count_nonzero( a )::float8[] FROM listvecs;
 (1 row)
 </code></pre>
 <h2 id="additional-module-documentation-5"><a class="header" href="#additional-module-documentation-5"><a id="topic_info"></a>Additional Module Documentation</a></h2>
-<p>Refer to the <code>gp_sparse_vector</code> READMEs in the <a href="https://github.com/greenplum-db/gpdb/tree/master/gpcontrib/gp_sparse_vector/README">SynxDB github repository</a> for additional information about this module.</p>
+<p>Refer to the <code>gp_sparse_vector</code> READMEs in the <a href="https://github.com/synxdb/gpdb/tree/master/gpcontrib/gp_sparse_vector/README">SynxDB github repository</a> for additional information about this module.</p>
 <p>Apache MADlib includes an extended implementation of sparse vectors. See the <a href="http://madlib.apache.org/docs/latest/group__grp__svec.html">MADlib Documentation</a> for a description of this MADlib module.</p>
 <h2 id="example-8"><a class="header" href="#example-8"><a id="topic_examples"></a>Example</a></h2>
 <p>A text classification example that describes a dictionary and some documents follows. You will create SynxDB tables representing a dictionary and some documents. You then perform document classification using vector arithmetic on word counts and proportions of dictionary words in each document.</p>
@@ -46490,7 +46490,7 @@ SELECT '2023-02-20 00:00:00.123456789'::TIMESTAMP9_LTZ;
 <li><a href="ref_guide/config_params/guc-list.html#gp_enable_relsize_collection">gp_enable_relsize_collection</a></li>
 <li><a href="ref_guide/config_params/guc-list.html#gp_enable_sort_distinct">gp_enable_sort_distinct</a></li>
 <li><a href="ref_guide/config_params/guc-list.html#gp_enable_sort_limit">gp_enable_sort_limit</a></li>
-<li><a href="ref_guide/config_params/guc_category-list.html#gp_keep_partition_children_locks">gp_keep_partition_children_locks</a></li>
+<li><a href="ref_guide/config_params/guc-list.html#gp_keep_partition_children_locks">gp_keep_partition_children_locks</a></li>
 </ul>
 <h3 id="postgres-planner-costing-parameters"><a class="header" href="#postgres-planner-costing-parameters"><a id="topic23"></a>Postgres Planner Costing Parameters</a></h3>
 <blockquote>
@@ -46756,7 +46756,6 @@ SELECT '2023-02-20 00:00:00.123456789'::TIMESTAMP9_LTZ;
 <li><a href="ref_guide/config_params/guc-list.html#backslash_quote">backslash_quote</a></li>
 <li><a href="ref_guide/config_params/guc-list.html#escape_string_warning">escape_string_warning</a></li>
 <li><a href="ref_guide/config_params/guc-list.html#quote_all_identifiers">quote_all_identifiers</a></li>
-<li><a href="ref_guide/config_params/guc-list.html#regex_flavor">regex_flavor</a></li>
 <li><a href="ref_guide/config_params/guc-list.html#standard_conforming_strings">standard_conforming_strings</a></li>
 <li><a href="ref_guide/config_params/guc-list.html#transform_null_equals">transform_null_equals</a></li>
 </ul>
@@ -47010,7 +47009,7 @@ SELECT '2023-02-20 00:00:00.123456789'::TIMESTAMP9_LTZ;
 </tbody></table>
 </div>
 <h2 id="default_text_search_config"><a class="header" href="#default_text_search_config"><a id="default_text_search_config"></a>default_text_search_config</a></h2>
-<p>Selects the text search configuration that is used by those variants of the text search functions that do not have an explicit argument specifying the configuration. See <a href="ref_guide/config_params/../../admin_guide/textsearch/full-text-search.html#full-text-search">Using Full Text Search</a> for further information. The built-in default is <code>pg_catalog.simple</code>, but <code>initdb</code> will initialize the configuration file with a setting that corresponds to the chosen <code>lc_ctype</code> locale, if a configuration matching that locale can be identified.</p>
+<p>Selects the text search configuration that is used by those variants of the text search functions that do not have an explicit argument specifying the configuration. See <a href="ref_guide/config_params/../../admin_guide/textsearch/full-text-search.html">Using Full Text Search</a> for further information. The built-in default is <code>pg_catalog.simple</code>, but <code>initdb</code> will initialize the configuration file with a setting that corresponds to the chosen <code>lc_ctype</code> locale, if a configuration matching that locale can be identified.</p>
 <div class="table-wrapper"><table><thead><tr><th>Value Range</th><th>Default</th><th>Set Classifications</th></tr></thead><tbody>
 <tr><td>The name of a text search configuration.</td><td><code>pg_catalog.simple</code></td><td>master, session, reload</td></tr>
 </tbody></table>
@@ -51127,7 +51126,7 @@ $ gpconfig -s data_checksums
 </code></pre>
 <p>HBA_HOSTNAMES
 :   <strong>Optional.</strong> This parameter controls whether <code>gpinitsystem</code> uses IP addresses or host names in the <code>pg_hba.conf</code> file when updating the file with addresses that can connect to SynxDB. The default value is <code>0</code>, the utility uses IP addresses when updating the file. When initializing a SynxDB system, specify <code>HBA_HOSTNAMES=1</code> to have the utility use host names in the <code>pg_hba.conf</code> file.</p>
-<p>:   For information about how SynxDB resolves host names in the <code>pg_hba.conf</code> file, see <a href="utility_guide/ref/../../admin_guide/client_auth.html#topic1">Configuring Client Authentication</a>.</p>
+<p>:   For information about how SynxDB resolves host names in the <code>pg_hba.conf</code> file, see <a href="utility_guide/ref/../../admin_guide/client_auth.html">Configuring Client Authentication</a>.</p>
 <h2 id="specifying-hosts-using-hostnames-or-ip-addresses-2"><a class="header" href="#specifying-hosts-using-hostnames-or-ip-addresses-2"><a id="spechosts"></a>Specifying Hosts using Hostnames or IP Addresses</a></h2>
 <p>When initializing a SynxDB system with <code>gpinitsystem</code>, you can specify segment hosts using either hostnames or IP addresses. For example, you can use hostnames or IP addresses in the file specified with the <code>-h</code> option.</p>
 <ul>
@@ -51851,13 +51850,13 @@ FILE
 GPFDIST
 :   A sequence identifying one or more running `gpfdist` file servers in the format: `hostname[:port]/file_pattern`. You must be a SynxDB superuser to run MapReduce jobs with `GPFDIST` input.
 
-TABLE
+&lt;a id="TABLE"&lt;/a&gt;TABLE
 :   The name of an existing table in the database.
 
 QUERY
 :   A SQL `SELECT` command to run within the database.
 
-EXEC
+&lt;a id="EXEC"&gt;&lt;/a&gt;EXEC
 :   An operating system command to run on the SynxDB segment hosts. The command is run by all segment instances in the system by default. For example, if you have four segment instances per segment host, the command will be run four times on each host. You must be a SynxDB superuser to run MapReduce jobs with `EXEC` input.
 
 COLUMNS
@@ -51884,16 +51883,16 @@ ERROR\_LIMIT
 ENCODING
 :   Character set encoding to use for the data. Specify a string constant \(such as `'SQL_ASCII'`\), an integer encoding number, or `DEFAULT` to use the default client encoding. See [Character Set Support](../../ref_guide/character_sets.html) for more information.
 
-OUTPUT
+&lt;a id="OUTPUT"&gt;&lt;/a&gt;OUTPUT
 :   Optional. Defines where to output the formatted data of this MapReduce job. If output is not defined, the default is `STDOUT` \(standard output of the client\). You can send output to a file on the client host or to an existing table in the database.
 
-NAME
+&lt;a id="OUTPUTNAME"&gt;&lt;/a&gt;NAME
 :   A name for this output. The default output name is `STDOUT`. Names must be unique with regards to the names of other objects in this MapReduce job \(such as map function, task, reduce function and input names\). Also, names cannot conflict with existing objects in the database \(such as tables, functions or views\).
 
-FILE
+&lt;a id="OUTPUTFILE"&gt;&lt;/a&gt;FILE
 :   Specifies a file location on the MapReduce client machine to output data in the format: `/path/to/filename`.
 
-TABLE
+&lt;a id="OUTPUTTABLE"&gt;&lt;/a&gt;TABLE
 :   Specifies the name of a table in the database to output data. If this table does not exist prior to running the MapReduce job, it will be created using the distribution policy specified with [KEYS](#KEYS).
 
 KEYS
@@ -52567,7 +52566,7 @@ gprestore --help
 :   Optional. Restores table data from a backup created with the <code>gpbackup</code> utility, without creating the database tables. This option assumes the tables exist in the target database. To restore data for a specific set of tables from a backup set, you can specify an option to include tables or schemas or exclude tables or schemas. Specify the <code>--with-stats</code> option to restore table statistics from the backup.</p>
 <p>:   The backup set must contain the table data to be restored. For example, a backup created with the <code>gpbackup</code> option <code>--metadata-only</code> does not contain table data.</p>
 <p>:   <code>SEQUENCE</code> values are updated to match the values taken at the time of the backup.</p>
-<p>:   To restore only database tables, without restoring the table data, see the option <a href="utility_guide/ref/gprestore.html#metadata_only">–metadata-only</a>.</p>
+<p>:   To restore only database tables, without restoring the table data, use the option <code>--metadata-only</code>.</p>
 <p><strong>–debug</strong>
 :   Optional. Displays verbose and debug log messages during a restore operation.</p>
 <p><strong>–exclude-schema</strong> schema_name
@@ -52628,7 +52627,7 @@ gprestore --help
 <p><strong>–metadata-only</strong>
 :   Optional. Creates database tables from a backup created with the <code>gpbackup</code> utility, but does not restore the table data. This option assumes the tables do not exist in the target database. To create a specific set of tables from a backup set, you can specify an option to include tables or schemas or exclude tables or schemas. Specify the option <code>--with-globals</code> to restore the SynxDB system objects.</p>
 <p>:   The backup set must contain the DDL for tables to be restored. For example, a backup created with the <code>gpbackup</code> option <code>--data-only</code> does not contain the DDL for tables.</p>
-<p>:   To restore table data after you create the database tables, see the option <a href="utility_guide/ref/gprestore.html#data_only">–data-only</a>.</p>
+<p>:   To restore table data after you create the database tables, see the option <code>--data-only</code>.</p>
 <p><strong>–on-error-continue</strong>
 :   Optional. Specify this option to continue the restore operation if an SQL error occurs when creating database metadata (such as tables, roles, or functions) or restoring data. If another type of error occurs, the utility exits. The default is to exit on the first error.</p>
 <p>:   When this option is included, the utility displays an error summary and writes error information to the <code>gprestore</code> log file and continues the restore operation. The utility also creates text files in the backup directory that contain the list of tables that generated SQL errors.
@@ -52654,7 +52653,7 @@ gprestore --help
 <p>:   To collect current statistics for the restored tables during the restore operation, use the <code>--run-analyze</code> option. As an alternative, you can run the <code>ANALYZE</code> command on the tables after the tables are restored.</p>
 <p><strong>–run-analyze</strong>
 :   Optional. Run <code>ANALYZE</code> on the tables that are restored. For a partitioned table, <code>ANALYZE</code> is run on the root partitioned table. If <code>--with-stats</code> was specified for the backup, those statistics are ignored. You cannot use this option with <code>--with-stats</code>.</p>
-<p>:   If the backup being restored used the <code>gpbackup</code> option <a href="utility_guide/ref/gpbackup.html#backup_leaf_part">–leaf-partition-data</a>, <code>gprestore</code> runs <code>ANALYZE</code> only on the individual leaf partitions that are restored, not the root partitioned table. For SynxDB 5, <code>ANALYZE</code> updates the root partitioned table statistics when all leaf partitions have statistics as the default. For SynxDB 4, you must run <code>ANALYZE</code> on the root partitioned table to update the root partition statistics.</p>
+<p>:   If the backup being restored used the <code>gpbackup</code> option <code>--leaf-partition-data</code>, <code>gprestore</code> runs <code>ANALYZE</code> only on the individual leaf partitions that are restored, not the root partitioned table. For SynxDB 5, <code>ANALYZE</code> updates the root partitioned table statistics when all leaf partitions have statistics as the default. For SynxDB 4, you must run <code>ANALYZE</code> on the root partitioned table to update the root partition statistics.</p>
 <p>:   Depending the tables being restored, running <code>ANALYZE</code> on restored tables might increase the duration of the restore operation.</p>
 <p>–help
 :   Displays the online help.</p>
@@ -54909,7 +54908,7 @@ kernel notification method that it uses.
 -   \{**-u** \| **--URL**\} image\_URL Specify the URL of the Docker repository and image. This example URL points to a local Docker repository `192.168.0.1:5000/images/mytest_plc_r:devel`
 </code></pre>
 <p>:   By default, the <code>image-add</code> command copies the image to each SynxDB segment and standby master host, and installs the image. When you specify an image_file and provide the [<strong>-ulc</strong> | <strong>–use_local_copy</strong>] option, <code>plcontainer</code> installs the image only on the host on which you run the command.</p>
-<p>:   After installing the Docker image, use the <a href="utility_guide/ref/plcontainer.html#runtime_add">runtime-add</a> command to configure PL/Container to use the Docker image.</p>
+<p>:   After installing the Docker image, use the <code>runtime-add</code> command to configure PL/Container to use the Docker image.</p>
 <p>image-delete {<strong>-i</strong> | <strong>–image</strong>} image_name
 :   Remove an installed Docker image from all SynxDB hosts. Specify the full Docker image name including the tag for example <code>pivotaldata/plcontainer_python_shared:1.0.0</code></p>
 <p>image-list
@@ -54942,7 +54941,7 @@ kernel notification method that it uses.
 :   Required. Add the runtime ID. When adding a <code>runtime</code> element in the PL/Container configuration file, this is the value of the <code>id</code> element in the PL/Container configuration file. Maximum length is 63 Bytes.</p>
 <p>:   You specify the name in the SynxDB UDF on the <code># container</code> line.</p>
 <p>{<strong>-s</strong> | <strong>–setting</strong>} param=value
-:   Optional. Specify a setting to add to the runtime configuration information. You can specify this option multiple times. The setting applies to the runtime configuration specified by the runtime_id. The parameter is the XML attribute of the <a href="utility_guide/ref/plcontainer.html#plc_settings">settings</a> element in the PL/Container configuration file. These are valid parameters.</p>
+:   Optional. Specify a setting to add to the runtime configuration information. You can specify this option multiple times. The setting applies to the runtime configuration specified by the runtime_id. The parameter is the XML attribute of the <code>settings</code> element in the PL/Container configuration file. These are valid parameters.</p>
 <pre><code>-   `cpu_share` - Set the CPU limit for each container in the runtime configuration. The default value is 1024. The value is a relative weighting of CPU usage compared to other containers.
 -   `memory_mb` - Set the memory limit for each container in the runtime configuration. The default value is 1024. The value is an integer that specifies the amount of memory in MB.
 -   `resource_group_id` - Assign the specified resource group to the runtime configuration. The resource group limits the total CPU and memory resource usage for all containers that share this runtime configuration. You must specify the `groupid` of the resource group. For information about managing PL/Container resources, see [About PL/Container Resource Management](#topic_resmgmt).
@@ -54977,7 +54976,7 @@ kernel notification method that it uses.
 </code></pre>
 <p>runtime-replace options
 :   Replaces runtime configuration information in the PL/Container configuration file on all SynxDB instances. If the runtime_id does not exist, the information is added to the configuration file. The utility adds a startup command and shared directory to the configuration.</p>
-<pre><code>See [runtime-add](#runtime_add) for command options and information added to the configuration.
+<pre><code>See `runtime-add` for command options and information added to the configuration.
 </code></pre>
 <p>runtime-restore {<strong>-f</strong> | <strong>–file</strong>} config_file
 :   Replaces information in the PL/Container configuration file <code>plcontainer_configuration.xml</code> on all SynxDB instances with the information from the specified file on the local host.</p>
@@ -59466,7 +59465,7 @@ GRANT SELECT ON TABLE gp_toolkit.__gp_user_tables TO public;
 <tr class="row">
 <td class="entry nocellnorowborder" style="vertical-align:top;" headers="d119146e602 "><code class="ph codeph">ALTER GROUP</code></td>
 <td class="entry nocellnorowborder" style="vertical-align:top;" headers="d119146e605 ">YES</td>
-<td class="entry cell-norowborder" style="vertical-align:top;" headers="d119146e608 ">An alias for <a class="xref" href="ref_guide/sql_commands/ALTER_ROLE.html#topic1">ALTER ROLE</a></td>
+<td class="entry cell-norowborder" style="vertical-align:top;" headers="d119146e608 ">An alias for <a class="xref" href="ref_guide/sql_commands/ALTER_ROLE.html">ALTER ROLE</a></td>
 </tr>
 <tr class="row">
 <td class="entry nocellnorowborder" style="vertical-align:top;" headers="d119146e602 "><code class="ph codeph">ALTER INDEX</code></td>
@@ -59560,7 +59559,7 @@ GRANT SELECT ON TABLE gp_toolkit.__gp_user_tables TO public;
 <tr class="row">
 <td class="entry nocellnorowborder" style="vertical-align:top;" headers="d119146e602 "><code class="ph codeph">ALTER USER</code></td>
 <td class="entry nocellnorowborder" style="vertical-align:top;" headers="d119146e605 ">YES</td>
-<td class="entry cell-norowborder" style="vertical-align:top;" headers="d119146e608 ">An alias for <a class="xref" href="ref_guide/sql_commands/ALTER_ROLE.html#topic1">ALTER ROLE</a></td>
+<td class="entry cell-norowborder" style="vertical-align:top;" headers="d119146e608 ">An alias for <a class="xref" href="ref_guide/sql_commands/ALTER_ROLE.html">ALTER ROLE</a></td>
 </tr>
 <tr class="row">
 <td class="entry nocellnorowborder" style="vertical-align:top;" headers="d119146e602 "><code class="ph codeph">ALTER VIEW</code></td>
@@ -59687,7 +59686,7 @@ GRANT SELECT ON TABLE gp_toolkit.__gp_user_tables TO public;
 <tr class="row">
 <td class="entry nocellnorowborder" style="vertical-align:top;" headers="d119146e602 "><code class="ph codeph">CREATE GROUP</code></td>
 <td class="entry nocellnorowborder" style="vertical-align:top;" headers="d119146e605 ">YES</td>
-<td class="entry cell-norowborder" style="vertical-align:top;" headers="d119146e608 ">An alias for <a class="xref" href="ref_guide/sql_commands/CREATE_ROLE.html#topic1">CREATE ROLE</a></td>
+<td class="entry cell-norowborder" style="vertical-align:top;" headers="d119146e608 ">An alias for <a class="xref" href="ref_guide/sql_commands/CREATE_ROLE.html">CREATE ROLE</a></td>
 </tr>
 <tr class="row">
 <td class="entry nocellnorowborder" style="vertical-align:top;" headers="d119146e602 "><code class="ph codeph">CREATE INDEX</code></td>
@@ -59802,7 +59801,7 @@ GRANT SELECT ON TABLE gp_toolkit.__gp_user_tables TO public;
 <tr class="row">
 <td class="entry nocellnorowborder" style="vertical-align:top;" headers="d119146e602 "><code class="ph codeph">CREATE TABLE AS</code></td>
 <td class="entry nocellnorowborder" style="vertical-align:top;" headers="d119146e605 ">YES</td>
-<td class="entry cell-norowborder" style="vertical-align:top;" headers="d119146e608 ">See <a class="xref" href="ref_guide/sql_commands/CREATE_TABLE.html#topic1">CREATE TABLE</a></td>
+<td class="entry cell-norowborder" style="vertical-align:top;" headers="d119146e608 ">See <a class="xref" href="ref_guide/sql_commands/CREATE_TABLE.html">CREATE TABLE</a></td>
 </tr>
 <tr class="row">
 <td class="entry nocellnorowborder" style="vertical-align:top;" headers="d119146e602 "><code class="ph codeph">CREATE TABLESPACE</code></td>
@@ -59832,7 +59831,7 @@ GRANT SELECT ON TABLE gp_toolkit.__gp_user_tables TO public;
 <tr class="row">
 <td class="entry nocellnorowborder" style="vertical-align:top;" headers="d119146e602 "><code class="ph codeph">CREATE USER</code></td>
 <td class="entry nocellnorowborder" style="vertical-align:top;" headers="d119146e605 ">YES</td>
-<td class="entry cell-norowborder" style="vertical-align:top;" headers="d119146e608 ">An alias for <a class="xref" href="ref_guide/sql_commands/CREATE_ROLE.html#topic1">CREATE ROLE</a></td>
+<td class="entry cell-norowborder" style="vertical-align:top;" headers="d119146e608 ">An alias for <a class="xref" href="ref_guide/sql_commands/CREATE_ROLE.html">CREATE ROLE</a></td>
 </tr>
 <tr class="row">
 <td class="entry nocellnorowborder" style="vertical-align:top;" headers="d119146e602 "><code class="ph codeph">CREATE VIEW</code></td>
@@ -59926,7 +59925,7 @@ GRANT SELECT ON TABLE gp_toolkit.__gp_user_tables TO public;
 <tr class="row">
 <td class="entry nocellnorowborder" style="vertical-align:top;" headers="d119146e602 "><code class="ph codeph">DROP GROUP</code></td>
 <td class="entry nocellnorowborder" style="vertical-align:top;" headers="d119146e605 ">YES</td>
-<td class="entry cell-norowborder" style="vertical-align:top;" headers="d119146e608 ">An alias for <a class="xref" href="ref_guide/sql_commands/DROP_ROLE.html#topic1">DROP ROLE</a></td>
+<td class="entry cell-norowborder" style="vertical-align:top;" headers="d119146e608 ">An alias for <a class="xref" href="ref_guide/sql_commands/DROP_ROLE.html">DROP ROLE</a></td>
 </tr>
 <tr class="row">
 <td class="entry nocellnorowborder" style="vertical-align:top;" headers="d119146e602 "><code class="ph codeph">DROP INDEX</code></td>
@@ -60012,7 +60011,7 @@ GRANT SELECT ON TABLE gp_toolkit.__gp_user_tables TO public;
 <tr class="row">
 <td class="entry nocellnorowborder" style="vertical-align:top;" headers="d119146e602 "><code class="ph codeph">DROP USER</code></td>
 <td class="entry nocellnorowborder" style="vertical-align:top;" headers="d119146e605 ">YES</td>
-<td class="entry cell-norowborder" style="vertical-align:top;" headers="d119146e608 ">An alias for <a class="xref" href="ref_guide/sql_commands/DROP_ROLE.html#topic1">DROP ROLE</a></td>
+<td class="entry cell-norowborder" style="vertical-align:top;" headers="d119146e608 ">An alias for <a class="xref" href="ref_guide/sql_commands/DROP_ROLE.html">DROP ROLE</a></td>
 </tr>
 <tr class="row">
 <td class="entry nocellnorowborder" style="vertical-align:top;" headers="d119146e602 "><code class="ph codeph">DROP VIEW</code></td>
@@ -60081,7 +60080,7 @@ GRANT SELECT ON TABLE gp_toolkit.__gp_user_tables TO public;
 <tr class="row">
 <td class="entry nocellnorowborder" style="vertical-align:top;" headers="d119146e602 "><code class="ph codeph">MOVE</code></td>
 <td class="entry nocellnorowborder" style="vertical-align:top;" headers="d119146e605 ">YES</td>
-<td class="entry cell-norowborder" style="vertical-align:top;" headers="d119146e608 ">See <a class="xref" href="ref_guide/sql_commands/FETCH.html#topic1">FETCH</a></td>
+<td class="entry cell-norowborder" style="vertical-align:top;" headers="d119146e608 ">See <a class="xref" href="ref_guide/sql_commands/FETCH.html">FETCH</a></td>
 </tr>
 <tr class="row">
 <td class="entry nocellnorowborder" style="vertical-align:top;" headers="d119146e602 "><code class="ph codeph">NOTIFY</code></td>
@@ -60175,7 +60174,7 @@ GRANT SELECT ON TABLE gp_toolkit.__gp_user_tables TO public;
 <tr class="row">
 <td class="entry nocellnorowborder" style="vertical-align:top;" headers="d119146e602 "><code class="ph codeph">SELECT INTO</code></td>
 <td class="entry nocellnorowborder" style="vertical-align:top;" headers="d119146e605 ">YES</td>
-<td class="entry cell-norowborder" style="vertical-align:top;" headers="d119146e608 ">See <a class="xref" href="ref_guide/sql_commands/SELECT.html#topic1">SELECT</a></td>
+<td class="entry cell-norowborder" style="vertical-align:top;" headers="d119146e608 ">See <a class="xref" href="ref_guide/sql_commands/SELECT.html">SELECT</a></td>
 </tr>
 <tr class="row">
 <td class="entry nocellnorowborder" style="vertical-align:top;" headers="d119146e602 "><code class="ph codeph">SET</code></td>
@@ -60196,7 +60195,7 @@ GRANT SELECT ON TABLE gp_toolkit.__gp_user_tables TO public;
 <tr class="row">
 <td class="entry nocellnorowborder" style="vertical-align:top;" headers="d119146e602 "><code class="ph codeph">SET SESSION AUTHORIZATION</code></td>
 <td class="entry nocellnorowborder" style="vertical-align:top;" headers="d119146e605 ">YES</td>
-<td class="entry cell-norowborder" style="vertical-align:top;" headers="d119146e608 ">Deprecated as of PostgreSQL 8.1 - see <a class="xref" href="ref_guide/sql_commands/SET_ROLE.html#topic1">SET ROLE</a></td>
+<td class="entry cell-norowborder" style="vertical-align:top;" headers="d119146e608 ">Deprecated as of PostgreSQL 8.1 - see <a class="xref" href="ref_guide/sql_commands/SET_ROLE.html">SET ROLE</a></td>
 </tr>
 <tr class="row">
 <td class="entry nocellnorowborder" style="vertical-align:top;" headers="d119146e602 "><code class="ph codeph">SET TRANSACTION</code></td>
@@ -60255,13 +60254,13 @@ GRANT SELECT ON TABLE gp_toolkit.__gp_user_tables TO public;
 <p>The resource group names <code>admin_group</code>, <code>default_group</code>, and <code>none</code> are reserved. The resource queue name <code>pg_default</code> is reserved.</p>
 <p>The tablespace names <code>pg_default</code> and <code>pg_global</code> are reserved.</p>
 <p>The role names <code>gpadmin</code> and <code>gpmon</code> are reserved. <code>gpadmin</code> is the default SynxDB superuser role. The <code>gpmon</code> role owns the <code>gpperfmon</code> database.</p>
-<p>In data files, the characters that delimit fields (columns) and rows have a special meaning. If they appear within the data you must escape them so that SynxDB treats them as data and not as delimiters. The backslash character (<code>\</code>) is the default escape character. See <a href="ref_guide/../admin_guide/load/topics/g-escaping.html#topic99">Escaping</a> for details.</p>
+<p>In data files, the characters that delimit fields (columns) and rows have a special meaning. If they appear within the data you must escape them so that SynxDB treats them as data and not as delimiters. The backslash character (<code>\</code>) is the default escape character. See <a href="ref_guide/../admin_guide/load/topics/g-escaping.html">Escaping</a> for details.</p>
 <p>See <a href="https://www.postgresql.org/docs/9.4/sql-syntax.html">SQL Syntax</a> in the PostgreSQL documentation for more information about SQL identifiers, constants, operators, and expressions.</p>
 <h2 id="sql-key-words"><a class="header" href="#sql-key-words"><a id="keyw"></a>SQL Key Words</a></h2>
-<p><a href="ref_guide/sql-keywords.html#table_yjz_3hb_jhb">Table 1</a> lists all tokens that are key words in SynxDB 1 and PostgreSQL 9.4.</p>
+<p>Table 1 lists all tokens that are key words in SynxDB 1 and PostgreSQL 9.4.</p>
 <p>ANSI SQL distinguishes between <em>reserved</em> and <em>unreserved</em> key words. According to the standard, reserved key words are the only real key words; they are never allowed as identifiers. Unreserved key words only have a special meaning in particular contexts and can be used as identifiers in other contexts. Most unreserved key words are actually the names of built-in tables and functions specified by SQL. The concept of unreserved key words essentially only exists to declare that some predefined meaning is attached to a word in some contexts.</p>
 <p>In the SynxDB and PostgreSQL parsers there are several different classes of tokens ranging from those that can never be used as an identifier to those that have absolutely no special status in the parser as compared to an ordinary identifier. (The latter is usually the case for functions specified by SQL.) Even reserved key words are not completely reserved, but can be used as column labels (for example, <code>SELECT 55 AS CHECK</code>, even though <code>CHECK</code> is a reserved key word).</p>
-<p><a href="ref_guide/sql-keywords.html#table_yjz_3hb_jhb">Table 1</a> classifies as “unreserved” those key words that are explicitly known to the parser but are allowed as column or table names. Some key words that are otherwise unreserved cannot be used as function or data type names and are marked accordingly. (Most of these words represent built-in functions or data types with special syntax. The function or type is still available but it cannot be redefined by the user.) Key words labeled “reserved” are not allowed as column or table names. Some reserved key words are allowable as names for functions or data types; this is also shown in the table. If not so marked, a reserved key word is only allowed as an “AS” column label name.</p>
+<p>Table 1 classifies as “unreserved” those key words that are explicitly known to the parser but are allowed as column or table names. Some key words that are otherwise unreserved cannot be used as function or data type names and are marked accordingly. (Most of these words represent built-in functions or data types with special syntax. The function or type is still available but it cannot be redefined by the user.) Key words labeled “reserved” are not allowed as column or table names. Some reserved key words are allowable as names for functions or data types; this is also shown in the table. If not so marked, a reserved key word is only allowed as an “AS” column label name.</p>
 <p>If you get spurious parser errors for commands that contain any of the listed key words as an identifier you should try to quote the identifier to see if the problem goes away.</p>
 <p>Before studying the table, note the fact that a key word is not reserved does not mean that the feature related to the word is not implemented. Conversely, the presence of a key word does not indicate the existence of a feature.</p>
 <div class="table-wrapper"><table><thead><tr><th style="text-align: left">Key Word</th><th style="text-align: left">SynxDB</th><th style="text-align: left">PostgreSQL 9.4</th></tr></thead><tbody>

@@ -194,7 +194,7 @@
 -   \{**-u** \| **--URL**\} image\_URL Specify the URL of the Docker repository and image. This example URL points to a local Docker repository `192.168.0.1:5000/images/mytest_plc_r:devel`
 </code></pre>
 <p>:   By default, the <code>image-add</code> command copies the image to each SynxDB segment and standby master host, and installs the image. When you specify an image_file and provide the [<strong>-ulc</strong> | <strong>–use_local_copy</strong>] option, <code>plcontainer</code> installs the image only on the host on which you run the command.</p>
-<p>:   After installing the Docker image, use the <a href="#runtime_add">runtime-add</a> command to configure PL/Container to use the Docker image.</p>
+<p>:   After installing the Docker image, use the <code>runtime-add</code> command to configure PL/Container to use the Docker image.</p>
 <p>image-delete {<strong>-i</strong> | <strong>–image</strong>} image_name
 :   Remove an installed Docker image from all SynxDB hosts. Specify the full Docker image name including the tag for example <code>pivotaldata/plcontainer_python_shared:1.0.0</code></p>
 <p>image-list
@@ -227,7 +227,7 @@
 :   Required. Add the runtime ID. When adding a <code>runtime</code> element in the PL/Container configuration file, this is the value of the <code>id</code> element in the PL/Container configuration file. Maximum length is 63 Bytes.</p>
 <p>:   You specify the name in the SynxDB UDF on the <code># container</code> line.</p>
 <p>{<strong>-s</strong> | <strong>–setting</strong>} param=value
-:   Optional. Specify a setting to add to the runtime configuration information. You can specify this option multiple times. The setting applies to the runtime configuration specified by the runtime_id. The parameter is the XML attribute of the <a href="#plc_settings">settings</a> element in the PL/Container configuration file. These are valid parameters.</p>
+:   Optional. Specify a setting to add to the runtime configuration information. You can specify this option multiple times. The setting applies to the runtime configuration specified by the runtime_id. The parameter is the XML attribute of the <code>settings</code> element in the PL/Container configuration file. These are valid parameters.</p>
 <pre><code>-   `cpu_share` - Set the CPU limit for each container in the runtime configuration. The default value is 1024. The value is a relative weighting of CPU usage compared to other containers.
 -   `memory_mb` - Set the memory limit for each container in the runtime configuration. The default value is 1024. The value is an integer that specifies the amount of memory in MB.
 -   `resource_group_id` - Assign the specified resource group to the runtime configuration. The resource group limits the total CPU and memory resource usage for all containers that share this runtime configuration. You must specify the `groupid` of the resource group. For information about managing PL/Container resources, see [About PL/Container Resource Management](#topic_resmgmt).
@@ -262,7 +262,7 @@
 </code></pre>
 <p>runtime-replace options
 :   Replaces runtime configuration information in the PL/Container configuration file on all SynxDB instances. If the runtime_id does not exist, the information is added to the configuration file. The utility adds a startup command and shared directory to the configuration.</p>
-<pre><code>See [runtime-add](#runtime_add) for command options and information added to the configuration.
+<pre><code>See `runtime-add` for command options and information added to the configuration.
 </code></pre>
 <p>runtime-restore {<strong>-f</strong> | <strong>–file</strong>} config_file
 :   Replaces information in the PL/Container configuration file <code>plcontainer_configuration.xml</code> on all SynxDB instances with the information from the specified file on the local host.</p>

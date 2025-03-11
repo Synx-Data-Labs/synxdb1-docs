@@ -275,7 +275,7 @@ sdw5|sdw5-1|60012|/gpdata/mirror/gp10|14|10|m
 </li>
 </ol>
 <p>When the initialization process completes, you can connect to SynxDB and view the expansion schema. The <em>gpexpand</em> schema resides in the postgres database. For more information, see <a href="expand-planning.html">About the Expansion Schema</a>.</p>
-<p>After segment initialization is complete, <a href="expand-redistribute.html#expand-redistribute">redistribute the tables</a> to balance existing data over the new segments.</p>
+<p>After segment initialization is complete, <a href="expand-redistribute.html">redistribute the tables</a> to balance existing data over the new segments.</p>
 <h2 id="monitoring-the-cluster-expansion-state"><a class="header" href="#monitoring-the-cluster-expansion-state"><a id="topic_wkv_kkd_chb"></a>Monitoring the Cluster Expansion State</a></h2>
 <p>At any time, you can check the state of cluster expansion by running the <code>gpstate</code> utility with the <code>-x</code> flag:</p>
 <pre><code>$ gpstate -x

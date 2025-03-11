@@ -178,7 +178,7 @@
 <p><strong>Note</strong> You cannot <code>FETCH</code> from a <code>PARALLEL RETRIEVE CURSOR</code>, you must <a href="RETRIEVE.html">RETRIEVE</a> the rows from it.</p>
 </blockquote>
 <blockquote>
-<p><strong>Note</strong> This page describes usage of cursors at the SQL command level. If you are trying to use cursors inside a PL/pgSQL function, the rules are different. See <a href="../../analytics/pl_sql.html#topic1">PL/pgSQL function</a>.</p>
+<p><strong>Note</strong> This page describes usage of cursors at the SQL command level. If you are trying to use cursors inside a PL/pgSQL function, the rules are different. See <a href="../../analytics/pl_sql.html">PL/pgSQL function</a>.</p>
 </blockquote>
 <p>A cursor has an associated position, which is used by <code>FETCH</code>. The cursor position can be before the first row of the query result, on any particular row of the result, or after the last row of the result. When created, a cursor is positioned before the first row. After fetching some rows, the cursor is positioned on the row most recently retrieved. If <code>FETCH</code> runs off the end of the available rows then the cursor is left positioned after the last row. <code>FETCH ALL</code> will always leave the cursor positioned after the last row.</p>
 <p>The forms <code>NEXT</code>, <code>FIRST</code>, <code>ABSOLUTE</code>, <code>RELATIVE</code> fetch a single row after moving the cursor appropriately. If there is no such row, an empty result is returned, and the cursor is left positioned before the first row or after the last row as appropriate.</p>

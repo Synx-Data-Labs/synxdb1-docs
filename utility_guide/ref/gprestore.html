@@ -218,7 +218,7 @@ gprestore --help
 :   Optional. Restores table data from a backup created with the <code>gpbackup</code> utility, without creating the database tables. This option assumes the tables exist in the target database. To restore data for a specific set of tables from a backup set, you can specify an option to include tables or schemas or exclude tables or schemas. Specify the <code>--with-stats</code> option to restore table statistics from the backup.</p>
 <p>:   The backup set must contain the table data to be restored. For example, a backup created with the <code>gpbackup</code> option <code>--metadata-only</code> does not contain table data.</p>
 <p>:   <code>SEQUENCE</code> values are updated to match the values taken at the time of the backup.</p>
-<p>:   To restore only database tables, without restoring the table data, see the option <a href="#metadata_only">–metadata-only</a>.</p>
+<p>:   To restore only database tables, without restoring the table data, use the option <code>--metadata-only</code>.</p>
 <p><strong>–debug</strong>
 :   Optional. Displays verbose and debug log messages during a restore operation.</p>
 <p><strong>–exclude-schema</strong> schema_name
@@ -279,7 +279,7 @@ gprestore --help
 <p><strong>–metadata-only</strong>
 :   Optional. Creates database tables from a backup created with the <code>gpbackup</code> utility, but does not restore the table data. This option assumes the tables do not exist in the target database. To create a specific set of tables from a backup set, you can specify an option to include tables or schemas or exclude tables or schemas. Specify the option <code>--with-globals</code> to restore the SynxDB system objects.</p>
 <p>:   The backup set must contain the DDL for tables to be restored. For example, a backup created with the <code>gpbackup</code> option <code>--data-only</code> does not contain the DDL for tables.</p>
-<p>:   To restore table data after you create the database tables, see the option <a href="#data_only">–data-only</a>.</p>
+<p>:   To restore table data after you create the database tables, see the option <code>--data-only</code>.</p>
 <p><strong>–on-error-continue</strong>
 :   Optional. Specify this option to continue the restore operation if an SQL error occurs when creating database metadata (such as tables, roles, or functions) or restoring data. If another type of error occurs, the utility exits. The default is to exit on the first error.</p>
 <p>:   When this option is included, the utility displays an error summary and writes error information to the <code>gprestore</code> log file and continues the restore operation. The utility also creates text files in the backup directory that contain the list of tables that generated SQL errors.
@@ -305,7 +305,7 @@ gprestore --help
 <p>:   To collect current statistics for the restored tables during the restore operation, use the <code>--run-analyze</code> option. As an alternative, you can run the <code>ANALYZE</code> command on the tables after the tables are restored.</p>
 <p><strong>–run-analyze</strong>
 :   Optional. Run <code>ANALYZE</code> on the tables that are restored. For a partitioned table, <code>ANALYZE</code> is run on the root partitioned table. If <code>--with-stats</code> was specified for the backup, those statistics are ignored. You cannot use this option with <code>--with-stats</code>.</p>
-<p>:   If the backup being restored used the <code>gpbackup</code> option <a href="gpbackup.html#backup_leaf_part">–leaf-partition-data</a>, <code>gprestore</code> runs <code>ANALYZE</code> only on the individual leaf partitions that are restored, not the root partitioned table. For SynxDB 5, <code>ANALYZE</code> updates the root partitioned table statistics when all leaf partitions have statistics as the default. For SynxDB 4, you must run <code>ANALYZE</code> on the root partitioned table to update the root partition statistics.</p>
+<p>:   If the backup being restored used the <code>gpbackup</code> option <code>--leaf-partition-data</code>, <code>gprestore</code> runs <code>ANALYZE</code> only on the individual leaf partitions that are restored, not the root partitioned table. For SynxDB 5, <code>ANALYZE</code> updates the root partitioned table statistics when all leaf partitions have statistics as the default. For SynxDB 4, you must run <code>ANALYZE</code> on the root partitioned table to update the root partition statistics.</p>
 <p>:   Depending the tables being restored, running <code>ANALYZE</code> on restored tables might increase the duration of the restore operation.</p>
 <p>–help
 :   Displays the online help.</p>

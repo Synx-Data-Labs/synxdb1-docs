@@ -271,7 +271,7 @@ CREATE TYPE &lt;name&gt;
 <p>like_type
 :   The name of an existing data type that the new type will have the same representation as. The values internallength, passedbyvalue, alignment, and storage, are copied from that type, unless overridden by explicit specification elsewhere in this <code>CREATE TYPE</code> command.</p>
 <p>category
-:   The category code (a single ASCII character) for this type. The default is ‘<code>U</code>’, signifying a user-defined type. You can find the other standard category codes in <a href="../system_catalogs/pg_type.html#typcategory"><code>pg_type</code> Category Codes</a>. You may also assign unused ASCII characters to custom categories that you create.</p>
+:   The category code (a single ASCII character) for this type. The default is ‘<code>U</code>’, signifying a user-defined type. You can find the other standard category codes in <a href="../system_catalogs/pg_type.html"><code>pg_type</code> Category Codes</a>. You may also assign unused ASCII characters to custom categories that you create.</p>
 <p>preferred
 :   <code>true</code> if this type is a preferred type within its type category, else <code>false</code>. The default value is <code>false</code>. Be careful when you create a new preferred type within an existing type category; this could cause surprising behaviour changes.</p>
 <p>default

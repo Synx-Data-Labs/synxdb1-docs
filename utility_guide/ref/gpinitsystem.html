@@ -359,7 +359,7 @@ $ gpconfig -s data_checksums
 </code></pre>
 <p>HBA_HOSTNAMES
 :   <strong>Optional.</strong> This parameter controls whether <code>gpinitsystem</code> uses IP addresses or host names in the <code>pg_hba.conf</code> file when updating the file with addresses that can connect to SynxDB. The default value is <code>0</code>, the utility uses IP addresses when updating the file. When initializing a SynxDB system, specify <code>HBA_HOSTNAMES=1</code> to have the utility use host names in the <code>pg_hba.conf</code> file.</p>
-<p>:   For information about how SynxDB resolves host names in the <code>pg_hba.conf</code> file, see <a href="../../admin_guide/client_auth.html#topic1">Configuring Client Authentication</a>.</p>
+<p>:   For information about how SynxDB resolves host names in the <code>pg_hba.conf</code> file, see <a href="../../admin_guide/client_auth.html">Configuring Client Authentication</a>.</p>
 <h2 id="specifying-hosts-using-hostnames-or-ip-addresses"><a class="header" href="#specifying-hosts-using-hostnames-or-ip-addresses"><a id="spechosts"></a>Specifying Hosts using Hostnames or IP Addresses</a></h2>
 <p>When initializing a SynxDB system with <code>gpinitsystem</code>, you can specify segment hosts using either hostnames or IP addresses. For example, you can use hostnames or IP addresses in the file specified with the <code>-h</code> option.</p>
 <ul>

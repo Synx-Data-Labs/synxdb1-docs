@@ -619,7 +619,7 @@ GROUP BY region, product;
   )
 SELECT distance, employee_name FROM employee_recursive;
 </code></pre>
-<p>The typical form of recursive queries: an initial condition, followed by <code>UNION [ALL]</code>, followed by the recursive part of the query. Be sure that the recursive part of the query will eventually return no tuples, or else the query will loop indefinitely. See <a href="../../admin_guide/query/topics/CTE-query.html#topic_zhs_r1s_w1b">WITH Queries (Common Table Expressions)</a>in the <em>SynxDB Administrator Guide</em> for more examples.</p>
+<p>The typical form of recursive queries: an initial condition, followed by <code>UNION [ALL]</code>, followed by the recursive part of the query. Be sure that the recursive part of the query will eventually return no tuples, or else the query will loop indefinitely. See <a href="../../admin_guide/query/topics/CTE-query.html">WITH Queries (Common Table Expressions)</a>in the <em>SynxDB Administrator Guide</em> for more examples.</p>
 <h2 id="compatibility"><a class="header" href="#compatibility"><a id="section19"></a>Compatibility</a></h2>
 <p>The <code>SELECT</code> statement is compatible with the SQL standard, but there are some extensions and some missing features.</p>
 <p><strong>Omitted FROM Clauses</strong></p>
