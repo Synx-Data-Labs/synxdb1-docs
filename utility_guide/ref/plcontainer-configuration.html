@@ -180,7 +180,7 @@
         &lt;id&gt;plc_python_example2&lt;/id&gt;
         &lt;image&gt;pivotaldata/plcontainer_python_without_clients:0.1&lt;/image&gt;
         &lt;command&gt;/clientdir/pyclient.sh&lt;/command&gt;
-        &lt;shared_directory access="ro" container="/clientdir" host="/usr/local/greenplum-db/bin/plcontainer_clients"/&gt;
+        &lt;shared_directory access="ro" container="/clientdir" host="/usr/local/synxdb/bin/plcontainer_clients"/&gt;
         &lt;setting memory_mb="512"/&gt;
         &lt;setting use_container_logging="yes"/&gt;
         &lt;setting cpu_share="1024"/&gt;
@@ -190,7 +190,7 @@
         &lt;id&gt;plc_r_example&lt;/id&gt;
         &lt;image&gt;pivotaldata/plcontainer_r_without_clients:0.2&lt;/image&gt;
         &lt;command&gt;/clientdir/rclient.sh&lt;/command&gt;
-        &lt;shared_directory access="ro" container="/clientdir" host="/usr/local/greenplum-db/bin/plcontainer_clients"/&gt;
+        &lt;shared_directory access="ro" container="/clientdir" host="/usr/local/synxdb/bin/plcontainer_clients"/&gt;
         &lt;setting use_container_logging="yes"/&gt;
         &lt;setting enable_network="no"/&gt;
         &lt;setting roles="gpadmin,user1"/&gt;
@@ -238,7 +238,7 @@
 </code></pre>
 <p>:   When creating a <code>runtime</code> element, the <code>plcontainer</code> utility adds a <code>shared_directory</code> element.</p>
 <pre><code>```
-&lt;shared_directory access="ro" container="/clientdir" host="/usr/local/greenplum-db/bin/plcontainer_clients"/&gt;
+&lt;shared_directory access="ro" container="/clientdir" host="/usr/local/synxdb/bin/plcontainer_clients"/&gt;
 ```
 </code></pre>
 <p>:   For each <code>runtime</code> element, the <code>container</code> attribute of the <code>shared_directory</code> elements must be unique. For example, a <code>runtime</code> element cannot have two <code>shared_directory</code> elements with attribute <code>container="/clientdir"</code>.</p>
@@ -332,22 +332,6 @@ By default, the PL/Container log information is sent to a system service. On Red
 
         </div>
 
-        <!-- Livereload script (if served using the cli tool) -->
-        <script>
-            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
-            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
-            const socket = new WebSocket(wsAddress);
-            socket.onmessage = function (event) {
-                if (event.data === "reload") {
-                    socket.close();
-                    location.reload();
-                }
-            };
-
-            window.onbeforeunload = function() {
-                socket.close();
-            }
-        </script>
 
 
 

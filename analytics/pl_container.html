@@ -192,7 +192,6 @@
 </blockquote>
 <p>SynxDB 2 includes PL/Container version 3 Beta, which:</p>
 <ul>
-<li>Provides support for the new GreenplumR interface.</li>
 <li>Reduces the number of processes created by PL/Container, in order to save system resources.</li>
 <li>Supports more containers running concurrently.</li>
 <li>Includes improved log messages to help diagnose problems.</li>
@@ -297,9 +296,6 @@
 <p>As <code>gpadmin</code>, copy the PL/Container language extension package to the master host.</p>
 </li>
 <li>
-<p>Follow the instructions in <a href="../install_guide/verify_sw.html">Verifying the SynxDB Software Download</a> to verify the integrity of the <strong>SynxDB Procedural Languages PL/Container</strong> software.</p>
-</li>
-<li>
 <p>Run the package installation command:</p>
 <pre><code>gppkg -i plcontainer-2.1.1-rhel7-x86_64.gppkg
 </code></pre>
@@ -362,9 +358,6 @@ The PL/Container open source module contains dockerfiles to build Docker images 
 </li>
 <li>
 <p>If you are using PL/Container 3 Beta, note that this Beta version is compatible only with the associated <code>plcontainer-r-image-3.0.0-beta-gp6.tar.gz</code> image.</p>
-</li>
-<li>
-<p>Follow the instructions in <a href="../install_guide/verify_sw.html">Verifying the SynxDB Software Download</a> to verify the integrity of the <strong>SynxDB Procedural Languages PL/Container Image</strong> software.</p>
 </li>
 <li>
 <p>Use the <code>plcontainer image-add</code> command to install an image on all SynxDB hosts. Provide the <code>-f</code> option to specify the file system location of a downloaded image file. For example:</p>
@@ -435,7 +428,7 @@ plcontainer runtime-add -r plc_r_shared -i pivotaldata/plcontainer_r_shared:deve
   Linked Docker Image: pivotaldata/plcontainer_python_shared:devel
   Runtime Setting(s): 
   Shared Directory: 
-  ---- Shared Directory From HOST '/usr/local/greenplum-db/./bin/plcontainer_clients' to Container '/clientdir', access mode is 'ro'
+  ---- Shared Directory From HOST '/usr/local/synxdb/./bin/plcontainer_clients' to Container '/clientdir', access mode is 'ro'
 ---------------------------------------------------------
 
 
@@ -637,22 +630,6 @@ postgres=# select dummyR();
 
         </div>
 
-        <!-- Livereload script (if served using the cli tool) -->
-        <script>
-            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
-            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
-            const socket = new WebSocket(wsAddress);
-            socket.onmessage = function (event) {
-                if (event.data === "reload") {
-                    socket.close();
-                    location.reload();
-                }
-            };
-
-            window.onbeforeunload = function() {
-                socket.close();
-            }
-        </script>
 
 
 

@@ -750,12 +750,12 @@ include $(PGXS)
 </li>
 <li>
 <p>Copy the shared library to your SynxDB installation. You must have SynxDB administrative privileges to copy the file. For example:</p>
-<pre><code>gpadmin@gpmaster$ cp gppc_concat.so /usr/local/greenplum-db/lib/postgresql/
+<pre><code>gpadmin@gpmaster$ cp gppc_concat.so /usr/local/synxdb/lib/postgresql/
 </code></pre>
 </li>
 <li>
 <p>Copy the shared library to every host in your SynxDB installation. For example, if <code>seghostfile</code> contains a list, one-host-per-line, of the segment hosts in your SynxDB cluster:</p>
-<pre><code>gpadmin@gpmaster$ gpscp -v -f seghostfile /usr/local/greenplum-db/lib/postgresql/gppc_concat.so =:/usr/local/greenplum-db/lib/postgresql/gppc_concat.so
+<pre><code>gpadmin@gpmaster$ gpscp -v -f seghostfile /usr/local/synxdb/lib/postgresql/gppc_concat.so =:/usr/local/synxdb/lib/postgresql/gppc_concat.so
 </code></pre>
 </li>
 <li>
@@ -917,13 +917,13 @@ include $(PGXS)
 </li>
 <li>
 <p>Copy the shared library to your SynxDB installation. You must have SynxDB administrative privileges to copy the file. For example:</p>
-<pre><code>gpadmin@gpmaster$ cp gppc_rettbl.so /usr/local/greenplum-db/lib/postgresql/
+<pre><code>gpadmin@gpmaster$ cp gppc_rettbl.so /usr/local/synxdb/lib/postgresql/
 </code></pre>
 <p>This command copies the shared library to <code>$libdir</code></p>
 </li>
 <li>
 <p>Copy the shared library to every host in your SynxDB installation. For example, if <code>seghostfile</code> contains a list, one-host-per-line, of the segment hosts in your SynxDB cluster:</p>
-<pre><code>gpadmin@gpmaster$ gpscp -v -f seghostfile /usr/local/greenplum-db/lib/postgresql/gppc_rettbl.so =:/usr/local/greenplum-db/lib/postgresql/gppc_rettbl.so
+<pre><code>gpadmin@gpmaster$ gpscp -v -f seghostfile /usr/local/synxdb/lib/postgresql/gppc_rettbl.so =:/usr/local/synxdb/lib/postgresql/gppc_rettbl.so
 </code></pre>
 </li>
 <li>
@@ -997,22 +997,6 @@ INSERT INTO gppc_testtbl VALUES (17, 'f17');
 
         </div>
 
-        <!-- Livereload script (if served using the cli tool) -->
-        <script>
-            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
-            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
-            const socket = new WebSocket(wsAddress);
-            socket.onmessage = function (event) {
-                if (event.data === "reload") {
-                    socket.close();
-                    location.reload();
-                }
-            };
-
-            window.onbeforeunload = function() {
-                socket.close();
-            }
-        </script>
 
 
 

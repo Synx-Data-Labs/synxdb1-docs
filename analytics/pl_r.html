@@ -212,9 +212,6 @@ $ gpstop -r
 <p>Download the PL/R extension package.</p>
 </li>
 <li>
-<p>Follow the instructions in <a href="../install_guide/verify_sw.html">Verifying the SynxDB Software Download</a> to verify the integrity of the <strong>SynxDB Procedural Languages PL/R</strong> software.</p>
-</li>
-<li>
 <p>Copy the PL/R package to the SynxDB master host.</p>
 </li>
 <li>
@@ -468,22 +465,6 @@ LANGUAGE 'plr';
 
         </div>
 
-        <!-- Livereload script (if served using the cli tool) -->
-        <script>
-            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
-            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
-            const socket = new WebSocket(wsAddress);
-            socket.onmessage = function (event) {
-                if (event.data === "reload") {
-                    socket.close();
-                    location.reload();
-                }
-            };
-
-            window.onbeforeunload = function() {
-                socket.close();
-            }
-        </script>
 
 
 

@@ -171,7 +171,7 @@
 :   The path and file name of a shared library file. This file must exist in the same location on all hosts in your SynxDB array.</p>
 <h2 id="examples"><a class="header" href="#examples"><a id="section5"></a>Examples</a></h2>
 <p>Load a shared library file:</p>
-<pre><code>LOAD '/usr/local/greenplum-db/lib/myfuncs.so';
+<pre><code>LOAD '/usr/local/synxdb/lib/myfuncs.so';
 </code></pre>
 <h2 id="compatibility"><a class="header" href="#compatibility"><a id="section6"></a>Compatibility</a></h2>
 <p><code>LOAD</code> is a SynxDB extension.</p>
@@ -207,22 +207,6 @@
 
         </div>
 
-        <!-- Livereload script (if served using the cli tool) -->
-        <script>
-            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
-            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
-            const socket = new WebSocket(wsAddress);
-            socket.onmessage = function (event) {
-                if (event.data === "reload") {
-                    socket.close();
-                    location.reload();
-                }
-            };
-
-            window.onbeforeunload = function() {
-                socket.close();
-            }
-        </script>
 
 
 

@@ -307,7 +307,7 @@
  Linked Docker Image: test1:latest
  Runtime Setting(s):
  Shared Directory:
- ---- Shared Directory From HOST '/usr/local/greenplum-db/bin/plcontainer_clients' to Container '/clientdir', access mode is 'ro'
+ ---- Shared Directory From HOST '/usr/local/synxdb/bin/plcontainer_clients' to Container '/clientdir', access mode is 'ro'
  ---- Shared Directory From HOST '/home/gpadmin/share/' to Container '/opt/share', access mode is 'rw'
 ---------------------------------------------------------
 </code></pre>
@@ -360,22 +360,6 @@
 
         </div>
 
-        <!-- Livereload script (if served using the cli tool) -->
-        <script>
-            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
-            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
-            const socket = new WebSocket(wsAddress);
-            socket.onmessage = function (event) {
-                if (event.data === "reload") {
-                    socket.close();
-                    location.reload();
-                }
-            };
-
-            window.onbeforeunload = function() {
-                socket.close();
-            }
-        </script>
 
 
 

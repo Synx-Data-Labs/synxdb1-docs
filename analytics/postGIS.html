@@ -173,7 +173,7 @@
 <p>For information about PostGIS, see <a href="https://postgis.net/">https://postgis.net/</a></p>
 <p>For information about GDAL, see <a href="https://gdal.org/">https://gdal.org/</a>.</p>
 <h2 id="synxdb-postgis-extension"><a class="header" href="#synxdb-postgis-extension"><a id="topic3"></a>SynxDB PostGIS Extension</a></h2>
-<p>The SynxDB PostGIS extension is provided as a separate package. After you download the package, you can follow the instructions in <a href="../install_guide/verify_sw.html">Verifying the SynxDB Software Download</a> to verify the integrity of the download. You can install the package using the SynxDB Package Manager (<code>gppkg</code>). For details, see <a href="../utility_guide/ref/gppkg.html"><code>gppkg</code></a> in the <em>SynxDB Utility Guide</em>.</p>
+<p>The SynxDB PostGIS extension is provided as a separate package. You can install the package using the SynxDB Package Manager (<code>gppkg</code>). For details, see <a href="../utility_guide/ref/gppkg.html"><code>gppkg</code></a> in the <em>SynxDB Utility Guide</em>.</p>
 <p>SynxDB supports the following PostGIS extension versions and components:</p>
 <ul>
 <li>PostGIS 2.5.4, and components Proj 4.8.0, Geos 3.10.2, GDAL 1.11.1, Json 0.12, Expat 2.4.4</li>
@@ -531,22 +531,6 @@ SELECT AddGeometryColumn('public', 'geometries', 'geom', 0, 'LINESTRING', 2);
 
         </div>
 
-        <!-- Livereload script (if served using the cli tool) -->
-        <script>
-            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
-            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
-            const socket = new WebSocket(wsAddress);
-            socket.onmessage = function (event) {
-                if (event.data === "reload") {
-                    socket.close();
-                    location.reload();
-                }
-            };
-
-            window.onbeforeunload = function() {
-                socket.close();
-            }
-        </script>
 
 
 

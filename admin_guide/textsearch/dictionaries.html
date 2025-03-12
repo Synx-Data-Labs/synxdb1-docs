@@ -224,7 +224,7 @@ SELECT ts_rank_cd (to_tsvector('english','list stop words'), to_tsquery('list &a
     STOPWORDS = english
 );
 </code></pre>
-<p>Here, <code>english</code> is the base name of a file of stop words. The file’s full name will be <code>$SHAREDIR/tsearch_data/english.stop</code>, where <code>$SHAREDIR</code> means the SynxDB installation’s shared-data directory, often <code>/usr/local/greenplum-db-&lt;version&gt;/share/postgresql</code> (use <code>pg_config --sharedir</code> to determine it if you’re not sure). The file format is simply a list of words, one per line. Blank lines and trailing spaces are ignored, and upper case is folded to lower case, but no other processing is done on the file contents.</p>
+<p>Here, <code>english</code> is the base name of a file of stop words. The file’s full name will be <code>$SHAREDIR/tsearch_data/english.stop</code>, where <code>$SHAREDIR</code> means the SynxDB installation’s shared-data directory, often <code>/usr/local/synxdb/share/postgresql</code> (use <code>pg_config --sharedir</code> to determine it if you’re not sure). The file format is simply a list of words, one per line. Blank lines and trailing spaces are ignored, and upper case is folded to lower case, but no other processing is done on the file contents.</p>
 <p>Now we can test our dictionary:</p>
 <pre><code>SELECT ts_lexize('public.simple_dict','YeS');
  ts_lexize
@@ -461,22 +461,6 @@ SELECT ts_lexize('norwegian_ispell', 'sjokoladefabrikk');
 
         </div>
 
-        <!-- Livereload script (if served using the cli tool) -->
-        <script>
-            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
-            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
-            const socket = new WebSocket(wsAddress);
-            socket.onmessage = function (event) {
-                if (event.data === "reload") {
-                    socket.close();
-                    location.reload();
-                }
-            };
-
-            window.onbeforeunload = function() {
-                socket.close();
-            }
-        </script>
 
 
 

@@ -193,7 +193,7 @@ gppkg --version
 :   Installs the given package. This includes any pre/post installation steps and installation of any dependencies.</p>
 <p>–migrate GPHOME_old GPHOME_new
 :   Migrates packages from a separate <code>$GPHOME</code>. Carries over packages from one version of SynxDB to another.</p>
-<p>:   For example: <code>gppkg --migrate /usr/local/greenplum-db-&lt;old-version&gt; /usr/local/greenplum-db-&lt;new-version&gt;</code></p>
+<p>:   For example: <code>gppkg --migrate /usr/local/greenplum-db-&lt;old-version&gt; /usr/local/synxdb-&lt;new-version&gt;</code></p>
 <p>:   &gt; <strong>Note</strong> In general, it is best to avoid using the <code>--migrate</code> option, and packages should be reinstalled, not migrated. See <a href="../../install_guide/upgrading.html#topic17">Upgrading from 6.x to a Newer 6.x Release</a>.</p>
 <p>:   When migrating packages, these requirements must be met.</p>
 <pre><code>-   At least the master instance of the destination SynxDB must be started \(the instance installed in GPHOME\_new\). Before running the `gppkg` command start the SynxDB master with the command `gpstart -m`.
@@ -251,22 +251,6 @@ gppkg --version
 
         </div>
 
-        <!-- Livereload script (if served using the cli tool) -->
-        <script>
-            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
-            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
-            const socket = new WebSocket(wsAddress);
-            socket.onmessage = function (event) {
-                if (event.data === "reload") {
-                    socket.close();
-                    location.reload();
-                }
-            };
-
-            window.onbeforeunload = function() {
-                socket.close();
-            }
-        </script>
 
 
 

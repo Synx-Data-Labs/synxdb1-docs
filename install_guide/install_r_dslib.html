@@ -309,9 +309,6 @@
 <p>Copy the package to the SynxDB master host.</p>
 </li>
 <li>
-<p>Follow the instructions in <a href="../install_guide/verify_sw.html">Verifying the SynxDB Software Download</a> to verify the integrity of the <em>SynxDB Procedural Languages R Data Science Package</em> software.</p>
-</li>
-<li>
 <p>Use the <code>gppkg</code> command to install the package. For example:</p>
 <pre><code>$ gppkg -i DataScienceR-&lt;version&gt;-relhel&lt;N&gt;_x86_64.gppkg
 </code></pre>
@@ -328,10 +325,10 @@ $ gpstop -r
 <pre><code>$GPHOME/ext/DataScienceR/library
 </code></pre>
 <blockquote>
-<p><strong>Note</strong> <code>rjags</code> libraries are installed in the <code>$GPHOME/ext/DataScienceR/extlib/lib</code> directory. If you want to use <code>rjags</code> and your <code>$GPHOME</code> is not <code>/usr/local/greenplum-db</code>, you must perform additional configuration steps to create a symbolic link from <code>$GPHOME</code> to <code>/usr/local/greenplum-db</code> on each node in your SynxDB cluster. For example:</p>
+<p><strong>Note</strong> <code>rjags</code> libraries are installed in the <code>$GPHOME/ext/DataScienceR/extlib/lib</code> directory. If you want to use <code>rjags</code> and your <code>$GPHOME</code> is not <code>/usr/local/synxdb</code>, you must perform additional configuration steps to create a symbolic link from <code>$GPHOME</code> to <code>/usr/local/synxdb</code> on each node in your SynxDB cluster. For example:</p>
 </blockquote>
-<pre><code>$ gpssh -f all_hosts -e 'ln -s $GPHOME /usr/local/greenplum-db'
-$ gpssh -f all_hosts -e 'chown -h gpadmin /usr/local/greenplum-db'
+<pre><code>$ gpssh -f all_hosts -e 'ln -s $GPHOME /usr/local/synxdb'
+$ gpssh -f all_hosts -e 'chown -h gpadmin /usr/local/synxdb'
 
 </code></pre>
 <h2 id="uninstalling-the-r-data-science-library-package"><a class="header" href="#uninstalling-the-r-data-science-library-package"><a id="topic_removepdsl"></a>Uninstalling the R Data Science Library Package</a></h2>
@@ -379,22 +376,6 @@ $ gpstop -r
 
         </div>
 
-        <!-- Livereload script (if served using the cli tool) -->
-        <script>
-            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
-            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
-            const socket = new WebSocket(wsAddress);
-            socket.onmessage = function (event) {
-                if (event.data === "reload") {
-                    socket.close();
-                    location.reload();
-                }
-            };
-
-            window.onbeforeunload = function() {
-                socket.close();
-            }
-        </script>
 
 
 

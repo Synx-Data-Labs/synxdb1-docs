@@ -306,7 +306,7 @@ plcontainer runtime-replace -r r_run1 -i pivotaldata/plcontainer_r_shared:devel 
  INFO:  plcontainer:     memory_mb = '1024'
  INFO:  plcontainer:     use container network = 'no'
  INFO:  plcontainer:     use container logging  = 'no'
- INFO:  plcontainer:     shared directory from host '/usr/local/greenplum-db/./bin/plcontainer_clients' to container '/clientdir'
+ INFO:  plcontainer:     shared directory from host '/usr/local/synxdb/./bin/plcontainer_clients' to container '/clientdir'
  INFO:  plcontainer:     access = readonly
                 
  ...
@@ -316,7 +316,7 @@ plcontainer runtime-replace -r r_run1 -i pivotaldata/plcontainer_r_shared:devel 
  INFO:  plcontainer:     memory_mb = '1024'  (seg0 slice3 192.168.180.45:40000 pid=3304)
  INFO:  plcontainer:     use container network = 'no'  (seg0 slice3 192.168.180.45:40000 pid=3304)
  INFO:  plcontainer:     use container logging  = 'yes'  (seg0 slice3 192.168.180.45:40000 pid=3304)
- INFO:  plcontainer:     shared directory from host '/usr/local/greenplum-db/bin/plcontainer_clients' to container '/clientdir'  (seg0 slice3 192.168.180.45:40000 pid=3304)
+ INFO:  plcontainer:     shared directory from host '/usr/local/synxdb/bin/plcontainer_clients' to container '/clientdir'  (seg0 slice3 192.168.180.45:40000 pid=3304)
  INFO:  plcontainer:         access = readonly  (seg0 slice3 192.168.180.45:40000 pid=3304)
  gp_segment_id | plcontainer_show_local_config
  ---------------+-------------------------------
@@ -474,7 +474,7 @@ RUN true &amp;&amp; \
     &lt;image&gt;localhost/plcontainer_python3_cuda_shared:latest&lt;/image&gt; 
     &lt;command&gt;/clientdir/py3client.sh&lt;/command&gt; 
     &lt;setting roles="gpadmin"/&gt; 
-    &lt;shared_directory access="ro" container="/clientdir" host="/usr/local/greenplum-db/bin/plcontainer_clients"/&gt; 
+    &lt;shared_directory access="ro" container="/clientdir" host="/usr/local/synxdb/bin/plcontainer_clients"/&gt; 
     &lt;device_request type="gpu"&gt; 
         &lt;deviceid&gt;0&lt;/deviceid&gt; 
     &lt;/device_request&gt; 
@@ -667,22 +667,6 @@ SELECT * from dummyPython()
 
         </div>
 
-        <!-- Livereload script (if served using the cli tool) -->
-        <script>
-            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
-            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
-            const socket = new WebSocket(wsAddress);
-            socket.onmessage = function (event) {
-                if (event.data === "reload") {
-                    socket.close();
-                    location.reload();
-                }
-            };
-
-            window.onbeforeunload = function() {
-                socket.close();
-            }
-        </script>
 
 
 

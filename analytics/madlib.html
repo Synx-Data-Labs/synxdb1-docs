@@ -204,9 +204,6 @@
 <p>Copy the MADlib package to the SynxDB master host.</p>
 </li>
 <li>
-<p>Follow the instructions in <a href="../install_guide/verify_sw.html">Verifying the SynxDB Software Download</a> to verify the integrity of the <strong>SynxDB Advanced Analytics MADlib</strong> software.</p>
-</li>
-<li>
 <p>Unpack the MADlib distribution package. For example:</p>
 <p>To unpack version 1.21:</p>
 <pre><code>$ tar xzvf madlib-1.21.0+1-gp6-rhel7-x86_64.tar.gz
@@ -664,22 +661,6 @@ insert into t1 values
 
         </div>
 
-        <!-- Livereload script (if served using the cli tool) -->
-        <script>
-            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
-            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
-            const socket = new WebSocket(wsAddress);
-            socket.onmessage = function (event) {
-                if (event.data === "reload") {
-                    socket.close();
-                    location.reload();
-                }
-            };
-
-            window.onbeforeunload = function() {
-                socket.close();
-            }
-        </script>
 
 
 

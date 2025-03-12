@@ -435,9 +435,6 @@
 <p>Copy the package to the SynxDB master host.</p>
 </li>
 <li>
-<p>Follow the instructions in <a href="../install_guide/verify_sw.html">Verifying the SynxDB Software Download</a> to verify the integrity of the <em>SynxDB Procedural Languages Python Data Science Package</em> software.</p>
-</li>
-<li>
 <p>Use the <code>gppkg</code> command to install the package. For example:</p>
 <pre><code>$ gppkg -i DataSciencePython&lt;pythonversion&gt;-gp6-rhel&lt;n&gt;-x86_64.gppkg
 </code></pre>
@@ -501,22 +498,6 @@ $ gpstop -r
 
         </div>
 
-        <!-- Livereload script (if served using the cli tool) -->
-        <script>
-            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
-            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
-            const socket = new WebSocket(wsAddress);
-            socket.onmessage = function (event) {
-                if (event.data === "reload") {
-                    socket.close();
-                    location.reload();
-                }
-            };
-
-            window.onbeforeunload = function() {
-                socket.close();
-            }
-        </script>
 
 
 

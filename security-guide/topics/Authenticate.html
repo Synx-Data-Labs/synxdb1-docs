@@ -477,10 +477,10 @@ gpadmin@gpmaster$ . /usr/local/synxdb/synxdb_path.sh
 </code></pre>
 </li>
 <li>
-<p>Identify the <code>pamservice</code> name for SynxDB. In this procedure, we choose the name <code>greenplum</code>.</p>
+<p>Identify the <code>pamservice</code> name for SynxDB. In this procedure, we choose the name <code>synxdb</code>.</p>
 </li>
 <li>
-<p>Create the PAM service configuration file, <code>/etc/pam.d/greenplum</code>, and add the text below. You must have operating system superuser privileges to create the <code>/etc/pam.d</code> directory (if necessary) and the <code>greenplum</code> PAM configuration file.</p>
+<p>Create the PAM service configuration file, <code>/etc/pam.d/synxdb</code>, and add the text below. You must have operating system superuser privileges to create the <code>/etc/pam.d</code> directory (if necessary) and the <code>synxdb</code> PAM configuration file.</p>
 <pre><code>#%PAM-1.0
 auth		include		password-auth
 account		include		password-auth
@@ -489,14 +489,14 @@ account		include		password-auth
 <p>This configuration instructs PAM to authenticate the local operating system user.</p>
 </li>
 <li>
-<p>Ensure that the <code>/etc/pam.d/greenplum</code> file is readable by all users:</p>
-<pre><code>sudo chmod 644 /etc/pam.d/greenplum
+<p>Ensure that the <code>/etc/pam.d/synxdb</code> file is readable by all users:</p>
+<pre><code>sudo chmod 644 /etc/pam.d/synxdb
 </code></pre>
 </li>
 <li>
-<p>Add one or more entries to the <code>pg_hba.conf</code> configuration file to enable PAM authentication in SynxDB. These entries must specify the <code>pam</code> <em>auth-method</em>. You must also specify the <code>pamservice=greenplum</code> <em>auth-option</em>. For example:</p>
+<p>Add one or more entries to the <code>pg_hba.conf</code> configuration file to enable PAM authentication in SynxDB. These entries must specify the <code>pam</code> <em>auth-method</em>. You must also specify the <code>pamservice=synxdb</code> <em>auth-option</em>. For example:</p>
 <pre><code>
-host     &lt;user-name&gt;     &lt;db-name&gt;     &lt;address&gt;     pam     pamservice=greenplum
+host     &lt;user-name&gt;     &lt;db-name&gt;     &lt;address&gt;     pam     pamservice=synxdb
 
 </code></pre>
 </li>
@@ -606,22 +606,6 @@ max_prepared_transactions=100
 
         </div>
 
-        <!-- Livereload script (if served using the cli tool) -->
-        <script>
-            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
-            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
-            const socket = new WebSocket(wsAddress);
-            socket.onmessage = function (event) {
-                if (event.data === "reload") {
-                    socket.close();
-                    location.reload();
-                }
-            };
-
-            window.onbeforeunload = function() {
-                socket.close();
-            }
-        </script>
 
 
 

@@ -160,63 +160,198 @@
 <p>Describes how to install the SynxDB software binaries on all of the hosts that will comprise your SynxDB system, how to enable passwordless SSH for the <code>gpadmin</code> user, and how to verify the installation.</p>
 <p>Perform the following tasks in order:</p>
 <ol>
-<li><a href="#topic_oy5_21n_1jb">Install SynxDB</a>:
-<ul>
-<li><a href="#topic_download">Download the SynxDB Server Software</a> (SynxDB)</li>
-<li><a href="#topic_verify_sha">Verify the SynxDB Software</a> (SynxDB)</li>
-<li><a href="#topic_install">Install the SynxDB Software</a></li>
-</ul>
-</li>
-<li><a href="#topic_xmb_gb5_vhb">Enabling Passwordless SSH</a></li>
+<li><a href="#topic_oy5_21n_1jb">Install SynxDB.</a></li>
+<li><a href="#topic_xmb_gb5_vhb">Enable Passwordless SSH.</a></li>
 <li><a href="#topic10">Confirm the software installation.</a></li>
-<li><a href="#topic_cwj_hzb_vhb">Next Steps</a></li>
+<li><a href="#topic_cwj_hzb_vhb">Perform next steps.</a></li>
 </ol>
 <h2 id="installing-synxdb"><a class="header" href="#installing-synxdb"><a id="topic_oy5_21n_1jb"></a>Installing SynxDB</a></h2>
-<p>You must install SynxDB on each host machine of the SynxDB system.</p>
-<p>Synx Data Labs distributes the SynxDB software as a downloadable package that you install on each host system with the operating system’s package management system.</p>
-<h3 id="downloading-the-synxdb-server-software-synxdb"><a class="header" href="#downloading-the-synxdb-server-software-synxdb"><a id="topic_download"></a>Downloading the SynxDB Server Software (SynxDB)</a></h3>
-<p>You can download the <em>SynxDB Server</em> software package from <a href="https://www.synxdata.com/">Synx Data Labs</a>.</p>
-<p>Be sure to note the name and the file system location of the downloaded file.</p>
-<h3 id="verifying-the-synxdb-software-synxdb"><a class="header" href="#verifying-the-synxdb-software-synxdb"><a id="topic_verify_sha"></a>Verifying the SynxDB Software (SynxDB)</a></h3>
-<p>Synx Data Labs generates a SHA256 fingerprint for each SynxDB software download available from Synx Data Labs. This fingerprint enables you to verify that your downloaded file is unaltered from the original.</p>
-<p>Follow the instructions in <a href="verify_sw.html">Verifying the SynxDB Software Download</a> to verify the integrity of the <em>SynxDB Server</em> software.</p>
-<h3 id="installing-the-synxdb-software-1"><a class="header" href="#installing-the-synxdb-software-1"><a id="topic_install"></a>Installing the SynxDB Software</a></h3>
-<p>Before you begin installing SynxDB, be sure you have completed the steps in <a href="prep_os.html">Configuring Your Systems</a> to configure each of the master, standby master, and segment host machines for SynxDB.</p>
-<blockquote>
-<p><strong>Important</strong> After installing SynxDB, you must set SynxDB environment variables. See <a href="init_gpdb.html">Setting SynxDB Environment Variables</a>.</p>
-</blockquote>
-<p>See <a href="ansible-example.html">Example Ansible Playbook</a> for an example script that shows how you can automate creating the <code>gpadmin</code> user and installing the SynxDB.</p>
-<p>Follow these instructions to install SynxDB from a pre-built binary.</p>
-<blockquote>
-<p><strong>Important</strong> You require sudo or root user access to install from a pre-built RPM or DEB file.</p>
-</blockquote>
+<p>You must install SynxDB on each host machine of the SynxDB cluster.</p>
+<p>Synx Data Labs distributes the SynxDB software via a repository that must be installed on each cluster host. This guide assumes that each host can access the Synx Data Labs repositories. If your environment restricts internet access, or if you prefer to host repositories within your infrastructure to ensure consistent package availability, contact Synx Data Labs to obtain a complete repository mirror for local hosting.</p>
+<p>Perform the following steps on each host machine of your cluster:</p>
 <ol>
 <li>
-<p>Download and copy the SynxDB package to the <code>gpadmin</code> user’s home directory on the master, standby master, and every segment host machine. The distribution file name has the format <code>greenplum-db-&lt;version&gt;-&lt;platform&gt;.rpm</code> for RHEL, CentOS, and Oracle Linux systems, or <code>greenplum-db-&lt;version&gt;-&lt;platform&gt;.deb</code> for Ubuntu systems, where <code>&lt;platform&gt;</code> is similar to <code>rhel7-x86_64</code> (Red Hat 7 64-bit).</p>
-<blockquote>
-<p><strong>Note</strong> For Oracle Linux installations, download and install the <code>rhel7-x86_64</code>distribution files.</p>
-</blockquote>
+<p>Login to your Enterprise Linux 8 or 9 system as the <code>root</code> user.</p>
 </li>
 <li>
-<p>With sudo (or as root), install the SynxDB package on each host machine using your system’s package manager software.</p>
-<ul>
-<li>
-<p>For RHEL/CentOS systems, run the <code>yum</code> command:</p>
-<pre><code>$ sudo yum install ./greenplum-db-&lt;version&gt;-&lt;platform&gt;.rpm
+<p>Import the Synx Data Labs GPG key so you can use it to validate downloaded packages:</p>
+<pre><code>wget -nv https://synxdb-repo.s3.us-west-2.amazonaws.com/el9/stable/RPM-GPG-KEY-SynxDB
+gpg --show-keys RPM-GPG-KEY-SynxDB
+rpm --import RPM-GPG-KEY-SynxDB
 </code></pre>
 </li>
 <li>
-<p>For Ubuntu systems, run the <code>apt</code> command:</p>
-<pre><code>$ sudo apt install ./greenplum-db-&lt;version&gt;-&lt;platform&gt;.deb
+<p>Verify that you have imported the keys:</p>
+<pre><code>rpm -q gpg-pubkey --qf "%{NAME}-%{VERSION}-%{RELEASE} %{SUMMARY}\n" | grep SynxDB
+</code></pre>
+<p>You should see output similar to:</p>
+<pre><code>gpg-pubkey-df4bfefe-67975261 gpg(SynxDB Infrastructure &lt;infrastructure@synxdata.com&gt;)
 </code></pre>
 </li>
-</ul>
-<p>The <code>yum</code> or <code>apt</code> command automatically installs software dependencies, copies the SynxDB software files into a version-specific directory under <code>/usr/local</code>, <code>/usr/local/greenplum-db-&lt;version&gt;</code>, and creates the symbolic link <code>/usr/local/greenplum-db</code> to the installation directory.</p>
+<li>
+<p>Download the correct SynxDB repository package for your operating system.
+For Enterprise Linux 9:</p>
+<pre><code class="language-bash">wget -nv https://synxdb-repo.s3.us-west-2.amazonaws.com/el9/noarch/synxdb-release-1.0.0-rc2.el9.noarch.rpm
+</code></pre>
+<p>For Enterprise Linux 8:</p>
+<pre><code class="language-bash">wget -nv https://synxdb-repo.s3.us-west-2.amazonaws.com/el8/noarch/synxdb-release-1.0.0-rc2.el8.noarch.rpm
+</code></pre>
+<p>For Enterprise Linux 7:</p>
+<pre><code class="language-bash">wget -nv https://synxdb-repo.s3.us-west-2.amazonaws.com/el7/noarch/synxdb-release-1.0.0-rc2.el7.noarch.rpm
+</code></pre>
+<p><strong>Important:</strong> Ensure that you download install the correct SynxDB repository package for your OS version. Attempting to install an EL8 package on an EL9 system or vice versa results in a failure.</p>
 </li>
 <li>
-<p>Change the owner and group of the installed files to <code>gpadmin</code>:</p>
-<pre><code>$ sudo chown -R gpadmin:gpadmin /usr/local/greenplum*
-$ sudo chgrp -R gpadmin /usr/local/greenplum*
+<p>Verify the package signature of the repository package you just downloaded.
+For EL9:</p>
+<pre><code class="language-bash">rpm --checksig synxdb-release-1.0.0-rc2.el9.noarch.rpm
+</code></pre>
+<p>For EL8:</p>
+<pre><code class="language-bash">rpm --checksig synxdb-release-1.0.0-rc2.el8.noarch.rpm
+</code></pre>
+<p>For EL7:</p>
+<pre><code class="language-bash">rpm --checksig synxdb-release-1.0.0-rc2.el7.noarch.rpm
+</code></pre>
+<p>Ensure that the command output shows that the signature is OK. For example:</p>
+<pre><code>synxdb-release-1.0.0-rc2.el8.noarch.rpm: digests signatures OK
+</code></pre>
+</li>
+<li>
+<p>After verifying the package signature, install the SynxDB repository package. For Enterprise Linux 9:</p>
+<pre><code class="language-bash">dnf install -y synxdb-release-1.0.0-rc2.el9.noarch.rpm
+</code></pre>
+<p>For Enterprise Linux 8:</p>
+<pre><code class="language-bash">dnf install -y synxdb-release-1.0.0-rc2.el8.noarch.rpm
+</code></pre>
+<p>For Enterprise Linux 7:</p>
+<pre><code class="language-bash">dnf install -y synxdb-release-1.0.0-rc2.el7.noarch.rpm
+</code></pre>
+<p>The repository installation shows details of the installation process similar to:</p>
+<pre><code>Last metadata expiration check: 2:11:29 ago on Mon Mar 10 18:53:32 2025.
+Dependencies resolved.
+=========================================================================
+ Package            Architecture   Version          Repository      Size
+=========================================================================
+Installing:
+ synxdb-release     noarch         1.0.0-rc2.el8    @commandline    8.0 k
+
+Transaction Summary
+=========================================================================
+Install  1 Package
+
+Total size: 8.0 k
+Installed size: 204  
+Downloading Packages:
+Running transaction check
+Transaction check succeeded.
+Running transaction test
+Transaction test succeeded.
+Running transaction
+  Preparing        :                                                 1/1 
+  Running scriptlet: synxdb-release-1.0.0-rc2.el8.noarch             1/1 
+  Installing       : synxdb-release-1.0.0-rc2.el8.noarch             1/1 
+  Verifying        : synxdb-release-1.0.0-rc2.el8.noarch             1/1 
+
+Installed:
+  synxdb-release-1.0.0-rc2.el8.noarch
+
+Complete!
+</code></pre>
+<p><strong>Note:</strong> The <code>-y</code> option in the <code>dnf install</code> command automatically confirms and proceeds with installing the software as well as dependent packages. If you prefer to confirm each dependency manually, omit the <code>-y</code> flag.</p>
+</li>
+<li>
+<p>After you have installed the repository package, install SynxDB with the command:</p>
+<pre><code class="language-bash">dnf install -y synxdb
+</code></pre>
+<p>The installation process installs all dependencies required for SynxDB 2 in addition to the SynxDB software.</p>
+</li>
+<li>
+<p>Verify the installation with:</p>
+<pre><code class="language-bash">rpm -qi synxdb
+</code></pre>
+<p>You should see installation details similar to:</p>
+<pre><code>Name        : synxdb
+Version     : 1.27.2
+Release     : rc3.el8
+Architecture: x86_64
+Install Date: Mon Mar 10 21:07:32 2025
+Group       : Applications/Databases
+Size        : 667859764
+License     : ASL 2.0
+Signature   : RSA/SHA256, Wed Feb 19 10:17:21 2025, Key ID b783878edf4bfefe
+Source RPM  : synxdb-2.27.2-rc3.el8.src.rpm
+Build Date  : Wed Feb 19 10:07:18 2025
+Build Host  : cdw
+Relocations : /usr/local/synxdb 
+Vendor      : Synx Data Labs, Inc.
+URL         : https://synxdatalabs.com
+Summary     : High-performance MPP database for enterprise analytics
+Description :
+
+SynxDB is a high-performance, enterprise-grade, massively parallel
+processing (MPP) database designed for advanced analytics on
+large-scale data sets. Derived from PostgreSQL and the last
+open-source version of Greenplum, SynxDB offers seamless
+compatibility, powerful analytical capabilities, and robust security
+features.
+
+Key Features:
+- Massively parallel processing for optimized query performance
+- Advanced analytics for complex data workloads
+- Seamless integration with ETL pipelines and BI tools
+- Broad compatibility with diverse data sources and formats
+- Enhanced security and operational reliability
+
+Disclaimer &amp; Attribution:
+
+SynxDB is derived from the last open-source version of Greenplum,
+originally developed by Pivotal Software, Inc., and maintained under
+Broadcom Inc.'s stewardship. Greenplum® is a registered trademark of
+Broadcom Inc. Synx Data Labs, Inc. and SynxDB are not affiliated with,
+endorsed by, or sponsored by Broadcom Inc. References to Greenplum are
+provided for comparative, interoperability, and attribution purposes
+in compliance with open-source licensing requirements.
+
+For more information, visit the official SynxDB website at
+https://synxdatalabs.com.
+
+</code></pre>
+<p>Also verify that the <code>/usr/local/synxdb</code> directory points to the specific version of SynxDB that you downloaded:</p>
+<pre><code>ls -ld /usr/local/synxdb*
+</code></pre>
+<p>For version 1.27.2 the output is:</p>
+<pre><code>lrwxrwxrwx  1 root root   24 Feb 19 10:05 /usr/local/synxdb -&gt; /usr/local/synxdb-2.27.2
+drwxr-xr-x 10 root root 4096 Mar 10 21:07 /usr/local/synxdb-2.27.2
+</code></pre>
+</li>
+<li>
+<p>If you have not yet created the <code>gpadmin</code> administrator user and group, execute these steps:</p>
+<pre><code class="language-bash"># groupadd gpadmin
+# useradd gpadmin -r -m -g gpadmin
+# passwd gpadmin
+New password: &lt;changeme&gt;
+Retype new password: &lt;changeme&gt;
+</code></pre>
+</li>
+<li>
+<p>Login as the <code>gpadmin</code> user and set the SynxDB environment:</p>
+<pre><code class="language-bash">su - gpadmin
+source /usr/local/synxdb/synxdb_path.sh
+</code></pre>
+</li>
+<li>
+<p>Finally, verify that the following SynxDB executable paths and versions match the expected paths and versions for your installation:</p>
+<pre><code class="language-bash"># which postgres
+/usr/local/synxdb-2.27.2/bin/postgres
+# which psql
+/usr/local/synxdb-2.27.2/bin/psql
+# postgres --version
+postgres (SynxDB) 9.4.26
+# postgres --gp-version
+postgres (SynxDB) 6.27.2+SynxDB_RC3 build 1
+# psql --version
+psql (PostgreSQL) 9.4.26
+
 </code></pre>
 </li>
 </ol>
@@ -228,7 +363,7 @@ $ sudo chgrp -R gpadmin /usr/local/greenplum*
 </li>
 <li>
 <p>Source the <code>path</code> file in the SynxDB installation directory.</p>
-<pre><code>$ source /usr/local/greenplum-db-&lt;version&gt;/synxdb_path.sh
+<pre><code>$ source /usr/local/synxdb/synxdb_path.sh
 </code></pre>
 <blockquote>
 <p><strong>Note</strong> Add the above <code>source</code> command to the <code>gpadmin</code> user’s <code>.bashrc</code> or other shell startup file so that the SynxDB path and environment variables are set whenever you log in as <code>gpadmin</code>.</p>
@@ -281,7 +416,7 @@ sdw3-2
 </li>
 <li>
 <p>Use the <code>gpssh</code> utility to see if you can log in to all hosts without a password prompt, and to confirm that the SynxDB software was installed on all hosts. Use the <code>hostfile_exkeys</code> file you used to set up passwordless SSH. For example:</p>
-<pre><code>$ gpssh -f hostfile_exkeys -e 'ls -l /usr/local/greenplum-db-&lt;version&gt;'
+<pre><code>$ gpssh -f hostfile_exkeys -e 'ls -l /usr/local/synxdb-&lt;version&gt;'
 </code></pre>
 <p>If the installation was successful, you should be able to log in to all hosts without a password prompt. All hosts should show that they have the same contents in their installation directories, and that the directories are owned by the <code>gpadmin</code> user.</p>
 <p>If you are prompted for a password, run the following command to redo the ssh key exchange:</p>
@@ -316,7 +451,7 @@ sdw3-2
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next prefetch" href="../install_guide/verify_sw.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next prefetch" href="../install_guide/create_data_dirs.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -330,29 +465,13 @@ sdw3-2
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next prefetch" href="../install_guide/verify_sw.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next prefetch" href="../install_guide/create_data_dirs.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>
 
         </div>
 
-        <!-- Livereload script (if served using the cli tool) -->
-        <script>
-            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
-            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
-            const socket = new WebSocket(wsAddress);
-            socket.onmessage = function (event) {
-                if (event.data === "reload") {
-                    socket.close();
-                    location.reload();
-                }
-            };
-
-            window.onbeforeunload = function() {
-                socket.close();
-            }
-        </script>
 
 
 

@@ -309,9 +309,6 @@ $ sudo apt install openjdk-&lt;version&gt;-jdk
 <p>Download the PL/Java extension package and copy it to the master host.</p>
 </li>
 <li>
-<p>Follow the instructions in <a href="../install_guide/verify_sw.html">Verifying the SynxDB Software Download</a> to verify the integrity of the <strong>SynxDB Procedural Languages PL/Java</strong> software.</p>
-</li>
-<li>
 <p>Install the software extension package by running the <code>gppkg</code> command. This example installs the PL/Java extension package on a Linux system:</p>
 <pre><code>$ gppkg -i pljava-1.4.3-gp5-rhel&lt;osversion&gt;_x86_64.gppkg
 </code></pre>
@@ -360,7 +357,7 @@ $ sudo apt install openjdk-&lt;version&gt;-jdk
 <li>
 <p>Copy your Java archives (JAR files) to the same directory on all SynxDB hosts. This example uses the SynxDB <code>gpscp</code> utility to copy the file <code>myclasses.jar</code> to the directory <code>$GPHOME/lib/postgresql/java/</code>:</p>
 <pre><code>$ gpscp -f gphosts_file myclasses.jar 
-=:/usr/local/greenplum-db/lib/postgresql/java/
+=:/usr/local/synxdb/lib/postgresql/java/
 </code></pre>
 <p>The file <code>gphosts_file</code> contains a list of the SynxDB hosts.</p>
 </li>
@@ -772,7 +769,7 @@ Build-Date: 01/20/2013 10:09 AM
 <p>Upload the jar file to the SynxDB master host.</p>
 <p>Run the <code>gpscp</code> utility to copy the jar file to the SynxDB Java directory. Use the <code>-f</code> option to specify the file that contains a list of the master and segment hosts.</p>
 <pre><code>gpscp -f gphosts_file analytics.jar 
-=:/usr/local/greenplum-db/lib/postgresql/java/
+=:/usr/local/synxdb/lib/postgresql/java/
 </code></pre>
 <p>Use the <code>gpconfig</code> utility to set the SynxDB <code>pljava_classpath</code> server configuration parameter. The parameter lists the installed jar files.</p>
 <pre><code>gpconfig -c pljava_classpath -v 'analytics.jar'
@@ -834,22 +831,6 @@ select java_substring(a, 1, 5) from temp;
 
         </div>
 
-        <!-- Livereload script (if served using the cli tool) -->
-        <script>
-            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
-            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
-            const socket = new WebSocket(wsAddress);
-            socket.onmessage = function (event) {
-                if (event.data === "reload") {
-                    socket.close();
-                    location.reload();
-                }
-            };
-
-            window.onbeforeunload = function() {
-                socket.close();
-            }
-        </script>
 
 
 
