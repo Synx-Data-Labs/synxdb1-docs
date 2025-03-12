@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Upgrading PostGIS 2.1.5 or 2.5.4 - SynxDB 1 Documentation (PRERELEASE DRAFT)</title>
+        <title>Upgrading PostGIS 2.1.5 or 2.5.4 - SynxDB 2 Documentation (PRERELEASE DRAFT)</title>
 
 
         <!-- Custom HTML head -->
@@ -121,7 +121,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">SynxDB 1 Documentation (PRERELEASE DRAFT)</h1>
+                    <h1 class="menu-title">SynxDB 2 Documentation (PRERELEASE DRAFT)</h1>
 
                     <div class="right-buttons">
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
@@ -129,7 +129,7 @@
                         </a>
 
                         &nbsp;&nbsp;&nbsp;&nbsp;
-                        <img id="fa fa-print" src="../SYNX-Text-and-Circular-Logo-142x28-White-text-Black-background.png" alt="Synx Data Labs Logo"/>
+                        <a href="https://www.synxdata.com/"><img id="fa fa-print" src="../SYNX-Text-and-Circular-Logo-142x28-White-text-Black-background.png" alt="Synx Data Labs Logo"/></a>
 
                     </div>
                 </div>
@@ -157,14 +157,14 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="upgrading-postgis-215-or-254"><a class="header" href="#upgrading-postgis-215-or-254">Upgrading PostGIS 2.1.5 or 2.5.4</a></h1>
-<p>For SynxDB 1, you can upgrade from PostGIS 2.1.5 to 2.5.4, or from a PostGIS 2.5.4 package to a newer PostGIS 2.5.4 package.</p>
+<p>For SynxDB 2, you can upgrade from PostGIS 2.1.5 to 2.5.4, or from a PostGIS 2.5.4 package to a newer PostGIS 2.5.4 package.</p>
 <ul>
 <li><a href="#topic_zgw_v5x_3mb">Upgrading from PostGIS 2.1.5 to the PostGIS 2.5.4 pivotal.3 (and later) Package</a></li>
 <li><a href="#topic_k4x_dp3_kmb">Upgrade a PostGIS 2.5.4 Package from pivotal.1 or pivotal.2 to pivotal.3 (and later)</a></li>
 <li><a href="#topic_yzz_l3h_kmb">Checking the PostGIS Version</a></li>
 </ul>
 <blockquote>
-<p><strong>Note</strong> For SynxDB 1, you can upgrade from PostGIS 2.1.5 to 2.5.4, or from a PostGIS 2.5.4 package to a newer PostGIS 2.5.4 package using the <code>postgis_manager.sh</code> script described in the upgrade instructions.</p>
+<p><strong>Note</strong> For SynxDB 2, you can upgrade from PostGIS 2.1.5 to 2.5.4, or from a PostGIS 2.5.4 package to a newer PostGIS 2.5.4 package using the <code>postgis_manager.sh</code> script described in the upgrade instructions.</p>
 </blockquote>
 <p>Upgrading PostGIS using the <code>postgis_manager.sh</code> script does not require you to remove PostGIS support and re-enable it.</p>
 <p>Removing PostGIS support from a database drops PostGIS database objects from the database without warning. Users accessing PostGIS objects might interfere with the dropping of PostGIS objects. See the Notes section in <a href="postGIS.html">Removing PostGIS Support</a>.</p>
@@ -276,6 +276,22 @@
 
         </div>
 
+        <!-- Livereload script (if served using the cli tool) -->
+        <script>
+            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
+            const socket = new WebSocket(wsAddress);
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload();
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
 
 
 

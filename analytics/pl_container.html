@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>PL/Container Language - SynxDB 1 Documentation (PRERELEASE DRAFT)</title>
+        <title>PL/Container Language - SynxDB 2 Documentation (PRERELEASE DRAFT)</title>
 
 
         <!-- Custom HTML head -->
@@ -121,7 +121,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">SynxDB 1 Documentation (PRERELEASE DRAFT)</h1>
+                    <h1 class="menu-title">SynxDB 2 Documentation (PRERELEASE DRAFT)</h1>
 
                     <div class="right-buttons">
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
@@ -129,7 +129,7 @@
                         </a>
 
                         &nbsp;&nbsp;&nbsp;&nbsp;
-                        <img id="fa fa-print" src="../SYNX-Text-and-Circular-Logo-142x28-White-text-Black-background.png" alt="Synx Data Labs Logo"/>
+                        <a href="https://www.synxdata.com/"><img id="fa fa-print" src="../SYNX-Text-and-Circular-Logo-142x28-White-text-Black-background.png" alt="Synx Data Labs Logo"/></a>
 
                     </div>
                 </div>
@@ -190,7 +190,7 @@
 <blockquote>
 <p><em>Note</em> PL/Container 3 Beta is deprecated and will be removed in a future SynxDB release.</p>
 </blockquote>
-<p>SynxDB 1 includes PL/Container version 3 Beta, which:</p>
+<p>SynxDB 2 includes PL/Container version 3 Beta, which:</p>
 <ul>
 <li>Provides support for the new GreenplumR interface.</li>
 <li>Reduces the number of processes created by PL/Container, in order to save system resources.</li>
@@ -211,13 +211,13 @@
 <h3 id="prerequisites"><a class="header" href="#prerequisites"><a id="requirements"></a>Prerequisites</a></h3>
 <ul>
 <li>
-<p>For PL/Container 2.1.x use SynxDB 1 on CentOS 7.x (or later), RHEL 7.x (or later), or Ubuntu 18.04.</p>
+<p>For PL/Container 2.1.x use SynxDB 2 on CentOS 7.x (or later), RHEL 7.x (or later), or Ubuntu 18.04.</p>
 <blockquote>
 <p><strong>Note</strong> PL/Container 2.1.x supports Docker images with Python 3 installed.</p>
 </blockquote>
 </li>
 <li>
-<p>For PL/Container 3 Beta use SynxDB 1 on CentOS 7.x (or later), RHEL 7.x (or later), or Ubuntu 18.04.</p>
+<p>For PL/Container 3 Beta use SynxDB 2 on CentOS 7.x (or later), RHEL 7.x (or later), or Ubuntu 18.04.</p>
 </li>
 <li>
 <p>The minimum Linux OS kernel version supported is 3.10. To verify your kernel release use:</p>
@@ -637,6 +637,22 @@ postgres=# select dummyR();
 
         </div>
 
+        <!-- Livereload script (if served using the cli tool) -->
+        <script>
+            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
+            const socket = new WebSocket(wsAddress);
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload();
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
 
 
 

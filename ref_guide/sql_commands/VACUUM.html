@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>VACUUM - SynxDB 1 Documentation (PRERELEASE DRAFT)</title>
+        <title>VACUUM - SynxDB 2 Documentation (PRERELEASE DRAFT)</title>
 
 
         <!-- Custom HTML head -->
@@ -121,7 +121,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">SynxDB 1 Documentation (PRERELEASE DRAFT)</h1>
+                    <h1 class="menu-title">SynxDB 2 Documentation (PRERELEASE DRAFT)</h1>
 
                     <div class="right-buttons">
                         <a href="../../print.html" title="Print this book" aria-label="Print this book">
@@ -129,7 +129,7 @@
                         </a>
 
                         &nbsp;&nbsp;&nbsp;&nbsp;
-                        <img id="fa fa-print" src="../../SYNX-Text-and-Circular-Logo-142x28-White-text-Black-background.png" alt="Synx Data Labs Logo"/>
+                        <a href="https://www.synxdata.com/"><img id="fa fa-print" src="../../SYNX-Text-and-Circular-Logo-142x28-White-text-Black-background.png" alt="Synx Data Labs Logo"/></a>
 
                     </div>
                 </div>
@@ -173,7 +173,7 @@ VACUUM [FULL] [FREEZE] [VERBOSE] ANALYZE
 <p><code>VACUUM</code> (without <code>FULL</code>) marks deleted and obsoleted data in tables and indexes for future reuse and reclaims space for re-use only if the space is at the end of the table and an exclusive table lock can be easily obtained. Unused space at the start or middle of a table remains as is. With heap tables, this form of the command can operate in parallel with normal reading and writing of the table, as an exclusive lock is not obtained. However, extra space is not returned to the operating system (in most cases); it’s just kept available for re-use within the same table. <code>VACUUM FULL</code> rewrites the entire contents of the table into a new disk file with no extra space, allowing unused space to be returned to the operating system. This form is much slower and requires an exclusive lock on each table while it is being processed.</p>
 <p>With append-optimized tables, <code>VACUUM</code> compacts a table by first vacuuming the indexes, then compacting each segment file in turn, and finally vacuuming auxiliary relations and updating statistics. On each segment, visible rows are copied from the current segment file to a new segment file, and then the current segment file is scheduled to be dropped and the new segment file is made available. Plain <code>VACUUM</code> of an append-optimized table allows scans, inserts, deletes, and updates of the table while a segment file is compacted. However, an Access Exclusive lock is taken briefly to drop the current segment file and activate the new segment file.</p>
 <p><code>VACUUM FULL</code> does more extensive processing, including moving of tuples across blocks to try to compact the table to the minimum number of disk blocks. This form is much slower and requires an Access Exclusive lock on each table while it is being processed. The Access Exclusive lock guarantees that the holder is the only transaction accessing the table in any way.</p>
-<p>When the option list is surrounded by parentheses, the options can be written in any order. Without parentheses, options must be specified in exactly the order shown above. The parenthesized syntax was added in SynxDB 1; the unparenthesized syntax is deprecated.</p>
+<p>When the option list is surrounded by parentheses, the options can be written in any order. Without parentheses, options must be specified in exactly the order shown above. The parenthesized syntax was added in SynxDB 2; the unparenthesized syntax is deprecated.</p>
 <blockquote>
 <p><strong>Important</strong> For information on the use of <code>VACUUM</code>, <code>VACUUM FULL</code>, and <code>VACUUM ANALYZE</code>, see <a href="#section6">Notes</a>.</p>
 </blockquote>
@@ -254,6 +254,22 @@ VACUUM [FULL] [FREEZE] [VERBOSE] ANALYZE
 
         </div>
 
+        <!-- Livereload script (if served using the cli tool) -->
+        <script>
+            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
+            const socket = new WebSocket(wsAddress);
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload();
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
 
 
 

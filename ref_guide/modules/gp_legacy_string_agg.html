@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>gp_legacy_string_agg - SynxDB 1 Documentation (PRERELEASE DRAFT)</title>
+        <title>gp_legacy_string_agg - SynxDB 2 Documentation (PRERELEASE DRAFT)</title>
 
 
         <!-- Custom HTML head -->
@@ -121,7 +121,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">SynxDB 1 Documentation (PRERELEASE DRAFT)</h1>
+                    <h1 class="menu-title">SynxDB 2 Documentation (PRERELEASE DRAFT)</h1>
 
                     <div class="right-buttons">
                         <a href="../../print.html" title="Print this book" aria-label="Print this book">
@@ -129,7 +129,7 @@
                         </a>
 
                         &nbsp;&nbsp;&nbsp;&nbsp;
-                        <img id="fa fa-print" src="../../SYNX-Text-and-Circular-Logo-142x28-White-text-Black-background.png" alt="Synx Data Labs Logo"/>
+                        <a href="https://www.synxdata.com/"><img id="fa fa-print" src="../../SYNX-Text-and-Circular-Logo-142x28-White-text-Black-background.png" alt="Synx Data Labs Logo"/></a>
 
                     </div>
                 </div>
@@ -160,7 +160,7 @@
 <p>The <code>gp_legacy_string_agg</code> module re-introduces the single-argument <code>string_agg()</code> function that was present in SynxDB 5.</p>
 <p>The <code>gp_legacy_string_agg</code> module is a SynxDB extension.</p>
 <blockquote>
-<p><strong>Note</strong> Use this module to aid migration from SynxDB 5 to the native, two-argument <code>string_agg()</code> function included in SynxDB 1.</p>
+<p><strong>Note</strong> Use this module to aid migration from SynxDB 5 to the native, two-argument <code>string_agg()</code> function included in SynxDB 2.</p>
 </blockquote>
 <h2 id="installing-and-registering-the-module"><a class="header" href="#installing-and-registering-the-module"><a id="topic_reg"></a>Installing and Registering the Module</a></h2>
 <p>The <code>gp_legacy_string_agg</code> module is installed when you install SynxDB. Before you can use the function defined in the module, you must register the <code>gp_legacy_string_agg</code> extension in each database where you want to use the function. Refer to <a href="../../install_guide/install_modules.html">Installing Additional Supplied Modules</a> for more information about registering the module.</p>
@@ -188,7 +188,7 @@ WARNING:  Deprecated call to string_agg(text), use string_agg(text, text) instea
 (1 row)
 </code></pre>
 <h2 id="migrating-to-the-two-argument-string_agg-function"><a class="header" href="#migrating-to-the-two-argument-string_agg-function"><a id="topic_migrate"></a>Migrating to the Two-Argument string_agg() Function</a></h2>
-<p>SynxDB 1 includes a native, two-argument, text input <code>string_agg()</code> function:</p>
+<p>SynxDB 2 includes a native, two-argument, text input <code>string_agg()</code> function:</p>
 <pre><code>string_agg( text, text )
 </code></pre>
 <p>The following function invocation is equivalent to the single-argument <code>string_agg()</code> function that is provided in this module:</p>
@@ -225,6 +225,22 @@ WARNING:  Deprecated call to string_agg(text), use string_agg(text, text) instea
 
         </div>
 
+        <!-- Livereload script (if served using the cli tool) -->
+        <script>
+            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
+            const socket = new WebSocket(wsAddress);
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload();
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
 
 
 

@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>pg_dump - SynxDB 1 Documentation (PRERELEASE DRAFT)</title>
+        <title>pg_dump - SynxDB 2 Documentation (PRERELEASE DRAFT)</title>
 
 
         <!-- Custom HTML head -->
@@ -121,7 +121,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">SynxDB 1 Documentation (PRERELEASE DRAFT)</h1>
+                    <h1 class="menu-title">SynxDB 2 Documentation (PRERELEASE DRAFT)</h1>
 
                     <div class="right-buttons">
                         <a href="../../print.html" title="Print this book" aria-label="Print this book">
@@ -129,7 +129,7 @@
                         </a>
 
                         &nbsp;&nbsp;&nbsp;&nbsp;
-                        <img id="fa fa-print" src="../../SYNX-Text-and-Circular-Logo-142x28-White-text-Black-background.png" alt="Synx Data Labs Logo"/>
+                        <a href="https://www.synxdata.com/"><img id="fa fa-print" src="../../SYNX-Text-and-Circular-Logo-142x28-White-text-Black-background.png" alt="Synx Data Labs Logo"/></a>
 
                     </div>
                 </div>
@@ -205,7 +205,7 @@ pg_dump -V | --version
 <p>:   &gt; <strong>Note</strong> Parallel dumps using <code>pg_dump</code> are parallelized only on the query dispatcher (master) node, not across the query executor (segment) nodes as is the case when you use <code>gpbackup</code>.</p>
 <p>:   <code>pg_dump</code> will open njobs + 1 connections to the database, so make sure your <a href="../../ref_guide/config_params/guc-list.html">max_connections</a> setting is high enough to accommodate all connections.</p>
 <p>:   Requesting exclusive locks on database objects while running a parallel dump could cause the dump to fail. The reason is that the <code>pg_dump</code> master process requests shared locks on the objects that the worker processes are going to dump later in order to make sure that nobody deletes them and makes them go away while the dump is running. If another client then requests an exclusive lock on a table, that lock will not be granted but will be queued waiting for the shared lock of the master process to be released. Consequently, any other access to the table will not be granted either and will queue after the exclusive lock request. This includes the worker process trying to dump the table. Without any precautions this would be a classic deadlock situation. To detect this conflict, the <code>pg_dump</code> worker process requests another shared lock using the <code>NOWAIT</code> option. If the worker process is not granted this shared lock, somebody else must have requested an exclusive lock in the meantime and there is no way to continue with the dump, so <code>pg_dump</code> has no choice but to cancel the dump.</p>
-<p>:   For a consistent backup, the database server needs to support synchronized snapshots, a feature that was introduced in SynxDB 1. With this feature, database clients can ensure they see the same data set even though they use different connections. <code>pg_dump -j</code> uses multiple database connections; it connects to the database once with the master process and once again for each worker job. Without the synchronized snapshot feature, the different worker jobs wouldn’t be guaranteed to see the same data in each connection, which could lead to an inconsistent backup.</p>
+<p>:   For a consistent backup, the database server needs to support synchronized snapshots, a feature that was introduced in SynxDB 2. With this feature, database clients can ensure they see the same data set even though they use different connections. <code>pg_dump -j</code> uses multiple database connections; it connects to the database once with the master process and once again for each worker job. Without the synchronized snapshot feature, the different worker jobs wouldn’t be guaranteed to see the same data in each connection, which could lead to an inconsistent backup.</p>
 <p>:   If you want to run a parallel dump of a pre-6.0 server, you need to make sure that the database content doesn’t change from between the time the master connects to the database until the last worker job has connected to the database. The easiest way to do this is to halt any data modifying processes (DDL and DML) accessing the database before starting the backup. You also need to specify the <code>--no-synchronized-snapshots</code> parameter when running <code>pg_dump -j</code> against a pre-6.0 SynxDB server.</p>
 <p>-n schema | –schema=schema
 :   Dump only schemas matching the schema pattern; this selects both the schema itself, and all its contained objects. When this option is not specified, all non-system schemas in the target database will be dumped. Multiple schemas can be selected by writing multiple <code>-n</code> switches. Also, the schema parameter is interpreted as a pattern according to the same rules used by <code>psql</code>’s<code>\d</code> commands, so multiple schemas can also be selected by writing wildcard characters in the pattern. When using wildcards, be careful to quote the pattern if needed to prevent the shell from expanding the wildcards.</p>
@@ -378,6 +378,22 @@ Also, `-t` cannot be used to specify a child table partition. To dump a partitio
 
         </div>
 
+        <!-- Livereload script (if served using the cli tool) -->
+        <script>
+            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
+            const socket = new WebSocket(wsAddress);
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload();
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
 
 
 

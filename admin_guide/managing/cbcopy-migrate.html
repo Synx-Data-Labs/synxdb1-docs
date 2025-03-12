@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Migrating Data with cbcopy - SynxDB 1 Documentation (PRERELEASE DRAFT)</title>
+        <title>Migrating Data with cbcopy - SynxDB 2 Documentation (PRERELEASE DRAFT)</title>
 
 
         <!-- Custom HTML head -->
@@ -121,7 +121,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">SynxDB 1 Documentation (PRERELEASE DRAFT)</h1>
+                    <h1 class="menu-title">SynxDB 2 Documentation (PRERELEASE DRAFT)</h1>
 
                     <div class="right-buttons">
                         <a href="../../print.html" title="Print this book" aria-label="Print this book">
@@ -129,7 +129,7 @@
                         </a>
 
                         &nbsp;&nbsp;&nbsp;&nbsp;
-                        <img id="fa fa-print" src="../../SYNX-Text-and-Circular-Logo-142x28-White-text-Black-background.png" alt="Synx Data Labs Logo"/>
+                        <a href="https://www.synxdata.com/"><img id="fa fa-print" src="../../SYNX-Text-and-Circular-Logo-142x28-White-text-Black-background.png" alt="Synx Data Labs Logo"/></a>
 
                     </div>
                 </div>
@@ -161,7 +161,7 @@
 <blockquote>
 <p><strong>Note</strong> <code>cbcopy</code> is available only with the commercial release of SynxDB.</p>
 </blockquote>
-<p><code>cbcopy</code> is a high-performance utility that can copy metadata and data from one SynxDB database to another SynxDB database. You can migrate the entire contents of a database, or just selected tables. The clusters can have different SynxDB versions. For example, you can use <code>cbcopy</code> to migrate data from a SynxDB version 4.3.26 (or later) system to a 5.9 (or later) or a 6.x SynxDB system, or from a SynxDB version 5.9+ system to a SynxDB 1 system.</p>
+<p><code>cbcopy</code> is a high-performance utility that can copy metadata and data from one SynxDB database to another SynxDB database. You can migrate the entire contents of a database, or just selected tables. The clusters can have different SynxDB versions. For example, you can use <code>cbcopy</code> to migrate data from a SynxDB version 4.3.26 (or later) system to a 5.9 (or later) or a 6.x SynxDB system, or from a SynxDB version 5.9+ system to a SynxDB 2 system.</p>
 
                     </main>
 
@@ -192,6 +192,22 @@
 
         </div>
 
+        <!-- Livereload script (if served using the cli tool) -->
+        <script>
+            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
+            const socket = new WebSocket(wsAddress);
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload();
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
 
 
 

@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>gpload - SynxDB 1 Documentation (PRERELEASE DRAFT)</title>
+        <title>gpload - SynxDB 2 Documentation (PRERELEASE DRAFT)</title>
 
 
         <!-- Custom HTML head -->
@@ -121,7 +121,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">SynxDB 1 Documentation (PRERELEASE DRAFT)</h1>
+                    <h1 class="menu-title">SynxDB 2 Documentation (PRERELEASE DRAFT)</h1>
 
                     <div class="right-buttons">
                         <a href="../../print.html" title="Print this book" aria-label="Print this book">
@@ -129,7 +129,7 @@
                         </a>
 
                         &nbsp;&nbsp;&nbsp;&nbsp;
-                        <img id="fa fa-print" src="../../SYNX-Text-and-Circular-Logo-142x28-White-text-Black-background.png" alt="Synx Data Labs Logo"/>
+                        <a href="https://www.synxdata.com/"><img id="fa fa-print" src="../../SYNX-Text-and-Circular-Logo-142x28-White-text-Black-background.png" alt="Synx Data Labs Logo"/></a>
 
                     </div>
                 </div>
@@ -180,7 +180,7 @@ gpload --version
 <p><strong>Note</strong> <code>gpfdist</code> is compatible only with the SynxDB major version in which it is shipped. For example, a <code>gpfdist</code> utility that is installed with SynxDB 4.x cannot be used with SynxDB 5.x or 6.x.</p>
 </blockquote>
 <blockquote>
-<p><strong>Note</strong> The SynxDB 5.22 and later <code>gpload</code> for Linux is compatible with SynxDB 1. The SynxDB 1 <code>gpload</code> for both Linux and Windows is compatible with SynxDB 5.x.</p>
+<p><strong>Note</strong> The SynxDB 5.22 and later <code>gpload</code> for Linux is compatible with SynxDB 2. The SynxDB 2 <code>gpload</code> for both Linux and Windows is compatible with SynxDB 5.x.</p>
 </blockquote>
 <blockquote>
 <p><strong>Note</strong> <code>MERGE</code> and <code>UPDATE</code> operations are not supported if the target table column name is a reserved keyword, has capital letters, or includes any character that requires quotes (“ “) to identify the column.</p>
@@ -596,6 +596,22 @@ GPLOAD:
 
         </div>
 
+        <!-- Livereload script (if served using the cli tool) -->
+        <script>
+            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
+            const socket = new WebSocket(wsAddress);
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload();
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
 
 
 

@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Using Resource Groups - SynxDB 1 Documentation (PRERELEASE DRAFT)</title>
+        <title>Using Resource Groups - SynxDB 2 Documentation (PRERELEASE DRAFT)</title>
 
 
         <!-- Custom HTML head -->
@@ -121,7 +121,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">SynxDB 1 Documentation (PRERELEASE DRAFT)</h1>
+                    <h1 class="menu-title">SynxDB 2 Documentation (PRERELEASE DRAFT)</h1>
 
                     <div class="right-buttons">
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
@@ -129,7 +129,7 @@
                         </a>
 
                         &nbsp;&nbsp;&nbsp;&nbsp;
-                        <img id="fa fa-print" src="../SYNX-Text-and-Circular-Logo-142x28-White-text-Black-background.png" alt="Synx Data Labs Logo"/>
+                        <a href="https://www.synxdata.com/"><img id="fa fa-print" src="../SYNX-Text-and-Circular-Logo-142x28-White-text-Black-background.png" alt="Synx Data Labs Logo"/></a>
 
                     </div>
                 </div>
@@ -650,7 +650,7 @@ gpstart
 <p>Successful return of <code>pg_resgroup_move_query()</code> doesn’t mean target process was successfully moved. Process movement is asynchronous. The current resource group can be checked via <code>pg_stat_activity</code> system view.</p>
 <ul>
 <li>
-<p>If you upgraded from a previous SynxDB 1 installation, you must manually register the supporting functions for this feature, and grant access to the functions as follows:</p>
+<p>If you upgraded from a previous SynxDB 2 installation, you must manually register the supporting functions for this feature, and grant access to the functions as follows:</p>
 <pre><code>CREATE FUNCTION gp_toolkit.pg_resgroup_check_move_query(IN session_id int, IN groupid oid, OUT session_mem int, OUT available_mem int)
 RETURNS SETOF record
 AS 'gp_resource_group', 'pg_resgroup_check_move_query'
@@ -743,6 +743,22 @@ GRANT EXECUTE ON FUNCTION gp_toolkit.pg_resgroup_move_query(int4, text) TO publi
 
         </div>
 
+        <!-- Livereload script (if served using the cli tool) -->
+        <script>
+            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
+            const socket = new WebSocket(wsAddress);
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload();
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
 
 
 

@@ -1,0 +1,340 @@
+<!DOCTYPE HTML>
+<html lang="en" class="dark sidebar-visible" dir="ltr">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>Pre-Migration Guide - SynxDB 2 Documentation (PRERELEASE DRAFT)</title>
+
+
+        <!-- Custom HTML head -->
+
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff">
+
+        <link rel="icon" href="../favicon.svg">
+        <link rel="shortcut icon" href="../favicon.png">
+        <link rel="stylesheet" href="../css/variables.css">
+        <link rel="stylesheet" href="../css/general.css">
+        <link rel="stylesheet" href="../css/chrome.css">
+        <link rel="stylesheet" href="../css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="../fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../highlight.css">
+        <link rel="stylesheet" href="../tomorrow-night.css">
+        <link rel="stylesheet" href="../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+
+        <!-- Provide site root to javascript -->
+        <script>
+            var path_to_root = "../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "dark";
+        </script>
+        <!-- Start loading toc.js asap -->
+        <script src="../toc.js"></script>
+    </head>
+    <body>
+    <div id="body-container">
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script>
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script>
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            const html = document.documentElement;
+            html.classList.remove('dark')
+            html.classList.add(theme);
+            html.classList.add("js");
+        </script>
+
+        <input type="checkbox" id="sidebar-toggle-anchor" class="hidden">
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script>
+            var sidebar = null;
+            var sidebar_toggle = document.getElementById("sidebar-toggle-anchor");
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            } else {
+                sidebar = 'hidden';
+            }
+            sidebar_toggle.checked = sidebar === 'visible';
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            
+            <!-- populated by js -->
+            <mdbook-sidebar-scrollbox class="sidebar-scrollbox"></mdbook-sidebar-scrollbox>
+            <noscript>
+                <iframe class="sidebar-iframe-outer" src="../toc.html"></iframe>
+            </noscript>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle">
+                <div class="sidebar-resize-indicator"></div>
+            </div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky">
+                    <div class="left-buttons">
+                        <label id="sidebar-toggle" class="icon-button" for="sidebar-toggle-anchor" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </label>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">SynxDB 2 Documentation (PRERELEASE DRAFT)</h1>
+
+                    <div class="right-buttons">
+                        <a href="../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+
+                        &nbsp;&nbsp;&nbsp;&nbsp;
+                        <a href="https://www.synxdata.com/"><img id="fa fa-print" src="../SYNX-Text-and-Circular-Logo-142x28-White-text-Black-background.png" alt="Synx Data Labs Logo"/></a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script>
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="synxdb-2-pre-migration-guide"><a class="header" href="#synxdb-2-pre-migration-guide">SynxDB 2: Pre-Migration Guide</a></h1>
+<h2 id="purpose"><a class="header" href="#purpose">Purpose</a></h2>
+<p>This guide helps you identify and address Greenplum 6 proprietary features before migration to SynxDB 2.</p>
+<h2 id="security-considerations"><a class="header" href="#security-considerations">Security Considerations</a></h2>
+<p>SynxDB maintains high security standards through:</p>
+<ul>
+<li>Cryptographically signed RPM packages</li>
+<li>Signed repository metadata</li>
+<li>GPG key verification</li>
+<li>Package signature validation at multiple stages</li>
+</ul>
+<p>All artifacts used in this process are cryptographically signed to ensure:</p>
+<ul>
+<li>Package integrity</li>
+<li>Origin authenticity</li>
+<li>Protection against tampering</li>
+<li>Secure dependency management</li>
+</ul>
+<h3 id="configuration-safety"><a class="header" href="#configuration-safety">Configuration Safety</a></h3>
+<p>Before making any configuration changes:</p>
+<ul>
+<li>Backup postgresql.conf files from all segment data directories</li>
+<li>Document existing configurations</li>
+<li>Test changes in a development environment first</li>
+</ul>
+<h2 id="repository-access"><a class="header" href="#repository-access">Repository Access</a></h2>
+<p>While this guide focuses on identifying proprietary features, note that subsequent migration steps will require repository access. Synx Data Labs can provide a complete repository mirror for hosting within your environment if:</p>
+<ul>
+<li>Your hosts don’t have external internet access</li>
+<li>You prefer to host repositories within your infrastructure</li>
+<li>You need to ensure package consistency across deployments</li>
+</ul>
+<p>Contact Synx Data Labs before beginning migration steps to ensure proper repository access is in place for your environment.</p>
+<h2 id="proprietary-features-to-identify"><a class="header" href="#proprietary-features-to-identify">Proprietary Features to Identify</a></h2>
+<h3 id="1-greenplum-command-center-gpcc"><a class="header" href="#1-greenplum-command-center-gpcc">1. Greenplum Command Center (GPCC)</a></h3>
+<p>The Greenplum Command Center is a Broadcom proprietary offering not available in SynxDB. The primary concern during migration is the <code>metrics_collector</code> shared library. This configuration must be addressed before the SynxDB drop-in-replacement process, as the cluster will fail to start if <code>metrics_collector</code> remains in <code>shared_preload_libraries</code> (the library is not available in SynxDB).</p>
+<h4 id="detection"><a class="header" href="#detection">Detection</a></h4>
+<p>Check if metrics_collector is configured in shared_preload_libraries:</p>
+<pre><code class="language-bash">gpconfig -s shared_preload_libraries
+</code></pre>
+<h4 id="remediation"><a class="header" href="#remediation">Remediation</a></h4>
+<p>⚠️ Important: Before making any changes, backup postgresql.conf files from all segment data directories.</p>
+<p>Based on your configuration:</p>
+<ol>
+<li>If metrics_collector is the only entry:</li>
+</ol>
+<pre><code class="language-bash">gpconfig -r shared_preload_libraries
+</code></pre>
+<ol start="2">
+<li>If metrics_collector is part of a comma-separated list:</li>
+</ol>
+<pre><code class="language-bash">gpconfig -c shared_preload_libraries -v "comma,separated,list"
+</code></pre>
+<p>Replace “comma,separated,list” with your desired remaining libraries.</p>
+<p>After updating the configuration:</p>
+<ol>
+<li>Restart the Greenplum cluster for changes to take effect</li>
+<li>Verify the configuration change:</li>
+</ol>
+<pre><code class="language-bash">gpconfig -s shared_preload_libraries
+</code></pre>
+<p>Ensure <code>metrics_collector</code> is no longer present in the output.</p>
+<h3 id="2-quicklz-compression"><a class="header" href="#2-quicklz-compression">2. QuickLZ Compression</a></h3>
+<p>The QuickLZ compression algorithm is proprietary to Broadcom and not available in SynxDB. Before planning any migration, it’s essential to identify if and where QuickLZ compression is being used in your environment.</p>
+<h4 id="detection-1"><a class="header" href="#detection-1">Detection</a></h4>
+<p>Run the following script as gpadmin to identify QuickLZ usage across all databases:</p>
+<pre><code class="language-bash">#!/bin/bash
+echo "Checking if QuickLZ is in use across all databases..."
+
+for db in $(psql -t -A -c "SELECT datname FROM pg_database WHERE datistemplate = false;"); do
+  quicklz_count=$(psql -d $db -X -A -t -c "
+    SELECT COUNT(*)
+    FROM pg_attribute_encoding, LATERAL unnest(attoptions) AS opt
+    WHERE opt = 'compresstype=quicklz';
+  ")
+  
+  if [ "$quicklz_count" -gt 0 ]; then
+    echo "QuickLZ is in use in database: $db ($quicklz_count columns)"
+  else
+    echo "QuickLZ is NOT in use in database: $db"
+  fi
+done
+</code></pre>
+<p>This script will check each non-template database and report whether QuickLZ compression is in use, along with the number of affected columns.</p>
+<h4 id="impact"><a class="header" href="#impact">Impact</a></h4>
+<p>The presence of QuickLZ compression requires careful consideration in migration planning, as it is not supported in SynxDB. If QuickLZ is detected, further analysis and planning will be needed before proceeding with migration.</p>
+<h2 id="pre-migration-assessment-checklist"><a class="header" href="#pre-migration-assessment-checklist">Pre-migration Assessment Checklist</a></h2>
+<ol>
+<li>
+<p>GPCC Check:</p>
+<ul>
+<li><input disabled="" type="checkbox"/>
+Check for GPCC metrics_collector in shared_preload_libraries</li>
+<li><input disabled="" type="checkbox"/>
+Document current monitoring setup for future reference</li>
+</ul>
+</li>
+<li>
+<p>QuickLZ Check:</p>
+<ul>
+<li><input disabled="" type="checkbox"/>
+Run QuickLZ detection script across all databases</li>
+<li><input disabled="" type="checkbox"/>
+Document any instances of QuickLZ usage for further analysis</li>
+</ul>
+</li>
+</ol>
+<h2 id="additional-considerations"><a class="header" href="#additional-considerations">Additional Considerations</a></h2>
+<ul>
+<li>Test changes in a development environment first</li>
+<li>Document current configurations for reference</li>
+</ul>
+<h2 id="disclaimer--attribution"><a class="header" href="#disclaimer--attribution">Disclaimer &amp; Attribution</a></h2>
+<p>SynxDB is derived from the last open-source version of Greenplum, originally developed by Pivotal Software, Inc., and maintained under Broadcom Inc.’s stewardship. Greenplum® is a registered trademark of Broadcom Inc. Synx Data Labs, Inc. and SynxDB are not affiliated with, endorsed by, or sponsored by Broadcom Inc. References to Greenplum are provided for comparative, interoperability, and attribution purposes in compliance with open-source licensing requirements.</p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="../migrate/synxdb2-dropin-replacement-guide.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next prefetch" href="../admin_guide/intro/partI.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="../migrate/synxdb2-dropin-replacement-guide.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next prefetch" href="../admin_guide/intro/partI.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+        <!-- Livereload script (if served using the cli tool) -->
+        <script>
+            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
+            const socket = new WebSocket(wsAddress);
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload();
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
+
+
+
+        <script>
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="../elasticlunr.min.js"></script>
+        <script src="../mark.min.js"></script>
+        <script src="../searcher.js"></script>
+
+        <script src="../clipboard.min.js"></script>
+        <script src="../highlight.js"></script>
+        <script src="../book.js"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </div>
+    </body>
+</html>

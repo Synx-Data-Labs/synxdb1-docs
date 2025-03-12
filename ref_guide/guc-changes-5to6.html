@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Server Configuration Changes from Greenplum 5 to SynxDB 1 - SynxDB 1 Documentation (PRERELEASE DRAFT)</title>
+        <title>Server Configuration Changes from SynxDB 1 to SynxDB 2 - SynxDB 2 Documentation (PRERELEASE DRAFT)</title>
 
 
         <!-- Custom HTML head -->
@@ -121,7 +121,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">SynxDB 1 Documentation (PRERELEASE DRAFT)</h1>
+                    <h1 class="menu-title">SynxDB 2 Documentation (PRERELEASE DRAFT)</h1>
 
                     <div class="right-buttons">
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
@@ -129,7 +129,7 @@
                         </a>
 
                         &nbsp;&nbsp;&nbsp;&nbsp;
-                        <img id="fa fa-print" src="../SYNX-Text-and-Circular-Logo-142x28-White-text-Black-background.png" alt="Synx Data Labs Logo"/>
+                        <a href="https://www.synxdata.com/"><img id="fa fa-print" src="../SYNX-Text-and-Circular-Logo-142x28-White-text-Black-background.png" alt="Synx Data Labs Logo"/></a>
 
                     </div>
                 </div>
@@ -157,9 +157,9 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="server-configuration-parameter-changes-from-synxdb-5-to-6"><a class="header" href="#server-configuration-parameter-changes-from-synxdb-5-to-6">Server Configuration Parameter Changes from SynxDB 5 to 6</a></h1>
-<p>SynxDB 1 includes new server configuration parameters, and removes or updates the default values of certain server configuration parameters as described below.</p>
+<p>SynxDB 2 includes new server configuration parameters, and removes or updates the default values of certain server configuration parameters as described below.</p>
 <h2 id="new-parameters"><a class="header" href="#new-parameters"><a id="new"></a>New Parameters</a></h2>
-<p>The following new server configuration parameters are available in SynxDB 1:</p>
+<p>The following new server configuration parameters are available in SynxDB 2:</p>
 <ul>
 <li><code>default_text_search_config</code> selects the text search configuration.</li>
 <li><code>default_transaction_deferrable</code> controls the default deferrable status of each new transaction.</li>
@@ -171,7 +171,7 @@
 <li><code>temp_tablespaces</code> specifies the tablespace in which SynxDB creates temporary objects.</li>
 </ul>
 <h2 id="removed-parameters"><a class="header" href="#removed-parameters"><a id="removed"></a>Removed Parameters</a></h2>
-<p>The following server configuration parameters are removed in SynxDB 1:</p>
+<p>The following server configuration parameters are removed in SynxDB 2:</p>
 <ul>
 <li><code>add_missing_from</code></li>
 <li><code>custom_variable_classes</code></li>
@@ -211,7 +211,7 @@
 <li><code>max_fsm_relations</code></li>
 </ul>
 <h2 id="changed-parameters"><a class="header" href="#changed-parameters"><a id="changed"></a>Changed Parameters</a></h2>
-<p>These server configuration parameters are changed in SynxDB 1:</p>
+<p>These server configuration parameters are changed in SynxDB 2:</p>
 <ul>
 <li>
 <p>These configuration parameter values are changed from strings to enums:</p>
@@ -306,6 +306,22 @@ GPORCA will now by default choose between a one-stage or two-stage aggregate pla
 
         </div>
 
+        <!-- Livereload script (if served using the cli tool) -->
+        <script>
+            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
+            const socket = new WebSocket(wsAddress);
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload();
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
 
 
 

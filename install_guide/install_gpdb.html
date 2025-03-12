@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Installing the SynxDB Software - SynxDB 1 Documentation (PRERELEASE DRAFT)</title>
+        <title>Installing the SynxDB Software - SynxDB 2 Documentation (PRERELEASE DRAFT)</title>
 
 
         <!-- Custom HTML head -->
@@ -121,7 +121,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">SynxDB 1 Documentation (PRERELEASE DRAFT)</h1>
+                    <h1 class="menu-title">SynxDB 2 Documentation (PRERELEASE DRAFT)</h1>
 
                     <div class="right-buttons">
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
@@ -129,7 +129,7 @@
                         </a>
 
                         &nbsp;&nbsp;&nbsp;&nbsp;
-                        <img id="fa fa-print" src="../SYNX-Text-and-Circular-Logo-142x28-White-text-Black-background.png" alt="Synx Data Labs Logo"/>
+                        <a href="https://www.synxdata.com/"><img id="fa fa-print" src="../SYNX-Text-and-Circular-Logo-142x28-White-text-Black-background.png" alt="Synx Data Labs Logo"/></a>
 
                     </div>
                 </div>
@@ -165,7 +165,6 @@
 <li><a href="#topic_download">Download the SynxDB Server Software</a> (SynxDB)</li>
 <li><a href="#topic_verify_sha">Verify the SynxDB Software</a> (SynxDB)</li>
 <li><a href="#topic_install">Install the SynxDB Software</a></li>
-<li><a href="#topic_dj4_ssr_cmb">(Optional) Install to a Non-Default Directory</a></li>
 </ul>
 </li>
 <li><a href="#topic_xmb_gb5_vhb">Enabling Passwordless SSH</a></li>
@@ -175,7 +174,6 @@
 <h2 id="installing-synxdb"><a class="header" href="#installing-synxdb"><a id="topic_oy5_21n_1jb"></a>Installing SynxDB</a></h2>
 <p>You must install SynxDB on each host machine of the SynxDB system.</p>
 <p>Synx Data Labs distributes the SynxDB software as a downloadable package that you install on each host system with the operating system’s package management system.</p>
-<p>Open source SynxDB releases are available as: source code tarballs, RPM installers for CentOS, and DEB packages for Debian and Ubuntu. See <a href="https://greenplum.org">https://greenplum.org</a> for links to source code and instructions to compile SynxDB from source, and for links to download pre-built binaries in RPM and DEB format. For the Ubuntu operating system, SynxDB also offers a binary that can be installed via the <code>apt-get</code> command with the Ubuntu Personal Package Archive system.</p>
 <h3 id="downloading-the-synxdb-server-software-synxdb"><a class="header" href="#downloading-the-synxdb-server-software-synxdb"><a id="topic_download"></a>Downloading the SynxDB Server Software (SynxDB)</a></h3>
 <p>You can download the <em>SynxDB Server</em> software package from <a href="https://www.synxdata.com/">Synx Data Labs</a>.</p>
 <p>Be sure to note the name and the file system location of the downloaded file.</p>
@@ -222,38 +220,6 @@ $ sudo chgrp -R gpadmin /usr/local/greenplum*
 </code></pre>
 </li>
 </ol>
-<h2 id="optional-installing-to-a-non-default-directory"><a class="header" href="#optional-installing-to-a-non-default-directory"><a id="topic_dj4_ssr_cmb"></a>(Optional) Installing to a Non-Default Directory</a></h2>
-<p>On RHEL/CentOS systems, you can use the <code>rpm</code> command with the <code>--prefix</code> option to install SynxDB to a non-default directory (instead of under <code>/usr/local</code>). Note, however, that using <code>rpm</code> does not automatically install SynxDB dependencies; you must manually install dependencies to each host system.</p>
-<p>Follow these instructions to install SynxDB to a specific directory.</p>
-<blockquote>
-<p><strong>Important</strong> You require sudo or root user access to install from a pre-built RPM file.</p>
-</blockquote>
-<ol>
-<li>
-<p>Download and copy the SynxDB package to the <code>gpadmin</code> user’s home directory on the master, standby master, and every segment host machine. The distribution file name has the format <code>greenplum-db-&lt;version&gt;-&lt;platform&gt;.rpm</code> for RHEL and CentOS systems, or <code>greenplum-db-&lt;version&gt;-&lt;platform&gt;.deb</code> for Ubuntu systems, where <code>&lt;platform&gt;</code> is similar to <code>rhel7-x86_64</code> (Red Hat 7 64-bit).</p>
-</li>
-<li>
-<p>Manually install the SynxDB dependencies to each host system:</p>
-<pre><code>$ sudo yum install apr apr-util bash bzip2 curl krb5 libcurl libevent \
-libxml2 libyaml zlib openldap openssh openssl openssl-libs perl readline rsync R sed tar zip
-</code></pre>
-</li>
-<li>
-<p>Use <code>rpm</code> with the <code>--prefix</code> option to install the SynxDB package to your chosen installation directory on each host machine:</p>
-<pre><code>$ sudo rpm --install ./greenplum-db-&lt;version&gt;-&lt;platform&gt;.rpm --prefix=&lt;directory&gt;
-</code></pre>
-<p>The <code>rpm</code> command copies the SynxDB software files into a version-specific directory under your chosen <code>&lt;directory&gt;</code>, <code>&lt;directory&gt;/greenplum-db-&lt;version&gt;</code>, and creates the symbolic link <code>&lt;directory&gt;/greenplum-db</code> to the versioned directory.</p>
-</li>
-<li>
-<p>Change the owner and group of the installed files to <code>gpadmin</code>:</p>
-<pre><code>$ sudo chown -R gpadmin:gpadmin &lt;directory&gt;/greenplum*
-</code></pre>
-</li>
-</ol>
-<blockquote>
-<p><strong>Note</strong> All example procedures in the SynxDB documentation assume that you installed to the default directory, which is <code>/usr/local</code>. If you install to a non-default directory, substitute that directory for <code>/usr/local</code>.</p>
-</blockquote>
-<p>If you install to a non-default directory using <code>rpm</code>, you will need to continue using <code>rpm</code> (and of <code>yum</code>) to perform minor version upgrades; these changes are covered in the upgrade documentation.</p>
 <h2 id="enabling-passwordless-ssh"><a class="header" href="#enabling-passwordless-ssh"><a id="topic_xmb_gb5_vhb"></a>Enabling Passwordless SSH</a></h2>
 <p>The <code>gpadmin</code> user on each SynxDB host must be able to SSH from any host in the cluster to any other host in the cluster without entering a password or passphrase (called “passwordless SSH”). If you enable passwordless SSH from the master host to every other host in the cluster (“1-<em>n</em> passwordless SSH”), you can use the SynxDB <code>gpssh-exkeys</code> command-line utility to enable passwordless SSH from every host to every other host (“<em>n</em>-<em>n</em> passwordless SSH”).</p>
 <ol>
@@ -371,6 +337,22 @@ sdw3-2
 
         </div>
 
+        <!-- Livereload script (if served using the cli tool) -->
+        <script>
+            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
+            const socket = new WebSocket(wsAddress);
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload();
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
 
 
 

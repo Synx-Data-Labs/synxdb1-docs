@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Date/Time Types - SynxDB 1 Documentation (PRERELEASE DRAFT)</title>
+        <title>Date/Time Types - SynxDB 2 Documentation (PRERELEASE DRAFT)</title>
 
 
         <!-- Custom HTML head -->
@@ -121,7 +121,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">SynxDB 1 Documentation (PRERELEASE DRAFT)</h1>
+                    <h1 class="menu-title">SynxDB 2 Documentation (PRERELEASE DRAFT)</h1>
 
                     <div class="right-buttons">
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
@@ -129,7 +129,7 @@
                         </a>
 
                         &nbsp;&nbsp;&nbsp;&nbsp;
-                        <img id="fa fa-print" src="../SYNX-Text-and-Circular-Logo-142x28-White-text-Black-background.png" alt="Synx Data Labs Logo"/>
+                        <a href="https://www.synxdata.com/"><img id="fa fa-print" src="../SYNX-Text-and-Circular-Logo-142x28-White-text-Black-background.png" alt="Synx Data Labs Logo"/></a>
 
                     </div>
                 </div>
@@ -196,11 +196,11 @@ MINUTE TO SECOND
 <p>Note that if both fields and p are specified, the fields must include <code>SECOND</code>, since the precision applies only to the seconds.</p>
 <p>The type <code>time with time zone</code> is defined by the SQL standard, but the definition exhibits properties which lead to questionable usefulness. In most cases, a combination of <code>date</code>, <code>time</code>, <code>timestamp without time zone</code>, and <code>timestamp with time zone</code> should provide a complete range of date/time functionality required by any application.</p>
 <p>The types <code>abstime</code> and <code>reltime</code> are lower precision types which are used internally. You are discouraged from using these types in applications; these internal types might disappear in a future release.</p>
-<p>SynxDB 1 and later releases do not automatically cast text from the deprecated timestamp format <code>YYYYMMDDHH24MISS</code>. The format could not be parsed unambiguously in previous SynxDB releases.</p>
-<p>For example, this command returns an error in SynxDB 1. In previous releases, a timestamp is returned.</p>
+<p>SynxDB 2 and later releases do not automatically cast text from the deprecated timestamp format <code>YYYYMMDDHH24MISS</code>. The format could not be parsed unambiguously in previous SynxDB releases.</p>
+<p>For example, this command returns an error in SynxDB 2. In previous releases, a timestamp is returned.</p>
 <pre><code># select to_timestamp('20190905140000');
 </code></pre>
-<p>In SynxDB 1, this command returns a timestamp.</p>
+<p>In SynxDB 2, this command returns a timestamp.</p>
 <pre><code># select to_timestamp('20190905140000','YYYYMMDDHH24MISS');
 </code></pre>
 <h2 id="datetime-input"><a class="header" href="#datetime-input"><a id="datatype-datetime-input"></a>Date/Time Input</a></h2>
@@ -413,6 +413,22 @@ P  &lt;years&gt;-&lt;months&gt;-&lt;days&gt;   T &lt;hours&gt;:&lt;minutes&gt;:&
 
         </div>
 
+        <!-- Livereload script (if served using the cli tool) -->
+        <script>
+            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
+            const socket = new WebSocket(wsAddress);
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload();
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
 
 
 

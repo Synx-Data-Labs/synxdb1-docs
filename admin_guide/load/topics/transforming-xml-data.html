@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Transforming External Data with gpfdist and gpload - SynxDB 1 Documentation (PRERELEASE DRAFT)</title>
+        <title>Transforming External Data with gpfdist and gpload - SynxDB 2 Documentation (PRERELEASE DRAFT)</title>
 
 
         <!-- Custom HTML head -->
@@ -121,7 +121,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">SynxDB 1 Documentation (PRERELEASE DRAFT)</h1>
+                    <h1 class="menu-title">SynxDB 2 Documentation (PRERELEASE DRAFT)</h1>
 
                     <div class="right-buttons">
                         <a href="../../../print.html" title="Print this book" aria-label="Print this book">
@@ -129,7 +129,7 @@
                         </a>
 
                         &nbsp;&nbsp;&nbsp;&nbsp;
-                        <img id="fa fa-print" src="../../../SYNX-Text-and-Circular-Logo-142x28-White-text-Black-background.png" alt="Synx Data Labs Logo"/>
+                        <a href="https://www.synxdata.com/"><img id="fa fa-print" src="../../../SYNX-Text-and-Circular-Logo-142x28-White-text-Black-background.png" alt="Synx Data Labs Logo"/></a>
 
                     </div>
                 </div>
@@ -159,7 +159,7 @@
                         <h1 id="transforming-external-data-with-gpfdist-and-gpload"><a class="header" href="#transforming-external-data-with-gpfdist-and-gpload">Transforming External Data with gpfdist and gpload</a></h1>
 <p>The <code>gpfdist</code> parallel file server allows you to set up transformations that enable SynxDB external tables to read and write files in formats that are not supported with the <code>CREATE EXTERNAL TABLE</code> command’s <code>FORMAT</code> clause. An <em>input</em> transformation reads a file in the foreign data format and outputs rows to <code>gpfdist</code> in the CSV or other text format specified in the external table’s <code>FORMAT</code> clause. An <em>output</em> transformation receives rows from <code>gpfdist</code> in text format and converts them to the foreign data format.</p>
 <blockquote>
-<p><strong>Note</strong> <code>gpfdist</code> and <code>gpload</code> are compatible only with the SynxDB major version in which they are shipped. For example, a <code>gpfdist</code> utility that is installed with SynxDB 4.x cannot be used with SynxDB 0.x or 1.x.</p>
+<p><strong>Note</strong> <code>gpfdist</code> and <code>gpload</code> are compatible only with the SynxDB major version in which they are shipped. For example, a <code>gpfdist</code> utility that is installed with SynxDB 4.x cannot be used with SynxDB 1.x or 2.x.</p>
 </blockquote>
 <p>This topic describes the tasks to set up data transformations that work with <code>gpfdist</code> to read or write external data files with formats that SynxDB does not support.</p>
 <ul>
@@ -535,6 +535,22 @@ TRANSFORMATIONS:
 
         </div>
 
+        <!-- Livereload script (if served using the cli tool) -->
+        <script>
+            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
+            const socket = new WebSocket(wsAddress);
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload();
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
 
 
 

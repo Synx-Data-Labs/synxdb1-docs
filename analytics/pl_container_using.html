@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Using PL/Container - SynxDB 1 Documentation (PRERELEASE DRAFT)</title>
+        <title>Using PL/Container - SynxDB 2 Documentation (PRERELEASE DRAFT)</title>
 
 
         <!-- Custom HTML head -->
@@ -121,7 +121,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">SynxDB 1 Documentation (PRERELEASE DRAFT)</h1>
+                    <h1 class="menu-title">SynxDB 2 Documentation (PRERELEASE DRAFT)</h1>
 
                     <div class="right-buttons">
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
@@ -129,7 +129,7 @@
                         </a>
 
                         &nbsp;&nbsp;&nbsp;&nbsp;
-                        <img id="fa fa-print" src="../SYNX-Text-and-Circular-Logo-142x28-White-text-Black-background.png" alt="Synx Data Labs Logo"/>
+                        <a href="https://www.synxdata.com/"><img id="fa fa-print" src="../SYNX-Text-and-Circular-Logo-142x28-White-text-Black-background.png" alt="Synx Data Labs Logo"/></a>
 
                     </div>
                 </div>
@@ -385,7 +385,7 @@ $$ LANGUAGE plcontainer;
 <p>For information about PL/Python, see <a href="pl_python.html">PL/Python Language</a>.</p>
 <p>For information about the <code>plpy</code> methods, see <a href="https://www.postgresql.org/docs/9.4/plpython-database.html">https://www.postgresql.org/docs/9.4/plpython-database.htm</a>.</p>
 <h3 id="about-plpython-3-functions-in-plcontainer"><a class="header" href="#about-plpython-3-functions-in-plcontainer"><a id="topic_plc_py3"></a>About PL/Python 3 Functions in PL/Container</a></h3>
-<p>PL/Container for SynxDB 5 supports Python version 3.6+. PL/Container for SynxDB 1 supports Python 3.7+.</p>
+<p>PL/Container for SynxDB 5 supports Python version 3.6+. PL/Container for SynxDB 2 supports Python 3.7+.</p>
 <p>If you want to use PL/Container to run the same function body in both Python2 and Python3, you must create 2 different user-defined functions.</p>
 <p>Keep in mind that UDFs that you created for Python 2 may not run in PL/Container with Python 3. The following Python references may be useful:</p>
 <ul>
@@ -667,6 +667,22 @@ SELECT * from dummyPython()
 
         </div>
 
+        <!-- Livereload script (if served using the cli tool) -->
+        <script>
+            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
+            const socket = new WebSocket(wsAddress);
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload();
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
 
 
 

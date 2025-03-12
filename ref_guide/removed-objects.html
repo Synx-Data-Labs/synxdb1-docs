@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Objects Removed in SynxDB 1 - SynxDB 1 Documentation (PRERELEASE DRAFT)</title>
+        <title>Objects Removed in SynxDB 2 - SynxDB 2 Documentation (PRERELEASE DRAFT)</title>
 
 
         <!-- Custom HTML head -->
@@ -121,7 +121,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">SynxDB 1 Documentation (PRERELEASE DRAFT)</h1>
+                    <h1 class="menu-title">SynxDB 2 Documentation (PRERELEASE DRAFT)</h1>
 
                     <div class="right-buttons">
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
@@ -129,7 +129,7 @@
                         </a>
 
                         &nbsp;&nbsp;&nbsp;&nbsp;
-                        <img id="fa fa-print" src="../SYNX-Text-and-Circular-Logo-142x28-White-text-Black-background.png" alt="Synx Data Labs Logo"/>
+                        <a href="https://www.synxdata.com/"><img id="fa fa-print" src="../SYNX-Text-and-Circular-Logo-142x28-White-text-Black-background.png" alt="Synx Data Labs Logo"/></a>
 
                     </div>
                 </div>
@@ -156,8 +156,8 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="objects-removed-in-synxdb-1"><a class="header" href="#objects-removed-in-synxdb-1">Objects Removed in SynxDB 1</a></h1>
-<p>SynxDB 1 removes several database objects. These changes can effect the successful upgrade from one major version to another. Review these objects when using SynxDB Upgrade, or SynxDB Backup and Restore. This topic highlight these changes.</p>
+                        <h1 id="objects-removed-in-synxdb-2"><a class="header" href="#objects-removed-in-synxdb-2">Objects Removed in SynxDB 2</a></h1>
+<p>SynxDB 2 removes several database objects. These changes can effect the successful upgrade from one major version to another. Review these objects when using SynxDB Upgrade, or SynxDB Backup and Restore. This topic highlight these changes.</p>
 <ul>
 <li><a href="#rem_relations">Removed Relations</a></li>
 <li><a href="#rem_columns">Removed Columns</a></li>
@@ -166,7 +166,7 @@
 <li><a href="#rem_operators">Removed Operators</a></li>
 </ul>
 <h2 id="removed-relations"><a class="header" href="#removed-relations"><a id="rem_relations"></a>Removed Relations</a></h2>
-<p>The following list includes the removed relations in SynxDB 1.</p>
+<p>The following list includes the removed relations in SynxDB 2.</p>
 <ul>
 <li>gp_toolkit.__gp_localid</li>
 <li>gp_toolkit.__gp_masterid</li>
@@ -187,7 +187,7 @@
 <li>pg_catalog.pg_window</li>
 </ul>
 <h2 id="removed-columns"><a class="header" href="#removed-columns"><a id="rem_columns"></a>Removed Columns</a></h2>
-<p>The following list includes the removed columns in SynxDB 1.</p>
+<p>The following list includes the removed columns in SynxDB 2.</p>
 <ul>
 <li>gp_toolkit.gp_resgroup_config.proposed_concurrency</li>
 <li>gp_toolkit.gp_resgroup_config.proposed_memory_limit</li>
@@ -242,7 +242,7 @@
 <li>pg_catalog.pg_trigger.tgisconstraint</li>
 </ul>
 <h2 id="removed-functions-and-procedures"><a class="header" href="#removed-functions-and-procedures"><a id="rem_functions_procedures"></a>Removed Functions and Procedures</a></h2>
-<p>The following list includes the removed functions and procedures in SynxDB 1.</p>
+<p>The following list includes the removed functions and procedures in SynxDB 2.</p>
 <ul>
 <li>gp_toolkit.__gp_aocsseg</li>
 <li>gp_toolkit.__gp_aocsseg_history</li>
@@ -608,7 +608,7 @@
 <li>pg_catalog.text_pattern_ne</li>
 </ul>
 <h2 id="removed-types-domains-and-composite-types"><a class="header" href="#removed-types-domains-and-composite-types"><a id="rem_types_domains_composite"></a>Removed Types, Domains, and Composite Types</a></h2>
-<p>The following list includes the SynxDB 1 removed types, domains, and composite types.</p>
+<p>The following list includes the SynxDB 2 removed types, domains, and composite types.</p>
 <ul>
 <li>gp_toolkit.__gp_localid</li>
 <li>gp_toolkit.__gp_masterid</li>
@@ -634,7 +634,7 @@
 <li>pg_catalog.pg_window</li>
 </ul>
 <h2 id="removed-operators"><a class="header" href="#removed-operators"><a id="rem_operators"></a>Removed Operators</a></h2>
-<p>The following list includes the SynxDB 1 removed operators.</p>
+<p>The following list includes the SynxDB 2 removed operators.</p>
 <div class="table-wrapper"><table><thead><tr><th>oprname</th><th>oprcode</th></tr></thead><tbody>
 <tr><td>pg_catalog.#&gt;</td><td>json_extract_path_op</td></tr>
 <tr><td>pg_catalog.#&gt;&gt;</td><td>json_extract_path_text_op</td></tr>
@@ -687,6 +687,22 @@
 
         </div>
 
+        <!-- Livereload script (if served using the cli tool) -->
+        <script>
+            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
+            const socket = new WebSocket(wsAddress);
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload();
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
 
 
 

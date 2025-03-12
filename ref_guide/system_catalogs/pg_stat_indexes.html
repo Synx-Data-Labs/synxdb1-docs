@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>pg_stat_all_indexes - SynxDB 1 Documentation (PRERELEASE DRAFT)</title>
+        <title>pg_stat_all_indexes - SynxDB 2 Documentation (PRERELEASE DRAFT)</title>
 
 
         <!-- Custom HTML head -->
@@ -121,7 +121,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">SynxDB 1 Documentation (PRERELEASE DRAFT)</h1>
+                    <h1 class="menu-title">SynxDB 2 Documentation (PRERELEASE DRAFT)</h1>
 
                     <div class="right-buttons">
                         <a href="../../print.html" title="Print this book" aria-label="Print this book">
@@ -129,7 +129,7 @@
                         </a>
 
                         &nbsp;&nbsp;&nbsp;&nbsp;
-                        <img id="fa fa-print" src="../../SYNX-Text-and-Circular-Logo-142x28-White-text-Black-background.png" alt="Synx Data Labs Logo"/>
+                        <a href="https://www.synxdata.com/"><img id="fa fa-print" src="../../SYNX-Text-and-Circular-Logo-142x28-White-text-Black-background.png" alt="Synx Data Labs Logo"/></a>
 
                     </div>
                 </div>
@@ -159,7 +159,7 @@
                         <h1 id="pg_stat_all_indexes"><a class="header" href="#pg_stat_all_indexes">pg_stat_all_indexes</a></h1>
 <p>The <code>pg_stat_all_indexes</code> view shows one row for each index in the current database that displays statistics about accesses to that specific index.</p>
 <p>The <code>pg_stat_user_indexes</code> and <code>pg_stat_sys_indexes</code> views contain the same information, but filtered to only show user and system indexes respectively.</p>
-<p>In SynxDB 1, the <code>pg_stat_*_indexes</code> views display access statistics for indexes only from the master instance. Access statistics from segment instances are ignored. You can create views that display usage statistics that combine statistics from the master and the segment instances, see <a href="#index_stats_all_6x">Index Access Statistics from the Master and Segment Instances</a>.</p>
+<p>In SynxDB 2, the <code>pg_stat_*_indexes</code> views display access statistics for indexes only from the master instance. Access statistics from segment instances are ignored. You can create views that display usage statistics that combine statistics from the master and the segment instances, see <a href="#index_stats_all_6x">Index Access Statistics from the Master and Segment Instances</a>.</p>
 <div class="table-wrapper"><table><thead><tr><th>Column</th><th>Type</th><th>Description</th></tr></thead><tbody>
 <tr><td><code>relid</code></td><td>oid</td><td>OID of the table for this index</td></tr>
 <tr><td><code>indexrelid</code></td><td>oid</td><td>OID of this index</td></tr>
@@ -250,6 +250,22 @@ CREATE VIEW pg_stat_user_indexes_gpdb6 AS
 
         </div>
 
+        <!-- Livereload script (if served using the cli tool) -->
+        <script>
+            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
+            const socket = new WebSocket(wsAddress);
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload();
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
 
 
 

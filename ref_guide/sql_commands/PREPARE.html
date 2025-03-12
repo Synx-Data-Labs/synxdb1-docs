@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>PREPARE - SynxDB 1 Documentation (PRERELEASE DRAFT)</title>
+        <title>PREPARE - SynxDB 2 Documentation (PRERELEASE DRAFT)</title>
 
 
         <!-- Custom HTML head -->
@@ -121,7 +121,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">SynxDB 1 Documentation (PRERELEASE DRAFT)</h1>
+                    <h1 class="menu-title">SynxDB 2 Documentation (PRERELEASE DRAFT)</h1>
 
                     <div class="right-buttons">
                         <a href="../../print.html" title="Print this book" aria-label="Print this book">
@@ -129,7 +129,7 @@
                         </a>
 
                         &nbsp;&nbsp;&nbsp;&nbsp;
-                        <img id="fa fa-print" src="../../SYNX-Text-and-Circular-Logo-142x28-White-text-Black-background.png" alt="Synx Data Labs Logo"/>
+                        <a href="https://www.synxdata.com/"><img id="fa fa-print" src="../../SYNX-Text-and-Circular-Logo-142x28-White-text-Black-background.png" alt="Synx Data Labs Logo"/></a>
 
                     </div>
                 </div>
@@ -182,7 +182,7 @@
 </code></pre>
 <p>If a generic plan is in use, it will contain parameter symbols <code>$n</code>, while a custom plan will have the supplied parameter values substituted into it.</p>
 <p>For more information on query planning and the statistics collected by SynxDB for that purpose, see the <code>ANALYZE</code> documentation.</p>
-<p>Although the main point of a prepared statement is to avoid repeated parse analysis and planning of the statement, SynxDB will force re-analysis and re-planning of the statement before using it whenever database objects used in the statement have undergone definitional (DDL) changes since the previous use of the prepared statement. Also, if the value of <code>search_path</code> changes from one use to the next, the statement will be re-parsed using the new search_path. (This latter behavior is new as of SynxDB 1.) These rules make use of a prepared statement semantically almost equivalent to re-submitting the same query text over and over, but with a performance benefit if no object definitions are changed, especially if the best plan remains the same across uses. An example of a case where the semantic equivalence is not perfect is that if the statement refers to a table by an unqualified name, and then a new table of the same name is created in a schema appearing earlier in the <code>search_path</code>, no automatic re-parse will occur since no object used in the statement changed. However, if some other change forces a re-parse, the new table will be referenced in subsequent uses.</p>
+<p>Although the main point of a prepared statement is to avoid repeated parse analysis and planning of the statement, SynxDB will force re-analysis and re-planning of the statement before using it whenever database objects used in the statement have undergone definitional (DDL) changes since the previous use of the prepared statement. Also, if the value of <code>search_path</code> changes from one use to the next, the statement will be re-parsed using the new search_path. (This latter behavior is new as of SynxDB 2.) These rules make use of a prepared statement semantically almost equivalent to re-submitting the same query text over and over, but with a performance benefit if no object definitions are changed, especially if the best plan remains the same across uses. An example of a case where the semantic equivalence is not perfect is that if the statement refers to a table by an unqualified name, and then a new table of the same name is created in a schema appearing earlier in the <code>search_path</code>, no automatic re-parse will occur since no object used in the statement changed. However, if some other change forces a re-parse, the new table will be referenced in subsequent uses.</p>
 <p>You can see all prepared statements available in the session by querying the <code>pg_prepared_statements</code> system view.</p>
 <h2 id="examples"><a class="header" href="#examples"><a id="section6"></a>Examples</a></h2>
 <p>Create a prepared statement for an <code>INSERT</code> statement, and then run it:</p>
@@ -229,6 +229,22 @@ EXECUTE usrrptplan(1, current_date);
 
         </div>
 
+        <!-- Livereload script (if served using the cli tool) -->
+        <script>
+            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
+            const socket = new WebSocket(wsAddress);
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload();
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
 
 
 

@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Geospatial Analytics - SynxDB 1 Documentation (PRERELEASE DRAFT)</title>
+        <title>Geospatial Analytics - SynxDB 2 Documentation (PRERELEASE DRAFT)</title>
 
 
         <!-- Custom HTML head -->
@@ -121,7 +121,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">SynxDB 1 Documentation (PRERELEASE DRAFT)</h1>
+                    <h1 class="menu-title">SynxDB 2 Documentation (PRERELEASE DRAFT)</h1>
 
                     <div class="right-buttons">
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
@@ -129,7 +129,7 @@
                         </a>
 
                         &nbsp;&nbsp;&nbsp;&nbsp;
-                        <img id="fa fa-print" src="../SYNX-Text-and-Circular-Logo-142x28-White-text-Black-background.png" alt="Synx Data Labs Logo"/>
+                        <a href="https://www.synxdata.com/"><img id="fa fa-print" src="../SYNX-Text-and-Circular-Logo-142x28-White-text-Black-background.png" alt="Synx Data Labs Logo"/></a>
 
                     </div>
                 </div>
@@ -165,7 +165,7 @@
 <li><a href="#topic7">Usage</a></li>
 <li><a href="#postgis_support">PostGIS Extension Support and Limitations</a></li>
 </ul>
-<p>For information about upgrading PostGIS on SynxDB 1 systems, see <a href="postgis-upgrade.html">Upgrading PostGIS 2.1.5 or 2.5.4</a></p>
+<p>For information about upgrading PostGIS on SynxDB 2 systems, see <a href="postgis-upgrade.html">Upgrading PostGIS 2.1.5 or 2.5.4</a></p>
 <h2 id="about-postgis"><a class="header" href="#about-postgis"><a id="topic2"></a>About PostGIS</a></h2>
 <p>PostGIS is a spatial database extension for PostgreSQL that allows GIS (Geographic Information Systems) objects to be stored in the database. The SynxDB PostGIS extension includes support for GiST-based R-Tree spatial indexes, and functions for analysis and processing of GIS objects.</p>
 <p>The SynxDB PostGIS extension supports some PostGIS optional extensions and includes support for the PostGIS <code>raster</code> data type. With the PostGIS Raster objects, PostGIS <code>geometry</code> data type offers a single set of overlay SQL functions (such as <code>ST_Intersects</code>) operating seamlessly on vector and raster geospatial data. PostGIS Raster uses the GDAL (Geospatial Data Abstraction Library) translator library for raster geospatial data formats that presents a <a href="https://gdal.org/user/raster_data_model.html">single raster abstract data model</a> to a calling application.</p>
@@ -254,7 +254,7 @@
 <li><a href="#topic_fx2_fpx_llb">Enabling Out-of-Database Rasters</a></li>
 <li><a href="#topic_bgz_vcl_r1b">Removing PostGIS Support</a></li>
 </ul>
-<p>For information about upgrading PostGIS on SynxDB 1 systems, see <a href="postgis-upgrade.html">Upgrading PostGIS 2.1.5 or 2.5.4</a></p>
+<p>For information about upgrading PostGIS on SynxDB 2 systems, see <a href="postgis-upgrade.html">Upgrading PostGIS 2.1.5 or 2.5.4</a></p>
 <h3 id="enabling-postgis-support"><a class="header" href="#enabling-postgis-support"><a id="topic_ln5_xcl_r1b"></a>Enabling PostGIS Support</a></h3>
 <p>To enable PostGIS support, install the SynxDB PostGIS extension package into the SynxDB system, and then use the <code>CREATE EXTENSION</code> command to enable PostGIS support for an individual database.</p>
 <h4 id="installing-the-synxdb-postgis-extension-package"><a class="header" href="#installing-the-synxdb-postgis-extension-package"><a id="section_dlv_xv1_rqb"></a>Installing the SynxDB PostGIS Extension Package</a></h4>
@@ -489,10 +489,10 @@ SELECT AddGeometryColumn('public', 'geometries', 'geom', 0, 'LINESTRING', 2);
 </code></pre>
 </li>
 <li>
-<p>The <code>_postgis_index_extent</code> function is not supported on SynxDB 1 due to its dependence on spatial index operations.</p>
+<p>The <code>_postgis_index_extent</code> function is not supported on SynxDB 2 due to its dependence on spatial index operations.</p>
 </li>
 <li>
-<p>The <code>&lt;-&gt;</code> operator (<code>geometry &lt;-&gt; geometry</code>) returns the centroid/centroid distance for SynxDB 1.</p>
+<p>The <code>&lt;-&gt;</code> operator (<code>geometry &lt;-&gt; geometry</code>) returns the centroid/centroid distance for SynxDB 2.</p>
 </li>
 <li>
 <p>The TIGER geocoder extension is supported. However, upgrading the TIGER geocoder extension is not supported.</p>
@@ -531,6 +531,22 @@ SELECT AddGeometryColumn('public', 'geometries', 'geom', 0, 'LINESTRING', 2);
 
         </div>
 
+        <!-- Livereload script (if served using the cli tool) -->
+        <script>
+            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
+            const socket = new WebSocket(wsAddress);
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload();
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
 
 
 

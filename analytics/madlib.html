@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Machine Learning and Deep Learning using MADlib - SynxDB 1 Documentation (PRERELEASE DRAFT)</title>
+        <title>Machine Learning and Deep Learning using MADlib - SynxDB 2 Documentation (PRERELEASE DRAFT)</title>
 
 
         <!-- Custom HTML head -->
@@ -121,7 +121,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">SynxDB 1 Documentation (PRERELEASE DRAFT)</h1>
+                    <h1 class="menu-title">SynxDB 2 Documentation (PRERELEASE DRAFT)</h1>
 
                     <div class="right-buttons">
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
@@ -129,7 +129,7 @@
                         </a>
 
                         &nbsp;&nbsp;&nbsp;&nbsp;
-                        <img id="fa fa-print" src="../SYNX-Text-and-Circular-Logo-142x28-White-text-Black-background.png" alt="Synx Data Labs Logo"/>
+                        <a href="https://www.synxdata.com/"><img id="fa fa-print" src="../SYNX-Text-and-Circular-Logo-142x28-White-text-Black-background.png" alt="Synx Data Labs Logo"/></a>
 
                     </div>
                 </div>
@@ -183,7 +183,7 @@
 <p>The R package for PivotalR can be found at <a href="https://cran.r-project.org/web/packages/PivotalR/index.html">https://cran.r-project.org/web/packages/PivotalR/index.html</a>.</p>
 <h2 id="prerequisites"><a class="header" href="#prerequisites"><a id="prereq"></a>Prerequisites</a></h2>
 <blockquote>
-<p><strong>Important</strong> SynxDB supports MADlib version 2.x for SynxDB 1 on RHEL8 platforms only. Upgrading from MADlib version 1.x to version 2.x is not supported.</p>
+<p><strong>Important</strong> SynxDB supports MADlib version 2.x for SynxDB 2 on RHEL8 platforms only. Upgrading from MADlib version 1.x to version 2.x is not supported.</p>
 </blockquote>
 <p>MADlib requires the <code>m4</code> macro processor version 1.4.13 or later. Ensure that you have access to, or superuser permissions to install, this package on each SynxDB host.</p>
 <p>MADlib 2.x requires Python 3. If you are installing version 2.x, you must also set up the Python 3 environment by registering the <code>python3u</code> extension in all databases that will use MADlib:</p>
@@ -664,6 +664,22 @@ insert into t1 values
 
         </div>
 
+        <!-- Livereload script (if served using the cli tool) -->
+        <script>
+            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
+            const socket = new WebSocket(wsAddress);
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload();
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
 
 
 

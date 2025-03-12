@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Migrating SynxDB from Enterprise Linux 7 to 8 or 9 - SynxDB 1 Documentation (PRERELEASE DRAFT)</title>
+        <title>Migrating a SynxDB Host from EL 7 to EL 8 or 9 - SynxDB 2 Documentation (PRERELEASE DRAFT)</title>
 
 
         <!-- Custom HTML head -->
@@ -121,7 +121,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">SynxDB 1 Documentation (PRERELEASE DRAFT)</h1>
+                    <h1 class="menu-title">SynxDB 2 Documentation (PRERELEASE DRAFT)</h1>
 
                     <div class="right-buttons">
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
@@ -129,7 +129,7 @@
                         </a>
 
                         &nbsp;&nbsp;&nbsp;&nbsp;
-                        <img id="fa fa-print" src="../SYNX-Text-and-Circular-Logo-142x28-White-text-Black-background.png" alt="Synx Data Labs Logo"/>
+                        <a href="https://www.synxdata.com/"><img id="fa fa-print" src="../SYNX-Text-and-Circular-Logo-142x28-White-text-Black-background.png" alt="Synx Data Labs Logo"/></a>
 
                     </div>
                 </div>
@@ -156,7 +156,7 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="migrating-synxdb-from-enterprise-linux-7-to-8-or-9"><a class="header" href="#migrating-synxdb-from-enterprise-linux-7-to-8-or-9">Migrating SynxDB from Enterprise Linux 7 to 8 or 9</a></h1>
+                        <h1 id="migrating-a-synxdb-host-from-el-7-to-el-8-or-9"><a class="header" href="#migrating-a-synxdb-host-from-el-7-to-el-8-or-9">Migrating a SynxDB Host from EL 7 to EL 8 or 9</a></h1>
 <p>Use this procedure to migrate a SynxDB installation from Enterprise Linux (EL) version 7 to Enterprise Linux 8 or Enterprise Linux 9, while maintaining your existing version of SynxDB.</p>
 <p>Enterprise Linux includes CentOS, Rocky, Redhat (RHEL), and Oracle Linux (OEL) as the variants supported by SynxDB. See <a href="platform-requirements-overview.html">Platform Requirements</a> for a list of the supported operating systems.</p>
 <p>Major version upgrades of Linux operating systems are always a complex task in a SynxDB environment. You must weigh the risks of the different upgrade methods, as well as consider the impact of the required downtime.</p>
@@ -462,7 +462,7 @@ python el8_migrate_locale.py precheck-table --out table.out
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="../install_guide/migrate-oss-to-vmware.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="../pxf/upgrade_pxf_6x.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
@@ -476,7 +476,7 @@ python el8_migrate_locale.py precheck-table --out table.out
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="../install_guide/migrate-oss-to-vmware.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="../pxf/upgrade_pxf_6x.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
@@ -487,6 +487,22 @@ python el8_migrate_locale.py precheck-table --out table.out
 
         </div>
 
+        <!-- Livereload script (if served using the cli tool) -->
+        <script>
+            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
+            const socket = new WebSocket(wsAddress);
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload();
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
 
 
 

@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Configuring Your Systems - SynxDB 1 Documentation (PRERELEASE DRAFT)</title>
+        <title>Configuring Your Systems - SynxDB 2 Documentation (PRERELEASE DRAFT)</title>
 
 
         <!-- Custom HTML head -->
@@ -121,7 +121,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">SynxDB 1 Documentation (PRERELEASE DRAFT)</h1>
+                    <h1 class="menu-title">SynxDB 2 Documentation (PRERELEASE DRAFT)</h1>
 
                     <div class="right-buttons">
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
@@ -129,7 +129,7 @@
                         </a>
 
                         &nbsp;&nbsp;&nbsp;&nbsp;
-                        <img id="fa fa-print" src="../SYNX-Text-and-Circular-Logo-142x28-White-text-Black-background.png" alt="Synx Data Labs Logo"/>
+                        <a href="https://www.synxdata.com/"><img id="fa fa-print" src="../SYNX-Text-and-Circular-Logo-142x28-White-text-Black-background.png" alt="Synx Data Labs Logo"/></a>
 
                     </div>
                 </div>
@@ -181,7 +181,7 @@
 <p><strong>Note</strong> Automating the configuration steps described in this topic and <a href="install_gpdb.html">Installing the SynxDB Software</a> with a system provisioning tool, such as Ansible, Chef, or Puppet, can save time and ensure a reliable and repeatable SynxDB installation.</p>
 </blockquote>
 <h2 id="deactivate-or-configure-selinux"><a class="header" href="#deactivate-or-configure-selinux"><a id="topic_sqj_lt1_nfb"></a>Deactivate or Configure SELinux</a></h2>
-<p>For all SynxDB host systems running RHEL or CentOS, SELinux must either be <code>Disabled</code> or configured to allow unconfined access to SynxDB processes, directories, and the gpadmin user.</p>
+<p>For all SynxDB host systems, SELinux must either be <code>Disabled</code> or configured to allow unconfined access to SynxDB processes, directories, and the gpadmin user.</p>
 <p>If you choose to deactivate SELinux:</p>
 <ol>
 <li>
@@ -206,25 +206,11 @@ SELinuxstatus: disabled
 </ol>
 <p>If you choose to enable SELinux in <code>Enforcing</code> mode, then SynxDB processes and users can operate successfully in the default <code>Unconfined</code> context. If you require increased SELinux confinement for SynxDB processes and users, you must test your configuration to ensure that there are no functionality or performance impacts to SynxDB. See the <a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/selinux_users_and_administrators_guide/index">SELinux User’s and Administrator’s Guide</a> for detailed information about configuring SELinux and SELinux users.</p>
 <h2 id="deactivate-or-configure-firewall-software"><a class="header" href="#deactivate-or-configure-firewall-software"><a id="topic_et2_y22_4nb"></a>Deactivate or Configure Firewall Software</a></h2>
-<p>You should also deactivate firewall software such as <code>iptables</code> (on systems such as RHEL 6.x and CentOS 6.x ), <code>firewalld</code> (on systems such as RHEL 7.x and CentOS 7.x and later), or <code>ufw</code> (on Ubuntu systems, deactivated by default). If firewall software is not deactivated, you must instead configure your software to allow required communication between SynxDB hosts.</p>
-<p>To deactivate <code>iptables</code>:</p>
+<p>You should also deactivate firewall software such as <code>firewalld</code>. If firewall software is not deactivated, you must instead configure your software to allow required communication between SynxDB hosts.</p>
+<p>To deactivate <code>firewalld</code>:</p>
 <ol>
 <li>
-<p>As the root user, check the status of <code>iptables</code>:</p>
-<pre><code># /sbin/chkconfig --list iptables
-</code></pre>
-<p>If <code>iptables</code> is deactivated, the command output is:</p>
-<pre><code>iptables 0:off 1:off 2:off 3:off 4:off 5:off 6:off
-</code></pre>
-</li>
-<li>
-<p>If necessary, run this command as root to deactivate <code>iptables</code>:</p>
-<pre><code>/sbin/chkconfig iptables off
-</code></pre>
-<p>You will need to reboot your system after applying the change.</p>
-</li>
-<li>
-<p>For systems with <code>firewalld</code>, check the status of <code>firewalld</code> with the command:</p>
+<p>check the status of <code>firewalld</code> with the command:</p>
 <pre><code># systemctl status firewalld
 </code></pre>
 <p>If <code>firewalld</code> is deactivated, the command output is:</p>
@@ -240,7 +226,6 @@ SELinuxstatus: disabled
 </code></pre>
 </li>
 </ol>
-<p>If you decide to enable <code>iptables</code> with SynxDB for security purposes, see <a href="enable_iptables.html">Enabling iptables (Optional)</a> for important considerations and example configurations.</p>
 <p>See the documentation for the firewall or your operating system for additional information.</p>
 <h2 id="recommended-os-parameters-settings"><a class="header" href="#recommended-os-parameters-settings"><a id="topic3"></a>Recommended OS Parameters Settings</a></h2>
 <p>SynxDB requires that certain Linux operating system (OS) parameters be set on all hosts in your SynxDB system (masters and segments).</p>
@@ -265,7 +250,6 @@ SELinuxstatus: disabled
 </li>
 <li><a href="#networking">Networking</a></li>
 <li><a href="#huge_pages">Transparent Huge Pages (THP)</a></li>
-<li><a href="#ipc_object_removal">IPC Object Removal</a></li>
 <li><a href="#ssh_max_connections">SSH Connection Threshold</a></li>
 </ul>
 <h3 id="the-hosts-file"><a class="header" href="#the-hosts-file"><a id="linux_hosts_file"></a>The hosts File</a></h3>
@@ -376,7 +360,7 @@ vm.dirty_ratio = 10
 * soft nproc 131072
 * hard nproc 131072
 </code></pre>
-<p>For Red Hat Enterprise Linux (RHEL) and CentOS systems, parameter values in the <code>/etc/security/limits.d/90-nproc.conf</code> file (RHEL/CentOS 6) or <code>/etc/security/limits.d/20-nproc.conf</code> file (RHEL/CentOS 7 and later) override the values in the <code>limits.conf</code> file. Ensure that any parameters in the override file are set to the required value. The Linux module <code>pam_limits</code> sets user limits by reading the values from the <code>limits.conf</code> file and then from the override file. For information about PAM and user limits, see the documentation on PAM and <code>pam_limits</code>.</p>
+<p>Parameter values in the <code>/etc/security/limits.d/20-nproc.conf</code> file override the values in the <code>limits.conf</code> file. Ensure that any parameters in the override file are set to the required value. The Linux module <code>pam_limits</code> sets user limits by reading the values from the <code>limits.conf</code> file and then from the override file. For information about PAM and user limits, see the documentation on PAM and <code>pam_limits</code>.</p>
 <p>Run the <code>ulimit -u</code> command on each segment host to display the maximum number of processes that are available to each user. Validate that the return value is 131072.</p>
 <h3 id="core-dump"><a class="header" href="#core-dump"><a id="core_dump"></a>Core Dump</a></h3>
 <p>Enable core file generation to a known location by adding the following line to <code>/etc/sysctl.conf</code>:</p>
@@ -390,11 +374,8 @@ vm.dirty_ratio = 10
 <pre><code># sysctl -p
 </code></pre>
 <h3 id="xfs-mount-options"><a class="header" href="#xfs-mount-options"><a id="xfs_mount"></a>XFS Mount Options</a></h3>
-<p>XFS is the preferred data storage file system on Linux platforms. Use the <code>mount</code> command with the following recommended XFS mount options for RHEL 7 and CentOS systems:</p>
+<p>XFS is the preferred data storage file system on Linux platforms. Use the <code>mount</code> command with the following recommended XFS mount options:</p>
 <pre><code>rw,nodev,noatime,nobarrier,inode64
-</code></pre>
-<p>The <code>nobarrier</code> option is not supported on RHEL 8 or Ubuntu systems or later. Use only the options:</p>
-<pre><code>rw,nodev,noatime,inode64
 </code></pre>
 <p>See the <code>mount</code> manual page (<code>man mount</code> opens the man page) for more information about using this command.</p>
 <p>The XFS options can also be set in the <code>/etc/fstab</code> file. This example entry from an <code>fstab</code> file specifies the XFS options.</p>
@@ -426,7 +407,7 @@ vm.dirty_ratio = 10
 <p>One method to set the <code>blockdev</code> value at system startup is by adding the <code>/sbin/blockdev --setra</code> command in the <code>rc.local</code> file. For example, add this line to the <code>rc.local</code> file to set the read-ahead value for the disk <code>sdb</code>.</p>
 <pre><code>/sbin/blockdev --setra 16384 /dev/sdb
 </code></pre>
-<p>On systems that use systemd, you must also set the execute permissions on the <code>rc.local</code> file to enable it to run at startup. For example, on a RHEL/CentOS 7 system, this command sets execute permissions on the file.</p>
+<p>On systems that use systemd, you must also set the execute permissions on the <code>rc.local</code> file to enable it to run at startup. For example, this command sets execute permissions on the file.</p>
 <pre><code># chmod +x /etc/rc.d/rc.local
 </code></pre>
 <p>Restart the system to have the setting take effect.</p>
@@ -435,40 +416,12 @@ vm.dirty_ratio = 10
 <p>Disk I/O scheduler</p>
 <p>The Linux disk scheduler orders the I/O requests submitted to a storage device, controlling the way the kernel commits reads and writes to disk.</p>
 <p>A typical Linux disk I/O scheduler supports multiple access policies. The optimal policy selection depends on the underlying storage infrastructure. The recommended scheduler policy settings for SynxDB systems for specific OSs and storage device types follow:</p>
-<table>
-  <thead>
-    <tr>
-      <th>Storage Device Type</th>
-      <th>OS</th>
-      <th>Recommended Scheduler Policy</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Non-Volatile Memory Express (NVMe)</td>
-      <td>RHEL 7</br>RHEL 8</br>RHEL 9</br>Ubuntu</td>
-      <td><code>none</code></td>
-    </tr>
-    <tr>
-      <td rowspan="2">Solid-State Drives (SSD)</td>
-      <td>RHEL 7</td>
-      <td><code>noop</code></td>
-    </tr>
-    <tr>
-      <td>RHEL 8</br>RHEL 9</br>Ubuntu</td>
-      <td><code>none</code></td>
-    </tr>
-    <tr>
-      <td rowspan="2">Other</td>
-      <td>RHEL 7</td>
-      <td><code>deadline</code></td>
-    </tr>
-    <tr>
-      <td>RHEL 8</br>RHEL 9</br>Ubuntu</td>
-      <td><code>mq-deadline</code></td>
-    </tr>
-  </tbody>
-</table>
+<div class="table-wrapper"><table><thead><tr><th>Storage Device Type</th><th>Recommended Scheduler Policy</th></tr></thead><tbody>
+<tr><td>Non-Volatile Memory Express (NVMe)</td><td><code>none</code></td></tr>
+<tr><td>Solid-State Drives (SSD)</td><td><code>none</code></td></tr>
+<tr><td>Other</td><td><code>mqdeadline</code></td></tr>
+</tbody></table>
+</div>
 <p>To specify a scheduler until the next system reboot, run the following:</p>
 <pre><code># echo schedulername &gt; /sys/block/&lt;devname&gt;/queue/scheduler
 </code></pre>
@@ -478,15 +431,15 @@ vm.dirty_ratio = 10
 <blockquote>
 <p><strong>Note</strong> Using the <code>echo</code> command to set the disk I/O scheduler policy is not persistent; you must ensure that you run the command whenever the system reboots. How to run the command will vary based on your system.</p>
 </blockquote>
-<p>To specify the I/O scheduler at boot time on systems that use <code>grub2</code> such as RHEL 7.x or CentOS 7.x and later, use the system utility <code>grubby</code>. This command adds the parameter when run as <code>root</code>:</p>
+<p>To specify the I/O scheduler at boot time on systems that use <code>grub2</code>, use the system utility <code>grubby</code>. This command adds the parameter when run as <code>root</code>:</p>
 <pre><code># grubby --update-kernel=ALL --args="elevator=deadline"
 </code></pre>
 <p>After adding the parameter, reboot the system.</p>
 <p>This <code>grubby</code> command displays kernel parameter settings:</p>
 <pre><code># grubby --info=ALL
 </code></pre>
-<p>Refer to your operating system documentation for more information about the <code>grubby</code> utility. If you used the <code>grubby</code> command to configure the disk scheduler on a RHEL or CentOS 7.x system and later and it does not update the kernels, see the <a href="#grubby_note">Note</a> at the end of the section.</p>
-<p>For additional information about configuring the disk scheduler, refer to the RedHat Enterprise Linux documentation for <a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/performance_tuning_guide/sect-red_hat_enterprise_linux-performance_tuning_guide-storage_and_file_systems-configuration_tools#sect-Red_Hat_Enterprise_Linux-Performance_Tuning_Guide-Configuration_tools-Setting_the_default_IO_scheduler">RHEL 7</a>, <a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html/monitoring_and_managing_system_status_and_performance/setting-the-disk-scheduler_monitoring-and-managing-system-status-and-performance">RHEL 8</a>, or <a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/9/html/monitoring_and_managing_system_status_and_performance/setting-the-disk-scheduler_monitoring-and-managing-system-status-and-performance">RHEL 9</a>. The Ubuntu wiki <a href="https://wiki.ubuntu.com/Kernel/Reference/IOSchedulers">IOSchedulers</a> topic describes the I/O schedulers available on Ubuntu systems.</p>
+<p>Refer to your operating system documentation for more information about the <code>grubby</code> utility.</p>
+<p>For additional information about configuring the disk scheduler, refer to the Enterprise Linux documentation for <a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/8/html/monitoring_and_managing_system_status_and_performance/setting-the-disk-scheduler_monitoring-and-managing-system-status-and-performance">EL 8</a> or <a href="https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/9/html/monitoring_and_managing_system_status_and_performance/setting-the-disk-scheduler_monitoring-and-managing-system-status-and-performance">EL 9</a>.</p>
 </li>
 </ul>
 <h3 id="networking"><a class="header" href="#networking"><a id="networking"></a>Networking</a></h3>
@@ -501,39 +454,15 @@ vm.dirty_ratio = 10
 <p>These settings are connected, in that they should always be either the same, or close to the same, value, or otherwise in the order of SynxDB &lt; Operating System &lt; Virtual or Physical switch for MTU size.</p>
 <p>9000 is a common supported setting for switches, and is the recommended OS and rack switch MTU setting for your SynxDB hosts.</p>
 <h3 id="transparent-huge-pages-thp"><a class="header" href="#transparent-huge-pages-thp"><a id="huge_pages"></a>Transparent Huge Pages (THP)</a></h3>
-<p>Deactivate Transparent Huge Pages (THP) as it degrades SynxDB performance. RHEL 6.0 or higher enables THP by default. One way to deactivate THP on RHEL 6.x is by adding the parameter <code>transparent_hugepage=never</code> to the kernel command in the file <code>/boot/grub/grub.conf</code>, the GRUB boot loader configuration file. This is an example kernel command from a <code>grub.conf</code> file. The command is on multiple lines for readability:</p>
-<pre><code>kernel /vmlinuz-2.6.18-274.3.1.el5 ro root=LABEL=/
-           elevator=deadline crashkernel=128M@16M  quiet console=tty1
-           console=ttyS1,115200 panic=30 transparent_hugepage=never 
-           initrd /initrd-2.6.18-274.3.1.el5.img
-</code></pre>
-<p>On systems that use <code>grub2</code> such as RHEL 7.x or CentOS 7.x and later, use the system utility <code>grubby</code>. This command adds the parameter when run as root.</p>
+<p>Deactivate Transparent Huge Pages (THP) as it degrades SynxDB performance. THP is enabled by default. On systems that use <code>grub2</code>, use the system utility <code>grubby</code>. This command adds the parameter when run as root:</p>
 <pre><code># grubby --update-kernel=ALL --args="transparent_hugepage=never"
 </code></pre>
 <p>After adding the parameter, reboot the system.</p>
-<p>For Ubuntu systems, install the <code>hugepages</code> package and run this command as root:</p>
-<pre><code># hugeadm --thp-never
-</code></pre>
 <p>This cat command checks the state of THP. The output indicates that THP is deactivated.</p>
 <pre><code>$ cat /sys/kernel/mm/*transparent_hugepage/enabled
 always [never]
 </code></pre>
-<p>For more information about Transparent Huge Pages or the <code>grubby</code> utility, see your operating system documentation. If the <code>grubby</code> command does not update the kernels, see the <a href="#grubby_note">Note</a> at the end of the section.</p>
-<h3 id="ipc-object-removal"><a class="header" href="#ipc-object-removal"><a id="ipc_object_removal"></a>IPC Object Removal</a></h3>
-<p>Deactivate IPC object removal for RHEL 7.2 or CentOS 7.2, or Ubuntu. The default <code>systemd</code> setting <code>RemoveIPC=yes</code> removes IPC connections when non-system user accounts log out. This causes the SynxDB utility <code>gpinitsystem</code> to fail with semaphore errors. Perform one of the following to avoid this issue.</p>
-<ul>
-<li>
-<p>When you add the <code>gpadmin</code> operating system user account to the master node in <a href="#topic23">Creating the SynxDB Administrative User</a>, create the user as a system account.</p>
-</li>
-<li>
-<p>Deactivate <code>RemoveIPC</code>. Set this parameter in <code>/etc/systemd/logind.conf</code> on the SynxDB host systems.</p>
-<pre><code>RemoveIPC=no
-</code></pre>
-<p>The setting takes effect after restarting the <code>systemd-login</code> service or rebooting the system. To restart the service, run this command as the root user.</p>
-<pre><code>service systemd-logind restart
-</code></pre>
-</li>
-</ul>
+<p>For more information about Transparent Huge Pages or the <code>grubby</code> utility, see your operating system documentation.</p>
 <h3 id="ssh-connection-threshold"><a class="header" href="#ssh-connection-threshold"><a id="ssh_max_connections"></a>SSH Connection Threshold</a></h3>
 <p>Certain SynxDB management utilities including <code>gpexpand</code>, <code>gpinitsystem</code>, and <code>gpaddmirrors</code>, use secure shell (SSH) connections between systems to perform their tasks. In large SynxDB deployments, cloud deployments, or deployments with a large number of segments per host, these utilities may exceed the host’s maximum threshold for unauthenticated connections. When this occurs, you receive errors such as: <code>ssh_exchange_identification: Connection closed by remote host</code>.</p>
 <p>To increase this connection threshold for your SynxDB system, update the SSH <code>MaxStartups</code> and <code>MaxSessions</code> configuration parameters in one of the <code>/etc/ssh/sshd_config</code> or <code>/etc/sshd_config</code> SSH daemon configuration files.</p>
@@ -548,38 +477,10 @@ MaxSessions 200
 <pre><code>Max Startups 10:30:200
 MaxSessions 200
 </code></pre>
-<p>Restart the SSH daemon after you update <code>MaxStartups</code> and <code>MaxSessions</code>. For example, on a CentOS 6 system, run the following command as the <code>root</code> user:</p>
+<p>Restart the SSH daemon after you update <code>MaxStartups</code> and <code>MaxSessions</code>. For example, run the following command as the <code>root</code> user:</p>
 <pre><code># service sshd restart
 </code></pre>
 <p>For detailed information about SSH configuration options, refer to the SSH documentation for your Linux distribution.</p>
-<p><a id="grubby_note"></a></p>
-<blockquote>
-<p><strong>Note</strong> If the <code>grubby</code> command does not update the kernels of a RHEL 7.x or CentOS 7.x system, you can manually update all kernels on the system. For example, to add the parameter <code>transparent_hugepage=never</code> to all kernels on a system.</p>
-</blockquote>
-<ol>
-<li>
-<p>Add the parameter to the <code>GRUB_CMDLINE_LINUX</code> line in the file parameter in <code>/etc/default/grub</code>.</p>
-<pre><code>GRUB_TIMEOUT=5
-GRUB_DISTRIBUTOR="$(sed 's, release .*$,,g' /etc/system-release)"
-GRUB_DEFAULT=saved
-GRUB_DISABLE_SUBMENU=true
-GRUB_TERMINAL_OUTPUT="console"
-GRUB_CMDLINE_LINUX="crashkernel=auto rd.lvm.lv=cl/root rd.lvm.lv=cl/swap rhgb quiet transparent_hugepage=never"
-              GRUB_DISABLE_RECOVERY="true"
-</code></pre>
-<blockquote>
-<p><strong>Note</strong> You must have root permission to edit the <code>/etc/default/grub</code> file.</p>
-</blockquote>
-</li>
-<li>
-<p>As root, run the <code>grub2-mkconfig</code> command to update the kernels.</p>
-<pre><code># grub2-mkconfig -o /boot/grub2/grub.cfg
-</code></pre>
-</li>
-<li>
-<p>Reboot the system.</p>
-</li>
-</ol>
 <h2 id="synchronizing-system-clocks"><a class="header" href="#synchronizing-system-clocks"><a id="topic_qst_s5t_wy"></a>Synchronizing System Clocks</a></h2>
 <p>You must use NTP (Network Time Protocol) to synchronize the system clocks on all hosts that comprise your SynxDB system. Accurate time keeping is essential to ensure reliable operations on the database and data integrity.</p>
 <p>There are many different architectures you may choose from to implement NTP. We recommend you use one of the following:</p>
@@ -651,9 +552,6 @@ If you are using the <code>ntpd</code> daemon:</p>
 <ol>
 <li>
 <p>Create the <code>gpadmin</code> group and user.</p>
-<blockquote>
-<p><strong>Note</strong> If you are installing SynxDB on RHEL 7.2 or CentOS 7.2 and want to deactivate IPC object removal by creating the <code>gpadmin</code> user as a system account, provide both the <code>-r</code> option (create the user as a system account) and the <code>-m</code> option (create a home directory) to the <code>useradd</code> command. On Ubuntu systems, you must use the <code>-m</code> option with the <code>useradd</code> command to create a home directory for a user.</p>
-</blockquote>
 <p>This example creates the <code>gpadmin</code> group, creates the <code>gpadmin</code> user as a system account with a home directory and as a member of the <code>gpadmin</code> group, and creates a password for the user.</p>
 <pre><code># groupadd gpadmin
 # useradd gpadmin -r -m -g gpadmin
@@ -682,8 +580,7 @@ Enter same passphrase again:
 <p>At the passphrase prompts, press Enter so that SSH connections will not require entry of a passphrase.</p>
 </li>
 <li>
-<p>Grant sudo access to the <code>gpadmin</code> user.</p>
-<p>On Red Hat or CentOS, run <code>visudo</code> and uncomment the <code>%wheel</code> group entry.</p>
+<p>Grant sudo access to the <code>gpadmin</code> user. Run <code>visudo</code> and uncomment the <code>%wheel</code> group entry.</p>
 <pre><code>%wheel        ALL=(ALL)       NOPASSWD: ALL
 </code></pre>
 <p>Make sure you uncomment the line that has the <code>NOPASSWD</code> keyword.</p>
@@ -728,6 +625,22 @@ Enter same passphrase again:
 
         </div>
 
+        <!-- Livereload script (if served using the cli tool) -->
+        <script>
+            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
+            const socket = new WebSocket(wsAddress);
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload();
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
 
 
 
