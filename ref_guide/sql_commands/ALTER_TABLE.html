@@ -360,7 +360,7 @@ For append-optimized and hash tables, <code>ADD COLUMN</code> requires a table r
 <p><strong>SET WITHOUT OIDS</strong> — Removes the OID system column from the table.</p>
 <p>You cannot create OIDS on a partitioned or column-oriented table (an error is displayed). This syntax is deprecated and will be removed in a future SynxDB release.</p>
 <blockquote>
-<p><strong>Caution</strong> VMware does not support using <code>SET WITH OIDS</code> or <code>oids=TRUE</code> to assign an OID system column. On large tables, such as those in a typical SynxDB system, using OIDs for table rows can cause the 32-bit counter to wrap-around. After the counter wraps around, OIDs can no longer be assumed to be unique, which not only makes them useless to user applications, but can also cause problems in the SynxDB system catalog tables. In addition, excluding OIDs from a table reduces the space required to store the table on disk by 4 bytes per row, slightly improving performance.</p>
+<p><strong>Caution</strong> SynxDB does not support using <code>SET WITH OIDS</code> or <code>oids=TRUE</code> to assign an OID system column. On large tables, such as those in a typical SynxDB system, using OIDs for table rows can cause the 32-bit counter to wrap-around. After the counter wraps around, OIDs can no longer be assumed to be unique, which not only makes them useless to user applications, but can also cause problems in the SynxDB system catalog tables. In addition, excluding OIDs from a table reduces the space required to store the table on disk by 4 bytes per row, slightly improving performance.</p>
 </blockquote>
 </li>
 <li>

@@ -180,7 +180,7 @@ gprecoverseg --version
 <p>During an incremental recovery (the <code>-F</code> option is not specified), if <code>gprecoverseg</code> detects a segment instance with mirroring deactivated in a system with mirrors activated, the utility reports that mirroring is deactivated for the segment, does not attempt to recover that segment instance, and continues the recovery process.</p>
 <p>A segment instance can fail for several reasons, such as a host failure, network failure, or disk failure. When a segment instance fails, its status is marked as <code>d</code> (down) in the SynxDB system catalog, and its mirror is activated in <code>Not in Sync</code> mode. In order to bring the failed segment instance back into operation again, you must first correct the problem that made it fail in the first place, and then recover the segment instance in SynxDB using <code>gprecoverseg</code>.</p>
 <blockquote>
-<p><strong>Note</strong> If incremental recovery was not successful and the down segment instance data is not corrupted, contact VMware Support.</p>
+<p><strong>Note</strong> If incremental recovery was not successful and the down segment instance data is not corrupted, contact Support.</p>
 </blockquote>
 <p>Segment recovery using <code>gprecoverseg</code> requires that you have an active mirror to recover from. For systems that do not have mirroring enabled, or in the event of a double fault (a primary and mirror pair both down at the same time) — you must take manual steps to recover the failed segment instances and then perform a system restart to bring the segments back online. For example, this command restarts a system.</p>
 <pre><code>gpstop -r

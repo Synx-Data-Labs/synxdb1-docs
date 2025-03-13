@@ -173,12 +173,12 @@
 &lt;configuration&gt;
     &lt;runtime&gt;
         &lt;id&gt;plc_python_example1&lt;/id&gt;
-        &lt;image&gt;pivotaldata/plcontainer_python_with_clients:0.1&lt;/image&gt;
+        &lt;image&gt;synxdata/plcontainer_python_with_clients:0.1&lt;/image&gt;
         &lt;command&gt;./pyclient&lt;/command&gt;
     &lt;/runtime&gt;
     &lt;runtime&gt;
         &lt;id&gt;plc_python_example2&lt;/id&gt;
-        &lt;image&gt;pivotaldata/plcontainer_python_without_clients:0.1&lt;/image&gt;
+        &lt;image&gt;synxdata/plcontainer_python_without_clients:0.1&lt;/image&gt;
         &lt;command&gt;/clientdir/pyclient.sh&lt;/command&gt;
         &lt;shared_directory access="ro" container="/clientdir" host="/usr/local/synxdb/bin/plcontainer_clients"/&gt;
         &lt;setting memory_mb="512"/&gt;
@@ -188,7 +188,7 @@
     &lt;/runtime&gt;
     &lt;runtime&gt;
         &lt;id&gt;plc_r_example&lt;/id&gt;
-        &lt;image&gt;pivotaldata/plcontainer_r_without_clients:0.2&lt;/image&gt;
+        &lt;image&gt;synxdata/plcontainer_r_without_clients:0.2&lt;/image&gt;
         &lt;command&gt;/clientdir/rclient.sh&lt;/command&gt;
         &lt;shared_directory access="ro" container="/clientdir" host="/usr/local/synxdb/bin/plcontainer_clients"/&gt;
         &lt;setting use_container_logging="yes"/&gt;
@@ -208,7 +208,7 @@
 <p>:    The <code>id</code> specifies which Docker image to use when PL/Container creates a Docker container to run a user-defined function.</p>
 <p>image
 :   Required. The value is the full Docker image name, including image tag. The same way you specify them for starting this container in Docker. Configuration allows to have many container objects referencing the same image name, this way in Docker they would be represented by identical containers.</p>
-<pre><code>For example, you might have two `runtime` elements, with different `id` elements, `plc_python_128` and `plc_python_256`, both referencing the Docker image `pivotaldata/plcontainer_python:1.0.0`. The first `runtime` specifies a 128MB RAM limit and the second one specifies a 256MB limit that is specified by the `memory_mb` attribute of a `setting` element.
+<pre><code>For example, you might have two `runtime` elements, with different `id` elements, `plc_python_128` and `plc_python_256`, both referencing the Docker image `synxdata/plcontainer_python:1.0.0`. The first `runtime` specifies a 128MB RAM limit and the second one specifies a 256MB limit that is specified by the `memory_mb` attribute of a `setting` element.
 </code></pre>
 <p>command
 :   Required. The value is the command to be run inside of container to start the client process inside in the container. When creating a <code>runtime</code> element, the <code>plcontainer</code> utility adds a <code>command</code> element based on the language (the <code>-l</code> option).</p>
@@ -279,18 +279,18 @@ By default, the PL/Container log information is sent to a system service. On Red
 </code></pre>
 <h2 id="update-the-plcontainer-configuration"><a class="header" href="#update-the-plcontainer-configuration"><a id="topic_v3s_qv3_kw"></a>Update the PL/Container Configuration</a></h2>
 <p>You can add a <code>runtime</code> element to the PL/Container configuration file with the <code>plcontainer runtime-add</code> command. The command options specify information such as the runtime ID, Docker image, and language. You can use the <code>plcontainer runtime-replace</code> command to update an existing <code>runtime</code> element. The utility updates the configuration file on the master and all segment instances.</p>
-<p>The PL/Container configuration file can contain multiple <code>runtime</code> elements that reference the same Docker image specified by the XML element <code>image</code>. In the example configuration file, the <code>runtime</code> elements contain <code>id</code> elements named <code>plc_python_128</code> and <code>plc_python_256</code>, both referencing the Docker container <code>pivotaldata/plcontainer_python:1.0.0</code>. The first <code>runtime</code> element is defined with a 128MB RAM limit and the second one with a 256MB RAM limit.</p>
+<p>The PL/Container configuration file can contain multiple <code>runtime</code> elements that reference the same Docker image specified by the XML element <code>image</code>. In the example configuration file, the <code>runtime</code> elements contain <code>id</code> elements named <code>plc_python_128</code> and <code>plc_python_256</code>, both referencing the Docker container <code>synxdata/plcontainer_python:1.0.0</code>. The first <code>runtime</code> element is defined with a 128MB RAM limit and the second one with a 256MB RAM limit.</p>
 <pre><code>&lt;configuration&gt;
   &lt;runtime&gt;
     &lt;id&gt;plc_python_128&lt;/id&gt;
-    &lt;image&gt;pivotaldata/plcontainer_python:1.0.0&lt;/image&gt;
+    &lt;image&gt;synxdata/plcontainer_python:1.0.0&lt;/image&gt;
     &lt;command&gt;./client&lt;/command&gt;
     &lt;shared_directory access="ro" container="/clientdir" host="/usr/local/gpdb/bin/plcontainer_clients"/&gt;
     &lt;setting memory_mb="128"/&gt;
   &lt;/runtime&gt;
   &lt;runtime&gt;
     &lt;id&gt;plc_python_256&lt;/id&gt;
-    &lt;image&gt;pivotaldata/plcontainer_python:1.0.0&lt;/image&gt;
+    &lt;image&gt;synxdata/plcontainer_python:1.0.0&lt;/image&gt;
     &lt;command&gt;./client&lt;/command&gt;
     &lt;shared_directory access="ro" container="/clientdir" host="/usr/local/gpdb/bin/plcontainer_clients"/&gt;
     &lt;setting memory_mb="256"/&gt;

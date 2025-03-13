@@ -196,14 +196,14 @@
 <p>:   By default, the <code>image-add</code> command copies the image to each SynxDB segment and standby master host, and installs the image. When you specify an image_file and provide the [<strong>-ulc</strong> | <strong>–use_local_copy</strong>] option, <code>plcontainer</code> installs the image only on the host on which you run the command.</p>
 <p>:   After installing the Docker image, use the <code>runtime-add</code> command to configure PL/Container to use the Docker image.</p>
 <p>image-delete {<strong>-i</strong> | <strong>–image</strong>} image_name
-:   Remove an installed Docker image from all SynxDB hosts. Specify the full Docker image name including the tag for example <code>pivotaldata/plcontainer_python_shared:1.0.0</code></p>
+:   Remove an installed Docker image from all SynxDB hosts. Specify the full Docker image name including the tag for example <code>synxdata/plcontainer_python_shared:1.0.0</code></p>
 <p>image-list
 :   List the Docker images installed on the host. The command list only the images on the local host, not remote hosts. The command lists all installed Docker images, including images installed with Docker commands.</p>
 <p>runtime-add options
 :   Add configuration information to the PL/Container configuration file on all SynxDB hosts. If the specified runtime_id exists, the utility returns an error and the configuration information is not added.</p>
 <p>:   These are the supported options:</p>
 <p>:   {<strong>-i</strong> | <strong>–image</strong>} docker-image
-:   Required. Specify the full Docker image name, including the tag, that is installed on the SynxDB hosts. For example <code>pivotaldata/plcontainer_python:1.0.0</code>.</p>
+:   Required. Specify the full Docker image name, including the tag, that is installed on the SynxDB hosts. For example <code>synxdata/plcontainer_python:1.0.0</code>.</p>
 <p>:   The utility returns a warning if the specified Docker image is not installed.</p>
 <p>:   The <code>plcontainer image-list</code> command displays installed image information including the name and tag (the Repository and Tag columns).</p>
 <p>{<strong>-l</strong> | <strong>–language</strong>} python | python3 | r

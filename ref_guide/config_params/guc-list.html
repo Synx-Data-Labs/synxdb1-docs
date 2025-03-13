@@ -2552,7 +2552,7 @@ statement_mem = rg_perseg_mem / max_expected_concurrent_queries
 <p>Enables a test that validates the free tuple ID (TID) list. The list is maintained and used by SynxDB. SynxDB determines the validity of the free TID list by ensuring the previous free TID of the current free tuple is a valid free tuple. The default value is <code>true</code>, enable the test.</p>
 <p>If SynxDB detects a corruption in the free TID list, the free TID list is rebuilt, a warning is logged, and a warning is returned by queries for which the check failed. SynxDB attempts to run the queries.</p>
 <blockquote>
-<p><strong>Note</strong> If a warning is returned, please contact VMware Support.</p>
+<p><strong>Note</strong> If a warning is returned, please contact Support.</p>
 </blockquote>
 <div class="table-wrapper"><table><thead><tr><th>Value Range</th><th>Default</th><th>Set Classifications</th></tr></thead><tbody>
 <tr><td>Boolean</td><td>true</td><td>master, session, reload</td></tr>
