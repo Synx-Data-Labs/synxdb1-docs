@@ -1,9 +1,9 @@
 <!DOCTYPE HTML>
-<html lang="en" class="coal sidebar-visible" dir="ltr">
+<html lang="en" class="ayu sidebar-visible" dir="ltr">
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Using SynxDB 2 as a Drop-In Replacement for Greenplum 6 - SynxDB 2 Documentation (PRERELEASE DRAFT)</title>
+        <title>Drop-In Replacement Guide for Greenplum 6 - SynxDB 2 Documentation (PRERELEASE DRAFT)</title>
 
 
         <!-- Custom HTML head -->
@@ -34,7 +34,7 @@
         <!-- Provide site root to javascript -->
         <script>
             var path_to_root = "../";
-            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "coal" : "coal";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "ayu" : "ayu";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc.js"></script>
@@ -63,7 +63,7 @@
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
             const html = document.documentElement;
-            html.classList.remove('coal')
+            html.classList.remove('ayu')
             html.classList.add(theme);
             html.classList.add("js");
         </script>
@@ -156,11 +156,11 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="using-synxdb-2-as-a-drop-in-replacement-for-greenplum-6"><a class="header" href="#using-synxdb-2-as-a-drop-in-replacement-for-greenplum-6">Using SynxDB 2 as a Drop-In Replacement for Greenplum 6</a></h1>
+                        <h1 id="drop-in-replacement-guide-for-greenplum-6"><a class="header" href="#drop-in-replacement-guide-for-greenplum-6">Drop-In Replacement Guide for Greenplum 6</a></h1>
 <p>SynxDB 2 provides feature parity with the last open source release of Greenplum 6. If you used open source Greenplum 6 or proprietary Greenplum 6 without gpcc or QuickLZ compression, you can install SynxDB 2 alongside your existing Greenplum installation and dynamically switch between each environment to validate performance and functionality. If you wish to migrate to SynxDB 2 but currently use the proprietary features of Greenplum 6, follow the pre-migration guide to prepare your existing Greenplum deployment for migration to SynxDB 2.</p>
 <ul>
-<li><a href="./synxdb2-pre-migration-guide.html">Pre-Migration Guide</a></li>
-<li><a href="./synxdb2-dropin-replacement-guide.html">Drop-In Replacement Guide</a></li>
+<li><a href="./synxdb2-pre-migration-guide.html">Pre-Migration Procedure</a></li>
+<li><a href="./synxdb2-dropin-replacement-guide.html">Replacement and Fallback Procedures</a></li>
 </ul>
 
                     </main>

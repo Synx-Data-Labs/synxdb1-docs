@@ -1,9 +1,9 @@
 <!DOCTYPE HTML>
-<html lang="en" class="coal sidebar-visible" dir="ltr">
+<html lang="en" class="ayu sidebar-visible" dir="ltr">
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Pre-Migration Guide - SynxDB 2 Documentation (PRERELEASE DRAFT)</title>
+        <title>Pre-Migration Procedure - SynxDB 2 Documentation (PRERELEASE DRAFT)</title>
 
 
         <!-- Custom HTML head -->
@@ -34,7 +34,7 @@
         <!-- Provide site root to javascript -->
         <script>
             var path_to_root = "../";
-            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "coal" : "coal";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "ayu" : "ayu";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc.js"></script>
@@ -63,7 +63,7 @@
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
             const html = document.documentElement;
-            html.classList.remove('coal')
+            html.classList.remove('ayu')
             html.classList.add(theme);
             html.classList.add("js");
         </script>
@@ -156,7 +156,7 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="synxdb-2-pre-migration-procedure"><a class="header" href="#synxdb-2-pre-migration-procedure">SynxDB 2: Pre-Migration Procedure</a></h1>
+                        <h1 id="pre-migration-procedure"><a class="header" href="#pre-migration-procedure">Pre-Migration Procedure</a></h1>
 <p>This guide helps you identify and address Greenplum 6 proprietary features before you migrate to SynxDB 2, or before you install SynxDB 2 as a drop-in replacement to Greenplum 6.</p>
 <h2 id="prerequisites"><a class="header" href="#prerequisites">Prerequisites</a></h2>
 <p>Before you make any configuration changes to your Greenplum 6 system:</p>

@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html lang="en" class="coal sidebar-visible" dir="ltr">
+<html lang="en" class="ayu sidebar-visible" dir="ltr">
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
@@ -34,7 +34,7 @@
         <!-- Provide site root to javascript -->
         <script>
             var path_to_root = "../";
-            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "coal" : "coal";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "ayu" : "ayu";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc.js"></script>
@@ -63,7 +63,7 @@
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
             const html = document.documentElement;
-            html.classList.remove('coal')
+            html.classList.remove('ayu')
             html.classList.add(theme);
             html.classList.add("js");
         </script>
@@ -157,7 +157,10 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="quick-start-installation"><a class="header" href="#quick-start-installation">Quick-Start Installation</a></h1>
-<p>This guide provides simple instructions for installing SynxDB 2 on a host machine. SynxDB is built for Enterprise Linux 7 (EL7), Enterprise Linux 8 (EL8), and 9 (EL9)-based distributions, including RHEL 7, 8, &amp; 9, Rocky Linux 8 &amp; 9, Oracle Linux 8 &amp; 9, and AlmaLinux 8 &amp; 9.</p>
+<p>This guide provides simple instructions for installing SynxDB 2 on a host machine.</p>
+<blockquote>
+<p><strong>Note</strong> For detailed instructions on preparing host machines and deploying SynxDB in a production environment, see <a href="../install_guide/install_guide.html">Installing and Upgrading SynxDB</a>.</p>
+</blockquote>
 <h2 id="security-considerations"><a class="header" href="#security-considerations">Security Considerations</a></h2>
 <p>The installation procedure follows a structured RPM-based approach, similar to EPEL, in order to secure dependency management and updates. Synx Data Labs maintains high security standards through:</p>
 <ul>
@@ -186,9 +189,8 @@
 </li>
 <li>
 <p>Import the Synx Data Labs GPG key so you can use it to validate downloaded packages:</p>
-<pre><code>wget -nv https://synxdb-repo.s3.us-west-2.amazonaws.com/el9/stable/RPM-GPG-KEY-SynxDB
-gpg --show-keys RPM-GPG-KEY-SynxDB
-rpm --import RPM-GPG-KEY-SynxDB
+<pre><code>wget -nv https://synxdb-repo.s3.us-west-2.amazonaws.com/gpg/RPM-GPG-KEY-SYNXDB
+rpm --import RPM-GPG-KEY-SYNXDB
 </code></pre>
 </li>
 <li>
@@ -200,42 +202,21 @@ rpm --import RPM-GPG-KEY-SynxDB
 </code></pre>
 </li>
 <li>
-<p>Download the correct SynxDB repository package for your operating system.
-For Enterprise Linux 9:</p>
-<pre><code class="language-bash">wget -nv https://synxdb-repo.s3.us-west-2.amazonaws.com/el9/noarch/synxdb-release-1.0.0-rc2.el9.noarch.rpm
+<p>Download the SynxDB repository package:</p>
+<pre><code class="language-bash">wget -nv https://synxdb-repo.s3.us-west-2.amazonaws.com/repo-release/synxdb2-release-1-1.rpm
 </code></pre>
-<p>For Enterprise Linux 8:</p>
-<pre><code class="language-bash">wget -nv https://synxdb-repo.s3.us-west-2.amazonaws.com/el8/noarch/synxdb-release-1.0.0-rc2.el8.noarch.rpm
-</code></pre>
-<p>For Enterprise Linux 7:</p>
-<pre><code class="language-bash">wget -nv https://synxdb-repo.s3.us-west-2.amazonaws.com/el7/noarch/synxdb-release-1.0.0-rc2.el7.noarch.rpm
-</code></pre>
-<p><strong>Important:</strong> Ensure that you download install the correct SynxDB repository package for your OS version. Attempting to install an EL8 package on an EL9 system or vice versa results in a failure.</p>
 </li>
 <li>
-<p>Verify the package signature of the repository package you just downloaded.
-For EL9:</p>
-<pre><code class="language-bash">rpm --checksig synxdb-release-1.0.0-rc2.el9.noarch.rpm
-</code></pre>
-<p>For EL8:</p>
-<pre><code class="language-bash">rpm --checksig synxdb-release-1.0.0-rc2.el8.noarch.rpm
-</code></pre>
-<p>For EL7:</p>
-<pre><code class="language-bash">rpm --checksig synxdb-release-1.0.0-rc2.el7.noarch.rpm
+<p>Verify the package signature of the repository package you just downloaded.</p>
+<pre><code class="language-bash">rpm --checksig synxdb2-release-1-1.rpm
 </code></pre>
 <p>Ensure that the command output shows that the signature is OK. For example:</p>
-<pre><code>synxdb-release-1.0.0-rc2.el8.noarch.rpm: digests signatures OK
+<pre><code>synxdb2-release-1-1.rpm: digests signatures OK
 </code></pre>
 </li>
 <li>
 <p>After verifying the package signature, install the SynxDB repository package. For Enterprise Linux 9:</p>
-<pre><code class="language-bash">dnf install -y synxdb-release-1.0.0-rc2.el9.noarch.rpm
-</code></pre>
-<p>For Enterprise Linux 8:</p>
-<pre><code class="language-bash">dnf install -y synxdb-release-1.0.0-rc2.el8.noarch.rpm
-</code></pre>
-<p>For Enterprise Linux 7:</p>
-<pre><code class="language-bash">dnf install -y synxdb-release-1.0.0-rc2.el7.noarch.rpm
+<pre><code class="language-bash">dnf install -y synxdb2-release-1-1.rpm
 </code></pre>
 <p>The repository installation shows details of the installation process similar to:</p>
 <pre><code>Last metadata expiration check: 2:11:29 ago on Mon Mar 10 18:53:32 2025.
@@ -244,14 +225,14 @@ Dependencies resolved.
  Package            Architecture   Version          Repository      Size
 =========================================================================
 Installing:
- synxdb-release     noarch         1.0.0-rc2.el8    @commandline    8.0 k
+ synxdb-release     noarch         1-1              @commandline    8.1 k
 
 Transaction Summary
 =========================================================================
 Install  1 Package
 
-Total size: 8.0 k
-Installed size: 204  
+Total size: 8.1 k
+Installed size: 0  
 Downloading Packages:
 Running transaction check
 Transaction check succeeded.
@@ -259,12 +240,12 @@ Running transaction test
 Transaction test succeeded.
 Running transaction
   Preparing        :                                                 1/1 
-  Running scriptlet: synxdb-release-1.0.0-rc2.el8.noarch             1/1 
-  Installing       : synxdb-release-1.0.0-rc2.el8.noarch             1/1 
-  Verifying        : synxdb-release-1.0.0-rc2.el8.noarch             1/1 
+  Running scriptlet: synxdb2-release-1-1.noarch                      1/1 
+  Installing       : synxdb2-release-1-1.noarch                      1/1 
+  Verifying        : synxdb2-release-1-1.noarch                      1/1 
 
 Installed:
-  synxdb-release-1.0.0-rc2.el8.noarch
+  synxdb2-release-1-1.noarch
 
 Complete!
 </code></pre>
@@ -283,15 +264,15 @@ Complete!
 <p>You should see installation details similar to:</p>
 <pre><code>Name        : synxdb
 Version     : 2.27.2
-Release     : rc3.el8
+Release     : 1.el8
 Architecture: x86_64
-Install Date: Mon Mar 10 21:07:32 2025
+Install Date: Fri Mar 14 17:22:59 2025
 Group       : Applications/Databases
-Size        : 667859764
+Size        : 1541443881
 License     : ASL 2.0
-Signature   : RSA/SHA256, Wed Feb 19 10:17:21 2025, Key ID b783878edf4bfefe
-Source RPM  : synxdb-2.27.2-rc3.el8.src.rpm
-Build Date  : Wed Feb 19 10:07:18 2025
+Signature   : RSA/SHA256, Thu Mar 13 10:36:01 2025, Key ID b783878edf4bfefe
+Source RPM  : synxdb-2.27.2-1.el8.src.rpm
+Build Date  : Thu Mar 13 09:55:50 2025
 Build Host  : cdw
 Relocations : /usr/local/synxdb 
 Vendor      : Synx Data Labs, Inc.
@@ -359,7 +340,7 @@ source /usr/local/synxdb/synxdb_path.sh
 # postgres --version
 postgres (SynxDB) 9.4.26
 # postgres --gp-version
-postgres (SynxDB) 6.27.2+SynxDB_RC3 build 1
+postgres (SynxDB) 6.27.2+SynxDB_GA build 1
 # psql --version
 psql (PostgreSQL) 9.4.26
 

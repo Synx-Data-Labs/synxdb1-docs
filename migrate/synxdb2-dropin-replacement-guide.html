@@ -1,9 +1,9 @@
 <!DOCTYPE HTML>
-<html lang="en" class="coal sidebar-visible" dir="ltr">
+<html lang="en" class="ayu sidebar-visible" dir="ltr">
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Drop-In Replacement Guide - SynxDB 2 Documentation (PRERELEASE DRAFT)</title>
+        <title>Replacement and Fallback Procedures - SynxDB 2 Documentation (PRERELEASE DRAFT)</title>
 
 
         <!-- Custom HTML head -->
@@ -34,7 +34,7 @@
         <!-- Provide site root to javascript -->
         <script>
             var path_to_root = "../";
-            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "coal" : "coal";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "ayu" : "ayu";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc.js"></script>
@@ -63,7 +63,7 @@
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
             const html = document.documentElement;
-            html.classList.remove('coal')
+            html.classList.remove('ayu')
             html.classList.add(theme);
             html.classList.add("js");
         </script>
@@ -156,8 +156,8 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="synxdb-2-drop-in-replacement-guide"><a class="header" href="#synxdb-2-drop-in-replacement-guide">SynxDB 2: Drop-in Replacement Guide</a></h1>
-<p>This guide walks through the process of replacing a running Greenplum 6 installation with SynxDB 2 while maintaining fallback capability.</p>
+                        <h1 id="replacement-and-fallback-procedures"><a class="header" href="#replacement-and-fallback-procedures">Replacement and Fallback Procedures</a></h1>
+<p>This topic describes the process of replacing a running Greenplum 6 installation with SynxDB 2 while maintaining fallback capability.</p>
 <h2 id="important-notes"><a class="header" href="#important-notes">Important Notes</a></h2>
 <ol>
 <li>The Greenplum 6 installation is intentionally preserved to enable fallback if needed.</li>
@@ -176,17 +176,15 @@
 <li>Preserve the existing Greenplum 6 installation for fallback capability.</li>
 </ul>
 <p>This guide assumes that each host can access the Synx Data Labs repositories. If your environment restricts internet access, or if you prefer to host repositories within your infrastructure to ensure consistent package availability, contact Synx Data Labs to obtain a complete repository mirror for local hosting.</p>
-<h2 id="procedure"><a class="header" href="#procedure">Procedure</a></h2>
+<h2 id="installation-and-start-up-procedure"><a class="header" href="#installation-and-start-up-procedure">Installation and Start-up Procedure</a></h2>
+<p>Follow these steps to install the SynxDB software to Greenplum 6 hosts, and then start the SynxDB cluster.</p>
 <h3 id="1-import-the-synxdb-gpg-key-across-cluster"><a class="header" href="#1-import-the-synxdb-gpg-key-across-cluster">1. Import the SynxDB GPG Key Across Cluster</a></h3>
 <p>This step establishes trust for signed SynxDB packages across your cluster:</p>
 <pre><code class="language-bash"># Download and verify GPG key
-gpssh -f ~/all_hosts.txt -e 'EL_VERSION="el$(rpm --eval '%{rhel}')"; wget -nv https://synxdb-repo.s3.us-west-2.amazonaws.com/${EL_VERSION}/stable/RPM-GPG-KEY-SynxDB'
-
-# Display and inspect the GPG key details
-gpssh -f ~/all_hosts.txt -e 'gpg --show-keys RPM-GPG-KEY-SynxDB'
+gpssh -f ~/all_hosts.txt -e 'wget -nv https://synxdb-repo.s3.us-west-2.amazonaws.com/gpg/RPM-GPG-KEY-SYNXDB'
 
 # Import the verified key into the RPM database
-gpssh -f ~/all_hosts.txt -e 'sudo rpm --import RPM-GPG-KEY-SynxDB'
+gpssh -f ~/all_hosts.txt -e 'sudo rpm --import RPM-GPG-KEY-SYNXDB'
 
 # Verify the key was imported correctly
 gpssh -f ~/all_hosts.txt -e 'rpm -q gpg-pubkey --qf "%{NAME}-%{VERSION}-%{RELEASE} %{SUMMARY}\n" | grep SynxDB'
@@ -194,13 +192,13 @@ gpssh -f ~/all_hosts.txt -e 'rpm -q gpg-pubkey --qf "%{NAME}-%{VERSION}-%{RELEAS
 <h3 id="2-install-the-synxdb-repository"><a class="header" href="#2-install-the-synxdb-repository">2. Install the SynxDB Repository</a></h3>
 <p>Each package is verified for authenticity and integrity:</p>
 <pre><code class="language-bash"># Download release package
-gpssh -f ~/all_hosts.txt -e 'EL_VERSION="el$(rpm --eval '%{rhel}')"; wget -nv https://synxdb-repo.s3.us-west-2.amazonaws.com/${EL_VERSION}/noarch/synxdb-release-1.0.0-rc2.${EL_VERSION}.noarch.rpm'
+gpssh -f ~/all_hosts.txt -e 'wget -nv https://synxdb-repo.s3.us-west-2.amazonaws.com/repo-release/synxdb2-release-1-1.rpm'
 
 # Verify package signature against imported GPG key
-gpssh -f ~/all_hosts.txt -e 'EL_VERSION="el$(rpm --eval '%{rhel}')"; rpm --checksig synxdb-release-1.0.0-rc2.${EL_VERSION}.noarch.rpm'
+gpssh -f ~/all_hosts.txt -e 'rpm --checksig synxdb2-release-1-1.rpm'
 
 # Install repository package
-gpssh -f ~/all_hosts.txt -e 'EL_VERSION="el$(rpm --eval '%{rhel}')"; sudo dnf install -y synxdb-release-1.0.0-rc2.${EL_VERSION}.noarch.rpm'
+gpssh -f ~/all_hosts.txt -e 'sudo dnf install -y synxdb2-release-1-1.rpm'
 
 # Verify repository installation
 gpssh -f ~/all_hosts.txt -e 'sudo dnf repolist'
@@ -251,7 +249,7 @@ which psql
 psql --version
 </code></pre>
 <h2 id="fallback-procedure"><a class="header" href="#fallback-procedure">Fallback Procedure</a></h2>
-<p>If necessary, you can revert to Greenplum 6 by following these steps:</p>
+<p>If necessary, you can revert to using the Greenplum 6 software by following these steps.</p>
 <h3 id="1-stop-the-cluster"><a class="header" href="#1-stop-the-cluster">1. Stop the Cluster</a></h3>
 <pre><code class="language-bash">gpstop -a
 </code></pre>

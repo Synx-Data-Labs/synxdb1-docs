@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html lang="en" class="coal sidebar-visible" dir="ltr">
+<html lang="en" class="ayu sidebar-visible" dir="ltr">
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
@@ -34,7 +34,7 @@
         <!-- Provide site root to javascript -->
         <script>
             var path_to_root = "../";
-            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "coal" : "coal";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "ayu" : "ayu";
         </script>
         <!-- Start loading toc.js asap -->
         <script src="../toc.js"></script>
@@ -63,7 +63,7 @@
             try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
             if (theme === null || theme === undefined) { theme = default_theme; }
             const html = document.documentElement;
-            html.classList.remove('coal')
+            html.classList.remove('ayu')
             html.classList.add(theme);
             html.classList.add("js");
         </script>
@@ -267,7 +267,7 @@ $ gpstart
 </ol>
 <p>After upgrading SynxDB, ensure that all features work as expected. For example, test that backup and restore perform as expected, and SynxDB features such as user-defined functions, and extensions such as MADlib and PostGIS perform as expected.</p>
 <h2 id="troubleshooting-a-failed-upgrade"><a class="header" href="#troubleshooting-a-failed-upgrade"><a id="topic_zbx_szy_kbb"></a>Troubleshooting a Failed Upgrade</a></h2>
-<p>If you experience issues during the migration process and have active entitlements for SynxDB or SynxDB that were purchased through VMware, contact Synx Data Labs Support. Information for contacting Synx Data Labs Support is at <a href="https://www.synxdata.com/">https://www.synxdata.com/</a>.</p>
+<p>If you experience issues during the migration process, contact Synx Data Labs Support. Information for contacting Synx Data Labs Support is at <a href="https://www.synxdata.com/">https://www.synxdata.com/</a>.</p>
 <p><strong>Be prepared to provide the following information:</strong></p>
 <ul>
 <li>A completed <a href="#topic17">Upgrade Procedure</a></li>
