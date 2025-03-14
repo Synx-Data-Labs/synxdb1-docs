@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Upgrading from an Earlier SynxDB 2 Release - SynxDB 2 Documentation (PRERELEASE DRAFT)</title>
+        <title>Upgrading from an Earlier SynxDB 2 Release - SynxDB 2 Documentation</title>
 
 
         <!-- Custom HTML head -->
@@ -121,7 +121,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">SynxDB 2 Documentation (PRERELEASE DRAFT)</h1>
+                    <h1 class="menu-title">SynxDB 2 Documentation</h1>
 
                     <div class="right-buttons">
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
@@ -177,7 +177,7 @@
 </blockquote>
 </li>
 <li>
-<p>If you have configured the SynxDB Platform Extension Framework (PXF) in your previous SynxDB installation, you must stop the PXF service, and you might need to back up PXF configuration files before upgrading to a new version of SynxDB. Refer to <a href="../pxf/upgrade_pxf_6x.html#pxfpre">PXF Pre-Upgrade Actions</a> for instructions.</p>
+<p>If you have configured the SynxDB Platform Extension Framework (PXF) in your previous SynxDB installation, you must stop the PXF service and back up PXF configuration files before upgrading to a new version of SynxDB.</p>
 <p>If you have not yet configured PXF, no action is necessary.</p>
 </li>
 </ul>
@@ -262,7 +262,7 @@ $ gpstart
 <p>Also copy any files that are used by the extensions (such as JAR files, shared object files, and libraries) from the previous version installation directory to the new version installation directory on the master and segment host systems.</p>
 </li>
 <li>
-<p>If you configured PXF in your previous SynxDB installation, you may need to install PXF in your new SynxDB installation, and you may be required to re-initialize or register the PXF service after you upgrade SynxDB. Refer to the <a href="../pxf/upgrade_pxf_6x.html#pxfup">Step 2</a> PXF upgrade procedure for instructions.</p>
+<p>If you configured PXF in your previous SynxDB installation, install PXF in your new SynxDB installation.</p>
 </li>
 </ol>
 <p>After upgrading SynxDB, ensure that all features work as expected. For example, test that backup and restore perform as expected, and SynxDB features such as user-defined functions, and extensions such as MADlib and PostGIS perform as expected.</p>

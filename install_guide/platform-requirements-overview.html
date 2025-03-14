@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Platform Requirements - SynxDB 2 Documentation (PRERELEASE DRAFT)</title>
+        <title>Platform Requirements - SynxDB 2 Documentation</title>
 
 
         <!-- Custom HTML head -->
@@ -121,7 +121,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">SynxDB 2 Documentation (PRERELEASE DRAFT)</h1>
+                    <h1 class="menu-title">SynxDB 2 Documentation</h1>
 
                     <div class="right-buttons">
                         <a href="../print.html" title="Print this book" aria-label="Print this book">
@@ -368,7 +368,7 @@
 <p>SynxDB can be deployed to virtualized systems only if the storage is presented as block devices and the XFS file system is mounted for the storage of the segment directories.</p>
 <p>SynxDB is supported on Amazon Web Services (AWS) servers using either Amazon instance store (Amazon uses the volume names <code>ephemeral[0-23]</code>) or Amazon Elastic Block Store (Amazon EBS) storage. If using Amazon EBS storage the storage should be RAID of Amazon EBS volumes and mounted with the XFS file system for it to be a supported configuration.</p>
 <h2 id="hadoop-distributions"><a class="header" href="#hadoop-distributions"><a id="topic36"></a>Hadoop Distributions</a></h2>
-<p>SynxDB provides access to HDFS with the <a href="../pxf/overview.html">SynxDB Platform Extension Framework (PXF)</a>.</p>
+<p>SynxDB provides access to HDFS with the <a href="../pxf/overview_pxf.html">SynxDB Platform Extension Framework (PXF)</a>.</p>
 <p>PXF can use Cloudera, Hortonworks Data Platform, MapR, and generic Apache Hadoop distributions. PXF bundles all of the JAR files on which it depends, including the following Hadoop libraries:</p>
 <div class="table-wrapper"><table><thead><tr><th>PXF Version</th><th>Hadoop Version</th><th>Hive Server Version</th><th>HBase Server Version</th></tr></thead><tbody>
 <tr><td>6.x, 5.15.x, 5.14.0, 5.13.0, 5.12.0, 5.11.1, 5.10.1</td><td>2.x, 3.1+</td><td>1.x, 2.x, 3.1+</td><td>1.3.2</td></tr>

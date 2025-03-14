@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>cbcopy - SynxDB 2 Documentation (PRERELEASE DRAFT)</title>
+        <title>cbcopy - SynxDB 2 Documentation</title>
 
 
         <!-- Custom HTML head -->
@@ -121,7 +121,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">SynxDB 2 Documentation (PRERELEASE DRAFT)</h1>
+                    <h1 class="menu-title">SynxDB 2 Documentation</h1>
 
                     <div class="right-buttons">
                         <a href="../../print.html" title="Print this book" aria-label="Print this book">
@@ -157,7 +157,96 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="cbcopy"><a class="header" href="#cbcopy">cbcopy</a></h1>
-<p>The <code>cbcopy</code> utility copies objects from databases in a source SynxDB system to databases in a destination SynxDB system.</p>
+<p>cbcopy utility for migrating data from Greenplum Database to SynxDB</p>
+<h2 id="synopsis"><a class="header" href="#synopsis">Synopsis</a></h2>
+<pre><code>cbcopy [flags]
+</code></pre>
+<h2 id="description"><a class="header" href="#description">Description</a></h2>
+<h3 id="general-settings"><a class="header" href="#general-settings">General Settings:</a></h3>
+<p><code>--help</code></p>
+<p>Display help information and exit (default: false)
+<code>--version</code></p>
+<p>Show the application version and exit (default: false)
+<code>--debug</code></p>
+<p>Enable debug-level log messages for troubleshooting (default: false)
+<code>--verbose</code></p>
+<p>Enable verbose logging for detailed output (default: false)
+<code>--quiet</code></p>
+<p>Suppress informational logs; only show warnings and errors (default: false)</p>
+<h2 id="source-database-settings"><a class="header" href="#source-database-settings">Source Database Settings:</a></h2>
+<p><code>--source-host</code></p>
+<p>Hostname or IP address of the source database cluster (default: 127.0.0.1)</p>
+<p><code>--source-port</code></p>
+<p>Port number for the source database connection (default: 5432)</p>
+<p><code>--source-user</code></p>
+<p>Username to connect to the source database (default: gpadmin)</p>
+<p><code>--dbname</code></p>
+<p>Comma-separated list of databases to migrate from the source</p>
+<p><code>--schema</code></p>
+<p>Comma-separated list of schemas to migrate (format: database.schema)</p>
+<p><code>--include-table</code></p>
+<p>Migrate specific tables only (format: database.schema.table, comma-separated)</p>
+<p><code>--include-table-file</code></p>
+<p>Migrate tables listed in a file (one per line: dbname.schema.table)</p>
+<p><code>--exclude-table</code></p>
+<p>Exclude specific tables from migration (comma-separated)</p>
+<p><code>--exclude-table-file</code></p>
+<p>Exclude tables listed in a file (one per line: dbname.schema.table)</p>
+<h2 id="destination-database-settings"><a class="header" href="#destination-database-settings">Destination Database Settings:</a></h2>
+<p><code>--dest-host</code></p>
+<p>Hostname or IP address of the destination database cluster (default: 127.0.0.1)</p>
+<p><code>--dest-port</code></p>
+<p>Port number for the destination database connection (default: 5432)</p>
+<p><code>--dest-user</code></p>
+<p>Username to connect to the destination database (default: gpadmin)</p>
+<p><code>--dest-dbname</code></p>
+<p>Comma-separated list of target databases in the destination cluster</p>
+<p><code>--dest-schema</code></p>
+<p>Comma-separated list of target schemas in the destination database</p>
+<p><code>--dest-table</code></p>
+<p>New table names for migrated tables (comma-separated)</p>
+<p><code>--dest-table-file</code></p>
+<p>File containing new table names for migration (one per line: dbname.schema.table)</p>
+<h2 id="data-migration-controls"><a class="header" href="#data-migration-controls">Data Migration Controls:</a></h2>
+<p><code>--full</code></p>
+<p>Migrate the entire data cluster, including all databases, schemas, and tables (default: false)</p>
+<p><code>--data-only</code></p>
+<p>Migrate only the table data; skip metadata like schema definitions (default: false)</p>
+<p><code>--metadata-only</code></p>
+<p>Migrate only metadata (schemas, tables, roles); exclude table data (default: false)</p>
+<p><code>--global-metadata-only</code></p>
+<p>Migrate global metadata (roles, tablespaces) without table data (default: false)</p>
+<p><code>--with-global-metadata</code></p>
+<p>Include global objects (roles, tablespaces) during migration (default: false)</p>
+<p><code>--append</code></p>
+<p>Append data to existing tables in the destination (default: false)</p>
+<p><code>--truncate</code></p>
+<p>Clear (truncate) existing data in destination tables before migration (default: false)</p>
+<p><code>--validate</code></p>
+<p>Validate data consistency after migration (default: true)</p>
+<h2 id="performance-tuning--parallelism"><a class="header" href="#performance-tuning--parallelism">Performance Tuning &amp; Parallelism:</a></h2>
+<p><code>--copy-jobs</code></p>
+<p>Maximum number of tables to migrate concurrently (1-512) (default: 4)</p>
+<p><code>--metadata-jobs</code></p>
+<p>Maximum number of concurrent metadata restore tasks (1-512) (default: 2)</p>
+<p><code>--on-segment-threshold</code></p>
+<p>Threshold (row count) for switching to direct coordinator copy mode (default: 1000000)</p>
+<h2 id="advanced-settings"><a class="header" href="#advanced-settings">Advanced Settings:</a></h2>
+<p><code>--owner-mapping-file</code></p>
+<p>File mapping source roles to target roles (format: source_role,dest_role)</p>
+<p><code>--schema-mapping-file</code></p>
+<p>File mapping source schemas to target schemas (format: source_db.schema,dest_db.schema)</p>
+<p><code>--dest-tablespace</code></p>
+<p>Create all migrated objects in the specified tablespace in the destination</p>
+<p><code>--tablespace-mapping-file</code></p>
+<p>File mapping source tablespaces to destination tablespaces (format: source,dest)</p>
+<p><code>--compression</code></p>
+<p>Transfer compressed data instead of uncompressed/plain data (default: false)</p>
+<h2 id="network-settings"><a class="header" href="#network-settings">Network Settings:</a></h2>
+<p><code>--data-port-range</code></p>
+<p>Port range for data transfer during migration (format: start-end) (default: 1024-65535)</p>
+<h2 id="see-also"><a class="header" href="#see-also">See Also</a></h2>
+<p><a href="../../admin_guide/managing/cbcopy-migrate.html">Migrating Data with cbcopy</a></p>
 
                     </main>
 

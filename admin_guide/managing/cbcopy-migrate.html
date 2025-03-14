@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Migrating Data with cbcopy - SynxDB 2 Documentation (PRERELEASE DRAFT)</title>
+        <title>Migrating Data with cbcopy - SynxDB 2 Documentation</title>
 
 
         <!-- Custom HTML head -->
@@ -121,7 +121,7 @@
                         </button>
                     </div>
 
-                    <h1 class="menu-title">SynxDB 2 Documentation (PRERELEASE DRAFT)</h1>
+                    <h1 class="menu-title">SynxDB 2 Documentation</h1>
 
                     <div class="right-buttons">
                         <a href="../../print.html" title="Print this book" aria-label="Print this book">
@@ -158,10 +158,235 @@
                     <main>
                         <h1 id="migrating-data-with-cbcopy"><a class="header" href="#migrating-data-with-cbcopy">Migrating Data with cbcopy</a></h1>
 <p>You can use the <code>cbcopy</code> utility to transfer data between databases in different SynxDB clusters.</p>
-<blockquote>
-<p><strong>Note</strong> <code>cbcopy</code> is available only with the commercial release of SynxDB.</p>
-</blockquote>
-<p><code>cbcopy</code> is a high-performance utility that can copy metadata and data from one SynxDB database to another SynxDB database. You can migrate the entire contents of a database, or just selected tables. The clusters can have different SynxDB versions. For example, you can use <code>cbcopy</code> to migrate data from a SynxDB version 4.3.26 (or later) system to a 5.9 (or later) or a 6.x SynxDB system, or from a SynxDB version 5.9+ system to a SynxDB 2 system.</p>
+<p><code>cbcopy</code> is a high-performance utility that can copy metadata and data from one SynxDB database to another SynxDB database. You can migrate the entire contents of a database, or just selected tables. The clusters can have different SynxDB versions. For example, you can use <code>cbcopy</code> to migrate data from a Greenplum version 4.3.26 (or later) system to a SynxDB 1 or 2 system, or from a SynxDB version 1 system to a SynxDB 2 system.</p>
+<p>The <code>cbcopy</code> interface includes options to transfer one or more full databases, or one or more database tables. A full database transfer includes the database schema, table data, indexes, views, roles, user-defined functions, resource queues, and resource groups. If a copied table or database does not exist in the destination cluster, <code>cbcopy</code> creates it automatically, along with indexes as necessary.</p>
+<p>Configuration files, including <code>postgresql.conf</code> and <code>pg_hba.conf</code>, must be transferred manually by an administrator. Extensions such as MADlib and programming language extensions must be installed in the destination database by an administrator.</p>
+<p><code>cbcopy</code> is a command-line tool that includes these features:</p>
+<ul>
+<li>
+<p><code>cbcopy</code> can migrate data between systems where the source and destination systems are configured with a different number of segment instances.</p>
+</li>
+<li>
+<p><code>cbcopy</code> provides detailed reporting and summary information about all aspects of the copy operation.</p>
+</li>
+<li>
+<p><code>cbcopy</code> allows the source table data to change while the data is being copied. A lock is not acquired on the source table when data is copied.</p>
+</li>
+<li>
+<p>The <code>cbcopy</code> utility includes the <code>--truncate</code> option to help migrate data from one system to another on the same hardware, requiring minimal free space available.</p>
+</li>
+</ul>
+<h2 id="how-does-cbcopy-work"><a class="header" href="#how-does-cbcopy-work">How does cbcopy work?</a></h2>
+<p><img src="../graphics/cbcopy_arch.png" alt="cbcopy_arch" /></p>
+<h3 id="metadata-migration"><a class="header" href="#metadata-migration">Metadata migration</a></h3>
+<p>The metadata migration feature of cbcopy is based on <code>gpbackup</code>. Compared to the built-in <code>pg_dump</code> utility, <code>cbcopy</code> has the advantage of being able to retrieve metadata in batches isntead of only a few rows at a time. This batch processing approach significantly enhances performance, especially when handling large volumes of metadata, making it much faster than <code>pg_dump</code>.</p>
+<h3 id="data-migration"><a class="header" href="#data-migration">Data migration</a></h3>
+<p>SynxDB supports starting programs via SQL commands, and <code>cbcopy</code> utilizes this feature. During data migration, it uses SQL commands to start a program on the target database to receive and load data, while simultaneously using SQL commands to start a program on the source database to unload data and send it to the program on the target database.</p>
+<h2 id="migrating-data-with-cbcopy-1"><a class="header" href="#migrating-data-with-cbcopy-1">Migrating Data with cbcopy</a></h2>
+<p>Before migrating data, you need to copy <code>cbcopy_helper</code> to the <code>$GPHOME/bin</code> directory on all nodes of both the source and target databases. Then you need to find a host that can connect to both the source database and the target database, and use the <code>cbcopy</code> command on that host to initiate the migration. Note that database superuser privileges are required for both source and target databases to perform the migration.</p>
+<p>By default, both metadata and data are migrated. You can use <code>--metadata-only</code> to migrate only metadata, or <code>--data-only</code> to migrate only data. As a best practice, migrate metadata first using <code>--metadata-only</code>, and then migmigrate data with <code>--data-only</code>. This two-step approach helps ensure a more controlled and reliable migration process.</p>
+<h3 id="database-version-requirements"><a class="header" href="#database-version-requirements">Database version requirements</a></h3>
+<p><code>cbcopy</code> relies on the “COPY ON SEGMENT” command of the database, so it has specific version requirements for the database.</p>
+<ul>
+<li><code>GPDB 4.x</code> - A minimum of GPDB version 4.3.17 or higher is required. If your version does not meet this requirement, you can upgrade to GPDB 4.3.17.</li>
+<li><code>GPDB 5.x</code> - A minimum of GPDB version 5.1.0 or higher is required. If your version does not meet this requirement, you can upgrade to GPDB 5.1.0.</li>
+<li><code>GPDB 6.x</code> - <code>cbcopy</code> is compatible with all versions of GPDB 6.x.</li>
+<li><code>GPDB 7.x</code> - <code>cbcopy</code> is compatible with all versions of GPDB 7.x.</li>
+<li><code>CBDB 1.x</code> - <code>cbcopy</code> is compatible with all versions of CBDB 1.x.</li>
+</ul>
+<h3 id="migration-modes"><a class="header" href="#migration-modes">Migration Modes</a></h3>
+<p><code>cbcopy</code> supports seven migration modes.</p>
+<ul>
+<li><code>--full</code> - Migrate all metadata and data from the source database to the target database.</li>
+<li><code>--dbname</code> - Migrate a specific database or multiple databases from the source to the target database.</li>
+<li><code>--schema</code> - Migrate a specific schema or multiple schemas from the source database to the target database.</li>
+<li><code>--schema-mapping-file</code> - Migrate specific schemas specified in a file from the source database to the target database.</li>
+<li><code>--include-table</code> - Migrate specific tables or multiple tables from the source database to the target database.</li>
+<li><code>--include-table-file</code> - Migrate specific tables specified in a file from the source database to the target database.</li>
+<li><code>--global-metadata-only</code> - Migrate global objects from the source database to the target database.</li>
+</ul>
+<h3 id="data-loading-modes"><a class="header" href="#data-loading-modes">Data Loading Modes</a></h3>
+<p><code>cbcopy</code> supports two data loading modes.</p>
+<ul>
+<li><code>--append</code> - Insert the migrated records into the table directly, regardless of the existing records.</li>
+<li><code>--truncate</code> - First, clear the existing records in the table, and then insert the migrated records into the table.</li>
+</ul>
+<h3 id="object-dependencies"><a class="header" href="#object-dependencies">Object dependencies</a></h3>
+<p>If the tables you are migrating depend on certain global objects (such as tablespaces), there are two ways to handle this:</p>
+<ol>
+<li>
+<p>Include the <code>--with-global-metadata</code> option (default: false) during migration, which will automatically create these global objects in the target database.</p>
+</li>
+<li>
+<p>If you choose not to use <code>--with-global-metadata</code>, you must manually create these global objects in the target database before running the migration. For example:</p>
+<pre><code class="language-sql">-- If your tables use custom tablespaces, create them first:
+CREATE TABLESPACE custom_tablespace LOCATION '/path/to/tablespace';
+</code></pre>
+</li>
+</ol>
+<p>If neither option is taken, the creation of dependent tables in the target database will fail with errors like “tablespace ‘custom_tablespace’ does not exist”.</p>
+<h3 id="roles"><a class="header" href="#roles">Roles</a></h3>
+<p>If you want to change the ownership of the tables during migration without creating identical roles in the target database (by disabling the <code>--with-global-metadata</code> option), you need to:</p>
+<ol>
+<li>First create the target roles in the target database</li>
+<li>Use the <code>--owner-mapping-file</code> to specify the mapping between source and target roles</li>
+</ol>
+<p>For example, if you have a mapping file with:</p>
+<pre><code>source_role1,target_role1
+source_role2,target_role2
+</code></pre>
+<p>The migration process executes statements like:</p>
+<pre><code class="language-sql">ALTER TABLE table_name OWNER TO target_role1;
+</code></pre>
+<p>If the target role doesn’t exist in the target database, these ownership change statements will fail with an error like “role ‘target_role1’ does not exist”.</p>
+<h3 id="tablespaces"><a class="header" href="#tablespaces">Tablespaces</a></h3>
+<p><code>cbcopy</code> provides three ways to handle tablespace migration:</p>
+<ol>
+<li>
+<p><strong>Default Mode</strong> - When no tablespace options are specified, objects will be created in the same tablespace names as they were in the source database. You have two options to ensure the tablespaces exist in the target database:</p>
+<ul>
+<li>Use <code>--with-global-metadata</code> to automatically create matching tablespaces</li>
+<li>Manually create the tablespaces in the target database before migration:
+<pre><code class="language-sql">CREATE TABLESPACE custom_space LOCATION '/path/to/tablespace';
+</code></pre>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Single Target Tablespace</strong> (<code>--dest-tablespace</code>) - Migrate all source database objects into a single specified tablespace on the target database, regardless of their original tablespace locations. For example:</p>
+<pre><code class="language-bash">cbcopy --dest-tablespace=new_space ...
+</code></pre>
+</li>
+<li>
+<p><strong>Tablespace Mapping</strong> (<code>--tablespace-mapping-file</code>) - Map source tablespaces to different target tablespaces using a mapping file. This is useful when you want to maintain separate tablespaces or map them to different locations. The mapping file format is:</p>
+<pre><code>source_tablespace1,target_tablespace1
+source_tablespace2,target_tablespace2
+</code></pre>
+</li>
+</ol>
+<p>Note:</p>
+<ul>
+<li>For the default mode, either use <code>--with-global-metadata</code> or ensure all required tablespaces exist in the target database before migration</li>
+<li>If you need to migrate objects from different schemas into different tablespaces, you can either:
+<ol>
+<li>Use <code>--tablespace-mapping-file</code> to specify all mappings at once</li>
+<li>Migrate one schema at a time using <code>--dest-tablespace</code> with different target tablespaces</li>
+</ol>
+</li>
+</ul>
+<h3 id="parallel-jobs"><a class="header" href="#parallel-jobs">Parallel Jobs</a></h3>
+<ul>
+<li><code>--copy-jobs</code> - The maximum number of tables that concurrently copies.</li>
+</ul>
+<h3 id="validate-migration"><a class="header" href="#validate-migration">Validate Migration</a></h3>
+<p>During migration, we will compare the number of rows returned by <code>COPY TO</code> from the source database (i.e., the number of records coming out of the source database) with the number of rows returned by <code>COPY FROM</code> in the target database (i.e., the number of records loaded in the target database). If the two counts do not match, the migration of that table will fail.</p>
+<h3 id="copy-strategies"><a class="header" href="#copy-strategies">Copy Strategies</a></h3>
+<p><code>cbcopy</code> internally supports three copy strategies for tables.</p>
+<ul>
+<li><code>Copy On Coordinator</code> - If the table’s statistics <code>pg_class-&gt;reltuples</code> is less than <code>--on-segment-threshold</code>, <code>cbcopy</code> will enable the <code>Copy On Coordinator</code> strategy for this table, meaning that data migration between the source and target databases can only occur through the coordinator node.</li>
+<li><code>Copy On Segment</code> - If the table’s statistics <code>pg_class-&gt;reltuples</code> is greater than <code>--on-segment-threshold</code>, and both the source and target databases have the same version and the same number of nodes, <code>cbcopy</code> will enable the <code>Copy On Segment</code> strategy for this table. This means that data migration between the source and target databases will occur in parallel across all segment nodes without data redistribution.</li>
+<li><code>Copy on External Table</code> - For tables that do not meet the conditions for the above two strategies, <code>cbcopy</code> will enable the <code>Copy On External Table</code> strategy. This means that data migration between the source and target databases will occur in parallel across all segment nodes with data redistribution.</li>
+</ul>
+<h3 id="log-files-and-migration-results"><a class="header" href="#log-files-and-migration-results">Log Files and Migration Results</a></h3>
+<p>After <code>cbcopy</code> completes its execution, it generates several files in the <code>$USER/gpAdminLogs</code> directory:</p>
+<ol>
+<li>
+<p><strong>Log File</strong></p>
+<ul>
+<li><code>cbcopy_$timestamp.log</code> - Contains all execution logs, including:
+<ul>
+<li>Debug messages</li>
+<li>Error messages</li>
+<li>Operation details</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Migration Result Files</strong></p>
+<ul>
+<li><code>cbcopy_succeed_$timestamp</code> - Lists all successfully migrated tables</li>
+<li><code>cbcopy_failed_$timestamp</code> - Lists all tables that failed to migrate</li>
+</ul>
+</li>
+</ol>
+<p>These files are useful for:</p>
+<ul>
+<li>Monitoring the migration process</li>
+<li>Troubleshooting any issues</li>
+<li>Planning retry attempts for failed migrations</li>
+</ul>
+<h3 id="handling-failed-migrations"><a class="header" href="#handling-failed-migrations">Handling Failed Migrations</a></h3>
+<p>When a migration fails partially (some tables succeed while others fail), cbcopy generates two files:</p>
+<ul>
+<li><code>cbcopy_succeed_$timestamp</code> - Lists all successfully migrated tables</li>
+<li><code>cbcopy_failed_$timestamp</code> - Lists all tables that failed to migrate</li>
+</ul>
+<p>For retry attempts, you can skip previously successful tables by using the success file:</p>
+<pre><code class="language-bash">cbcopy --exclude-table-file=cbcopy_succeed_$timestamp ...
+</code></pre>
+<p>This approach helps you:</p>
+<ul>
+<li>Save time by not re-migrating successful tables</li>
+<li>Reduce the risk of data inconsistency</li>
+<li>Focus only on resolving failed migrations</li>
+</ul>
+<h2 id="examples"><a class="header" href="#examples">Examples</a></h2>
+<h3 id="basic-migration"><a class="header" href="#basic-migration">Basic Migration</a></h3>
+<pre><code class="language-bash"># Migrate specific schemas
+cbcopy --with-global-metadata --source-host=127.0.0.1 \
+    --source-port=45432 --source-user=gpadmin \
+    --dest-host=127.0.0.1 --dest-port=55432 \
+    --dest-user=cbdb --schema=source_db.source_schema \
+    --dest-schema=target_db.target_schema \
+    --truncate
+</code></pre>
+<h2 id="cbcopy-reference"><a class="header" href="#cbcopy-reference">cbcopy reference</a></h2>
+<pre><code>cbcopy utility for migrating data from Greenplum Database (GPDB) to Cloudberry Database (CBDB)
+
+Usage:
+  cbcopy [flags]
+
+Flags:
+      --append                           Append destination table if it exists
+      --compression                      Transfer the compression data, instead of the plain data
+      --copy-jobs int                    The maximum number of tables that concurrently copies, valid values are between 1 and 512 (default 4)
+      --data-only                        Only copy data, do not copy metadata
+      --data-port-range string           The range of listening port number to choose for receiving data on dest cluster (default "1024-65535")
+      --dbname strings                   The database(s) to be copied, separated by commas
+      --debug                            Print debug log messages
+      --dest-dbname strings              The database(s) in destination cluster to copy to, separated by commas
+      --dest-host string                 The host of destination cluster (default "127.0.0.1")
+      --dest-port int                    The port of destination cluster (default 5432)
+      --dest-schema strings              The schema(s) in destination database to copy to, separated by commas
+      --dest-table strings               The renamed dest table(s) for include-table, separated by commas
+      --dest-table-file string           The renamed dest table(s) for include-table-file, The line format is "dbname.schema.table"
+      --dest-tablespace string           Create all database objects in the specified tablespace on destination database
+      --dest-user string                 The user of destination cluster (default "gpadmin")
+      --exclude-table strings            Copy all tables except the specified table(s), separated by commas
+      --exclude-table-file string        Copy all tables except the specified table(s) listed in the file, The line format is "dbname.schema.table"
+      --full                             Copy full data cluster
+      --global-metadata-only             Only copy global metadata, do not copy data
+      --help                             Print help info and exit
+      --include-table strings            Copy only the specified table(s), separated by commas, in the format database.schema.table
+      --include-table-file string        Copy only the specified table(s) listed in the file, The line format is "dbname.schema.table"
+      --metadata-jobs int                The maximum number of metadata restore tasks, valid values are between 1 and 512 (default 2)
+      --metadata-only                    Only copy metadata, do not copy data
+      --on-segment-threshold int         Copy between Coordinators directly, if the table has smaller or same number of rows (default 1000000)
+      --owner-mapping-file string        Object owner mapping file, The line format is "source_role_name,dest_role_name"
+      --quiet                            Suppress non-warning, non-error log messages
+      --schema strings                   The schema(s) to be copied, separated by commas, in the format database.schema
+      --schema-mapping-file string       Schema mapping file, The line format is "source_dbname.source_schema,dest_dbname.dest_schema"
+      --source-host string               The host of source cluster (default "127.0.0.1")
+      --source-port int                  The port of source cluster (default 5432)
+      --source-user string               The user of source cluster (default "gpadmin")
+      --tablespace-mapping-file string   Tablespace mapping file, The line format is "source_tablespace_name,dest_tablespace_name"
+      --truncate                         Truncate destination table if it exists prior to copying data
+      --validate                         Perform data validation when copy is complete (default true)
+      --verbose                          Print verbose log messages
+      --version                          Print version number and exit
+      --with-global-metadata             Copy global metadata objects (default: false)
+</code></pre>
 
                     </main>
 
