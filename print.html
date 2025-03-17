@@ -32821,51 +32821,7 @@ cbcopy --with-global-metadata --source-host=127.0.0.1 \
     --truncate
 </code></pre>
 <h2 id="cbcopy-reference"><a class="header" href="#cbcopy-reference">cbcopy reference</a></h2>
-<pre><code>cbcopy utility for migrating data from Greenplum Database (GPDB) to Cloudberry Database (CBDB)
-
-Usage:
-  cbcopy [flags]
-
-Flags:
-      --append                           Append destination table if it exists
-      --compression                      Transfer the compression data, instead of the plain data
-      --copy-jobs int                    The maximum number of tables that concurrently copies, valid values are between 1 and 512 (default 4)
-      --data-only                        Only copy data, do not copy metadata
-      --data-port-range string           The range of listening port number to choose for receiving data on dest cluster (default "1024-65535")
-      --dbname strings                   The database(s) to be copied, separated by commas
-      --debug                            Print debug log messages
-      --dest-dbname strings              The database(s) in destination cluster to copy to, separated by commas
-      --dest-host string                 The host of destination cluster (default "127.0.0.1")
-      --dest-port int                    The port of destination cluster (default 5432)
-      --dest-schema strings              The schema(s) in destination database to copy to, separated by commas
-      --dest-table strings               The renamed dest table(s) for include-table, separated by commas
-      --dest-table-file string           The renamed dest table(s) for include-table-file, The line format is "dbname.schema.table"
-      --dest-tablespace string           Create all database objects in the specified tablespace on destination database
-      --dest-user string                 The user of destination cluster (default "gpadmin")
-      --exclude-table strings            Copy all tables except the specified table(s), separated by commas
-      --exclude-table-file string        Copy all tables except the specified table(s) listed in the file, The line format is "dbname.schema.table"
-      --full                             Copy full data cluster
-      --global-metadata-only             Only copy global metadata, do not copy data
-      --help                             Print help info and exit
-      --include-table strings            Copy only the specified table(s), separated by commas, in the format database.schema.table
-      --include-table-file string        Copy only the specified table(s) listed in the file, The line format is "dbname.schema.table"
-      --metadata-jobs int                The maximum number of metadata restore tasks, valid values are between 1 and 512 (default 2)
-      --metadata-only                    Only copy metadata, do not copy data
-      --on-segment-threshold int         Copy between Coordinators directly, if the table has smaller or same number of rows (default 1000000)
-      --owner-mapping-file string        Object owner mapping file, The line format is "source_role_name,dest_role_name"
-      --quiet                            Suppress non-warning, non-error log messages
-      --schema strings                   The schema(s) to be copied, separated by commas, in the format database.schema
-      --schema-mapping-file string       Schema mapping file, The line format is "source_dbname.source_schema,dest_dbname.dest_schema"
-      --source-host string               The host of source cluster (default "127.0.0.1")
-      --source-port int                  The port of source cluster (default 5432)
-      --source-user string               The user of source cluster (default "gpadmin")
-      --tablespace-mapping-file string   Tablespace mapping file, The line format is "source_tablespace_name,dest_tablespace_name"
-      --truncate                         Truncate destination table if it exists prior to copying data
-      --validate                         Perform data validation when copy is complete (default true)
-      --verbose                          Print verbose log messages
-      --version                          Print version number and exit
-      --with-global-metadata             Copy global metadata objects (default: false)
-</code></pre>
+<p>See the <a href="admin_guide/managing/../../utility_guide/ref/cbcopy.html">cbcopy reference page</a> for information about each command-line option.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="monitoring-a-synxdb-system"><a class="header" href="#monitoring-a-synxdb-system">Monitoring a SynxDB System</a></h1>
 <p>You can monitor a SynxDB system using a variety of tools included with the system or available as add-ons.</p>
 <p>Observing the SynxDB system day-to-day performance helps administrators understand the system behavior, plan workflow, and troubleshoot problems. This chapter discusses tools for monitoring database performance and activity.</p>
@@ -58053,94 +58009,152 @@ dynamic_library_path='$libdir'
 <h2 id="see-also-170"><a class="header" href="#see-also-170"><a id="section6"></a>See Also</a></h2>
 <p><a href="utility_guide/ref/gpstop.html">gpstop</a></p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="cbcopy"><a class="header" href="#cbcopy">cbcopy</a></h1>
-<p>cbcopy utility for migrating data from Greenplum Database to SynxDB</p>
+<p>Copy utility for migrating data from Greenplum Database to SynxDB, or between SynxDB clusters.</p>
 <h2 id="synopsis-188"><a class="header" href="#synopsis-188">Synopsis</a></h2>
 <pre><code>cbcopy [flags]
 </code></pre>
 <h2 id="description-193"><a class="header" href="#description-193">Description</a></h2>
-<h3 id="general-settings"><a class="header" href="#general-settings">General Settings:</a></h3>
-<p><code>--help</code></p>
-<p>Display help information and exit (default: false)
-<code>--version</code></p>
-<p>Show the application version and exit (default: false)
-<code>--debug</code></p>
-<p>Enable debug-level log messages for troubleshooting (default: false)
-<code>--verbose</code></p>
-<p>Enable verbose logging for detailed output (default: false)
-<code>--quiet</code></p>
-<p>Suppress informational logs; only show warnings and errors (default: false)</p>
-<h2 id="source-database-settings"><a class="header" href="#source-database-settings">Source Database Settings:</a></h2>
-<p><code>--source-host</code></p>
-<p>Hostname or IP address of the source database cluster (default: 127.0.0.1)</p>
-<p><code>--source-port</code></p>
-<p>Port number for the source database connection (default: 5432)</p>
-<p><code>--source-user</code></p>
-<p>Username to connect to the source database (default: gpadmin)</p>
-<p><code>--dbname</code></p>
-<p>Comma-separated list of databases to migrate from the source</p>
-<p><code>--schema</code></p>
-<p>Comma-separated list of schemas to migrate (format: database.schema)</p>
-<p><code>--include-table</code></p>
-<p>Migrate specific tables only (format: database.schema.table, comma-separated)</p>
-<p><code>--include-table-file</code></p>
-<p>Migrate tables listed in a file (one per line: dbname.schema.table)</p>
-<p><code>--exclude-table</code></p>
-<p>Exclude specific tables from migration (comma-separated)</p>
-<p><code>--exclude-table-file</code></p>
-<p>Exclude tables listed in a file (one per line: dbname.schema.table)</p>
-<h2 id="destination-database-settings"><a class="header" href="#destination-database-settings">Destination Database Settings:</a></h2>
-<p><code>--dest-host</code></p>
-<p>Hostname or IP address of the destination database cluster (default: 127.0.0.1)</p>
-<p><code>--dest-port</code></p>
-<p>Port number for the destination database connection (default: 5432)</p>
-<p><code>--dest-user</code></p>
-<p>Username to connect to the destination database (default: gpadmin)</p>
-<p><code>--dest-dbname</code></p>
-<p>Comma-separated list of target databases in the destination cluster</p>
-<p><code>--dest-schema</code></p>
-<p>Comma-separated list of target schemas in the destination database</p>
-<p><code>--dest-table</code></p>
-<p>New table names for migrated tables (comma-separated)</p>
-<p><code>--dest-table-file</code></p>
-<p>File containing new table names for migration (one per line: dbname.schema.table)</p>
-<h2 id="data-migration-controls"><a class="header" href="#data-migration-controls">Data Migration Controls:</a></h2>
-<p><code>--full</code></p>
-<p>Migrate the entire data cluster, including all databases, schemas, and tables (default: false)</p>
-<p><code>--data-only</code></p>
-<p>Migrate only the table data; skip metadata like schema definitions (default: false)</p>
-<p><code>--metadata-only</code></p>
-<p>Migrate only metadata (schemas, tables, roles); exclude table data (default: false)</p>
-<p><code>--global-metadata-only</code></p>
-<p>Migrate global metadata (roles, tablespaces) without table data (default: false)</p>
-<p><code>--with-global-metadata</code></p>
-<p>Include global objects (roles, tablespaces) during migration (default: false)</p>
-<p><code>--append</code></p>
-<p>Append data to existing tables in the destination (default: false)</p>
-<p><code>--truncate</code></p>
-<p>Clear (truncate) existing data in destination tables before migration (default: false)</p>
-<p><code>--validate</code></p>
-<p>Validate data consistency after migration (default: true)</p>
-<h2 id="performance-tuning--parallelism"><a class="header" href="#performance-tuning--parallelism">Performance Tuning &amp; Parallelism:</a></h2>
-<p><code>--copy-jobs</code></p>
-<p>Maximum number of tables to migrate concurrently (1-512) (default: 4)</p>
-<p><code>--metadata-jobs</code></p>
-<p>Maximum number of concurrent metadata restore tasks (1-512) (default: 2)</p>
-<p><code>--on-segment-threshold</code></p>
-<p>Threshold (row count) for switching to direct coordinator copy mode (default: 1000000)</p>
-<h2 id="advanced-settings"><a class="header" href="#advanced-settings">Advanced Settings:</a></h2>
-<p><code>--owner-mapping-file</code></p>
-<p>File mapping source roles to target roles (format: source_role,dest_role)</p>
-<p><code>--schema-mapping-file</code></p>
-<p>File mapping source schemas to target schemas (format: source_db.schema,dest_db.schema)</p>
-<p><code>--dest-tablespace</code></p>
-<p>Create all migrated objects in the specified tablespace in the destination</p>
-<p><code>--tablespace-mapping-file</code></p>
-<p>File mapping source tablespaces to destination tablespaces (format: source,dest)</p>
-<p><code>--compression</code></p>
-<p>Transfer compressed data instead of uncompressed/plain data (default: false)</p>
-<h2 id="network-settings"><a class="header" href="#network-settings">Network Settings:</a></h2>
-<p><code>--data-port-range</code></p>
-<p>Port range for data transfer during migration (format: start-end) (default: 1024-65535)</p>
+<p>The <code>cbcopy</code> utility copies database objects from a source database system to a destination system. You can perform one of the following types of copy operations:</p>
+<ul>
+<li>Copy a SynxDB system with the <code>--full</code> option. This option copies all database objects including, tables, table data, indexes, views, users, roles, functions, and resource queues for all user-defined databases to a different destination system.</li>
+<li>Copy a set of user-defined database tables to a destination system.
+<ul>
+<li>The <code>--dbname</code> option copies all user-defined tables, table data, and re-creates the table indexes from specified databases.</li>
+<li>The <code>--include-schema</code>, <code>--include-table</code>, or <code>--include-table-file</code> option copies a specified set of user-defined schemas or tables.</li>
+<li>The <code>--exclude-table</code> and <code>--exclude-table-file</code> options exclude a specified set of user-defined tables and table data to be copied.</li>
+</ul>
+</li>
+<li>Copy only the database schemas with the <code>--metadata-only</code> option.</li>
+</ul>
+<h2 id="prerequisites-40"><a class="header" href="#prerequisites-40">Prerequisites</a></h2>
+<p>The user IDs for connecting to the source and destination systems must have appropriate access to the systems.</p>
+<p>When the <code>--full</code> option is specified, resource groups and table spaces are copied, however, the utility does not configure the destination system. For example, you must configure the system to use resource groups and create the host directories required for the tablespaces.</p>
+<h3 id="general-settings"><a class="header" href="#general-settings">General Settings</a></h3>
+<p>The following settings display basic information about the <code>cbcopy</code> utility or control the amount of information displayed for copy operations.</p>
+<h3 id="--help"><a class="header" href="#--help"><code>--help</code></a></h3>
+<p>Display help information and exit (default: false).</p>
+<h3 id="--version"><a class="header" href="#--version"><code>--version</code></a></h3>
+<p>Display the application version and exit (default: false).</p>
+<h3 id="--debug"><a class="header" href="#--debug"><code>--debug</code></a></h3>
+<p>Enable debug-level log messages for troubleshooting (default: false).</p>
+<h3 id="--verbose"><a class="header" href="#--verbose"><code>--verbose</code></a></h3>
+<p>Enable verbose logging for detailed output (default: false).</p>
+<h3 id="--quiet"><a class="header" href="#--quiet"><code>--quiet</code></a></h3>
+<p>Suppress informational logs; only show warnings and errors (default: false).</p>
+<h2 id="source-cluster-settings"><a class="header" href="#source-cluster-settings">Source Cluster Settings</a></h2>
+<p><code>cbcopy</code> provides a range of options to define the scope of data that is copied from the source cluster. You can choose options to perform a full cluster migration or to copy specific databases or tables. Additional options enable you to exclude certain tables from being copied.</p>
+<p>Use one of the options <code>--dbname</code>, <code>--schema</code>, <code>--include-table</code>, or <code>--include-table-file</code>, or use the migration option <code>--full</code> to copy all data in the cluster. Use additional options as needed to exclude data from the copy.</p>
+<h3 id="--source-host-host_or_ip"><a class="header" href="#--source-host-host_or_ip"><code>--source-host &lt;host_or_ip&gt;</code></a></h3>
+<p>The host name or IP address of the source cluster master segment (default: 127.0.0.1).</p>
+<h3 id="--source-port-port"><a class="header" href="#--source-port-port"><code>--source-port &lt;port&gt;</code></a></h3>
+<p>Port number for the source database master segment (default: 5432).</p>
+<h3 id="--source-user-user_id"><a class="header" href="#--source-user-user_id"><code>--source-user &lt;user_id&gt;</code></a></h3>
+<p>User ID to use to connect to the source database (default: gpadmin).</p>
+<h3 id="--dbname-database"><a class="header" href="#--dbname-database"><code>--dbname &lt;database[,...]&gt;</code></a></h3>
+<p>Comma-separated list of databases to migrate from the source. Copies all the user-defined tables and table data from the source system.</p>
+<h3 id="--schema-databaseschema"><a class="header" href="#--schema-databaseschema"><code>--schema &lt;database.schema[,...]&gt;</code></a></h3>
+<p>Comma-separated list of schemas to migrate using the format: <code>database.schema</code>.</p>
+<h3 id="--include-table-databaseschematable"><a class="header" href="#--include-table-databaseschematable"><code>--include-table &lt;database.schema.table[,...]&gt;</code></a></h3>
+<p>Comma-separated list of specific tables to migrate using the format: <code>database.schema.table</code>.</p>
+<h3 id="--include-table-file-file_name"><a class="header" href="#--include-table-file-file_name"><code>--include-table-file &lt;file_name&gt;</code></a></h3>
+<p>Migrate tables listed in the specified <code>file_name</code>. Specify one table per line in the file, using the format: <code>database.schema.table</code>.</p>
+<h3 id="--exclude-table-databaseschematable"><a class="header" href="#--exclude-table-databaseschematable"><code>--exclude-table &lt;database.schema.table[,...]</code></a></h3>
+<p>Exclude specific tables from migration. Use a comma-separated list with the format: <code>database.schema.table</code>.</p>
+<h3 id="--exclude-table-file-file_name"><a class="header" href="#--exclude-table-file-file_name"><code>--exclude-table-file &lt;file_name&gt;</code></a></h3>
+<p>Exclude tables listed in the specified <code>file_name</code>. Specify one table per line in the file, using the format: <code>database.schema.table</code>.</p>
+<h2 id="destination-database-settings"><a class="header" href="#destination-database-settings">Destination Database Settings</a></h2>
+<p>Options in this category specify connection details for the destination cluster, and provide options for mapping source databases, schemas, and tables to destination databases, schemas, and tables.</p>
+<h3 id="--dest-host-host_or_ip"><a class="header" href="#--dest-host-host_or_ip"><code>--dest-host &lt;host_or_ip&gt;</code></a></h3>
+<p>The host name or IP address of the destination cluster master segment (default: 127.0.0.1).</p>
+<h3 id="--dest-port-port"><a class="header" href="#--dest-port-port"><code>--dest-port &lt;port&gt;</code></a></h3>
+<p>Port number for the destination database master segment (default: 5432).</p>
+<h3 id="--dest-user-user_id"><a class="header" href="#--dest-user-user_id"><code>--dest-user &lt;user_id&gt;</code></a></h3>
+<p>User ID to use to connect to the destination database (default: gpadmin).</p>
+<h3 id="--dest-dbname-database"><a class="header" href="#--dest-dbname-database"><code>--dest-dbname &lt;database[,...]&gt;</code></a></h3>
+<p>Comma-separated list of target databases in the destination cluster. Use this option to copy a database to a different destination database. The number of database names provided with this option must match the number of names specified in the <code>--dbname</code> option. The utility copies the source databases to the destination databases in the listed order.</p>
+<h3 id="--dest-schema-databaseschema"><a class="header" href="#--dest-schema-databaseschema"><code>--dest-schema &lt;database.schema[,...]&gt;</code></a></h3>
+<p>Comma-separated list of target schemas in the destination cluster. Use this option to copy to a different destination schema. The number of schemas provided with this option must match the number of schemas specified in the <code>--schema</code> option.</p>
+<h3 id="--schema-mapping-file-file_name"><a class="header" href="#--schema-mapping-file-file_name"><code>--schema-mapping-file &lt;file_name&gt;</code></a></h3>
+<p>File that maps source schemas to target schemas using the format: <code>source_db.schema,dest_db.schema</code>.</p>
+<h3 id="--dest-table-databaseschematable"><a class="header" href="#--dest-table-databaseschematable"><code>--dest-table &lt;database.schema.table[,...]&gt;</code></a></h3>
+<p>Specifies new table names for migrated tables. The number of tables provided with this option must match the number of tables specified in the <code>--include-table</code> option.</p>
+<h3 id="--dest-table-file-file_name"><a class="header" href="#--dest-table-file-file_name"><code>--dest-table-file &lt;file_name&gt;</code></a></h3>
+<p>File containing new table names for migration. The number of tables defined in the file must match the number of tables specified in the file provided to <code>--include-table-file</code>.</p>
+<h2 id="data-migration-controls"><a class="header" href="#data-migration-controls">Data Migration Controls</a></h2>
+<p>Options in this category specify whether <code>cbcopy</code> migrates data as well as metadata, and how the utility handles existing data in the destination cluster.</p>
+<h3 id="--full"><a class="header" href="#--full"><code>--full</code></a></h3>
+<p>Migrates the entire data cluster, including all databases, schemas, and tables (default: false).</p>
+<h3 id="--data-only"><a class="header" href="#--data-only"><code>--data-only</code></a></h3>
+<p>Migrates only the table data; skips metadata like schema definitions (default: false).</p>
+<h3 id="--metadata-only"><a class="header" href="#--metadata-only"><code>--metadata-only</code></a></h3>
+<p>Migrates only metadata (schemas, tables, roles); excludes table data (default: false).</p>
+<h3 id="--global-metadata-only"><a class="header" href="#--global-metadata-only"><code>--global-metadata-only</code></a></h3>
+<p>Migrates global metadata (roles, tablespaces) without table data (default: false).</p>
+<h3 id="--with-global-metadata"><a class="header" href="#--with-global-metadata"><code>--with-global-metadata</code></a></h3>
+<p>Include global objects (roles, tablespaces) during migration (default: false).</p>
+<h3 id="--append"><a class="header" href="#--append"><code>--append</code></a></h3>
+<p>Appends data to existing tables in the destination (default: false).</p>
+<h3 id="--truncate"><a class="header" href="#--truncate"><code>--truncate</code></a></h3>
+<p>Clears (truncates) existing data in destination tables before migration (default: false).</p>
+<h3 id="--validate"><a class="header" href="#--validate"><code>--validate</code></a></h3>
+<p>Validates data consistency after migration (default: true).</p>
+<h2 id="performance-tuning--parallelism"><a class="header" href="#performance-tuning--parallelism">Performance Tuning &amp; Parallelism</a></h2>
+<p>Options in this category affect the number of jobs and the copy mode that <code>cbcopy</code> uses to migrate data.</p>
+<h3 id="--copy-jobs-count"><a class="header" href="#--copy-jobs-count"><code>--copy-jobs &lt;count&gt;</code></a></h3>
+<p>Maximum number of tables to migrate concurrently (1-512, default: 4).</p>
+<h3 id="--metadata-jobs-count"><a class="header" href="#--metadata-jobs-count"><code>--metadata-jobs &lt;count&gt;</code></a></h3>
+<p>Maximum number of concurrent metadata restore tasks (1-512, default: 2).</p>
+<h3 id="--on-segment-threshold-count"><a class="header" href="#--on-segment-threshold-count"><code>--on-segment-threshold &lt;count&gt;</code></a></h3>
+<p>Threshold (row count) for switching to direct coordinator copy mode (default: 1000000).</p>
+<h2 id="advanced-settings"><a class="header" href="#advanced-settings">Advanced Settings</a></h2>
+<p>These less-frequently-used options provide additional control over mapping data to the destination cluster, provide compression options, or control connectivity options for the destination cluster.</p>
+<h3 id="--owner-mapping-file-file_name"><a class="header" href="#--owner-mapping-file-file_name"><code>--owner-mapping-file &lt;file_name&gt;</code></a></h3>
+<p>File that maps source roles to target roles using the format: <code>source_role,dest_role</code>.</p>
+<h3 id="--dest-tablespace-tablespace"><a class="header" href="#--dest-tablespace-tablespace"><code>--dest-tablespace &lt;tablespace&gt;</code></a></h3>
+<p>Create all migrated objects in the specified tablespace in the destination cluster.</p>
+<h3 id="--tablespace-mapping-file-file_name"><a class="header" href="#--tablespace-mapping-file-file_name"><code>--tablespace-mapping-file &lt;file_name&gt;</code></a></h3>
+<p>File that maps source tablespaces to destination tablespaces using the format: <code>source,dest</code>.</p>
+<h3 id="--compression"><a class="header" href="#--compression"><code>--compression</code></a></h3>
+<p>Transfers compressed data instead of uncompressed/plain data (default: false).</p>
+<h3 id="--data-port-range"><a class="header" href="#--data-port-range"><code>--data-port-range</code></a></h3>
+<p>Port range for data transfer during migration (format: start-end) (default: 1024-65535).</p>
+<h2 id="examples-161"><a class="header" href="#examples-161">Examples</a></h2>
+<p>This command copies all user created databases in a source system to a destination system with the <code>--full</code> option.</p>
+<pre><code>cbcopy --source-host mytest --source-port 1234 --source-user gpuser \
+    --dest-host demohost --dest-port 1234 --dest-user gpuser \
+    --full
+</code></pre>
+<p>This command copies the specified databases in a source system to a destination system with the <code>--dbname</code> option. The <code>--truncate</code> option truncates the table data before copying table data from the source table.</p>
+<pre><code>cbcopy --source-host mytest --source-port 1234 --source-user gpuser \
+   --dest-host demohost --dest-port 1234 --dest-user gpuser \
+   --dbname database1,database2 --truncate
+</code></pre>
+<p>This command copies the specified tables in a source system to a destination system with the <code>--include-table</code> option.</p>
+<pre><code>cbcopy --source-host mytest --source-port 1234 --source-user gpuser \
+   --dest-host demohost --dest-port 1234 --dest-user gpuser \
+   --include-table database.schema.table1,database.schema.table2
+</code></pre>
+<p>This command copies the tables from the source database to the destination system, excluding the tables specified in <code>/home/gpuser/mytables</code> with the <code>--exclude-table-file</code> option. The <code>--truncate</code> option truncates tables that already exist in the destination system.</p>
+<pre><code>cbcopy --source-host mytest --source-port 1234 --source-user gpuser \
+   --dest-host demohost --dest-port 1234 --dest-user gpuser \
+   --dbname database1 --exclude-table-file /home/gpuser/mytables \
+   --truncate
+</code></pre>
+<p>This command specifies the <code>--full</code> and <code>--metadata-only</code> options to copy the complete database schema, including all tables, indexes, views, user-defined types (UDT), and user-defined functions (UDF) from all the source databases. No data is copied.</p>
+<pre><code>cbcopy --source-host mytest --source-port 1234 --source-user gpuser \
+   --dest-host demohost --dest-port 1234 --dest-user gpuser \
+   --full --metadata-only
+</code></pre>
+<p>This command copies the specified databases in a source system to a destination system with the <code>--dbname</code> option and specifies 8 parallel processes with the <code>--copy-jobs</code> option. The command uses ports in the range 2000-2010 for the parallel process connections.</p>
+<pre><code>cbcopy --source-host mytest --source-port 1234 --source-user gpuser \
+   --dest-host demohost --dest-port 1234 --dest-user gpuser \
+   --dbname database1,database2 --truncate --copy-jobs 8 --data-port-range 2000-2010
+</code></pre>
+<p>This command copies the specified database in a source system to a destination system with the <code>--dbname</code> option and specifies 16 parallel processes with the <code>--copy-jobs</code> option. The <code>--truncate</code> option truncates the table if it already exists in the destination database.</p>
+<pre><code>cbcopy --source-host mytest --source-port 1234 --source-user gpuser \
+   --dest-host demohost --dest-port 1234 --dest-user gpuser \
+   --dbname database1 --truncate --copy-jobs 16
+</code></pre>
 <h2 id="see-also-171"><a class="header" href="#see-also-171">See Also</a></h2>
 <p><a href="utility_guide/ref/../../admin_guide/managing/cbcopy-migrate.html">Migrating Data with cbcopy</a></p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="gpdeletesystem"><a class="header" href="#gpdeletesystem">gpdeletesystem</a></h1>
@@ -58181,7 +58195,7 @@ gpdeletesystem -v
 :   Displays the online help.</p>
 <p>-v (show utility version)
 :   Displays the version, status, last updated date, and check sum of this utility.</p>
-<h2 id="examples-161"><a class="header" href="#examples-161"><a id="section5"></a>Examples</a></h2>
+<h2 id="examples-162"><a class="header" href="#examples-162"><a id="section5"></a>Examples</a></h2>
 <p>Delete a SynxDB system:</p>
 <pre><code>gpdeletesystem -d /gpdata/gp-1
 </code></pre>
@@ -58208,7 +58222,7 @@ gpexpand -? | -h | --help
 
 gpexpand --version
 </code></pre>
-<h2 id="prerequisites-40"><a class="header" href="#prerequisites-40"><a id="section3"></a>Prerequisites</a></h2>
+<h2 id="prerequisites-41"><a class="header" href="#prerequisites-41"><a id="section3"></a>Prerequisites</a></h2>
 <ul>
 <li>You are logged in as the SynxDB superuser (<code>gpadmin</code>).</li>
 <li>The new segment hosts have been installed and configured as per the existing segment hosts. This involves:
@@ -58307,7 +58321,7 @@ gp6s2-s1|gp6s2-s1|50000|/data/mirror1/gpseg2|9|2|m
 gp6s2-s1|gp6s2-s1|40000|/data/data1/gpseg3|7|3|p
 gp6s1-s2|gp6s1-s2|50001|/data/mirror1/gpseg3|8|3|m
 </code></pre>
-<h2 id="examples-162"><a class="header" href="#examples-162"><a id="section6"></a>Examples</a></h2>
+<h2 id="examples-163"><a class="header" href="#examples-163"><a id="section6"></a>Examples</a></h2>
 <p>Run <code>gpexpand</code> with an input file to initialize new segments and create the expansion schema in the postgres database:</p>
 <pre><code>$ gpexpand -i input_file
 </code></pre>
@@ -58422,7 +58436,7 @@ The root directory \(`/`\) cannot be specified as certificate\_path.
 <pre><code>export GPFDIST_WATCHDOG_TIMER=300
 </code></pre>
 <p>When you enable compression, <code>gpfdist</code> transmits a larger amount of data while maintaining low network usage. Note that compression can be time-intensive, and may potentially reduce transmission speeds. When you utilize multi-threaded execution, the overall time required for compression may decrease, which facilitates faster data transmission while maintaining low network occupancy and high speed.</p>
-<h2 id="examples-163"><a class="header" href="#examples-163"><a id="section6"></a>Examples</a></h2>
+<h2 id="examples-164"><a class="header" href="#examples-164"><a id="section6"></a>Examples</a></h2>
 <p>To serve files from a specified directory using port 8081 (and start <code>gpfdist</code> in the background):</p>
 <pre><code>gpfdist -d /var/load_files -p 8081 &amp;
 </code></pre>
@@ -58497,7 +58511,7 @@ gpinitstandby -?
 :   Displays the version, status, last updated date, and checksum of this utility.</p>
 <p>-? (help)
 :   Displays the online help.</p>
-<h2 id="examples-164"><a class="header" href="#examples-164"><a id="section5"></a>Examples</a></h2>
+<h2 id="examples-165"><a class="header" href="#examples-165"><a id="section5"></a>Examples</a></h2>
 <p>Add a standby master instance to your SynxDB system and start the synchronization process:</p>
 <pre><code>gpinitstandby -s host09
 </code></pre>
@@ -58728,7 +58742,7 @@ $ gpconfig -s data_checksums
 </ul>
 <p>When initializing the SynxDB system, <code>gpinitsystem</code> uses the initialization information to populate the <a href="utility_guide/ref/../../ref_guide/system_catalogs/gp_segment_configuration.html">gp_segment_configuration</a> catalog table and adds hosts to the <code>pg_hba.conf</code> file. By default, the host IP address is added to the file. Specify the <code>gpinitsystem</code> configuration file parameter <a href="utility_guide/ref/gpinitsystem.html#hba_hostnames">HBA_HOSTNAMES</a>=1 to add hostnames to the file.</p>
 <p>SynxDB uses the <code>address</code> value of the <code>gp_segment_configuration</code> catalog table when looking up host systems for SynxDB interconnect (internal) communication between the master and segment instances and between segment instances, and for other internal communication.</p>
-<h2 id="examples-165"><a class="header" href="#examples-165"><a id="section6"></a>Examples</a></h2>
+<h2 id="examples-166"><a class="header" href="#examples-166"><a id="section6"></a>Examples</a></h2>
 <p>Initialize a SynxDB system by supplying a cluster configuration file and a segment host address file, and set up a spread mirroring (<code>--mirror-mode=spread</code>) configuration:</p>
 <pre><code>$ gpinitsystem -c gpinitsystem_config -h hostfile_gpinitsystem --mirror-mode=spread
 </code></pre>
@@ -59140,7 +59154,7 @@ OUTPUT:
    - TABLE: public.'"MyTable"'
 </code></pre>
 <p>If the YAML control file contains the <code>ERROR_TABLE</code> element that was available in SynxDB 4.3.x, <code>gpload</code> logs a warning stating that <code>ERROR_TABLE</code> is not supported, and load errors are handled as if the <code>LOG_ERRORS</code> and <code>REUSE_TABLE</code> elements were set to <code>true</code>. Rows with formatting errors are logged internally when running in single row error isolation mode.</p>
-<h2 id="examples-166"><a class="header" href="#examples-166"><a id="section10"></a>Examples</a></h2>
+<h2 id="examples-167"><a class="header" href="#examples-167"><a id="section10"></a>Examples</a></h2>
 <p>Run a load job as defined in <code>my_load.yml</code>:</p>
 <pre><code>gpload -f my_load.yml
 </code></pre>
@@ -59254,7 +59268,7 @@ gplogfilter -e '2013-05-23 14:33'
 :   Displays the online help.</p>
 <p>–version
 :   Displays the version of this utility.</p>
-<h2 id="examples-167"><a class="header" href="#examples-167"><a id="section9"></a>Examples</a></h2>
+<h2 id="examples-168"><a class="header" href="#examples-168"><a id="section9"></a>Examples</a></h2>
 <p>Display the last three error messages in the master log file:</p>
 <pre><code>gplogfilter -t -n 3
 </code></pre>
@@ -59325,7 +59339,7 @@ gpmapreduce -h | --help
 :   The database role name to connect as. If not specified, reads from the environment variable <code>PGUSER</code> or defaults to the current system user name.</p>
 <p>-W | –password
 :   Force a password prompt.</p>
-<h2 id="examples-168"><a class="header" href="#examples-168"><a id="section7"></a>Examples</a></h2>
+<h2 id="examples-169"><a class="header" href="#examples-169"><a id="section7"></a>Examples</a></h2>
 <p>Run a MapReduce job as defined in <code>my_mrjob.yaml</code> and connect to the database <code>mydatabase</code>:</p>
 <pre><code>gpmapreduce -f my_mrjob.yaml mydatabase
 </code></pre>
@@ -59637,7 +59651,7 @@ gpmemreport -h | --help
 :   Displays the version of this utility.</p>
 <p>-h | –help
 :   Displays the online help.</p>
-<h2 id="examples-169"><a class="header" href="#examples-169"><a id="section5"></a>Examples</a></h2>
+<h2 id="examples-170"><a class="header" href="#examples-170"><a id="section5"></a>Examples</a></h2>
 <p><strong>Example 1: Extract all the files generated by <code>gpmemwatcher</code> for the SynxDB master</strong></p>
 <p>Locate the output <code>.gz</code> file from <code>gpmemwatcher</code> and run <code>gpmemreport</code> against it:</p>
 <pre><code>$ gpmemreport mdw.ps.out.gz
@@ -59701,7 +59715,7 @@ sdw4:/home/gpadmin/gpmemwatcher_dir/working
 :   Displays the version of this utility.</p>
 <p>-h | –help
 :   Displays the online help.</p>
-<h2 id="examples-170"><a class="header" href="#examples-170"><a id="section5"></a>Examples</a></h2>
+<h2 id="examples-171"><a class="header" href="#examples-171"><a id="section5"></a>Examples</a></h2>
 <p><strong>Example 1: Start the utility specifying the list of hosts from which to collect the information</strong></p>
 <p>Create the file <code>/home/gpadmin/hostmap.txt</code> that contains the following:</p>
 <pre><code>mdw:/home/gpadmin/gpmemwatcher_dir/working
@@ -60024,7 +60038,7 @@ $ gprecoverseg -o /home/gpadmin/recover_config_file
 :   Displays the version of this utility.</p>
 <p>-? | -h | –help
 :   Displays the online help.</p>
-<h2 id="examples-171"><a class="header" href="#examples-171"><a id="section5"></a>Examples</a></h2>
+<h2 id="examples-172"><a class="header" href="#examples-172"><a id="section5"></a>Examples</a></h2>
 <p><strong>Example 1: Recover Failed Segments in Place</strong></p>
 <p>Recover any failed segment instances in place:</p>
 <pre><code>$ gprecoverseg
@@ -60257,7 +60271,7 @@ gprestore --help
 <li><strong>1</strong> – Restore completed with non-fatal errors. See log file for more information.</li>
 <li><strong>2</strong> – Restore failed with a fatal error. See log file for more information.</li>
 </ul>
-<h2 id="examples-172"><a class="header" href="#examples-172"><a id="examples"></a>Examples</a></h2>
+<h2 id="examples-173"><a class="header" href="#examples-173"><a id="examples"></a>Examples</a></h2>
 <p>Create the demo database and restore all schemas and tables in the backup set for the indicated timestamp:</p>
 <pre><code>$ dropdb demo
 $ gprestore --timestamp 20171103152558 --create-db
@@ -60409,7 +60423,7 @@ sync_retries = 5
 :   A non-negative integer that specifies the maximum number of times that <code>gpssh</code> attempts to connect to a remote SynxDB host. The default is 3. If the value is 0, <code>gpssh</code> returns an error if the initial connection attempt fails. Increasing the number of attempts also increases the time between retry attempts. This parameter cannot be configured with a command-line option.</p>
 <p>:   The <code>-t</code> option also affects the time between retry attempts.</p>
 <p>:   Increasing this value can compensate for slow network performance or segment host performance issues such as heavy CPU or I/O load. However, when a connection cannot be established, an increased value also increases the delay when an error is returned.</p>
-<h2 id="examples-173"><a class="header" href="#examples-173"><a id="section5"></a>Examples</a></h2>
+<h2 id="examples-174"><a class="header" href="#examples-174"><a id="section5"></a>Examples</a></h2>
 <p>Start an interactive group SSH session with all hosts listed in the file <code>hostfile_gpssh</code>:</p>
 <pre><code>$ gpssh -f hostfile_gpssh
 </code></pre>
@@ -60475,7 +60489,7 @@ gpssh-exkeys --version
 :   When doing a system expansion, this is the name and location of a file containing all configured host names and host addresses (interface names) for each new segment host you are adding to your SynxDB system, one name per line without blank lines or extra spaces. Hosts specified in this file cannot be specified in the host file used with <code>-e</code>.</p>
 <p>-? (help)
 :   Displays the online help.</p>
-<h2 id="examples-174"><a class="header" href="#examples-174"><a id="section5"></a>Examples</a></h2>
+<h2 id="examples-175"><a class="header" href="#examples-175"><a id="section5"></a>Examples</a></h2>
 <p>Exchange SSH keys between all host names and addresses listed in the file <code>hostfile_exkeys</code>:</p>
 <pre><code>$ gpssh-exkeys -f hostfile_exkeys
 </code></pre>
@@ -60578,7 +60592,7 @@ Continue only if you are certain that the standby is not acting as the master.
 :   Displays the online help.</p>
 <p>–version
 :   Displays the version of this utility.</p>
-<h2 id="examples-175"><a class="header" href="#examples-175"><a id="section5"></a>Examples</a></h2>
+<h2 id="examples-176"><a class="header" href="#examples-176"><a id="section5"></a>Examples</a></h2>
 <p>Start a SynxDB system:</p>
 <pre><code>gpstart
 </code></pre>
@@ -60727,7 +60741,7 @@ gpstate -? | -h | --help
 <tr><td>Replay Location</td><td>standby xlog record replay location</td></tr>
 </tbody></table>
 </div>
-<h2 id="examples-176"><a class="header" href="#examples-176"><a id="section6"></a>Examples</a></h2>
+<h2 id="examples-177"><a class="header" href="#examples-177"><a id="section6"></a>Examples</a></h2>
 <p>Show detailed status information of a SynxDB system:</p>
 <pre><code>gpstate -s
 </code></pre>
@@ -60812,7 +60826,7 @@ gpstop -? | -h | --help
 :   Displays the online help.</p>
 <p>–version
 :   Displays the version of this utility.</p>
-<h2 id="examples-177"><a class="header" href="#examples-177"><a id="section5"></a>Examples</a></h2>
+<h2 id="examples-178"><a class="header" href="#examples-178"><a id="section5"></a>Examples</a></h2>
 <p>Stop a SynxDB system in smart mode:</p>
 <pre><code>gpstop
 </code></pre>
@@ -60877,7 +60891,7 @@ gpv base import [ -f &lt;file_name&gt; | --ova=&lt;file_name&gt; ] [ -t &lt;temp
 :   Specify a local OVA file name.</p>
 <p>-t, –template=template_name
 :   Specify an existing virtual machine template <code>template_name</code>.</p>
-<h4 id="examples-178"><a class="header" href="#examples-178"><a id="examples"></a>Examples</a></h4>
+<h4 id="examples-179"><a class="header" href="#examples-179"><a id="examples"></a>Examples</a></h4>
 <p>Import an existing virtual machine template:</p>
 <pre><code>gpv base import -t my-company-template
 </code></pre>
@@ -60938,7 +60952,7 @@ gpv config set &lt;options&gt;
 <p>Initialize a configuration interactively or import an external configuration from a file. The <code>gpv config init</code> command creates the configuration for deploying a SynxDB cluster. You may speficy the configuration parameters entering each value interactively, or from an existing configuration yaml file, <code>file_name</code>.</p>
 <pre><code>gpv config init [&lt;file_name&gt;]
 </code></pre>
-<h4 id="examples-179"><a class="header" href="#examples-179"><a id="ex_init"></a>Examples</a></h4>
+<h4 id="examples-180"><a class="header" href="#examples-180"><a id="ex_init"></a>Examples</a></h4>
 <p>Start a new configuration from scratch:</p>
 <pre><code>gpv config init
 </code></pre>
@@ -61118,7 +61132,7 @@ pg_config --gp_version
 :   Print the version of PostgreSQL backend server.</p>
 <p>–gp_version
 :   Print the version of SynxDB.</p>
-<h2 id="examples-180"><a class="header" href="#examples-180"><a id="section5"></a>Examples</a></h2>
+<h2 id="examples-181"><a class="header" href="#examples-181"><a id="section5"></a>Examples</a></h2>
 <p>To reproduce the build configuration of the current SynxDB installation, run the following command:</p>
 <pre><code>eval ./configure 'pg_config --configure'
 </code></pre>
@@ -61285,7 +61299,7 @@ Also, `-t` cannot be used to specify a child table partition. To dump a partitio
 <p>The dump file produced by <code>pg_dump</code> does not contain the statistics used by the optimizer to make query planning decisions. Therefore, it is wise to run <code>ANALYZE</code> after restoring from a dump file to ensure optimal performance.</p>
 <p>The database activity of <code>pg_dump</code> is normally collected by the statistics collector. If this is undesirable, you can set parameter <code>track_counts</code> to false via <code>PGOPTIONS</code> or the <code>ALTER USER</code> command.</p>
 <p>Because <code>pg_dump</code> may be used to transfer data to newer versions of SynxDB, the output of <code>pg_dump</code> can be expected to load into SynxDB versions newer than <code>pg_dump</code>’s version. <code>pg_dump</code> can also dump from SynxDB versions older than its own version. However, <code>pg_dump</code> cannot dump from SynxDB versions newer than its own major version; it will refuse to even try, rather than risk making an invalid dump. Also, it is not guaranteed that <code>pg_dump</code>’s output can be loaded into a server of an older major version — not even if the dump was taken from a server of that version. Loading a dump file into an older server may require manual editing of the dump file to remove syntax not understood by the older server. Use of the <code>--quote-all-identifiers</code> option is recommended in cross-version cases, as it can prevent problems arising from varying reserved-word lists in different SynxDB versions.</p>
-<h2 id="examples-181"><a class="header" href="#examples-181"><a id="section8"></a>Examples</a></h2>
+<h2 id="examples-182"><a class="header" href="#examples-182"><a id="section8"></a>Examples</a></h2>
 <p>Dump a database called <code>mydb</code> into a SQL-script file:</p>
 <pre><code>pg_dump mydb &gt; db.sql
 </code></pre>
@@ -61416,7 +61430,7 @@ pg_dumpall -V | --version
 <p>Since <code>pg_dumpall</code> calls <a href="utility_guide/ref/pg_dump.html">pg_dump</a> internally, some diagnostic messages will refer to <code>pg_dump</code>.</p>
 <p>Once restored, it is wise to run <code>ANALYZE</code> on each database so the query planner has useful statistics. You can also run <code>vacuumdb -a -z</code> to vacuum and analyze all databases.</p>
 <p><code>pg_dumpall</code> requires all needed tablespace directories to exist before the restore; otherwise, database creation will fail for databases in non-default locations.</p>
-<h2 id="examples-182"><a class="header" href="#examples-182"><a id="section8"></a>Examples</a></h2>
+<h2 id="examples-183"><a class="header" href="#examples-183"><a id="section8"></a>Examples</a></h2>
 <p>To dump all databases:</p>
 <pre><code>pg_dumpall &gt; db.out
 </code></pre>
@@ -61542,7 +61556,7 @@ pg_restore -V | --version
 <p>When restoring data to a pre-existing table and the option <code>--disable-triggers</code> is used, <code>pg_restore</code> emits commands to deactivate triggers on user tables before inserting the data, then emits commands to re-enable them after the data has been inserted. If the restore is stopped in the middle, the system catalogs may be left in the wrong state.</p>
 <p>See also the <code>pg_dump</code> documentation for details on limitations of <code>pg_dump</code>.</p>
 <p>Once restored, it is wise to run <code>ANALYZE</code> on each restored table so the query planner has useful statistics.</p>
-<h2 id="examples-183"><a class="header" href="#examples-183"><a id="section7"></a>Examples</a></h2>
+<h2 id="examples-184"><a class="header" href="#examples-184"><a id="section7"></a>Examples</a></h2>
 <p>Assume we have dumped a database called <code>mydb</code> into a custom-format dump file:</p>
 <pre><code>pg_dump -Fc mydb &gt; db.dump
 </code></pre>
@@ -62581,7 +62595,7 @@ kernel notification method that it uses.
 :   Display help text. If specified without a command, displays help for all <code>plcontainer</code> commands. If specified with a command, displays help for the command.</p>
 <p><strong>–verbose</strong>
 :   Enable verbose logging for the command.</p>
-<h2 id="examples-184"><a class="header" href="#examples-184"><a id="exs"></a>Examples</a></h2>
+<h2 id="examples-185"><a class="header" href="#examples-185"><a id="exs"></a>Examples</a></h2>
 <p>These are examples of common commands to manage PL/Container:</p>
 <ul>
 <li>
@@ -63367,7 +63381,7 @@ PSQL_EDITOR_LINENUMBER_ARG='--line '
 </code></pre>
 <p><code>1252</code> is a character encoding of the Latin alphabet, used by Microsoft Windows for English and some other Western languages. If you are using Cygwin, you can put this command in <code>/etc/profile</code>.</p>
 <p>Set the console font to Lucida Console, because the raster font does not work with the ANSI code page.</p>
-<h2 id="examples-185"><a class="header" href="#examples-185"><a id="section21"></a>Examples</a></h2>
+<h2 id="examples-186"><a class="header" href="#examples-186"><a id="section21"></a>Examples</a></h2>
 <p>Start <code>psql</code> in interactive mode:</p>
 <pre><code>psql -p 54321 -U sally mydatabase
 </code></pre>
@@ -63442,7 +63456,7 @@ reindexdb -V | --version
 <h2 id="notes-101"><a class="header" href="#notes-101"><a id="section6"></a>Notes</a></h2>
 <p><code>reindexdb</code> causes locking of system catalog tables, which could affect currently running queries. To avoid disrupting ongoing business operations, schedule the <code>reindexb</code> operation during a period of low activity.</p>
 <p><code>reindexdb</code> might need to connect several times to the master server, asking for a password each time. It is convenient to have a <code>~/.pgpass</code> file in such cases.</p>
-<h2 id="examples-186"><a class="header" href="#examples-186"><a id="section7"></a>Examples</a></h2>
+<h2 id="examples-187"><a class="header" href="#examples-187"><a id="section7"></a>Examples</a></h2>
 <p>To reindex the database <code>mydb</code>:</p>
 <pre><code>reindexdb mydb
 </code></pre>
@@ -63511,7 +63525,7 @@ vacuumdb -V | --version
 :   Specifies the name of the database to connect to discover what other databases should be vacuumed. If not specified, the <code>postgres</code> database will be used, and if that does not exist, <code>template1</code> will be used.</p>
 <h2 id="notes-102"><a class="header" href="#notes-102"><a id="section6"></a>Notes</a></h2>
 <p><code>vacuumdb</code> might need to connect several times to the master server, asking for a password each time. It is convenient to have a <code>~/.pgpass</code> file in such cases.</p>
-<h2 id="examples-187"><a class="header" href="#examples-187"><a id="section7"></a>Examples</a></h2>
+<h2 id="examples-188"><a class="header" href="#examples-188"><a id="section7"></a>Examples</a></h2>
 <p>To clean the database <code>test</code>:</p>
 <pre><code>vacuumdb test
 </code></pre>

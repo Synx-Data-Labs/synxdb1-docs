@@ -342,51 +342,7 @@ cbcopy --with-global-metadata --source-host=127.0.0.1 \
     --truncate
 </code></pre>
 <h2 id="cbcopy-reference"><a class="header" href="#cbcopy-reference">cbcopy reference</a></h2>
-<pre><code>cbcopy utility for migrating data from Greenplum Database (GPDB) to Cloudberry Database (CBDB)
-
-Usage:
-  cbcopy [flags]
-
-Flags:
-      --append                           Append destination table if it exists
-      --compression                      Transfer the compression data, instead of the plain data
-      --copy-jobs int                    The maximum number of tables that concurrently copies, valid values are between 1 and 512 (default 4)
-      --data-only                        Only copy data, do not copy metadata
-      --data-port-range string           The range of listening port number to choose for receiving data on dest cluster (default "1024-65535")
-      --dbname strings                   The database(s) to be copied, separated by commas
-      --debug                            Print debug log messages
-      --dest-dbname strings              The database(s) in destination cluster to copy to, separated by commas
-      --dest-host string                 The host of destination cluster (default "127.0.0.1")
-      --dest-port int                    The port of destination cluster (default 5432)
-      --dest-schema strings              The schema(s) in destination database to copy to, separated by commas
-      --dest-table strings               The renamed dest table(s) for include-table, separated by commas
-      --dest-table-file string           The renamed dest table(s) for include-table-file, The line format is "dbname.schema.table"
-      --dest-tablespace string           Create all database objects in the specified tablespace on destination database
-      --dest-user string                 The user of destination cluster (default "gpadmin")
-      --exclude-table strings            Copy all tables except the specified table(s), separated by commas
-      --exclude-table-file string        Copy all tables except the specified table(s) listed in the file, The line format is "dbname.schema.table"
-      --full                             Copy full data cluster
-      --global-metadata-only             Only copy global metadata, do not copy data
-      --help                             Print help info and exit
-      --include-table strings            Copy only the specified table(s), separated by commas, in the format database.schema.table
-      --include-table-file string        Copy only the specified table(s) listed in the file, The line format is "dbname.schema.table"
-      --metadata-jobs int                The maximum number of metadata restore tasks, valid values are between 1 and 512 (default 2)
-      --metadata-only                    Only copy metadata, do not copy data
-      --on-segment-threshold int         Copy between Coordinators directly, if the table has smaller or same number of rows (default 1000000)
-      --owner-mapping-file string        Object owner mapping file, The line format is "source_role_name,dest_role_name"
-      --quiet                            Suppress non-warning, non-error log messages
-      --schema strings                   The schema(s) to be copied, separated by commas, in the format database.schema
-      --schema-mapping-file string       Schema mapping file, The line format is "source_dbname.source_schema,dest_dbname.dest_schema"
-      --source-host string               The host of source cluster (default "127.0.0.1")
-      --source-port int                  The port of source cluster (default 5432)
-      --source-user string               The user of source cluster (default "gpadmin")
-      --tablespace-mapping-file string   Tablespace mapping file, The line format is "source_tablespace_name,dest_tablespace_name"
-      --truncate                         Truncate destination table if it exists prior to copying data
-      --validate                         Perform data validation when copy is complete (default true)
-      --verbose                          Print verbose log messages
-      --version                          Print version number and exit
-      --with-global-metadata             Copy global metadata objects (default: false)
-</code></pre>
+<p>See the <a href="../../utility_guide/ref/cbcopy.html">cbcopy reference page</a> for information about each command-line option.</p>
 
                     </main>
 
