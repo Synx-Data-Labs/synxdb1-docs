@@ -158,7 +158,7 @@
                     <main>
                         <h1 id="orafce"><a class="header" href="#orafce">orafce</a></h1>
 <p>The <code>orafce</code> module provides Oracle Compatibility SQL functions in SynxDB. These functions target PostgreSQL but can also be used in SynxDB.</p>
-<p>The SynxDB <code>orafce</code> module is a modified version of the <a href="https://github.com/orafce/orafce">open source Orafce PostgreSQL module extension</a>. The modified <code>orafce</code> source files for SynxDB can be found in the <code>gpcontrib/orafce</code> directory in the <a href="https://github.com/greenplum-db/gpdb">SynxDB open source project</a>. The source reflects the Orafce 3.6.1 release and additional commits to <a href="https://github.com/orafce/orafce/tree/3af70a28f6ab81f43c990fb5661df99a37328b8a">3af70a28f6</a>.</p>
+<p>The SynxDB <code>orafce</code> module is a modified version of the <a href="https://github.com/orafce/orafce">open source Orafce PostgreSQL module extension</a>. The modified <code>orafce</code> source files for SynxDB can be found in the <code>gpcontrib/orafce</code> directory in the <a href="https://github.com/apache/cloudberry/tree/main/gpcontrib/orafce">Apache Cloudberry (Incubating) project</a>. The source reflects the Orafce 3.6.1 release and additional commits to <a href="https://github.com/orafce/orafce/tree/3af70a28f6ab81f43c990fb5661df99a37328b8a">3af70a28f6</a>.</p>
 <p>There are some restrictions and limitations when you use the module in SynxDB.</p>
 <h2 id="installing-and-registering-the-module"><a class="header" href="#installing-and-registering-the-module"><a id="topic_reg"></a>Installing and Registering the Module</a></h2>
 <blockquote>
@@ -241,7 +241,7 @@ SELECT DECODE(date1, '2001-11-11', '2001-01-01') FROM TEST;
 <li>The upgrade scripts in the Orafce project do not work with SynxDB.</li>
 </ul>
 <h2 id="additional-module-documentation"><a class="header" href="#additional-module-documentation"><a id="topic_info"></a>Additional Module Documentation</a></h2>
-<p>Refer to the <a href="https://github.com/greenplum-db/gpdb/tree/master/gpcontrib/orafce/README.asciidoc">README</a> and <a href="https://github.com/greenplum-db/gpdb/tree/master/gpcontrib/orafce/doc/orafce_documentation">SynxDB orafce documentation</a> in the SynxDB github repository for detailed information about the individual functions and supporting objects provided in this module.</p>
+<p>Refer to the <a href="https://github.com/orafce/orafce/blob/master/README.asciidoc">README</a> and <a href="https://github.com/orafce/orafce/tree/master/doc/orafce_documentation">SynxDB orafce documentation</a> for detailed information about the individual functions and supporting objects provided in this module.</p>
 
                     </main>
 

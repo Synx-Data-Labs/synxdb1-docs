@@ -404,7 +404,7 @@ memcpy(GppcGetTextPointer(retstring) + arg0_len, GppcGetTextPointer(second_texts
 <pre><code>GppcText  uname = GPPC_GETARG_TEXT(1);
 GppcReport(GPPC_ERROR, "Unknown user name: %s", GppcTextGetCString(uname));
 </code></pre>
-<p>Refer to the <a href="https://github.com/greenplum-db/gpdb/tree/master/src/interfaces/gppc/test">GPPC example code</a> for example report callback handlers.</p>
+<p>Refer to the <a href="https://github.com/apache/cloudberry/tree/main/src/interfaces/gppc/test">GPPC example code</a> for example report callback handlers.</p>
 <h3 id="spi-functions"><a class="header" href="#spi-functions"><a id="topic_spi"></a>SPI Functions</a></h3>
 <p>The SynxDB Server Programming Interface (SPI) provides writers of C/C++ functions the ability to run SQL commands within a GPPC function. For additional information on SPI functions, refer to <a href="https://www.postgresql.org/docs/9.4/spi.html">Server Programming Interface</a> in the PostgreSQL documentation.</p>
 <p>The GPPC API exposes a subset of PostgreSQL SPI functions. This subset enables you to issue SPI queries and retrieve SPI result values in your GPPC function. The GPPC SPI wrapper functions are:</p>
@@ -607,7 +607,7 @@ ntuple = GppcAnyTableGetNextTuple(intbl);
 <li>text &lt; integer</li>
 </ul>
 <h3 id="sample-code"><a class="header" href="#sample-code"><a id="topic_samplecode"></a>Sample Code</a></h3>
-<p>The <a href="https://github.com/greenplum-db/gpdb/tree/master/src/interfaces/gppc/test">gppc test</a> directory in the SynxDB github repository includes sample GPPC code:</p>
+<p>The <a href="https://github.com/apache/cloudberry/tree/main/src/interfaces/gppc/test">gppc test</a> directory in the SynxDB github repository includes sample GPPC code:</p>
 <ul>
 <li><code>gppc_demo/</code> - sample code exercising GPPC SPI functions, error reporting, data type argument and return macros, set-returning functions, and encoding functions</li>
 <li><code>tabfunc_gppc_demo/</code> - sample code exercising GPPC table and set-returning functions</li>

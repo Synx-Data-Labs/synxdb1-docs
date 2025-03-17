@@ -364,8 +364,6 @@ testdb=&gt; SELECT * from gp_segment_endpoints;
 <li>Parallel retrieve cursors do not support the <code>FETCH</code> and <code>MOVE</code> cursor operations.</li>
 <li>Parallel retrieve cursors are not supported in SPI; you cannot declare a parallel retrieve cursor in a PL/pgSQL function.</li>
 </ul>
-<h2 id="additional-module-documentation"><a class="header" href="#additional-module-documentation"><a id="topic_addtldocs"></a>Additional Module Documentation</a></h2>
-<p>Refer to the <code>gp_parallel_retrieve_cursor</code> <a href="https://github.com/greenplum-db/gpdb/tree/master/src/backend/cdb/endpoint/README">README</a> in the SynxDB <code>github</code> repository for additional information about this module. You can also find parallel retrieve cursor <a href="https://github.com/greenplum-db/gpdb/tree/master/src/test/examples/">programming examples</a> in the repository.</p>
 <h2 id="example"><a class="header" href="#example"><a id="topic_examples"></a>Example</a></h2>
 <p>Create a parallel retrieve cursor and use it to pull query results from a SynxDB cluster:</p>
 <ol>
