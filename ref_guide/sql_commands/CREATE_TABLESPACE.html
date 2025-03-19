@@ -170,19 +170,19 @@
 <p>A user with appropriate privileges can pass a tablespace name to <a href="CREATE_DATABASE.html">CREATE DATABASE</a>, <a href="CREATE_TABLE.html">CREATE TABLE</a>, or <a href="CREATE_INDEX.html">CREATE INDEX</a> to have the data files for these objects stored within the specified tablespace.</p>
 <p>In SynxDB, the file system location must exist on all hosts including the hosts running the master, standby mirror, each primary segment, and each mirror segment.</p>
 <h2 id="parameters"><a class="header" href="#parameters"><a id="section4"></a>Parameters</a></h2>
-<p>tablespace_name
-:   The name of a tablespace to be created. The name cannot begin with <code>pg_</code> or <code>gp_</code>, as such names are reserved for system tablespaces.</p>
-<p>user_name
-:   The name of the user who will own the tablespace. If omitted, defaults to the user running the command. Only superusers can create tablespaces, but they can assign ownership of tablespaces to non-superusers.</p>
-<p>LOCATION ‘directory’
-:   The absolute path to the directory (host system file location) that will be the root directory for the tablespace. When registering a tablepace, the directory should be empty and must be owned by the SynxDB system user. The directory must be specified by an absolute path name of no more than 100 characters. (The location is used to create a symlink target in the pg_tblspc directory, and symlink targets are truncated to 100 characters when sending to <code>tar</code> from utilities such as <code>pg_basebackup</code>.)</p>
-<p>:   For each segment instance, you can specify a different directory for the tablespace in the <code>WITH</code> clause.</p>
-<p>contentID_i=‘directory_i’
-:   The value ID_i is the content ID for the segment instance. directory_i is the absolute path to the host system file location that the segment instance uses as the root directory for the tablespace. You cannot specify the content ID of the master instance (<code>-1</code>). You can specify the same directory for multiple segments.</p>
-<p>:   If a segment instance is not listed in the <code>WITH</code> clause, SynxDB uses the tablespace directory specified in the <code>LOCATION</code> clause.</p>
-<p>:   The restrictions identified for the <code>LOCATION</code> directory also hold for directory_i.</p>
-<p>tablespace_option
-:   A tablespace parameter to set or reset. Currently, the only available parameters are seq_page_cost and random_page_cost. Setting either value for a particular tablespace will override the planner’s usual estimate of the cost of reading pages from tables in that tablespace, as established by the configuration parameters of the same name (see <a href="../config_params/guc-list.html#seq_page_cost">seq_page_cost</a>, <a href="../config_params/guc-list.html#random_page_cost">random_page_cost</a>). This may be useful if one tablespace is located on a disk which is faster or slower than the remainder of the I/O subsystem.</p>
+<h3 id="tablespace_name"><a class="header" href="#tablespace_name">tablespace_name</a></h3>
+<p>The name of a tablespace to be created. The name cannot begin with <code>pg_</code> or <code>gp_</code>, as such names are reserved for system tablespaces.</p>
+<h3 id="user_name"><a class="header" href="#user_name">user_name</a></h3>
+<p>The name of the user who will own the tablespace. If omitted, defaults to the user running the command. Only superusers can create tablespaces, but they can assign ownership of tablespaces to non-superusers.</p>
+<h3 id="location-directory"><a class="header" href="#location-directory">LOCATION ‘directory’</a></h3>
+<p>The absolute path to the directory (host system file location) that will be the root directory for the tablespace. When registering a tablepace, the directory should be empty and must be owned by the SynxDB system user. The directory must be specified by an absolute path name of no more than 100 characters. (The location is used to create a symlink target in the pg_tblspc directory, and symlink targets are truncated to 100 characters when sending to <code>tar</code> from utilities such as <code>pg_basebackup</code>.)</p>
+<p>For each segment instance, you can specify a different directory for the tablespace in the <code>WITH</code> clause.</p>
+<h3 id="contentid_idirectory_i"><a class="header" href="#contentid_idirectory_i">contentID_i=‘directory_i’</a></h3>
+<p>The value ID_i is the content ID for the segment instance. directory_i is the absolute path to the host system file location that the segment instance uses as the root directory for the tablespace. You cannot specify the content ID of the master instance (<code>-1</code>). You can specify the same directory for multiple segments.</p>
+<p>If a segment instance is not listed in the <code>WITH</code> clause, SynxDB uses the tablespace directory specified in the <code>LOCATION</code> clause.</p>
+<p>The restrictions identified for the <code>LOCATION</code> directory also hold for directory_i.</p>
+<h3 id="tablespace_option"><a class="header" href="#tablespace_option">tablespace_option</a></h3>
+<p>A tablespace parameter to set or reset. Currently, the only available parameters are seq_page_cost and random_page_cost. Setting either value for a particular tablespace will override the planner’s usual estimate of the cost of reading pages from tables in that tablespace, as established by the configuration parameters of the same name (see <a href="../config_params/guc-list.html#seq_page_cost">seq_page_cost</a>, <a href="../config_params/guc-list.html#random_page_cost">random_page_cost</a>). This may be useful if one tablespace is located on a disk which is faster or slower than the remainder of the I/O subsystem.</p>
 <h2 id="notes"><a class="header" href="#notes"><a id="section5"></a>Notes</a></h2>
 <p>Because <code>CREATE TABLESPACE</code> creates symbolic links from the <code>pg_tblspc</code> directory in the master and segment instance data directory to the directories specified in the command, SynxDB supports tablespaces only on systems that support symbolic links.</p>
 <p><code>CREATE TABLESPACE</code> cannot be run inside a transaction block.</p>

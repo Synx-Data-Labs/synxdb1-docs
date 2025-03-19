@@ -177,27 +177,24 @@ ALTER VIEW [ IF EXISTS ] &lt;name&gt; RESET ( &lt;view_option_name&gt; [, ... ] 
 <p><code>ALTER VIEW</code> changes various auxiliary properties of a view. (If you want to modify the view’s defining query, use <code>CREATE OR REPLACE VIEW</code>.</p>
 <p>To run this command you must be the owner of the view. To change a view’s schema you must also have <code>CREATE</code> privilege on the new schema. To alter the owner, you must also be a direct or indirect member of the new owning role, and that role must have <code>CREATE</code> privilege on the view’s schema. These restrictions enforce that altering the owner does not do anything you could not do by dropping and recreating the view. However, a superuser can alter ownership of any view.</p>
 <h2 id="parameters"><a class="header" href="#parameters"><a id="section4"></a>Parameters</a></h2>
-<p>name
-:   The name (optionally schema-qualified) of an existing view.</p>
-<p><code>IF EXISTS</code>
-:   Do not throw an error if the view does not exist. A notice is issued in this case.</p>
-<p><code>SET</code>/<code>DROP DEFAULT</code>
-:   These forms set or remove the default value for a column. A view column’s default value is substituted into any <code>INSERT</code> or <code>UPDATE</code> command whose target is the view, before applying any rules or triggers for the view. The view’s default will therefore take precedence over any default values from underlying relations.</p>
-<p>new_owner
-:   The new owner for the view.</p>
-<p>new_name
-:   The new name of the view.</p>
-<p>new_schema
-:   The new schema for the view.</p>
-<p><code>SET ( view\_option\_name [= view\_option\_value] [, ... ] )</code>
-<code>RESET ( view\_option\_name [, ... ] )</code>
-:   Sets or resets a view option. Currently supported options are:</p>
-<pre><code>`check_option` \(string\)
-:   Changes the check option of the view. The value must be `local` or `cascaded`.
-
-`security_barrier` \(boolean\)
-:   Changes the security-barrier property of the view. The value must be a Boolean value, such as `true` or `false`.
-</code></pre>
+<h3 id="name"><a class="header" href="#name">name</a></h3>
+<p>The name (optionally schema-qualified) of an existing view.</p>
+<h3 id="if-exists"><a class="header" href="#if-exists"><code>IF EXISTS</code></a></h3>
+<p>Do not throw an error if the view does not exist. A notice is issued in this case.</p>
+<h3 id="setdrop-default"><a class="header" href="#setdrop-default"><code>SET</code>/<code>DROP DEFAULT</code></a></h3>
+<p>These forms set or remove the default value for a column. A view column’s default value is substituted into any <code>INSERT</code> or <code>UPDATE</code> command whose target is the view, before applying any rules or triggers for the view. The view’s default will therefore take precedence over any default values from underlying relations.</p>
+<h3 id="new_owner"><a class="header" href="#new_owner">new_owner</a></h3>
+<p>The new owner for the view.</p>
+<h3 id="new_name"><a class="header" href="#new_name">new_name</a></h3>
+<p>The new name of the view.</p>
+<h3 id="new_schema"><a class="header" href="#new_schema">new_schema</a></h3>
+<p>The new schema for the view.</p>
+<h3 id="set--view_option_name--view_option_value----reset--view_option_name----"><a class="header" href="#set--view_option_name--view_option_value----reset--view_option_name----"><code>SET ( view\_option\_name [= view\_option\_value] [, ... ] )</code><br/><code>RESET ( view\_option\_name [, ... ] )</code></a></h3>
+<p>Sets or resets a view option. Currently supported options are:</p>
+<ul>
+<li><code>check_option</code> (string) Changes the check option of the view. The value must be <code>local</code> or <code>cascaded</code>.</li>
+<li><code>security_barrier</code> (boolean) Changes the security-barrier property of the view. The value must be a Boolean value, such as <code>true</code> or <code>false</code>.</li>
+</ul>
 <h2 id="notes"><a class="header" href="#notes"><a id="fixme"></a>Notes</a></h2>
 <p>For historical reasons, <code>ALTER TABLE</code> can be used with views, too; however, the only variants of <code>ALTER TABLE</code> that are allowed with views are equivalent to the statements shown above.</p>
 <p>Rename the view <code>myview</code> to <code>newview</code>:</p>

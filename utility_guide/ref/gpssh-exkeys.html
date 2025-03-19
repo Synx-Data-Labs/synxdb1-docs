@@ -189,18 +189,18 @@ gpssh-exkeys --version
 <li>Updates the <code>authorized_keys</code>, <code>known_hosts</code>, and <code>id_rsa.pub</code> files on all hosts with new host information (if any).</li>
 </ul>
 <h2 id="options"><a class="header" href="#options"><a id="section4"></a>Options</a></h2>
-<p>-e hostfile_exkeys
-:   When doing a system expansion, this is the name and location of a file containing all configured host names and host addresses (interface names) for each host in your current SynxDB system (master, standby master, and segments), one name per line without blank lines or extra spaces. Hosts specified in this file cannot be specified in the host file used with <code>-x</code>.</p>
-<p>-f hostfile_exkeys
-:   Specifies the name and location of a file containing all configured host names and host addresses (interface names) for each host in your SynxDB system (master, standby master and segments), one name per line without blank lines or extra spaces.</p>
-<p>-h hostname
-:   Specifies a single host name (or host address) that will participate in the SSH key exchange. You can use the <code>-h</code> option multiple times to specify multiple host names and host addresses.</p>
-<p>–version
-:   Displays the version of this utility.</p>
-<p>-x hostfile_gpexpand
-:   When doing a system expansion, this is the name and location of a file containing all configured host names and host addresses (interface names) for each new segment host you are adding to your SynxDB system, one name per line without blank lines or extra spaces. Hosts specified in this file cannot be specified in the host file used with <code>-e</code>.</p>
-<p>-? (help)
-:   Displays the online help.</p>
+<h3 id="-e-hostfile_exkeys"><a class="header" href="#-e-hostfile_exkeys">-e hostfile_exkeys</a></h3>
+<p>When doing a system expansion, this is the name and location of a file containing all configured host names and host addresses (interface names) for each host in your current SynxDB system (master, standby master, and segments), one name per line without blank lines or extra spaces. Hosts specified in this file cannot be specified in the host file used with <code>-x</code>.</p>
+<h3 id="-f-hostfile_exkeys"><a class="header" href="#-f-hostfile_exkeys">-f hostfile_exkeys</a></h3>
+<p>Specifies the name and location of a file containing all configured host names and host addresses (interface names) for each host in your SynxDB system (master, standby master and segments), one name per line without blank lines or extra spaces.</p>
+<h3 id="-h-hostname"><a class="header" href="#-h-hostname">-h hostname</a></h3>
+<p>Specifies a single host name (or host address) that will participate in the SSH key exchange. You can use the <code>-h</code> option multiple times to specify multiple host names and host addresses.</p>
+<h3 id="version"><a class="header" href="#version">–version</a></h3>
+<p>Displays the version of this utility.</p>
+<h3 id="-x-hostfile_gpexpand"><a class="header" href="#-x-hostfile_gpexpand">-x hostfile_gpexpand</a></h3>
+<p>When doing a system expansion, this is the name and location of a file containing all configured host names and host addresses (interface names) for each new segment host you are adding to your SynxDB system, one name per line without blank lines or extra spaces. Hosts specified in this file cannot be specified in the host file used with <code>-e</code>.</p>
+<h3 id="--help"><a class="header" href="#--help">-? (help)</a></h3>
+<p>Displays the online help.</p>
 <h2 id="examples"><a class="header" href="#examples"><a id="section5"></a>Examples</a></h2>
 <p>Exchange SSH keys between all host names and addresses listed in the file <code>hostfile_exkeys</code>:</p>
 <pre><code>$ gpssh-exkeys -f hostfile_exkeys

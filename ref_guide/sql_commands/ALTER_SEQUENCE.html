@@ -178,37 +178,34 @@ ALTER SEQUENCE [ IF EXISTS ] &lt;name&gt; SET SCHEMA &lt;new_schema&gt;
 <p>You must own the sequence to use <code>ALTER SEQUENCE</code>. To change a sequence’s schema, you must also have <code>CREATE</code> privilege on the new schema. Note that superusers have all these privileges automatically.</p>
 <p>To alter the owner, you must be a direct or indirect member of the new owning role, and that role must have <code>CREATE</code> privilege on the sequence’s schema. (These restrictions enforce that altering the owner does not do anything you could not do by dropping and recreating the sequence. However, a superuser can alter ownership of any sequence anyway.)</p>
 <h2 id="parameters"><a class="header" href="#parameters"><a id="section4"></a>Parameters</a></h2>
-<p>name
-:   The name (optionally schema-qualified) of a sequence to be altered.</p>
-<p>IF EXISTS
-:   Do not throw an error if the sequence does not exist. A notice is issued in this case.</p>
-<p>increment
-:   The clause <code>INCREMENT BY increment</code> is optional. A positive value will make an ascending sequence, a negative one a descending sequence. If unspecified, the old increment value will be maintained.</p>
-<p>minvalue
-NO MINVALUE
-:   The optional clause <code>MINVALUE minvalue</code> determines the minimum value a sequence can generate. If <code>NO MINVALUE</code> is specified, the defaults of 1 and -263-1 for ascending and descending sequences, respectively, will be used. If neither option is specified, the current minimum value will be maintained.</p>
-<p>maxvalue
-NO MAXVALUE
-:   The optional clause <code>MAXVALUE maxvalue</code> determines the maximum value for the sequence. If <code>NO MAXVALUE</code> is specified, the defaults are 263-1 and -1 for ascending and descending sequences, respectively, will be used. If neither option is specified, the current maximum value will be maintained.</p>
-<p>start
-:   The optional clause START WITH start changes the recorded start value of the sequence. This has no effect on the <em>current</em> sequence value; it simply sets the value that future <code>ALTER SEQUENCE RESTART</code> commands will use.</p>
-<p>restart
-:   The optional clause <code>RESTART [ WITH restart ]</code> changes the current value of the sequence. This is equivalent to calling the <code>setval(sequence, start\_val, is\_called)</code> function with <code>is\_called = false</code>. The specified value will be returned by the next call of the <code>nextval(sequence)</code> function. Writing <code>RESTART</code> with no restart value is equivalent to supplying the start value that was recorded by <code>CREATE SEQUENCE</code> or last set by <code>ALTER SEQUENCE START WITH</code>.</p>
-<p>new_owner
-:   The user name of the new owner of the sequence.</p>
-<p>cache
-:   The clause <code>CACHE cache</code> enables sequence numbers to be preallocated and stored in memory for faster access. The minimum value is 1 (only one value can be generated at a time, i.e., no cache). If unspecified, the old cache value will be maintained.</p>
-<p>CYCLE
-:   The optional <code>CYCLE</code> key word may be used to enable the sequence to wrap around when the maxvalue or minvalue has been reached by an ascending or descending sequence. If the limit is reached, the next number generated will be the respective minvalue or maxvalue.</p>
-<p>NO CYCLE
-:   If the optional <code>NO CYCLE</code> key word is specified, any calls to <code>nextval()</code> after the sequence has reached its maximum value will return an error. If neither <code>CYCLE</code> or <code>NO CYCLE</code> are specified, the old cycle behavior will be maintained.</p>
-<p>OWNED BY table.column
-OWNED BY NONE
-:   The <code>OWNED BY</code> option causes the sequence to be associated with a specific table column, such that if that column (or its whole table) is dropped, the sequence will be automatically dropped as well. If specified, this association replaces any previously specified association for the sequence. The specified table must have the same owner and be in the same schema as the sequence. Specifying <code>OWNED BY NONE</code> removes any existing table column association.</p>
-<p>new_name
-:   The new name for the sequence.</p>
-<p>new_schema
-:   The new schema for the sequence.</p>
+<h3 id="name"><a class="header" href="#name">name</a></h3>
+<p>The name (optionally schema-qualified) of a sequence to be altered.</p>
+<h3 id="if-exists"><a class="header" href="#if-exists">IF EXISTS</a></h3>
+<p>Do not throw an error if the sequence does not exist. A notice is issued in this case.</p>
+<h3 id="increment"><a class="header" href="#increment">increment</a></h3>
+<p>The clause <code>INCREMENT BY increment</code> is optional. A positive value will make an ascending sequence, a negative one a descending sequence. If unspecified, the old increment value will be maintained.</p>
+<h3 id="minvalueno-minvalue"><a class="header" href="#minvalueno-minvalue">minvalue<br/>NO MINVALUE</a></h3>
+<p>The optional clause <code>MINVALUE minvalue</code> determines the minimum value a sequence can generate. If <code>NO MINVALUE</code> is specified, the defaults of 1 and -263-1 for ascending and descending sequences, respectively, will be used. If neither option is specified, the current minimum value will be maintained.</p>
+<h3 id="maxvalueno-maxvalue"><a class="header" href="#maxvalueno-maxvalue">maxvalue<br/>NO MAXVALUE</a></h3>
+<p>The optional clause <code>MAXVALUE maxvalue</code> determines the maximum value for the sequence. If <code>NO MAXVALUE</code> is specified, the defaults are 263-1 and -1 for ascending and descending sequences, respectively, will be used. If neither option is specified, the current maximum value will be maintained.</p>
+<h3 id="start"><a class="header" href="#start">start</a></h3>
+<p>The optional clause START WITH start changes the recorded start value of the sequence. This has no effect on the <em>current</em> sequence value; it simply sets the value that future <code>ALTER SEQUENCE RESTART</code> commands will use.</p>
+<h3 id="restart"><a class="header" href="#restart">restart</a></h3>
+<p>The optional clause <code>RESTART [ WITH restart ]</code> changes the current value of the sequence. This is equivalent to calling the <code>setval(sequence, start\_val, is\_called)</code> function with <code>is\_called = false</code>. The specified value will be returned by the next call of the <code>nextval(sequence)</code> function. Writing <code>RESTART</code> with no restart value is equivalent to supplying the start value that was recorded by <code>CREATE SEQUENCE</code> or last set by <code>ALTER SEQUENCE START WITH</code>.</p>
+<h3 id="new_owner"><a class="header" href="#new_owner">new_owner</a></h3>
+<p>The user name of the new owner of the sequence.</p>
+<h3 id="cache"><a class="header" href="#cache">cache</a></h3>
+<p>The clause <code>CACHE cache</code> enables sequence numbers to be preallocated and stored in memory for faster access. The minimum value is 1 (only one value can be generated at a time, i.e., no cache). If unspecified, the old cache value will be maintained.</p>
+<h3 id="cycle"><a class="header" href="#cycle">CYCLE</a></h3>
+<p>The optional <code>CYCLE</code> key word may be used to enable the sequence to wrap around when the maxvalue or minvalue has been reached by an ascending or descending sequence. If the limit is reached, the next number generated will be the respective minvalue or maxvalue.</p>
+<h3 id="no-cycle"><a class="header" href="#no-cycle">NO CYCLE</a></h3>
+<p>If the optional <code>NO CYCLE</code> key word is specified, any calls to <code>nextval()</code> after the sequence has reached its maximum value will return an error. If neither <code>CYCLE</code> or <code>NO CYCLE</code> are specified, the old cycle behavior will be maintained.</p>
+<h3 id="owned-by-tablecolumnowned-by-none"><a class="header" href="#owned-by-tablecolumnowned-by-none">OWNED BY table.column<br/>OWNED BY NONE</a></h3>
+<p>The <code>OWNED BY</code> option causes the sequence to be associated with a specific table column, such that if that column (or its whole table) is dropped, the sequence will be automatically dropped as well. If specified, this association replaces any previously specified association for the sequence. The specified table must have the same owner and be in the same schema as the sequence. Specifying <code>OWNED BY NONE</code> removes any existing table column association.</p>
+<h3 id="new_name"><a class="header" href="#new_name">new_name</a></h3>
+<p>The new name for the sequence.</p>
+<h3 id="new_schema"><a class="header" href="#new_schema">new_schema</a></h3>
+<p>The new schema for the sequence.</p>
 <h2 id="notes"><a class="header" href="#notes"><a id="section5"></a>Notes</a></h2>
 <p>To avoid blocking of concurrent transactions that obtain numbers from the same sequence, <code>ALTER SEQUENCE</code>’s effects on the sequence generation parameters are never rolled back; those changes take effect immediately and are not reversible. However, the <code>OWNED BY</code>, <code>OWNER TO</code>, <code>RENAME TO</code>, and <code>SET SCHEMA</code> clauses are ordinary catalog updates and can be rolled back.</p>
 <p><code>ALTER SEQUENCE</code> will not immediately affect <code>nextval()</code> results in sessions, other than the current one, that have preallocated (cached) sequence values. They will use up all cached values prior to noticing the changed sequence generation parameters. The current session will be affected immediately.</p>

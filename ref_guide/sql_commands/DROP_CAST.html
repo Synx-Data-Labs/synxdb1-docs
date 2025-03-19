@@ -164,15 +164,14 @@
 <h2 id="description"><a class="header" href="#description"><a id="section3"></a>Description</a></h2>
 <p><code>DROP CAST</code> will delete a previously defined cast. To be able to drop a cast, you must own the source or the target data type. These are the same privileges that are required to create a cast.</p>
 <h2 id="parameters"><a class="header" href="#parameters"><a id="section4"></a>Parameters</a></h2>
-<p>IF EXISTS
-:   Do not throw an error if the cast does not exist. A notice is issued in this case.</p>
-<p>sourcetype
-:   The name of the source data type of the cast.</p>
-<p>targettype
-:   The name of the target data type of the cast.</p>
-<p>CASCADE
-RESTRICT
-:   These keywords have no effect since there are no dependencies on casts.</p>
+<h3 id="if-exists"><a class="header" href="#if-exists">IF EXISTS</a></h3>
+<p>Do not throw an error if the cast does not exist. A notice is issued in this case.</p>
+<h3 id="sourcetype"><a class="header" href="#sourcetype">sourcetype</a></h3>
+<p>The name of the source data type of the cast.</p>
+<h3 id="targettype"><a class="header" href="#targettype">targettype</a></h3>
+<p>The name of the target data type of the cast.</p>
+<h3 id="cascaderestrict"><a class="header" href="#cascaderestrict">CASCADE<br/>RESTRICT</a></h3>
+<p>These keywords have no effect since there are no dependencies on casts.</p>
 <h2 id="examples"><a class="header" href="#examples"><a id="section5"></a>Examples</a></h2>
 <p>To drop the cast from type <code>text</code> to type <code>int</code>:</p>
 <pre><code>DROP CAST (text AS int);

@@ -169,16 +169,16 @@
 <p>The protocol name can be specified in a <code>CREATE EXTERNAL TABLE</code> command.</p>
 <p>For information about creating and enabling a custom data access protocol, see “Example Custom Data Access Protocol” in the <em>SynxDB Administrator Guide</em>.</p>
 <h2 id="parameters"><a class="header" href="#parameters"><a id="section4"></a>Parameters</a></h2>
-<p>TRUSTED
-:   If not specified, only superusers and the protocol owner can create external tables using the protocol. If specified, superusers and the protocol owner can <code>GRANT</code> permissions on the protocol to other database roles.</p>
-<p>name
-:   The name of the data access protocol. The protocol name is case sensitive. The name must be unique among the protocols in the database.</p>
-<p>readfunc= ‘read_call_handler’
-:   The name of a previously registered function that SynxDB calls to read data from an external data source. The command must specify either a read call handler or a write call handler.</p>
-<p>writefunc= ‘write_call_handler’
-:   The name of a previously registered function that SynxDB calls to write data to an external data source. The command must specify either a read call handler or a write call handler.</p>
-<p>validatorfunc=‘validate_handler’
-:   An optional validator function that validates the URL specified in the <code>CREATE EXTERNAL TABLE</code> command.</p>
+<h3 id="trusted"><a class="header" href="#trusted">TRUSTED</a></h3>
+<p>If not specified, only superusers and the protocol owner can create external tables using the protocol. If specified, superusers and the protocol owner can <code>GRANT</code> permissions on the protocol to other database roles.</p>
+<h3 id="name"><a class="header" href="#name">name</a></h3>
+<p>The name of the data access protocol. The protocol name is case sensitive. The name must be unique among the protocols in the database.</p>
+<h3 id="readfunc-read_call_handler"><a class="header" href="#readfunc-read_call_handler">readfunc= ‘read_call_handler’</a></h3>
+<p>The name of a previously registered function that SynxDB calls to read data from an external data source. The command must specify either a read call handler or a write call handler.</p>
+<h3 id="writefunc-write_call_handler"><a class="header" href="#writefunc-write_call_handler">writefunc= ‘write_call_handler’</a></h3>
+<p>The name of a previously registered function that SynxDB calls to write data to an external data source. The command must specify either a read call handler or a write call handler.</p>
+<h3 id="validatorfuncvalidate_handler"><a class="header" href="#validatorfuncvalidate_handler">validatorfunc=‘validate_handler’</a></h3>
+<p>An optional validator function that validates the URL specified in the <code>CREATE EXTERNAL TABLE</code> command.</p>
 <h2 id="notes"><a class="header" href="#notes"><a id="section5"></a>Notes</a></h2>
 <p>SynxDB handles external tables of type <code>file</code>, <code>gpfdist</code>, and <code>gpfdists</code> internally. See [s3:// Protocol](../../admin_guide/external/g-s3-protocol.html for information about enabling the <code>S3</code> protocol. Refer to <a href="../../admin_guide/external/g-pxf-protocol.html">pxf:// Protocol</a> for information about using the <code>pxf</code> protocol.</p>
 <p>Any shared library that implements a data access protocol must be located in the same location on all SynxDB segment hosts. For example, the shared library can be in a location specified by the operating system environment variable <code>LD_LIBRARY_PATH</code> on all hosts. You can also specify the location when you define the handler function. For example, when you define the <code>s3</code> protocol in the <code>CREATE PROTOCOL</code> command, you specify <code>$libdir/gps3ext.so</code> as the location of the shared object, where <code>$libdir</code> is located at <code>$GPHOME/lib</code>.</p>

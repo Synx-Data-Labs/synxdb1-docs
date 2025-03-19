@@ -171,12 +171,12 @@ CLUSTER [VERBOSE]
 <p>When a table is clustered using this command, SynxDB remembers on which index it was clustered. The form <code>CLUSTER</code> tablename reclusters the table on the same index that it was clustered before. You can use the <code>CLUSTER</code> or <code>SET WITHOUT CLUSTER</code> forms of <a href="ALTER_TABLE.html">ALTER TABLE</a> to set the index to use for future cluster operations, or to clear any previous setting. <code>CLUSTER</code> without any parameter reclusters all previously clustered tables in the current database that the calling user owns, or all tables if called by a superuser. This form of <code>CLUSTER</code> cannot be run inside a transaction block.</p>
 <p>When a table is being clustered, an <code>ACCESS EXCLUSIVE</code> lock is acquired on it. This prevents any other database operations (both reads and writes) from operating on the table until the <code>CLUSTER</code> is finished.</p>
 <h2 id="parameters"><a class="header" href="#parameters"><a id="section4"></a>Parameters</a></h2>
-<p>indexname
-:   The name of an index.</p>
-<p><code>VERBOSE</code>
-:   Prints a progress report as each table is clustered.</p>
-<p>tablename
-:   The name (optionally schema-qualified) of a table.</p>
+<h3 id="indexname"><a class="header" href="#indexname">indexname</a></h3>
+<p>The name of an index.</p>
+<h3 id="verbose"><a class="header" href="#verbose"><code>VERBOSE</code></a></h3>
+<p>Prints a progress report as each table is clustered.</p>
+<h3 id="tablename"><a class="header" href="#tablename">tablename</a></h3>
+<p>The name (optionally schema-qualified) of a table.</p>
 <h2 id="notes"><a class="header" href="#notes"><a id="section5"></a>Notes</a></h2>
 <p>In cases where you are accessing single rows randomly within a table, the actual order of the data in the table is unimportant. However, if you tend to access some data more than others, and there is an index that groups them together, you will benefit from using <code>CLUSTER</code>. If you are requesting a range of indexed values from a table, or a single indexed value that has multiple rows that match, <code>CLUSTER</code> will help because once the index identifies the table page for the first row that matches, all other rows that match are probably already on the same table page, and so you save disk accesses and speed up the query.</p>
 <p><code>CLUSTER</code> can re-sort the table using either an index scan on the specified index, or (if the index is a b-tree) a sequential scan followed by sorting. It will attempt to choose the method that will be faster, based on planner cost parameters and available statistical information.</p>

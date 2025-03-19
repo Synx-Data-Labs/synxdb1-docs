@@ -180,49 +180,51 @@ gpstop -? | -h | --help
 <p>Specify the <code>-M fast</code> shutdown mode to roll back all in-progress transactions and terminate any connections before shutting down.</p>
 <p>With the <code>-u</code> option, the utility uploads changes made to the master <code>pg_hba.conf</code> file or to <em>runtime</em> configuration parameters in the master <code>postgresql.conf</code> file without interruption of service. Note that any active sessions will not pick up the changes until they reconnect to the database.</p>
 <h2 id="options"><a class="header" href="#options"><a id="section4"></a>Options</a></h2>
-<p>-a
-:   Do not prompt the user for confirmation.</p>
-<p>-B parallel_processes
-:   The number of segments to stop in parallel. If not specified, the utility will start up to 64 parallel processes depending on how many segment instances it needs to stop.</p>
-<p>-d master_data_directory
-:   Optional. The master host data directory. If not specified, the value set for <code>$MASTER_DATA_DIRECTORY</code> will be used.</p>
-<p>–host host_name
-:   The utility shuts down the SynxDB segment instances on the specified host to allow maintenance on the host. Each primary segment instance on the host is shut down and the associated mirror segment instance is promoted to a primary segment if the mirror segment is on another host. Mirror segment instances on the host are shut down.</p>
-<p>:   The segment instances are not shut down and the utility returns an error in these cases:</p>
-<pre><code>-   Segment mirroring is not enabled for the system.
--   The master or standby master is on the host.
--   Both a primary segment instance and its mirror are on the host.
-</code></pre>
-<p>:   This option cannot be specified with the <code>-m</code>, <code>-r</code>, <code>-u</code>, or <code>-y</code> options.</p>
-<pre><code>&gt; **Note** The `gprecoverseg` utility restores segment instances. Run `gprecoverseg` commands to start the segments as mirrors and then to return the segments to their preferred role \(primary segments\).
-</code></pre>
-<p>-l logfile_directory
-:   The directory to write the log file. Defaults to <code>~/gpAdminLogs</code>.</p>
-<p>-m
-:   Optional. Shuts down a SynxDB master instance that was started in maintenance mode.</p>
-<p>-M fast
-:   Fast shut down. Any transactions in progress are interrupted and rolled back.</p>
-<p>-M immediate
-:   Immediate shut down. Any transactions in progress are cancelled.</p>
-<p>:   This mode kills all <code>postgres</code> processes without allowing the database server to complete transaction processing or clean up any temporary or in-process work files.</p>
-<p>-M smart
-:   Smart shut down. This is the default shutdown mode. <code>gpstop</code> waits for active user connections to disconnect and then proceeds with the shutdown. If any user connections remain open after the timeout period (or if you interrupt by pressing CTRL-C) <code>gpstop</code> lists the open user connections and prompts whether to continue waiting for connections to finish, or to perform a fast or immediate shutdown.</p>
-<p>-q
-:   Run in quiet mode. Command output is not displayed on the screen, but is still written to the log file.</p>
-<p>-r
-:   Restart after shutdown is complete.</p>
-<p>-t timeout_seconds
-:   Specifies a timeout threshold (in seconds) to wait for a segment instance to shutdown. If a segment instance does not shutdown in the specified number of seconds, <code>gpstop</code> displays a message indicating that one or more segments are still in the process of shutting down and that you cannot restart SynxDB until the segment instance(s) are stopped. This option is useful in situations where <code>gpstop</code> is run and there are very large transactions that need to rollback. These large transactions can take over a minute to rollback and surpass the default timeout period of 120 seconds.</p>
-<p>-u
-:   This option reloads the <code>pg_hba.conf</code> files of the master and segments and the runtime parameters of the <code>postgresql.conf</code> files but does not shutdown the SynxDB array. Use this option to make new configuration settings active after editing <code>postgresql.conf</code> or <code>pg_hba.conf</code>. Note that this only applies to configuration parameters that are designated as <em>runtime</em> parameters.</p>
-<p>-v
-:   Displays detailed status, progress and error messages output by the utility.</p>
-<p>-y
-:   Do not stop the standby master process. The default is to stop the standby master.</p>
-<p>-? | -h | –help
-:   Displays the online help.</p>
-<p>–version
-:   Displays the version of this utility.</p>
+<h3 id="-a"><a class="header" href="#-a">-a</a></h3>
+<p>Do not prompt the user for confirmation.</p>
+<h3 id="-b-parallel_processes"><a class="header" href="#-b-parallel_processes">-B parallel_processes</a></h3>
+<p>The number of segments to stop in parallel. If not specified, the utility will start up to 64 parallel processes depending on how many segment instances it needs to stop.</p>
+<h3 id="-d-master_data_directory"><a class="header" href="#-d-master_data_directory">-d master_data_directory</a></h3>
+<p>Optional. The master host data directory. If not specified, the value set for <code>$MASTER_DATA_DIRECTORY</code> will be used.</p>
+<h3 id="host-host_name"><a class="header" href="#host-host_name">–host host_name</a></h3>
+<p>The utility shuts down the SynxDB segment instances on the specified host to allow maintenance on the host. Each primary segment instance on the host is shut down and the associated mirror segment instance is promoted to a primary segment if the mirror segment is on another host. Mirror segment instances on the host are shut down.</p>
+<p>The segment instances are not shut down and the utility returns an error in these cases:</p>
+<ul>
+<li>Segment mirroring is not enabled for the system.</li>
+<li>The master or standby master is on the host.</li>
+<li>Both a primary segment instance and its mirror are on the host.</li>
+</ul>
+<p>This option cannot be specified with the <code>-m</code>, <code>-r</code>, <code>-u</code>, or <code>-y</code> options.</p>
+<blockquote>
+<p><strong>Note</strong> The <code>gprecoverseg</code> utility restores segment instances. Run <code>gprecoverseg</code> commands to start the segments as mirrors and then to return the segments to their preferred role (primary segments).</p>
+</blockquote>
+<h3 id="-l-logfile_directory"><a class="header" href="#-l-logfile_directory">-l logfile_directory</a></h3>
+<p>The directory to write the log file. Defaults to <code>~/gpAdminLogs</code>.</p>
+<h3 id="-m"><a class="header" href="#-m">-m</a></h3>
+<p>Optional. Shuts down a SynxDB master instance that was started in maintenance mode.</p>
+<h3 id="-m-fast"><a class="header" href="#-m-fast">-M fast</a></h3>
+<p>Fast shut down. Any transactions in progress are interrupted and rolled back.</p>
+<h3 id="-m-immediate"><a class="header" href="#-m-immediate">-M immediate</a></h3>
+<p>Immediate shut down. Any transactions in progress are cancelled.</p>
+<p>This mode kills all <code>postgres</code> processes without allowing the database server to complete transaction processing or clean up any temporary or in-process work files.</p>
+<h3 id="-m-smart"><a class="header" href="#-m-smart">-M smart</a></h3>
+<p>Smart shut down. This is the default shutdown mode. <code>gpstop</code> waits for active user connections to disconnect and then proceeds with the shutdown. If any user connections remain open after the timeout period (or if you interrupt by pressing CTRL-C) <code>gpstop</code> lists the open user connections and prompts whether to continue waiting for connections to finish, or to perform a fast or immediate shutdown.</p>
+<h3 id="-q"><a class="header" href="#-q">-q</a></h3>
+<p>Run in quiet mode. Command output is not displayed on the screen, but is still written to the log file.</p>
+<h3 id="-r"><a class="header" href="#-r">-r</a></h3>
+<p>Restart after shutdown is complete.</p>
+<h3 id="-t-timeout_seconds"><a class="header" href="#-t-timeout_seconds">-t timeout_seconds</a></h3>
+<p>Specifies a timeout threshold (in seconds) to wait for a segment instance to shutdown. If a segment instance does not shutdown in the specified number of seconds, <code>gpstop</code> displays a message indicating that one or more segments are still in the process of shutting down and that you cannot restart SynxDB until the segment instance(s) are stopped. This option is useful in situations where <code>gpstop</code> is run and there are very large transactions that need to rollback. These large transactions can take over a minute to rollback and surpass the default timeout period of 120 seconds.</p>
+<h3 id="-u"><a class="header" href="#-u">-u</a></h3>
+<p>This option reloads the <code>pg_hba.conf</code> files of the master and segments and the runtime parameters of the <code>postgresql.conf</code> files but does not shutdown the SynxDB array. Use this option to make new configuration settings active after editing <code>postgresql.conf</code> or <code>pg_hba.conf</code>. Note that this only applies to configuration parameters that are designated as <em>runtime</em> parameters.</p>
+<h3 id="-v"><a class="header" href="#-v">-v</a></h3>
+<p>Displays detailed status, progress and error messages output by the utility.</p>
+<h3 id="-y"><a class="header" href="#-y">-y</a></h3>
+<p>Do not stop the standby master process. The default is to stop the standby master.</p>
+<h3 id="----h--help"><a class="header" href="#----h--help">-? | -h | –help</a></h3>
+<p>Displays the online help.</p>
+<h3 id="version"><a class="header" href="#version">–version</a></h3>
+<p>Displays the version of this utility.</p>
 <h2 id="examples"><a class="header" href="#examples"><a id="section5"></a>Examples</a></h2>
 <p>Stop a SynxDB system in smart mode:</p>
 <pre><code>gpstop

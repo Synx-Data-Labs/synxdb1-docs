@@ -185,20 +185,20 @@
 <p>Changes to the external table definition with either <code>ALTER EXTERNAL TABLE</code> or <code>ALTER TABLE</code> do not affect the external data.</p>
 <p>The <code>ALTER EXTERNAL TABLE</code> and <code>ALTER TABLE</code> commands cannot modify the type external table (read, write, web), the table <code>FORMAT</code> information, or the location of the external data. To modify this information, you must drop and recreate the external table definition.</p>
 <h2 id="parameters"><a class="header" href="#parameters"><a id="section4"></a>Parameters</a></h2>
-<p>name
-:   The name (possibly schema-qualified) of an existing external table definition to alter.</p>
-<p>column
-:   Name of an existing column.</p>
-<p>new_column
-:   Name of a new column.</p>
-<p>type
-:   Data type of the new column, or new data type for an existing column.</p>
-<p>new_owner
-:   The role name of the new owner of the external table.</p>
-<p>CASCADE
-:   Automatically drop objects that depend on the dropped column, such as a view that references the column.</p>
-<p>RESTRICT
-:   Refuse to drop the column or constraint if there are any dependent objects. This is the default behavior.</p>
+<h3 id="name"><a class="header" href="#name">name</a></h3>
+<p>The name (possibly schema-qualified) of an existing external table definition to alter.</p>
+<h3 id="column"><a class="header" href="#column">column</a></h3>
+<p>Name of an existing column.</p>
+<h3 id="new_column"><a class="header" href="#new_column">new_column</a></h3>
+<p>Name of a new column.</p>
+<h3 id="type"><a class="header" href="#type">type</a></h3>
+<p>Data type of the new column, or new data type for an existing column.</p>
+<h3 id="new_owner"><a class="header" href="#new_owner">new_owner</a></h3>
+<p>The role name of the new owner of the external table.</p>
+<h3 id="cascade"><a class="header" href="#cascade">CASCADE</a></h3>
+<p>Automatically drop objects that depend on the dropped column, such as a view that references the column.</p>
+<h3 id="restrict"><a class="header" href="#restrict">RESTRICT</a></h3>
+<p>Refuse to drop the column or constraint if there are any dependent objects. This is the default behavior.</p>
 <h2 id="examples"><a class="header" href="#examples"><a id="section5"></a>Examples</a></h2>
 <p>Add a new column to an external table definition:</p>
 <pre><code>ALTER EXTERNAL TABLE ext_expenses ADD COLUMN manager text;

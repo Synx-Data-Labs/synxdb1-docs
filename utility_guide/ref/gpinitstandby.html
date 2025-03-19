@@ -186,32 +186,32 @@ gpinitstandby -?
 </blockquote>
 <p>If an initialization failure occurs, a summary report file is generated in the standby host directory <code>/tmp</code>. The report file lists the directories on the standby host that require clean up.</p>
 <h2 id="options"><a class="header" href="#options"><a id="section4"></a>Options</a></h2>
-<p>-a (do not prompt)
-:   Do not prompt the user for confirmation.</p>
-<p>-D (debug)
-:   Sets logging level to debug.</p>
-<p>–hba-hostnames boolean
-:   Optional. Controls whether this utility uses IP addresses or host names in the <code>pg_hba.conf</code> file when updating this file with addresses that can connect to SynxDB. When set to 0 – the default value – this utility uses IP addresses when updating this file. When set to 1, this utility uses host names when updating this file. For consistency, use the same value that was specified for <code>HBA_HOSTNAMES</code> when the SynxDB system was initialized. For information about how SynxDB resolves host names in the <code>pg_hba.conf</code> file, see <a href="../../admin_guide/client_auth.html">Configuring Client Authentication</a>.</p>
-<p>-l logfile_directory
-:   The directory to write the log file. Defaults to <code>~/gpAdminLogs</code>.</p>
-<p>-n (restart standby master)
-:   Specify this option to start a SynxDB standby master that has been configured but has stopped for some reason.</p>
-<p>-P port
-:   This option specifies the port that is used by the SynxDB standby master. The default is the same port used by the active SynxDB master.</p>
-<p>:   If the SynxDB standby master is on the same host as the active master, the ports must be different. If the ports are the same for the active and standby master and the host is the same, the utility returns an error.</p>
-<p>-q (no screen output)
-:   Run in quiet mode. Command output is not displayed on the screen, but is still written to the log file.</p>
-<p>-r (remove standby master)
-:   Removes the currently configured standby master instance from your SynxDB system.</p>
-<p>-s standby_hostname
-:   The host name of the standby master host.</p>
-<p>-S standby_data_directory
-:   The data directory to use for a new standby master. The default is the same directory used by the active master.</p>
-<p>:   If the standby master is on the same host as the active master, a different directory must be specified using this option.</p>
-<p>-v (show utility version)
-:   Displays the version, status, last updated date, and checksum of this utility.</p>
-<p>-? (help)
-:   Displays the online help.</p>
+<h3 id="-a-do-not-prompt"><a class="header" href="#-a-do-not-prompt">-a (do not prompt)</a></h3>
+<p>Do not prompt the user for confirmation.</p>
+<h3 id="-d-debug"><a class="header" href="#-d-debug">-D (debug)</a></h3>
+<p>Sets logging level to debug.</p>
+<h3 id="hba-hostnames-boolean"><a class="header" href="#hba-hostnames-boolean">–hba-hostnames boolean</a></h3>
+<p>Optional. Controls whether this utility uses IP addresses or host names in the <code>pg_hba.conf</code> file when updating this file with addresses that can connect to SynxDB. When set to 0 – the default value – this utility uses IP addresses when updating this file. When set to 1, this utility uses host names when updating this file. For consistency, use the same value that was specified for <code>HBA_HOSTNAMES</code> when the SynxDB system was initialized. For information about how SynxDB resolves host names in the <code>pg_hba.conf</code> file, see <a href="../../admin_guide/client_auth.html">Configuring Client Authentication</a>.</p>
+<h3 id="-l-logfile_directory"><a class="header" href="#-l-logfile_directory">-l logfile_directory</a></h3>
+<p>The directory to write the log file. Defaults to <code>~/gpAdminLogs</code>.</p>
+<h3 id="-n-restart-standby-master"><a class="header" href="#-n-restart-standby-master">-n (restart standby master)</a></h3>
+<p>Specify this option to start a SynxDB standby master that has been configured but has stopped for some reason.</p>
+<h3 id="-p-port"><a class="header" href="#-p-port">-P port</a></h3>
+<p>This option specifies the port that is used by the SynxDB standby master. The default is the same port used by the active SynxDB master.</p>
+<p>If the SynxDB standby master is on the same host as the active master, the ports must be different. If the ports are the same for the active and standby master and the host is the same, the utility returns an error.</p>
+<h3 id="-q-no-screen-output"><a class="header" href="#-q-no-screen-output">-q (no screen output)</a></h3>
+<p>Run in quiet mode. Command output is not displayed on the screen, but is still written to the log file.</p>
+<h3 id="-r-remove-standby-master"><a class="header" href="#-r-remove-standby-master">-r (remove standby master)</a></h3>
+<p>Removes the currently configured standby master instance from your SynxDB system.</p>
+<h3 id="-s-standby_hostname"><a class="header" href="#-s-standby_hostname">-s standby_hostname</a></h3>
+<p>The host name of the standby master host.</p>
+<h3 id="-s-standby_data_directory"><a class="header" href="#-s-standby_data_directory">-S standby_data_directory</a></h3>
+<p>The data directory to use for a new standby master. The default is the same directory used by the active master.</p>
+<p>If the standby master is on the same host as the active master, a different directory must be specified using this option.</p>
+<h3 id="-v-show-utility-version"><a class="header" href="#-v-show-utility-version">-v (show utility version)</a></h3>
+<p>Displays the version, status, last updated date, and checksum of this utility.</p>
+<h3 id="--help"><a class="header" href="#--help">-? (help)</a></h3>
+<p>Displays the online help.</p>
 <h2 id="examples"><a class="header" href="#examples"><a id="section5"></a>Examples</a></h2>
 <p>Add a standby master instance to your SynxDB system and start the synchronization process:</p>
 <pre><code>gpinitstandby -s host09

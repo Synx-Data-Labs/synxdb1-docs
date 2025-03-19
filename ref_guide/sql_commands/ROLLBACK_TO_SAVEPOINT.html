@@ -165,11 +165,10 @@
 <p>This command will roll back all commands that were run after the savepoint was established. The savepoint remains valid and can be rolled back to again later, if needed.</p>
 <p><code>ROLLBACK TO SAVEPOINT</code> implicitly destroys all savepoints that were established after the named savepoint.</p>
 <h2 id="parameters"><a class="header" href="#parameters"><a id="section4"></a>Parameters</a></h2>
-<p>WORK
-TRANSACTION
-:   Optional key words. They have no effect.</p>
-<p>savepoint_name
-:   The name of a savepoint to roll back to.</p>
+<h3 id="worktransaction"><a class="header" href="#worktransaction">WORK<br/>TRANSACTION</a></h3>
+<p>Optional key words. They have no effect.</p>
+<h3 id="savepoint_name"><a class="header" href="#savepoint_name">savepoint_name</a></h3>
+<p>The name of a savepoint to roll back to.</p>
 <h2 id="notes"><a class="header" href="#notes"><a id="section5"></a>Notes</a></h2>
 <p>Use <code>RELEASE SAVEPOINT</code> to destroy a savepoint without discarding the effects of commands run after it was established.</p>
 <p>Specifying a savepoint name that has not been established is an error.</p>

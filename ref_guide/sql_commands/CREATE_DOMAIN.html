@@ -171,22 +171,22 @@
 <p>Domains are useful for abstracting common constraints on fields into a single location for maintenance. For example, several tables might contain email address columns, all requiring the same <code>CHECK</code> constraint to verify the address syntax. It is easier to define a domain rather than setting up a column constraint for each table that has an email column.</p>
 <p>To be able to create a domain, you must have <code>USAGE</code> privilege on the underlying type.</p>
 <h2 id="parameters"><a class="header" href="#parameters"><a id="section4"></a>Parameters</a></h2>
-<p>name
-:   The name (optionally schema-qualified) of a domain to be created.</p>
-<p>data_type
-:   The underlying data type of the domain. This may include array specifiers.</p>
-<p>DEFAULT expression
-:   Specifies a default value for columns of the domain data type. The value is any variable-free expression (but subqueries are not allowed). The data type of the default expression must match the data type of the domain. If no default value is specified, then the default value is the null value. The default expression will be used in any insert operation that does not specify a value for the column. If a default value is defined for a particular column, it overrides any default associated with the domain. In turn, the domain default overrides any default value associated with the underlying data type.</p>
-<p>COLLATE collation
-:   An optional collation for the domain. If no collation is specified, the underlying data type’s default collation is used. The underlying type must be collatable if <code>COLLATE</code> is specified.</p>
-<p>CONSTRAINT constraint_name
-:   An optional name for a constraint. If not specified, the system generates a name.</p>
-<p>NOT NULL
-:   Values of this domain are normally prevented from being null. However, it is still possible for a domain with this constraint to take a null value if it is assigned a matching domain type that has become null, e.g. via a left outer join, or a command such as <code>INSERT INTO tab (domcol) VALUES ((SELECT domcol FROM tab WHERE false))</code>.</p>
-<p>NULL
-:   Values of this domain are allowed to be null. This is the default. This clause is only intended for compatibility with nonstandard SQL databases. Its use is discouraged in new applications.</p>
-<p>CHECK (expression)
-:   <code>CHECK</code> clauses specify integrity constraints or tests which values of the domain must satisfy. Each constraint must be an expression producing a Boolean result. It should use the key word <code>VALUE</code> to refer to the value being tested. Currently, <code>CHECK</code> expressions cannot contain subqueries nor refer to variables other than <code>VALUE</code>.</p>
+<h3 id="name"><a class="header" href="#name">name</a></h3>
+<p>The name (optionally schema-qualified) of a domain to be created.</p>
+<h3 id="data_type"><a class="header" href="#data_type">data_type</a></h3>
+<p>The underlying data type of the domain. This may include array specifiers.</p>
+<h3 id="default-expression"><a class="header" href="#default-expression">DEFAULT expression</a></h3>
+<p>Specifies a default value for columns of the domain data type. The value is any variable-free expression (but subqueries are not allowed). The data type of the default expression must match the data type of the domain. If no default value is specified, then the default value is the null value. The default expression will be used in any insert operation that does not specify a value for the column. If a default value is defined for a particular column, it overrides any default associated with the domain. In turn, the domain default overrides any default value associated with the underlying data type.</p>
+<h3 id="collate-collation"><a class="header" href="#collate-collation">COLLATE collation</a></h3>
+<p>An optional collation for the domain. If no collation is specified, the underlying data type’s default collation is used. The underlying type must be collatable if <code>COLLATE</code> is specified.</p>
+<h3 id="constraint-constraint_name"><a class="header" href="#constraint-constraint_name">CONSTRAINT constraint_name</a></h3>
+<p>An optional name for a constraint. If not specified, the system generates a name.</p>
+<h3 id="not-null"><a class="header" href="#not-null">NOT NULL</a></h3>
+<p>Values of this domain are normally prevented from being null. However, it is still possible for a domain with this constraint to take a null value if it is assigned a matching domain type that has become null, e.g. via a left outer join, or a command such as <code>INSERT INTO tab (domcol) VALUES ((SELECT domcol FROM tab WHERE false))</code>.</p>
+<h3 id="null"><a class="header" href="#null">NULL</a></h3>
+<p>Values of this domain are allowed to be null. This is the default. This clause is only intended for compatibility with nonstandard SQL databases. Its use is discouraged in new applications.</p>
+<h3 id="check-expression"><a class="header" href="#check-expression">CHECK (expression)</a></h3>
+<p><code>CHECK</code> clauses specify integrity constraints or tests which values of the domain must satisfy. Each constraint must be an expression producing a Boolean result. It should use the key word <code>VALUE</code> to refer to the value being tested. Currently, <code>CHECK</code> expressions cannot contain subqueries nor refer to variables other than <code>VALUE</code>.</p>
 <h2 id="examples"><a class="header" href="#examples"><a id="section5"></a>Examples</a></h2>
 <p>Create the <code>us_zip_code</code> data type. A regular expression test is used to verify that the value looks like a valid US zip code.</p>
 <pre><code>CREATE DOMAIN us_zip_code AS TEXT CHECK 

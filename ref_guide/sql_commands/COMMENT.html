@@ -206,37 +206,32 @@ IS '&lt;text&gt;'
 <p>For most kinds of object, only the object’s owner can set the comment. Roles don’t have owners, so the rule for <code>COMMENT ON ROLE</code> is that you must be superuser to comment on a superuser role, or have the <code>CREATEROLE</code> privilege to comment on non-superuser roles. Of course, a superuser can comment on anything.</p>
 <p>Comments can be easily retrieved with the psql meta-commands <code>\dd</code>, <code>\d+</code>, and <code>\l+</code>. Other user interfaces to retrieve comments can be built atop the same built-in functions that psql uses, namely <code>obj_description</code>, <code>col_description</code>, and <code>shobj_description</code>.</p>
 <h2 id="parameters"><a class="header" href="#parameters"><a id="section4"></a>Parameters</a></h2>
-<p>object_name
-relation_name.column_name
-agg_name
-constraint_name
-func_name
-operator_name
-rule_name
-trigger_name
-:   The name of the object to be commented. Names of tables, aggregates, collations, conversions, domains, foreign tables, functions, indexes, operators, operator classes, operator families, sequences, text search objects, types, views, and materialized views can be schema-qualified. When commenting on a column, relation_name must refer to a table, view, materialized view, composite type, or foreign table.</p>
-<pre><code>&gt; **Note** SynxDB does not support triggers.
-</code></pre>
-<p>source_type
-:   The name of the source data type of the cast.</p>
-<p>target_type
-:   The name of the target data type of the cast.</p>
-<p>argmode
-:   The mode of a function or aggregate argument: either <code>IN</code>, <code>OUT</code>, <code>INOUT</code>, or <code>VARIADIC</code>. If omitted, the default is <code>IN</code>. Note that <code>COMMENT</code> does not actually pay any attention to <code>OUT</code> arguments, since only the input arguments are needed to determine the function’s identity. So it is sufficient to list the <code>IN</code>, <code>INOUT</code>, and <code>VARIADIC</code> arguments.</p>
-<p>argname
-:   The name of a function or aggregate argument. Note that <code>COMMENT ON FUNCTION</code> does not actually pay any attention to argument names, since only the argument data types are needed to determine the function’s identity.</p>
-<p>argtype
-:   The data type of a function or aggregate argument.</p>
-<p>large_object_oid
-:   The OID of the large object.</p>
-<p>:   &gt; <strong>Note</strong> SynxDB does not support the PostgreSQL <a href="https://www.postgresql.org/docs/9.4/largeobjects.html">large object facility</a> for streaming user data that is stored in large-object structures.</p>
-<p>left_type
-right_type
-:   The data type(s) of the operator’s arguments (optionally schema-qualified). Write <code>NONE</code> for the missing argument of a prefix or postfix operator.</p>
-<p>PROCEDURAL
-:   This is a noise word.</p>
-<p>text
-:   The new comment, written as a string literal; or <code>NULL</code> to drop the comment.</p>
+<h3 id="object_namerelation_namecolumn_nameagg_nameconstraint_namefunc_nameoperator_namerule_nametrigger_name"><a class="header" href="#object_namerelation_namecolumn_nameagg_nameconstraint_namefunc_nameoperator_namerule_nametrigger_name">object_name<br/>relation_name.column_name<br/>agg_name<br/>constraint_name<br/>func_name<br/>operator_name<br/>rule_name<br/>trigger_name</a></h3>
+<p>The name of the object to be commented. Names of tables, aggregates, collations, conversions, domains, foreign tables, functions, indexes, operators, operator classes, operator families, sequences, text search objects, types, views, and materialized views can be schema-qualified. When commenting on a column, relation_name must refer to a table, view, materialized view, composite type, or foreign table.</p>
+<blockquote>
+<p><strong>Note</strong> SynxDB does not support triggers.</p>
+</blockquote>
+<h3 id="source_type"><a class="header" href="#source_type">source_type</a></h3>
+<p>The name of the source data type of the cast.</p>
+<h3 id="target_type"><a class="header" href="#target_type">target_type</a></h3>
+<p>The name of the target data type of the cast.</p>
+<h3 id="argmode"><a class="header" href="#argmode">argmode</a></h3>
+<p>The mode of a function or aggregate argument: either <code>IN</code>, <code>OUT</code>, <code>INOUT</code>, or <code>VARIADIC</code>. If omitted, the default is <code>IN</code>. Note that <code>COMMENT</code> does not actually pay any attention to <code>OUT</code> arguments, since only the input arguments are needed to determine the function’s identity. So it is sufficient to list the <code>IN</code>, <code>INOUT</code>, and <code>VARIADIC</code> arguments.</p>
+<h3 id="argname"><a class="header" href="#argname">argname</a></h3>
+<p>The name of a function or aggregate argument. Note that <code>COMMENT ON FUNCTION</code> does not actually pay any attention to argument names, since only the argument data types are needed to determine the function’s identity.</p>
+<h3 id="argtype"><a class="header" href="#argtype">argtype</a></h3>
+<p>The data type of a function or aggregate argument.</p>
+<h3 id="large_object_oid"><a class="header" href="#large_object_oid">large_object_oid</a></h3>
+<p>The OID of the large object.</p>
+<blockquote>
+<p><strong>Note</strong> SynxDB does not support the PostgreSQL <a href="https://www.postgresql.org/docs/9.4/largeobjects.html">large object facility</a> for streaming user data that is stored in large-object structures.</p>
+</blockquote>
+<h3 id="left_typeright_type"><a class="header" href="#left_typeright_type">left_type<br/>right_type</a></h3>
+<p>The data type(s) of the operator’s arguments (optionally schema-qualified). Write <code>NONE</code> for the missing argument of a prefix or postfix operator.</p>
+<h3 id="procedural"><a class="header" href="#procedural">PROCEDURAL</a></h3>
+<p>This is a noise word.</p>
+<h3 id="text"><a class="header" href="#text">text</a></h3>
+<p>The new comment, written as a string literal; or <code>NULL</code> to drop the comment.</p>
 <h2 id="notes"><a class="header" href="#notes"><a id="section5"></a>Notes</a></h2>
 <p>There is presently no security mechanism for viewing comments: any user connected to a database can see all the comments for objects in that database. For shared objects such as databases, roles, and tablespaces, comments are stored globally so any user connected to any database in the cluster can see all the comments for shared objects. Therefore, do not put security-critical information in comments.</p>
 <h2 id="examples"><a class="header" href="#examples"><a id="section6"></a>Examples</a></h2>

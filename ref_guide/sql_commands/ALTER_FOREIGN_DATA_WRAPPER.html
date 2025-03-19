@@ -171,26 +171,26 @@ ALTER FOREIGN DATA WRAPPER &lt;name&gt; RENAME TO &lt;new_name&gt;
 <p><code>ALTER FOREIGN DATA WRAPPER</code> changes the definition of a foreign-data wrapper. The first form of the command changes the support functions or generic options of the foreign-data wrapper. SynxDB requires at least one clause. The second and third forms of the command change the owner or name of the foreign-data wrapper.</p>
 <p>Only superusers can alter foreign-data wrappers. Additionally, only superusers can own foreign-data wrappers</p>
 <h2 id="parameters"><a class="header" href="#parameters"><a id="section4"></a>Parameters</a></h2>
-<p>name
-:   The name of an existing foreign-data wrapper.</p>
-<p>HANDLER handler_function
-:   Specifies a new handler function for the foreign-data wrapper.</p>
-<p>NO HANDLER
-:   Specifies that the foreign-data wrapper should no longer have a handler function.</p>
-<pre><code>&gt; **Note** You cannot access a foreign table that uses a foreign-data wrapper with no handler.
-</code></pre>
-<p>VALIDATOR validator_function
-:   Specifies a new validator function for the foreign-data wrapper.</p>
-<pre><code>Options to the foreign-data wrapper, servers, and user mappings may become invalid when you change the validator function. You must make sure that these options are correct before using the modified foreign-data wrapper. Note that SynxDB checks any options specified in this `ALTER FOREIGN DATA WRAPPER` command using the new validator.
-</code></pre>
-<p>NO VALIDATOR
-:   Specifies that the foreign-data wrapper should no longer have a validator function.</p>
-<p>OPTIONS ( [ ADD | SET | DROP ] option [‘value’] [, … ] )
-:   Change the foreign-data wrapper’s options. <code>ADD</code>, <code>SET</code>, and <code>DROP</code> specify the action to perform. If no operation is explicitly specified, the default operation is <code>ADD</code>. Option names must be unique. SynxDB validates names and values using the foreign-data wrapper’s validator function, if any.</p>
-<p>OWNER TO new_owner
-:   Specifies the new owner of the foreign-data wrapper. Only superusers can own foreign-data wrappers.</p>
-<p>RENAME TO new_name
-:   Specifies the new name of the foreign-data wrapper.</p>
+<h3 id="name"><a class="header" href="#name">name</a></h3>
+<p>The name of an existing foreign-data wrapper.</p>
+<h3 id="handler-handler_function"><a class="header" href="#handler-handler_function">HANDLER handler_function</a></h3>
+<p>Specifies a new handler function for the foreign-data wrapper.</p>
+<h3 id="no-handler"><a class="header" href="#no-handler">NO HANDLER</a></h3>
+<p>Specifies that the foreign-data wrapper should no longer have a handler function.</p>
+<blockquote>
+<p><strong>Note</strong> You cannot access a foreign table that uses a foreign-data wrapper with no handler.</p>
+</blockquote>
+<h3 id="validator-validator_function"><a class="header" href="#validator-validator_function">VALIDATOR validator_function</a></h3>
+<p>Specifies a new validator function for the foreign-data wrapper.</p>
+<p>Options to the foreign-data wrapper, servers, and user mappings may become invalid when you change the validator function. You must make sure that these options are correct before using the modified foreign-data wrapper. Note that SynxDB checks any options specified in this <code>ALTER FOREIGN DATA WRAPPER</code> command using the new validator.</p>
+<h3 id="no-validator"><a class="header" href="#no-validator">NO VALIDATOR</a></h3>
+<p>Specifies that the foreign-data wrapper should no longer have a validator function.</p>
+<h3 id="options---add--set--drop--option-value----"><a class="header" href="#options---add--set--drop--option-value----">OPTIONS ( [ ADD | SET | DROP ] option [‘value’] [, … ] )</a></h3>
+<p>Change the foreign-data wrapper’s options. <code>ADD</code>, <code>SET</code>, and <code>DROP</code> specify the action to perform. If no operation is explicitly specified, the default operation is <code>ADD</code>. Option names must be unique. SynxDB validates names and values using the foreign-data wrapper’s validator function, if any.</p>
+<h3 id="owner-to-new_owner"><a class="header" href="#owner-to-new_owner">OWNER TO new_owner</a></h3>
+<p>Specifies the new owner of the foreign-data wrapper. Only superusers can own foreign-data wrappers.</p>
+<h3 id="rename-to-new_name"><a class="header" href="#rename-to-new_name">RENAME TO new_name</a></h3>
+<p>Specifies the new name of the foreign-data wrapper.</p>
 <h2 id="examples"><a class="header" href="#examples"><a id="section6"></a>Examples</a></h2>
 <p>Change the definition of a foreign-data wrapper named <code>dbi</code> by adding a new option named <code>foo</code>, and removing the option named <code>bar</code>:</p>
 <pre><code>ALTER FOREIGN DATA WRAPPER dbi OPTIONS (ADD foo '1', DROP 'bar');

@@ -179,32 +179,30 @@ public.cust_table: city, state
 <p>For each table, the utility copies table data to a temporary table, truncates the existing table data, and inserts data from the temporary table to the table in the specified sort order. Each table reload is performed in a single transaction.</p>
 <p>For a partitioned table, you can reload the data of a leaf child partition. However, data is inserted from the root partition table, which acquires a <code>ROW EXCLUSIVE</code> lock on the entire table.</p>
 <h2 id="options"><a class="header" href="#options"><a id="section5"></a>Options</a></h2>
-<p>-a (do not prompt)
-:   Optional. If specified, the <code>gpreload</code> utility does not prompt the user for confirmation.</p>
-<p>-d database
-:   The database that contains the tables to be reloaded. The <code>gpreload</code> utility connects to the database as the user running the utility.</p>
-<p>-p port
-:   The SynxDB master port. If not specified, the value of the <code>PGPORT</code> environment variable is used. If the value is not available, an error is returned.</p>
+<h3 id="-a-do-not-prompt"><a class="header" href="#-a-do-not-prompt">-a (do not prompt)</a></h3>
+<p>Optional. If specified, the <code>gpreload</code> utility does not prompt the user for confirmation.</p>
+<h3 id="-d-database"><a class="header" href="#-d-database">-d database</a></h3>
+<p>The database that contains the tables to be reloaded. The <code>gpreload</code> utility connects to the database as the user running the utility.</p>
+<h3 id="-p-port"><a class="header" href="#-p-port">-p port</a></h3>
+<p>The SynxDB master port. If not specified, the value of the <code>PGPORT</code> environment variable is used. If the value is not available, an error is returned.</p>
 <p>{-t | –table-file } path_to_file
-:   The location and name of file containing list of schema qualified table names to reload and the column names to reorder from the SynxDB. Only user defined tables are supported. Views or system catalog tables are not supported.</p>
-<p>:   If indexes are defined on table listed in the file, <code>gpreload</code> prompts to continue.</p>
-<p>:   Each line specifies a table name and the list of columns to sort. This is the format of each line in the file:</p>
-<p>:   <code>schema.table_name: column [desc] [, column2 [desc] ... ]</code></p>
-<p>:   The table name is followed by a colon ( : ) and then at least one column name. If you specify more than one column, separate the column names with a comma. The columns are sorted in ascending order. Specify the keyword <code>desc</code> after the column name to sort the column in descending order.</p>
-<p>:   Wildcard characters are not supported.</p>
-<p>:   If there are errors in the file, <code>gpreload</code> reports the first error and exits. No data is reloaded.</p>
-<p>:   The following example reloads three tables:</p>
-<pre><code>```
-public.clients: region, state, rep_id desc
+The location and name of file containing list of schema qualified table names to reload and the column names to reorder from the SynxDB. Only user defined tables are supported. Views or system catalog tables are not supported.</p>
+<p>If indexes are defined on table listed in the file, <code>gpreload</code> prompts to continue.</p>
+<p>Each line specifies a table name and the list of columns to sort. This is the format of each line in the file:</p>
+<p><code>schema.table_name: column [desc] [, column2 [desc] ... ]</code></p>
+<p>The table name is followed by a colon ( : ) and then at least one column name. If you specify more than one column, separate the column names with a comma. The columns are sorted in ascending order. Specify the keyword <code>desc</code> after the column name to sort the column in descending order.</p>
+<p>Wildcard characters are not supported.</p>
+<p>If there are errors in the file, <code>gpreload</code> reports the first error and exits. No data is reloaded.</p>
+<p>The following example reloads three tables:</p>
+<pre><code>public.clients: region, state, rep_id desc
 public.merchants: region, state
 test.lineitem: group, assy, whse 
-```
 </code></pre>
-<p>:   In the first table <code>public.clients</code>, the data in the <code>rep_id</code> column is sorted in descending order. The data in the other columns are sorted in ascending order.</p>
-<p>–version (show utility version)
-:   Displays the version of this utility.</p>
-<p>-? (help)
-:   Displays the online help.</p>
+<p>In the first table <code>public.clients</code>, the data in the <code>rep_id</code> column is sorted in descending order. The data in the other columns are sorted in ascending order.</p>
+<h3 id="version-show-utility-version"><a class="header" href="#version-show-utility-version">–version (show utility version)</a></h3>
+<p>Displays the version of this utility.</p>
+<h3 id="--help"><a class="header" href="#--help">-? (help)</a></h3>
+<p>Displays the online help.</p>
 <h2 id="example"><a class="header" href="#example"><a id="section6"></a>Example</a></h2>
 <p>This example command reloads the tables in the database <code>mytest</code> that are listed in the file <code>data-tables.txt</code>.</p>
 <pre><code>gpreload -d mytest --table-file data-tables.txt

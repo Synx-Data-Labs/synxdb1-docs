@@ -162,14 +162,14 @@
 <pre><code class="language-{#sql_command_synopsis}">DROP COLLATION [ IF EXISTS ] &lt;name&gt; [ CASCADE | RESTRICT ]
 </code></pre>
 <h2 id="parameters"><a class="header" href="#parameters"><a id="section4"></a>Parameters</a></h2>
-<p><code>IF EXISTS</code>
-:   Do not throw an error if the collation does not exist. A notice is issued in this case.</p>
-<p>name
-:   The name of the collation. The collation name can be schema-qualified.</p>
-<p><code>CASCADE</code>
-:   Automatically drop objects that depend on the collation.</p>
-<p><code>RESTRICT</code>
-:   Refuse to drop the collation if any objects depend on it. This is the default.</p>
+<h3 id="if-exists"><a class="header" href="#if-exists"><code>IF EXISTS</code></a></h3>
+<p>Do not throw an error if the collation does not exist. A notice is issued in this case.</p>
+<h3 id="name"><a class="header" href="#name">name</a></h3>
+<p>The name of the collation. The collation name can be schema-qualified.</p>
+<h3 id="cascade"><a class="header" href="#cascade"><code>CASCADE</code></a></h3>
+<p>Automatically drop objects that depend on the collation.</p>
+<h3 id="restrict"><a class="header" href="#restrict"><code>RESTRICT</code></a></h3>
+<p>Refuse to drop the collation if any objects depend on it. This is the default.</p>
 <h2 id="notes"><a class="header" href="#notes"><a id="section5"></a>Notes</a></h2>
 <p><code>DROP COLLATION</code> removes a previously defined collation. To be able to drop a collation, you must own the collation.</p>
 <h2 id="examples"><a class="header" href="#examples"><a id="section6"></a>Examples</a></h2>

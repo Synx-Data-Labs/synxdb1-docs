@@ -180,42 +180,63 @@
 <p>Parallel retrieve cursors do not support the <code>WITH HOLD</code> clause. SynxDB ignores the <code>BINARY</code> clause when you declare a parallel retrieve cursor.</p>
 <p>You open a special retrieve session to each parallel retrieve cursor endpoint, and use the <a href="RETRIEVE.html">RETRIEVE</a> command to retrieve the query results from a parallel retrieve cursor.</p>
 <h2 id="parameters"><a class="header" href="#parameters"><a id="section4"></a>Parameters</a></h2>
-<p>name
-:   The name of the cursor to be created.</p>
-<p>BINARY
-:   Causes the cursor to return data in binary rather than in text format.</p>
-<pre><code>&gt; **Note** SynxDB ignores the `BINARY` clause when you declare a `PARALLEL RETRIEVE` cursor.
-</code></pre>
-<p>INSENSITIVE
-:   Indicates that data retrieved from the cursor should be unaffected by updates to the tables underlying the cursor while the cursor exists. In SynxDB, all cursors are insensitive. This key word currently has no effect and is present for compatibility with the SQL standard.</p>
-<p>NO SCROLL
-:   A cursor cannot be used to retrieve rows in a nonsequential fashion. This is the default behavior in SynxDB, since scrollable cursors (<code>SCROLL</code>) are not supported.</p>
-<p>PARALLEL RETRIEVE
-:   Declare a parallel retrieve cursor. A parallel retrieve cursor is a special type of cursor that you can use to retrieve results directly from SynxDB segments, in parallel.</p>
-<p>WITH HOLD
-WITHOUT HOLD
-:   <code>WITH HOLD</code> specifies that the cursor may continue to be used after the transaction that created it successfully commits. <code>WITHOUT HOLD</code> specifies that the cursor cannot be used outside of the transaction that created it. <code>WITHOUT HOLD</code> is the default.</p>
-<pre><code>&gt; **Note** SynxDB does not support declaring a `PARALLEL RETRIEVE` cursor with the `WITH HOLD` clause. `WITH HOLD` also cannot not be specified when the `query` includes a `FOR UPDATE` or `FOR SHARE` clause.
-</code></pre>
-<p>query
-:   A <a href="SELECT.html">SELECT</a> or <a href="VALUES.html">VALUES</a> command which will provide the rows to be returned by the cursor.</p>
-<pre><code>If the cursor is used in the `WHERE CURRENT OF` clause of the [UPDATE](UPDATE.html) or [DELETE](DELETE.html) command, the `SELECT` command must satisfy the following conditions:
-
--   Cannot reference a view or external table.
--   References only one table.
-    &lt;br/&gt;&lt;br/&gt;The table must be updatable. For example, the following are not updatable: table functions, set-returning functions, append-only tables, columnar tables.
-
--   Cannot contain any of the following:
-    -   A grouping clause
-    -   A set operation such as `UNION ALL` or `UNION DISTINCT`
-    -   A sorting clause
-    -   A windowing clause
-    -   A join or a self-join
-    &lt;br/&gt;&lt;br/&gt;Specifying the `FOR UPDATE` clause in the `SELECT` command prevents other sessions from changing the rows between the time they are fetched and the time they are updated. Without the `FOR UPDATE` clause, a subsequent use of the `UPDATE` or `DELETE` command with the `WHERE CURRENT OF` clause has no effect if the row was changed since the cursor was created.
-    &lt;br/&gt;&lt;br/&gt;&gt; **Note** Specifying the `FOR UPDATE` clause in the `SELECT` command locks the entire table, not just the selected rows.
-</code></pre>
-<p>FOR READ ONLY
-:   <code>FOR READ ONLY</code> indicates that the cursor is used in a read-only mode.</p>
+<h3 id="name"><a class="header" href="#name">name</a></h3>
+<p>The name of the cursor to be created.</p>
+<h3 id="binary"><a class="header" href="#binary">BINARY</a></h3>
+<p>Causes the cursor to return data in binary rather than in text format.</p>
+<blockquote>
+<p><strong>Note</strong> SynxDB ignores the <code>BINARY</code> clause when you declare a <code>PARALLEL RETRIEVE</code> cursor.</p>
+</blockquote>
+<h3 id="insensitive"><a class="header" href="#insensitive">INSENSITIVE</a></h3>
+<p>Indicates that data retrieved from the cursor should be unaffected by updates to the tables underlying the cursor while the cursor exists. In SynxDB, all cursors are insensitive. This key word currently has no effect and is present for compatibility with the SQL standard.</p>
+<h3 id="no-scroll"><a class="header" href="#no-scroll">NO SCROLL</a></h3>
+<p>A cursor cannot be used to retrieve rows in a nonsequential fashion. This is the default behavior in SynxDB, since scrollable cursors (<code>SCROLL</code>) are not supported.</p>
+<h3 id="parallel-retrieve"><a class="header" href="#parallel-retrieve">PARALLEL RETRIEVE</a></h3>
+<p>Declare a parallel retrieve cursor. A parallel retrieve cursor is a special type of cursor that you can use to retrieve results directly from SynxDB segments, in parallel.</p>
+<p>WITH HOLD</p>
+<h3 id="without-hold"><a class="header" href="#without-hold">WITHOUT HOLD</a></h3>
+<p><code>WITH HOLD</code> specifies that the cursor may continue to be used after the transaction that created it successfully commits. <code>WITHOUT HOLD</code> specifies that the cursor cannot be used outside of the transaction that created it. <code>WITHOUT HOLD</code> is the default.</p>
+<blockquote>
+<p><strong>Note</strong> SynxDB does not support declaring a <code>PARALLEL RETRIEVE</code> cursor with the <code>WITH HOLD</code> clause. <code>WITH HOLD</code> also cannot not be specified when the <code>query</code> includes a <code>FOR UPDATE</code> or <code>FOR SHARE</code> clause.</p>
+</blockquote>
+<h3 id="query"><a class="header" href="#query">query</a></h3>
+<p>A <a href="SELECT.html">SELECT</a> or <a href="VALUES.html">VALUES</a> command which will provide the rows to be returned by the cursor.</p>
+<p>If the cursor is used in the <code>WHERE CURRENT OF</code> clause of the <a href="UPDATE.html">UPDATE</a> or <a href="DELETE.html">DELETE</a> command, the <code>SELECT</code> command must satisfy the following conditions:</p>
+<ul>
+<li>
+<p>Cannot reference a view or external table.</p>
+</li>
+<li>
+<p>References only one table.
+The table must be updatable. For example, the following are not updatable: table functions, set-returning functions, append-only tables, columnar tables.</p>
+</li>
+<li>
+<p>Cannot contain any of the following:</p>
+<ul>
+<li>
+<p>A grouping clause</p>
+</li>
+<li>
+<p>A set operation such as <code>UNION ALL</code> or <code>UNION DISTINCT</code></p>
+</li>
+<li>
+<p>A sorting clause</p>
+</li>
+<li>
+<p>A windowing clause</p>
+</li>
+<li>
+<p>A join or a self-join</p>
+<p>Specifying the <code>FOR UPDATE</code> clause in the <code>SELECT</code> command prevents other sessions from changing the rows between the time they are fetched and the time they are updated. Without the <code>FOR UPDATE</code> clause, a subsequent use of the <code>UPDATE</code> or <code>DELETE</code> command with the <code>WHERE CURRENT OF</code> clause has no effect if the row was changed since the cursor was created.</p>
+<blockquote>
+<p><strong>Note</strong> Specifying the <code>FOR UPDATE</code> clause in the <code>SELECT</code> command locks the entire table, not just the selected rows.</p>
+</blockquote>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="for-read-only"><a class="header" href="#for-read-only">FOR READ ONLY</a></h3>
+<p><code>FOR READ ONLY</code> indicates that the cursor is used in a read-only mode.</p>
 <h2 id="notes"><a class="header" href="#notes"><a id="section5"></a>Notes</a></h2>
 <p>Unless <code>WITH HOLD</code> is specified, the cursor created by this command can only be used within the current transaction. Thus, <code>DECLARE</code> without <code>WITH HOLD</code> is useless outside a transaction block: the cursor would survive only to the completion of the statement. Therefore SynxDB reports an error if this command is used outside a transaction block. Use <code>BEGIN</code> and <code>COMMIT</code> (or <code>ROLLBACK</code>) to define a transaction block.</p>
 <p>If <code>WITH HOLD</code> is specified and the transaction that created the cursor successfully commits, the cursor can continue to be accessed by subsequent transactions in the same session. (But if the creating transaction ends prematurely, the cursor is removed.) A cursor created with <code>WITH HOLD</code> is closed when an explicit <code>CLOSE</code> command is issued on it, or the session ends. In the current implementation, the rows represented by a held cursor are copied into a temporary file or memory area so that they remain available for subsequent transactions.</p>

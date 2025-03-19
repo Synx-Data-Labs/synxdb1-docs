@@ -171,43 +171,43 @@ createdb -V | --version
 <p><code>createdb</code> is a wrapper around the SQL command <a href="../../ref_guide/sql_commands/CREATE_DATABASE.html">CREATE DATABASE</a> .</p>
 <h2 id="options"><a class="header" href="#options"><a id="section4"></a>Options</a></h2>
 <p>dbname
-:   The name of the database to be created. The name must be unique among all other databases in the SynxDB system. If not specified, reads from the environment variable <code>PGDATABASE</code>, then <code>PGUSER</code> or defaults to the current system user.</p>
+The name of the database to be created. The name must be unique among all other databases in the SynxDB system. If not specified, reads from the environment variable <code>PGDATABASE</code>, then <code>PGUSER</code> or defaults to the current system user.</p>
 <p>description
-:   A comment to be associated with the newly created database. Descriptions containing white space must be enclosed in quotes.</p>
-<p>-D tablespace | –tablespace=tablespace
-:   Specifies the default tablespace for the database. (This name is processed as a double-quoted identifier.)</p>
-<p>-e echo
-:   Echo the commands that <code>createdb</code> generates and sends to the server.</p>
-<p>-E encoding | –encoding encoding
-:   Character set encoding to use in the new database. Specify a string constant (such as <code>'UTF8'</code>), an integer encoding number, or <code>DEFAULT</code> to use the default encoding. See the SynxDB Reference Guide for information about supported character sets.</p>
-<p>-l locale | –locale locale
-:   Specifies the locale to be used in this database. This is equivalent to specifying both <code>--lc-collate</code> and <code>--lc-ctype</code>.</p>
-<p>–lc-collate locale
-:   Specifies the <code>LC_COLLATE</code> setting to be used in this database.</p>
-<p>–lc-ctype locale
-:   Specifies the <code>LC_CTYPE</code> setting to be used in this database.</p>
-<p>-O owner | –owner=owner
-:   The name of the database user who will own the new database. Defaults to the user running this command. (This name is processed as a double-quoted identifier.)</p>
-<p>-T template | –template=template
-:   The name of the template from which to create the new database. Defaults to <code>template1</code>. (This name is processed as a double-quoted identifier.)</p>
-<p>-V | –version
-:   Print the <code>createdb</code> version and exit.</p>
-<p>-? | –help
-:   Show help about <code>createdb</code> command line arguments, and exit.</p>
+A comment to be associated with the newly created database. Descriptions containing white space must be enclosed in quotes.</p>
+<h3 id="-d-tablespace--tablespacetablespace"><a class="header" href="#-d-tablespace--tablespacetablespace">-D tablespace | –tablespace=tablespace</a></h3>
+<p>Specifies the default tablespace for the database. (This name is processed as a double-quoted identifier.)</p>
+<h3 id="-e-echo"><a class="header" href="#-e-echo">-e echo</a></h3>
+<p>Echo the commands that <code>createdb</code> generates and sends to the server.</p>
+<h3 id="-e-encoding--encoding-encoding"><a class="header" href="#-e-encoding--encoding-encoding">-E encoding | –encoding encoding</a></h3>
+<p>Character set encoding to use in the new database. Specify a string constant (such as <code>'UTF8'</code>), an integer encoding number, or <code>DEFAULT</code> to use the default encoding. See the SynxDB Reference Guide for information about supported character sets.</p>
+<h3 id="-l-locale--locale-locale"><a class="header" href="#-l-locale--locale-locale">-l locale | –locale locale</a></h3>
+<p>Specifies the locale to be used in this database. This is equivalent to specifying both <code>--lc-collate</code> and <code>--lc-ctype</code>.</p>
+<h3 id="lc-collate-locale"><a class="header" href="#lc-collate-locale">–lc-collate locale</a></h3>
+<p>Specifies the <code>LC_COLLATE</code> setting to be used in this database.</p>
+<h3 id="lc-ctype-locale"><a class="header" href="#lc-ctype-locale">–lc-ctype locale</a></h3>
+<p>Specifies the <code>LC_CTYPE</code> setting to be used in this database.</p>
+<h3 id="-o-owner--ownerowner"><a class="header" href="#-o-owner--ownerowner">-O owner | –owner=owner</a></h3>
+<p>The name of the database user who will own the new database. Defaults to the user running this command. (This name is processed as a double-quoted identifier.)</p>
+<h3 id="-t-template--templatetemplate"><a class="header" href="#-t-template--templatetemplate">-T template | –template=template</a></h3>
+<p>The name of the template from which to create the new database. Defaults to <code>template1</code>. (This name is processed as a double-quoted identifier.)</p>
+<h3 id="-v--version"><a class="header" href="#-v--version">-V | –version</a></h3>
+<p>Print the <code>createdb</code> version and exit.</p>
+<h3 id="---help"><a class="header" href="#---help">-? | –help</a></h3>
+<p>Show help about <code>createdb</code> command line arguments, and exit.</p>
 <p>The options <code>-D</code>, <code>-l</code>, <code>-E</code>, <code>-O</code>, and <code>-T</code> correspond to options of the underlying SQL command <code>CREATE DATABASE</code>; see <a href="../../ref_guide/sql_commands/CREATE_DATABASE.html">CREATE DATABASE</a> in the <em>SynxDB Reference Guide</em> for more information about them.</p>
 <p><strong>Connection Options</strong></p>
-<p>-h host | –host=host
-:   The host name of the machine on which the SynxDB master database server is running. If not specified, reads from the environment variable <code>PGHOST</code> or defaults to localhost.</p>
-<p>-p port | –port=port
-:   The TCP port on which the SynxDB master database server is listening for connections. If not specified, reads from the environment variable <code>PGPORT</code> or defaults to 5432.</p>
-<p>-U username | –username=username
-:   The database role name to connect as. If not specified, reads from the environment variable <code>PGUSER</code> or defaults to the current system role name.</p>
-<p>-w | –no-password
-:   Never issue a password prompt. If the server requires password authentication and a password is not available by other means such as a <code>.pgpass</code> file, the connection attempt will fail. This option can be useful in batch jobs and scripts where no user is present to enter a password.</p>
-<p>-W | –password
-:   Force a password prompt.</p>
-<p>–maintenance-db=dbname
-:   Specifies the name of the database to connect to when creating the new database. If not specified, the <code>postgres</code> database will be used; if that does not exist (or if it is the name of the new database being created), <code>template1</code> will be used.</p>
+<h3 id="-h-host--hosthost"><a class="header" href="#-h-host--hosthost">-h host | –host=host</a></h3>
+<p>The host name of the machine on which the SynxDB master database server is running. If not specified, reads from the environment variable <code>PGHOST</code> or defaults to localhost.</p>
+<h3 id="-p-port--portport"><a class="header" href="#-p-port--portport">-p port | –port=port</a></h3>
+<p>The TCP port on which the SynxDB master database server is listening for connections. If not specified, reads from the environment variable <code>PGPORT</code> or defaults to 5432.</p>
+<h3 id="-u-username--usernameusername"><a class="header" href="#-u-username--usernameusername">-U username | –username=username</a></h3>
+<p>The database role name to connect as. If not specified, reads from the environment variable <code>PGUSER</code> or defaults to the current system role name.</p>
+<h3 id="-w--no-password"><a class="header" href="#-w--no-password">-w | –no-password</a></h3>
+<p>Never issue a password prompt. If the server requires password authentication and a password is not available by other means such as a <code>.pgpass</code> file, the connection attempt will fail. This option can be useful in batch jobs and scripts where no user is present to enter a password.</p>
+<h3 id="-w--password"><a class="header" href="#-w--password">-W | –password</a></h3>
+<p>Force a password prompt.</p>
+<h3 id="maintenance-dbdbname"><a class="header" href="#maintenance-dbdbname">–maintenance-db=dbname</a></h3>
+<p>Specifies the name of the database to connect to when creating the new database. If not specified, the <code>postgres</code> database will be used; if that does not exist (or if it is the name of the new database being created), <code>template1</code> will be used.</p>
 <h2 id="examples"><a class="header" href="#examples"><a id="section6"></a>Examples</a></h2>
 <p>To create the database <code>test</code> using the default options:</p>
 <pre><code>createdb test

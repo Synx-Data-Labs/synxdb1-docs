@@ -166,10 +166,10 @@
 <p>If the <code>PREPARE</code> statement that created the statement specified some parameters, a compatible set of parameters must be passed to the <code>EXECUTE</code> statement, or else an error is raised. Note that (unlike functions) prepared statements are not overloaded based on the type or number of their parameters; the name of a prepared statement must be unique within a database session.</p>
 <p>For more information on the creation and usage of prepared statements, see <code>PREPARE</code>.</p>
 <h2 id="parameters"><a class="header" href="#parameters"><a id="section4"></a>Parameters</a></h2>
-<p>name
-:   The name of the prepared statement to run.</p>
-<p>parameter
-:   The actual value of a parameter to the prepared statement. This must be an expression yielding a value that is compatible with the data type of this parameter, as was determined when the prepared statement was created.</p>
+<h3 id="name"><a class="header" href="#name">name</a></h3>
+<p>The name of the prepared statement to run.</p>
+<h3 id="parameter"><a class="header" href="#parameter">parameter</a></h3>
+<p>The actual value of a parameter to the prepared statement. This must be an expression yielding a value that is compatible with the data type of this parameter, as was determined when the prepared statement was created.</p>
 <h2 id="examples"><a class="header" href="#examples"><a id="section5"></a>Examples</a></h2>
 <p>Create a prepared statement for an <code>INSERT</code> statement, and then run it:</p>
 <pre><code>PREPARE fooplan (int, text, bool, numeric) AS INSERT INTO 

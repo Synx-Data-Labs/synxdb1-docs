@@ -177,20 +177,20 @@
 <p><strong>Note</strong> A view that is simple enough to be automatically updatable (see <a href="CREATE_VIEW.html">CREATE VIEW</a>) does not require a user-created rule in order to be updatable. While you can create an explicit rule anyway, the automatic update transformation will generally outperform an explicit rule.</p>
 </blockquote>
 <h2 id="parameters"><a class="header" href="#parameters"><a id="section4"></a>Parameters</a></h2>
-<p>name
-:   The name of a rule to create. This must be distinct from the name of any other rule for the same table. Multiple rules on the same table and same event type are applied in alphabetical name order.</p>
-<p>event
-:   The event is one of <code>SELECT</code>, <code>INSERT</code>, <code>UPDATE</code>, or <code>DELETE</code>. Note that an <code>INSERT</code> containing an <code>ON CONFLICT</code> clause cannot be used on tables that have either <code>INSERT</code> or <code>UPDATE</code> rules. Consider using an updatable view instead.</p>
-<p>table_name
-:   The name (optionally schema-qualified) of the table or view the rule applies to.</p>
-<p>condition
-:   Any SQL conditional expression (returning <code>boolean</code>). The condition expression can not refer to any tables except <code>NEW</code> and <code>OLD</code>, and can not contain aggregate functions.</p>
-<p>INSTEAD
-:   <code>INSTEAD NOTHING</code> indicates that the commands should be run <em>instead of</em> the original command.</p>
-<p>ALSO
-:   <code>ALSO</code> indicates that the commands should be run <em>in addition</em> to the original command. If neither <code>ALSO</code> nor <code>INSTEAD</code> is specified, <code>ALSO</code> is the default.</p>
-<p>command
-:   The command or commands that make up the rule action. Valid commands are <code>SELECT</code>, <code>INSERT</code>, <code>UPDATE</code>, <code>DELETE</code>, or <code>NOTIFY</code>.</p>
+<h3 id="name"><a class="header" href="#name">name</a></h3>
+<p>The name of a rule to create. This must be distinct from the name of any other rule for the same table. Multiple rules on the same table and same event type are applied in alphabetical name order.</p>
+<h3 id="event"><a class="header" href="#event">event</a></h3>
+<p>The event is one of <code>SELECT</code>, <code>INSERT</code>, <code>UPDATE</code>, or <code>DELETE</code>. Note that an <code>INSERT</code> containing an <code>ON CONFLICT</code> clause cannot be used on tables that have either <code>INSERT</code> or <code>UPDATE</code> rules. Consider using an updatable view instead.</p>
+<h3 id="table_name"><a class="header" href="#table_name">table_name</a></h3>
+<p>The name (optionally schema-qualified) of the table or view the rule applies to.</p>
+<h3 id="condition"><a class="header" href="#condition">condition</a></h3>
+<p>Any SQL conditional expression (returning <code>boolean</code>). The condition expression can not refer to any tables except <code>NEW</code> and <code>OLD</code>, and can not contain aggregate functions.</p>
+<h3 id="instead"><a class="header" href="#instead">INSTEAD</a></h3>
+<p><code>INSTEAD NOTHING</code> indicates that the commands should be run <em>instead of</em> the original command.</p>
+<h3 id="also"><a class="header" href="#also">ALSO</a></h3>
+<p><code>ALSO</code> indicates that the commands should be run <em>in addition</em> to the original command. If neither <code>ALSO</code> nor <code>INSTEAD</code> is specified, <code>ALSO</code> is the default.</p>
+<h3 id="command"><a class="header" href="#command">command</a></h3>
+<p>The command or commands that make up the rule action. Valid commands are <code>SELECT</code>, <code>INSERT</code>, <code>UPDATE</code>, <code>DELETE</code>, or <code>NOTIFY</code>.</p>
 <h2 id="notes"><a class="header" href="#notes"><a id="section5"></a>Notes</a></h2>
 <p>You must be the owner of a table to create or change rules for it.</p>
 <p>In a rule for <code>INSERT</code>, <code>UPDATE</code>, or <code>DELETE</code> on a view, you can add a <code>RETURNING</code> clause that emits the view’s columns. This clause will be used to compute the outputs if the rule is triggered by an <code>INSERT RETURNING</code>, <code>UPDATE RETURNING</code>, or <code>DELETE RETURNING</code> command respectively. When the rule is triggered by a command without <code>RETURNING</code>, the rule’s <code>RETURNING</code> clause will be ignored. The current implementation allows only unconditional <code>INSTEAD</code> rules to contain <code>RETURNING</code>; furthermore there can be at most one <code>RETURNING</code> clause among all the rules for the same event. (This ensures that there is only one candidate <code>RETURNING</code> clause to be used to compute the results.) <code>RETURNING</code> queries on the view will be rejected if there is no <code>RETURNING</code> clause in any available rule.</p>

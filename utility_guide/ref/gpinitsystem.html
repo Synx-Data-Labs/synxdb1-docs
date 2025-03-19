@@ -203,68 +203,68 @@ gpinitsystem -? | --help
 <p><strong>Note</strong> This utility uses secure shell (SSH) connections between systems to perform its tasks. In large SynxDB deployments, cloud deployments, or deployments with a large number of segments per host, this utility may exceed the host’s maximum threshold for unauthenticated connections. Consider updating the SSH <code>MaxStartups</code> and <code>MaxSessions</code> configuration parameters to increase this threshold. For more information about SSH configuration options, refer to the SSH documentation for your Linux distribution.</p>
 </blockquote>
 <h2 id="options"><a class="header" href="#options"><a id="section4"></a>Options</a></h2>
-<p>-a
-:   Do not prompt the user for confirmation.</p>
-<p>-B parallel_processes
-:   The number of segments to create in parallel. If not specified, the utility will start up to 4 parallel processes at a time.</p>
-<p>-c cluster_configuration_file
-:   Required. The full path and filename of the configuration file, which contains all of the defined parameters to configure and initialize a new SynxDB system. See <a href="#section5">Initialization Configuration File Format</a> for a description of this file. You must provide either the <code>-c &lt;cluster_configuration_file&gt;</code> option or the <code>-I &lt;input_configuration_file&gt;</code> option to <code>gpinitsystem</code>.</p>
-<p>-D
-:   Sets log output level to debug.</p>
-<p>-h hostfile_gpinitsystem
-:   Optional. The full path and filename of a file that contains the host addresses of your segment hosts. If not specified on the command line, you can specify the host file using the <code>MACHINE_LIST_FILE</code> parameter in the gpinitsystem_config file.</p>
-<p>-I input_configuration_file
-:   The full path and filename of an input configuration file, which defines the SynxDB host systems, the master instance and segment instances on the hosts, using the <code>QD_PRIMARY_ARRAY</code>, <code>PRIMARY_ARRAY</code>, and <code>MIRROR_ARRAY</code> parameters. The input configuration file is typically created by using <code>gpinitsystem</code> with the <code>-O output\_configuration\_file</code> option. Edit those parameters in order to initialize a new cluster or re-create a cluster from a backed up configuration. You must provide either the <code>-c &lt;cluster_configuration_file&gt;</code> option or the <code>-I &lt;input_configuration_file&gt;</code> option to <code>gpinitsystem</code>.</p>
-<p>–ignore-warnings
-:   Controls the value returned by <code>gpinitsystem</code> when warnings or an error occurs. The utility returns 0 if system initialization completes without warnings. If only warnings occur, system initialization completes and the system is operational.</p>
-<p>:   With this option, <code>gpinitsystem</code> also returns 0 if warnings occurred during system initialization, and returns a non-zero value if a fatal error occurs.</p>
-<p>:   If this option is not specified, <code>gpinitsystem</code> returns 1 if initialization completes with warnings, and returns value of 2 or greater if a fatal error occurs.</p>
-<p>:   See the <code>gpinitsystem</code> log file for warning and error messages.</p>
-<p>-n locale | –locale=locale
-:   Sets the default locale used by SynxDB. If not specified, the default locale is <code>en_US.utf8</code>. A locale identifier consists of a language identifier and a region identifier, and optionally a character set encoding. For example, <code>sv_SE</code> is Swedish as spoken in Sweden, <code>en_US</code> is U.S. English, and <code>fr_CA</code> is French Canadian. If more than one character set can be useful for a locale, then the specifications look like this: <code>en_US.UTF-8</code> (locale specification and character set encoding). On most systems, the command <code>locale</code> will show the locale environment settings and <code>locale -a</code> will show a list of all available locales.</p>
-<p>–lc-collate=locale
-:   Similar to <code>--locale</code>, but sets the locale used for collation (sorting data). The sort order cannot be changed after SynxDB is initialized, so it is important to choose a collation locale that is compatible with the character set encodings that you plan to use for your data. There is a special collation name of <code>C</code> or <code>POSIX</code> (byte-order sorting as opposed to dictionary-order sorting). The <code>C</code> collation can be used with any character encoding.</p>
-<p>–lc-ctype=locale
-:   Similar to <code>--locale</code>, but sets the locale used for character classification (what character sequences are valid and how they are interpreted). This cannot be changed after SynxDB is initialized, so it is important to choose a character classification locale that is compatible with the data you plan to store in SynxDB.</p>
-<p>–lc-messages=locale
-:   Similar to <code>--locale</code>, but sets the locale used for messages output by SynxDB. The current version of SynxDB does not support multiple locales for output messages (all messages are in English), so changing this setting will not have any effect.</p>
-<p>–lc-monetary=locale
-:   Similar to <code>--locale</code>, but sets the locale used for formatting currency amounts.</p>
-<p>–lc-numeric=locale
-:   Similar to <code>--locale</code>, but sets the locale used for formatting numbers.</p>
-<p>–lc-time=locale
-:   Similar to <code>--locale</code>, but sets the locale used for formatting dates and times.</p>
-<p>-l logfile_directory
-:   The directory to write the log file. Defaults to <code>~/gpAdminLogs</code>.</p>
-<p>-m number | –max_connections=number
-:   Sets the maximum number of client connections allowed to the master. The default is 250.</p>
-<p>-O output_configuration_file
-:   Optional, used during new cluster initialization. This option writes the <code>cluster_configuration_file</code> information (used with -c) to the specified <code>output_configuration_file</code>. This file defines the SynxDB members using the <code>QD_PRIMARY_ARRAY</code>, <code>PRIMARY_ARRAY</code>, and <code>MIRROR_ARRAY</code> parameters. Use this file as a template for the <code>-I</code> <code>input_configuration_file</code> option. See <a href="#section6">Examples</a> for more information.</p>
-<p>-p postgresql_conf_param_file
-:   Optional. The name of a file that contains <code>postgresql.conf</code> parameter settings that you want to set for SynxDB. These settings will be used when the individual master and segment instances are initialized. You can also set parameters after initialization using the <code>gpconfig</code> utility.</p>
-<p>-q
-:   Run in quiet mode. Command output is not displayed on the screen, but is still written to the log file.</p>
-<p>-b size | –shared_buffers=size
-:   Sets the amount of memory a SynxDB server instance uses for shared memory buffers. You can specify sizing in kilobytes (kB), megabytes (MB) or gigabytes (GB). The default is 125MB.</p>
-<p>-s standby_master_host
-:   Optional. If you wish to configure a backup master instance, specify the host name using this option. The SynxDB software must already be installed and configured on this host.</p>
-<p>-P standby_master_port
-:   If you configure a standby master instance with <code>-s</code>, specify its port number using this option. The default port is the same as the master port. To run the standby and master on the same host, you must use this option to specify a different port for the standby. The SynxDB software must already be installed and configured on the standby host.</p>
-<p>-S standby_master_datadir | –standby_dir=standby_master_datadir
-:   If you configure a standby master host with <code>-s</code>, use this option to specify its data directory. If you configure a standby on the same host as the master instance, the master and standby must have separate data directories.</p>
-<p>-e superuser_password | –su_password=superuser_password
-:   Use this option to specify the password to set for the SynxDB superuser account (such as <code>gpadmin</code>). If this option is not specified, the default password <code>gparray</code> is assigned to the superuser account. You can use the <code>ALTER ROLE</code> command to change the password at a later time.</p>
+<h3 id="-a"><a class="header" href="#-a">-a</a></h3>
+<p>Do not prompt the user for confirmation.</p>
+<h3 id="-b-parallel_processes"><a class="header" href="#-b-parallel_processes">-B parallel_processes</a></h3>
+<p>The number of segments to create in parallel. If not specified, the utility will start up to 4 parallel processes at a time.</p>
+<h3 id="-c-cluster_configuration_file"><a class="header" href="#-c-cluster_configuration_file">-c cluster_configuration_file</a></h3>
+<p>Required. The full path and filename of the configuration file, which contains all of the defined parameters to configure and initialize a new SynxDB system. See <a href="#section5">Initialization Configuration File Format</a> for a description of this file. You must provide either the <code>-c &lt;cluster_configuration_file&gt;</code> option or the <code>-I &lt;input_configuration_file&gt;</code> option to <code>gpinitsystem</code>.</p>
+<h3 id="-d"><a class="header" href="#-d">-D</a></h3>
+<p>Sets log output level to debug.</p>
+<h3 id="-h-hostfile_gpinitsystem"><a class="header" href="#-h-hostfile_gpinitsystem">-h hostfile_gpinitsystem</a></h3>
+<p>Optional. The full path and filename of a file that contains the host addresses of your segment hosts. If not specified on the command line, you can specify the host file using the <code>MACHINE_LIST_FILE</code> parameter in the gpinitsystem_config file.</p>
+<h3 id="-i-input_configuration_file"><a class="header" href="#-i-input_configuration_file">-I input_configuration_file</a></h3>
+<p>The full path and filename of an input configuration file, which defines the SynxDB host systems, the master instance and segment instances on the hosts, using the <code>QD_PRIMARY_ARRAY</code>, <code>PRIMARY_ARRAY</code>, and <code>MIRROR_ARRAY</code> parameters. The input configuration file is typically created by using <code>gpinitsystem</code> with the <code>-O output\_configuration\_file</code> option. Edit those parameters in order to initialize a new cluster or re-create a cluster from a backed up configuration. You must provide either the <code>-c &lt;cluster_configuration_file&gt;</code> option or the <code>-I &lt;input_configuration_file&gt;</code> option to <code>gpinitsystem</code>.</p>
+<h3 id="ignore-warnings"><a class="header" href="#ignore-warnings">–ignore-warnings</a></h3>
+<p>Controls the value returned by <code>gpinitsystem</code> when warnings or an error occurs. The utility returns 0 if system initialization completes without warnings. If only warnings occur, system initialization completes and the system is operational.</p>
+<p>With this option, <code>gpinitsystem</code> also returns 0 if warnings occurred during system initialization, and returns a non-zero value if a fatal error occurs.</p>
+<p>If this option is not specified, <code>gpinitsystem</code> returns 1 if initialization completes with warnings, and returns value of 2 or greater if a fatal error occurs.</p>
+<p>See the <code>gpinitsystem</code> log file for warning and error messages.</p>
+<h3 id="-n-locale--localelocale"><a class="header" href="#-n-locale--localelocale">-n locale | –locale=locale</a></h3>
+<p>Sets the default locale used by SynxDB. If not specified, the default locale is <code>en_US.utf8</code>. A locale identifier consists of a language identifier and a region identifier, and optionally a character set encoding. For example, <code>sv_SE</code> is Swedish as spoken in Sweden, <code>en_US</code> is U.S. English, and <code>fr_CA</code> is French Canadian. If more than one character set can be useful for a locale, then the specifications look like this: <code>en_US.UTF-8</code> (locale specification and character set encoding). On most systems, the command <code>locale</code> will show the locale environment settings and <code>locale -a</code> will show a list of all available locales.</p>
+<h3 id="lc-collatelocale"><a class="header" href="#lc-collatelocale">–lc-collate=locale</a></h3>
+<p>Similar to <code>--locale</code>, but sets the locale used for collation (sorting data). The sort order cannot be changed after SynxDB is initialized, so it is important to choose a collation locale that is compatible with the character set encodings that you plan to use for your data. There is a special collation name of <code>C</code> or <code>POSIX</code> (byte-order sorting as opposed to dictionary-order sorting). The <code>C</code> collation can be used with any character encoding.</p>
+<h3 id="lc-ctypelocale"><a class="header" href="#lc-ctypelocale">–lc-ctype=locale</a></h3>
+<p>Similar to <code>--locale</code>, but sets the locale used for character classification (what character sequences are valid and how they are interpreted). This cannot be changed after SynxDB is initialized, so it is important to choose a character classification locale that is compatible with the data you plan to store in SynxDB.</p>
+<h3 id="lc-messageslocale"><a class="header" href="#lc-messageslocale">–lc-messages=locale</a></h3>
+<p>Similar to <code>--locale</code>, but sets the locale used for messages output by SynxDB. The current version of SynxDB does not support multiple locales for output messages (all messages are in English), so changing this setting will not have any effect.</p>
+<h3 id="lc-monetarylocale"><a class="header" href="#lc-monetarylocale">–lc-monetary=locale</a></h3>
+<p>Similar to <code>--locale</code>, but sets the locale used for formatting currency amounts.</p>
+<h3 id="lc-numericlocale"><a class="header" href="#lc-numericlocale">–lc-numeric=locale</a></h3>
+<p>Similar to <code>--locale</code>, but sets the locale used for formatting numbers.</p>
+<h3 id="lc-timelocale"><a class="header" href="#lc-timelocale">–lc-time=locale</a></h3>
+<p>Similar to <code>--locale</code>, but sets the locale used for formatting dates and times.</p>
+<h3 id="-l-logfile_directory"><a class="header" href="#-l-logfile_directory">-l logfile_directory</a></h3>
+<p>The directory to write the log file. Defaults to <code>~/gpAdminLogs</code>.</p>
+<h3 id="-m-number--max_connectionsnumber"><a class="header" href="#-m-number--max_connectionsnumber">-m number | –max_connections=number</a></h3>
+<p>Sets the maximum number of client connections allowed to the master. The default is 250.</p>
+<h3 id="-o-output_configuration_file"><a class="header" href="#-o-output_configuration_file">-O output_configuration_file</a></h3>
+<p>Optional, used during new cluster initialization. This option writes the <code>cluster_configuration_file</code> information (used with -c) to the specified <code>output_configuration_file</code>. This file defines the SynxDB members using the <code>QD_PRIMARY_ARRAY</code>, <code>PRIMARY_ARRAY</code>, and <code>MIRROR_ARRAY</code> parameters. Use this file as a template for the <code>-I</code> <code>input_configuration_file</code> option. See <a href="#section6">Examples</a> for more information.</p>
+<h3 id="-p-postgresql_conf_param_file"><a class="header" href="#-p-postgresql_conf_param_file">-p postgresql_conf_param_file</a></h3>
+<p>Optional. The name of a file that contains <code>postgresql.conf</code> parameter settings that you want to set for SynxDB. These settings will be used when the individual master and segment instances are initialized. You can also set parameters after initialization using the <code>gpconfig</code> utility.</p>
+<h3 id="-q"><a class="header" href="#-q">-q</a></h3>
+<p>Run in quiet mode. Command output is not displayed on the screen, but is still written to the log file.</p>
+<h3 id="-b-size--shared_bufferssize"><a class="header" href="#-b-size--shared_bufferssize">-b size | –shared_buffers=size</a></h3>
+<p>Sets the amount of memory a SynxDB server instance uses for shared memory buffers. You can specify sizing in kilobytes (kB), megabytes (MB) or gigabytes (GB). The default is 125MB.</p>
+<h3 id="-s-standby_master_host"><a class="header" href="#-s-standby_master_host">-s standby_master_host</a></h3>
+<p>Optional. If you wish to configure a backup master instance, specify the host name using this option. The SynxDB software must already be installed and configured on this host.</p>
+<h3 id="-p-standby_master_port"><a class="header" href="#-p-standby_master_port">-P standby_master_port</a></h3>
+<p>If you configure a standby master instance with <code>-s</code>, specify its port number using this option. The default port is the same as the master port. To run the standby and master on the same host, you must use this option to specify a different port for the standby. The SynxDB software must already be installed and configured on the standby host.</p>
+<h3 id="-s-standby_master_datadir--standby_dirstandby_master_datadir"><a class="header" href="#-s-standby_master_datadir--standby_dirstandby_master_datadir">-S standby_master_datadir | –standby_dir=standby_master_datadir</a></h3>
+<p>If you configure a standby master host with <code>-s</code>, use this option to specify its data directory. If you configure a standby on the same host as the master instance, the master and standby must have separate data directories.</p>
+<h3 id="-e-superuser_password--su_passwordsuperuser_password"><a class="header" href="#-e-superuser_password--su_passwordsuperuser_password">-e superuser_password | –su_password=superuser_password</a></h3>
+<p>Use this option to specify the password to set for the SynxDB superuser account (such as <code>gpadmin</code>). If this option is not specified, the default password <code>gparray</code> is assigned to the superuser account. You can use the <code>ALTER ROLE</code> command to change the password at a later time.</p>
 <pre><code>Recommended security best practices:
 
 -   Do not use the default password option for production environments.
 -   Change the password immediately after installation.
 </code></pre>
-<p>–mirror-mode={group|spread}
-:   Use this option to specify the placement of mirror segment instances on the segment hosts. The default, <code>group</code>, groups the mirror segments for all of a host’s primary segments on a single alternate host. <code>spread</code> spreads mirror segments for the primary segments on a host across different hosts in the SynxDB array. Spreading is only allowed if the number of hosts is greater than the number of segment instances per host. See <a href="../../admin_guide/highavail/topics/g-overview-of-segment-mirroring.html#topic3">Overview of Segment Mirroring</a> for information about SynxDB mirroring strategies.</p>
-<p>-v | –version
-:   Print the <code>gpinitsystem</code> version and exit.</p>
-<p>-? | –help
-:   Show help about <code>gpinitsystem</code> command line arguments, and exit.</p>
+<h3 id="mirror-modegroupspread"><a class="header" href="#mirror-modegroupspread">–mirror-mode={group|spread}</a></h3>
+<p>Use this option to specify the placement of mirror segment instances on the segment hosts. The default, <code>group</code>, groups the mirror segments for all of a host’s primary segments on a single alternate host. <code>spread</code> spreads mirror segments for the primary segments on a host across different hosts in the SynxDB array. Spreading is only allowed if the number of hosts is greater than the number of segment instances per host. See <a href="../../admin_guide/highavail/topics/g-overview-of-segment-mirroring.html#topic3">Overview of Segment Mirroring</a> for information about SynxDB mirroring strategies.</p>
+<h3 id="-v--version"><a class="header" href="#-v--version">-v | –version</a></h3>
+<p>Print the <code>gpinitsystem</code> version and exit.</p>
+<h3 id="---help"><a class="header" href="#---help">-? | –help</a></h3>
+<p>Show help about <code>gpinitsystem</code> command line arguments, and exit.</p>
 <h2 id="initialization-configuration-file-format"><a class="header" href="#initialization-configuration-file-format"><a id="section5"></a>Initialization Configuration File Format</a></h2>
 <p><code>gpinitsystem</code> requires a cluster configuration file with the following parameters defined. An example initialization configuration file can be found in <code>$GPHOME/docs/cli_help/gpconfigs/gpinitsystem_config</code>.</p>
 <p>To avoid port conflicts between SynxDB and other applications, the SynxDB port numbers should not be in the range specified by the operating system parameter <code>net.ipv4.ip_local_port_range</code>. For example, if <code>net.ipv4.ip_local_port_range = 10000 65535</code>, you could set SynxDB base port numbers to these values.</p>
@@ -272,68 +272,51 @@ gpinitsystem -? | --help
 MIRROR_PORT_BASE = 7000
 </code></pre>
 <p>ARRAY_NAME
-:   <strong>Required.</strong> A name for the cluster you are configuring. You can use any name you like. Enclose the name in quotes if the name contains spaces.</p>
+<strong>Required.</strong> A name for the cluster you are configuring. You can use any name you like. Enclose the name in quotes if the name contains spaces.</p>
 <p>MACHINE_LIST_FILE
-:   <strong>Optional.</strong> Can be used in place of the <code>-h</code> option. This specifies the file that contains the list of the segment host address names that comprise the SynxDB system. The master host is assumed to be the host from which you are running the utility and should not be included in this file. If your segment hosts have multiple network interfaces, then this file would include all addresses for the host. Give the absolute path to the file.</p>
+<strong>Optional.</strong> Can be used in place of the <code>-h</code> option. This specifies the file that contains the list of the segment host address names that comprise the SynxDB system. The master host is assumed to be the host from which you are running the utility and should not be included in this file. If your segment hosts have multiple network interfaces, then this file would include all addresses for the host. Give the absolute path to the file.</p>
 <p>SEG_PREFIX
-:   <strong>Required.</strong> This specifies a prefix that will be used to name the data directories on the master and segment instances. The naming convention for data directories in a SynxDB system is SEG_PREFIXnumber where number starts with 0 for segment instances (the master is always -1). So for example, if you choose the prefix <code>gpseg</code>, your master instance data directory would be named <code>gpseg-1</code>, and the segment instances would be named <code>gpseg0</code>, <code>gpseg1</code>, <code>gpseg2</code>, <code>gpseg3</code>, and so on.</p>
+<strong>Required.</strong> This specifies a prefix that will be used to name the data directories on the master and segment instances. The naming convention for data directories in a SynxDB system is SEG_PREFIXnumber where number starts with 0 for segment instances (the master is always -1). So for example, if you choose the prefix <code>gpseg</code>, your master instance data directory would be named <code>gpseg-1</code>, and the segment instances would be named <code>gpseg0</code>, <code>gpseg1</code>, <code>gpseg2</code>, <code>gpseg3</code>, and so on.</p>
 <p>PORT_BASE
-:   <strong>Required.</strong> This specifies the base number by which primary segment port numbers are calculated. The first primary segment port on a host is set as <code>PORT_BASE</code>, and then incremented by one for each additional primary segment on that host. Valid values range from 1 through 65535.</p>
+<strong>Required.</strong> This specifies the base number by which primary segment port numbers are calculated. The first primary segment port on a host is set as <code>PORT_BASE</code>, and then incremented by one for each additional primary segment on that host. Valid values range from 1 through 65535.</p>
 <p>DATA_DIRECTORY
-:   <strong>Required.</strong> This specifies the data storage location(s) where the utility will create the primary segment data directories. The number of locations in the list dictate the number of primary segments that will get created per physical host (if multiple addresses for a host are listed in the host file, the number of segments will be spread evenly across the specified interface addresses). It is OK to list the same data storage area multiple times if you want your data directories created in the same location. The user who runs <code>gpinitsystem</code> (for example, the <code>gpadmin</code> user) must have permission to write to these directories. For example, this will create six primary segments per host:</p>
-<p>:   ```
-declare -a DATA_DIRECTORY=(/data1/primary /data1/primary
-/data1/primary /data2/primary /data2/primary /data2/primary)</p>
-<pre><code>
-MASTER\_HOSTNAME
-:   **Required.** The host name of the master instance. This host name must exactly match the configured host name of the machine \(run the `hostname` command to determine the correct hostname\).
-
-MASTER\_DIRECTORY
-:   **Required.** This specifies the location where the data directory will be created on the master host. You must make sure that the user who runs `gpinitsystem` \(for example, the `gpadmin` user\) has permissions to write to this directory.
-
-MASTER\_PORT
-:   **Required.** The port number for the master instance. This is the port number that users and client connections will use when accessing the SynxDB system.
-
-TRUSTED\_SHELL
-:   **Required.** The shell the `gpinitsystem` utility uses to run commands on remote hosts. Allowed values are `ssh`. You must set up your trusted host environment before running the `gpinitsystem` utility \(you can use `gpssh-exkeys` to do this\).
-
-CHECK\_POINT\_SEGMENTS
-:   **Required.** Maximum distance between automatic write ahead log \(WAL\) checkpoints, in log file segments \(each segment is normally 16 megabytes\). This will set the `checkpoint_segments` parameter in the `postgresql.conf` file for each segment instance in the SynxDB system.
-
-ENCODING
-:   **Required.** The character set encoding to use. This character set must be compatible with the `--locale` settings used, especially `--lc-collate` and `--lc-ctype`. SynxDB supports the same character sets as PostgreSQL.
-
-DATABASE\_NAME
-:   **Optional.** The name of a SynxDB database to create after the system is initialized. You can always create a database later using the `CREATE DATABASE` command or the `createdb` utility.
-
-MIRROR\_PORT\_BASE
-:   **Optional.** This specifies the base number by which mirror segment port numbers are calculated. The first mirror segment port on a host is set as `MIRROR_PORT_BASE`, and then incremented by one for each additional mirror segment on that host. Valid values range from 1 through 65535 and cannot conflict with the ports calculated by `PORT_BASE`.
-
-MIRROR\_DATA\_DIRECTORY
-:   **Optional.** This specifies the data storage location\(s\) where the utility will create the mirror segment data directories. There must be the same number of data directories declared for mirror segment instances as for primary segment instances \(see the `DATA_DIRECTORY` parameter\). The user who runs `gpinitsystem` \(for example, the `gpadmin` user\) must have permission to write to these directories. For example:
-
-:   ```
-declare -a MIRROR_DATA_DIRECTORY=(/data1/mirror 
+<strong>Required.</strong> This specifies the data storage location(s) where the utility will create the primary segment data directories. The number of locations in the list dictate the number of primary segments that will get created per physical host (if multiple addresses for a host are listed in the host file, the number of segments will be spread evenly across the specified interface addresses). It is OK to list the same data storage area multiple times if you want your data directories created in the same location. The user who runs <code>gpinitsystem</code> (for example, the <code>gpadmin</code> user) must have permission to write to these directories. For example, this will create six primary segments per host:</p>
+<pre><code>declare -a DATA_DIRECTORY=(/data1/primary /data1/primary 
+/data1/primary /data2/primary /data2/primary /data2/primary)
+</code></pre>
+<p>MASTER_HOSTNAME
+<strong>Required.</strong> The host name of the master instance. This host name must exactly match the configured host name of the machine (run the <code>hostname</code> command to determine the correct hostname).</p>
+<p>MASTER_DIRECTORY
+<strong>Required.</strong> This specifies the location where the data directory will be created on the master host. You must make sure that the user who runs <code>gpinitsystem</code> (for example, the <code>gpadmin</code> user) has permissions to write to this directory.</p>
+<p>MASTER_PORT
+<strong>Required.</strong> The port number for the master instance. This is the port number that users and client connections will use when accessing the SynxDB system.</p>
+<p>TRUSTED_SHELL
+<strong>Required.</strong> The shell the <code>gpinitsystem</code> utility uses to run commands on remote hosts. Allowed values are <code>ssh</code>. You must set up your trusted host environment before running the <code>gpinitsystem</code> utility (you can use <code>gpssh-exkeys</code> to do this).</p>
+<p>CHECK_POINT_SEGMENTS
+<strong>Required.</strong> Maximum distance between automatic write ahead log (WAL) checkpoints, in log file segments (each segment is normally 16 megabytes). This will set the <code>checkpoint_segments</code> parameter in the <code>postgresql.conf</code> file for each segment instance in the SynxDB system.</p>
+<p>ENCODING
+<strong>Required.</strong> The character set encoding to use. This character set must be compatible with the <code>--locale</code> settings used, especially <code>--lc-collate</code> and <code>--lc-ctype</code>. SynxDB supports the same character sets as PostgreSQL.</p>
+<p>DATABASE_NAME
+<strong>Optional.</strong> The name of a SynxDB database to create after the system is initialized. You can always create a database later using the <code>CREATE DATABASE</code> command or the <code>createdb</code> utility.</p>
+<p>MIRROR_PORT_BASE
+<strong>Optional.</strong> This specifies the base number by which mirror segment port numbers are calculated. The first mirror segment port on a host is set as <code>MIRROR_PORT_BASE</code>, and then incremented by one for each additional mirror segment on that host. Valid values range from 1 through 65535 and cannot conflict with the ports calculated by <code>PORT_BASE</code>.</p>
+<p>MIRROR_DATA_DIRECTORY
+<strong>Optional.</strong> This specifies the data storage location(s) where the utility will create the mirror segment data directories. There must be the same number of data directories declared for mirror segment instances as for primary segment instances (see the <code>DATA_DIRECTORY</code> parameter). The user who runs <code>gpinitsystem</code> (for example, the <code>gpadmin</code> user) must have permission to write to these directories. For example:</p>
+<pre><code>declare -a MIRROR_DATA_DIRECTORY=(/data1/mirror 
 /data1/mirror /data1/mirror /data2/mirror /data2/mirror 
 /data2/mirror)
 </code></pre>
 <p>QD_PRIMARY_ARRAY, PRIMARY_ARRAY, MIRROR_ARRAY
-:   <strong>Required</strong> when using <code>input_configuration file</code> with <code>-I</code> option. These parameters specify the SynxDB master host, the primary segment, and the mirror segment hosts respectively. During new cluster initialization, use the <code>gpinitsystem</code> <code>-O output\_configuration\_file</code> to populate <code>QD_PRIMARY_ARRAY</code>, <code>PRIMARY_ARRAY</code>, <code>MIRROR_ARRAY</code>.</p>
-<p>:   To initialize a new cluster or re-create a cluster from a backed up configuration, edit these values in the input configuration file used with the <code>gpinitsystem</code> <code>-I input\_configuration\_file</code> option. Use one of the following formats to specify the host information:</p>
-<pre><code>```
-&lt;hostname&gt;~&lt;address&gt;~&lt;port&gt;~&lt;data_directory&gt;/&lt;seg_prefix&lt;segment_id&gt;~&lt;dbid&gt;~&lt;content_id&gt;
-```
-
-or
-
-```
-&lt;host&gt;~&lt;port&gt;~&lt;data_directory&gt;/&lt;seg_prefix&lt;segment_id&gt;~&lt;dbid&gt;~&lt;content_id&gt;
-```
+<strong>Required</strong> when using <code>input_configuration file</code> with <code>-I</code> option. These parameters specify the SynxDB master host, the primary segment, and the mirror segment hosts respectively. During new cluster initialization, use the <code>gpinitsystem</code> <code>-O output\_configuration\_file</code> to populate <code>QD_PRIMARY_ARRAY</code>, <code>PRIMARY_ARRAY</code>, <code>MIRROR_ARRAY</code>.</p>
+<p>To initialize a new cluster or re-create a cluster from a backed up configuration, edit these values in the input configuration file used with the <code>gpinitsystem</code> <code>-I input\_configuration\_file</code> option. Use one of the following formats to specify the host information:</p>
+<pre><code>&lt;hostname&gt;~&lt;address&gt;~&lt;port&gt;~&lt;data_directory&gt;/&lt;seg_prefix&lt;segment_id&gt;~&lt;dbid&gt;~&lt;content_id&gt;
 </code></pre>
-<p>:   The first format populates the <code>hostname</code> and <code>address</code> fields in the <code>gp_segment_configuration</code> catalog table with the hostname and address values provided in the input configuration file. The second format populates <code>hostname</code> and <code>address</code> fields with the same value, derived from host.</p>
-<p>:   The SynxDB master always uses the value -1 for the segment ID and content ID. For example, seg_prefix&lt;segment_id&gt; and dbid values for <code>QD_PRIMARY_ARRAY</code> use <code>-1</code> to indicate the master instance:</p>
-<pre><code>```
-QD_PRIMARY_ARRAY=mdw~mdw~5432~/gpdata/master/gpseg-1~1~-1
+<p>or</p>
+<pre><code>&lt;host&gt;~&lt;port&gt;~&lt;data_directory&gt;/&lt;seg_prefix&lt;segment_id&gt;~&lt;dbid&gt;~&lt;content_id&gt;
+</code></pre>
+<p>The first format populates the <code>hostname</code> and <code>address</code> fields in the <code>gp_segment_configuration</code> catalog table with the hostname and address values provided in the input configuration file. The second format populates <code>hostname</code> and <code>address</code> fields with the same value, derived from host.</p>
+<p>The SynxDB master always uses the value -1 for the segment ID and content ID. For example, seg_prefix&lt;segment_id&gt; and dbid values for <code>QD_PRIMARY_ARRAY</code> use <code>-1</code> to indicate the master instance:</p>
+<pre><code>QD_PRIMARY_ARRAY=mdw~mdw~5432~/gpdata/master/gpseg-1~1~-1
 declare -a PRIMARY_ARRAY=(
 sdw1~sdw1~40000~/gpdata/data1/gpseg0~2~0
 sdw1~sdw1~40001~/gpdata/data2/gpseg1~3~1
@@ -346,20 +329,17 @@ sdw2~sdw2~50001~/gpdata/mirror2/gpseg1~7~1
 sdw1~sdw1~50000~/gpdata/mirror1/gpseg2~8~2
 sdw1~sdw1~50001~/gpdata/mirror2/gpseg3~9~3
 )
-```
 </code></pre>
-<p>:   To re-create a cluster using a known SynxDB system configuration, you can edit the segment and content IDs to match the values of the system.</p>
+<p>To re-create a cluster using a known SynxDB system configuration, you can edit the segment and content IDs to match the values of the system.</p>
 <p>HEAP_CHECKSUM
-:   <strong>Optional.</strong> This parameter specifies if checksums are enabled for heap data. When enabled, checksums are calculated for heap storage in all databases, enabling SynxDB to detect corruption in the I/O system. This option is set when the system is initialized and cannot be changed later.</p>
-<p>:   The <code>HEAP_CHECKSUM</code> option is on by default and turning it off is strongly discouraged. If you set this option to off, data corruption in storage can go undetected and make recovery much more difficult.</p>
-<p>:   To determine if heap checksums are enabled in a SynxDB system, you can query the <code>data_checksums</code> server configuration parameter with the <code>gpconfig</code> management utility:</p>
-<pre><code>```
-$ gpconfig -s data_checksums
-```
+<strong>Optional.</strong> This parameter specifies if checksums are enabled for heap data. When enabled, checksums are calculated for heap storage in all databases, enabling SynxDB to detect corruption in the I/O system. This option is set when the system is initialized and cannot be changed later.</p>
+<p>The <code>HEAP_CHECKSUM</code> option is on by default and turning it off is strongly discouraged. If you set this option to off, data corruption in storage can go undetected and make recovery much more difficult.</p>
+<p>To determine if heap checksums are enabled in a SynxDB system, you can query the <code>data_checksums</code> server configuration parameter with the <code>gpconfig</code> management utility:</p>
+<pre><code>$ gpconfig -s data_checksums
 </code></pre>
 <p>HBA_HOSTNAMES
-:   <strong>Optional.</strong> This parameter controls whether <code>gpinitsystem</code> uses IP addresses or host names in the <code>pg_hba.conf</code> file when updating the file with addresses that can connect to SynxDB. The default value is <code>0</code>, the utility uses IP addresses when updating the file. When initializing a SynxDB system, specify <code>HBA_HOSTNAMES=1</code> to have the utility use host names in the <code>pg_hba.conf</code> file.</p>
-<p>:   For information about how SynxDB resolves host names in the <code>pg_hba.conf</code> file, see <a href="../../admin_guide/client_auth.html">Configuring Client Authentication</a>.</p>
+<strong>Optional.</strong> This parameter controls whether <code>gpinitsystem</code> uses IP addresses or host names in the <code>pg_hba.conf</code> file when updating the file with addresses that can connect to SynxDB. The default value is <code>0</code>, the utility uses IP addresses when updating the file. When initializing a SynxDB system, specify <code>HBA_HOSTNAMES=1</code> to have the utility use host names in the <code>pg_hba.conf</code> file.</p>
+<p>For information about how SynxDB resolves host names in the <code>pg_hba.conf</code> file, see <a href="../../admin_guide/client_auth.html">Configuring Client Authentication</a>.</p>
 <h2 id="specifying-hosts-using-hostnames-or-ip-addresses"><a class="header" href="#specifying-hosts-using-hostnames-or-ip-addresses"><a id="spechosts"></a>Specifying Hosts using Hostnames or IP Addresses</a></h2>
 <p>When initializing a SynxDB system with <code>gpinitsystem</code>, you can specify segment hosts using either hostnames or IP addresses. For example, you can use hostnames or IP addresses in the file specified with the <code>-h</code> option.</p>
 <ul>

@@ -165,10 +165,10 @@
 <p><code>DROP TABLESPACE</code> removes a tablespace from the system.</p>
 <p>A tablespace can only be dropped by its owner or a superuser. The tablespace must be empty of all database objects before it can be dropped. It is possible that objects in other databases may still reside in the tablespace even if no objects in the current database are using the tablespace. Also, if the tablespace is listed in the <a href="../config_params/guc-list.html">temp_tablespaces</a> setting of any active session, <code>DROP TABLESPACE</code> might fail due to temporary files residing in the tablespace.</p>
 <h2 id="parameters"><a class="header" href="#parameters"><a id="section4"></a>Parameters</a></h2>
-<p>IF EXISTS
-:   Do not throw an error if the tablespace does not exist. A notice is issued in this case.</p>
-<p>tablespace_name
-:   The name of the tablespace to remove.</p>
+<h3 id="if-exists"><a class="header" href="#if-exists">IF EXISTS</a></h3>
+<p>Do not throw an error if the tablespace does not exist. A notice is issued in this case.</p>
+<h3 id="tablespace_name"><a class="header" href="#tablespace_name">tablespace_name</a></h3>
+<p>The name of the tablespace to remove.</p>
 <h2 id="notes"><a class="header" href="#notes"><a id="notes"></a>Notes</a></h2>
 <p>Run <code>DROP TABLESPACE</code> during a period of low activity to avoid issues due to concurrent creation of tables and temporary objects. When a tablespace is dropped, there is a small window in which a table could be created in the tablespace that is currently being dropped. If this occurs, SynxDB returns a warning. This is an example of the <code>DROP TABLESPACE</code> warning.</p>
 <pre><code>testdb=# DROP TABLESPACE mytest; 

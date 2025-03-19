@@ -164,8 +164,8 @@
 <h2 id="description"><a class="header" href="#description"><a id="section3"></a>Description</a></h2>
 <p>This command removes a resource queue from SynxDB. To drop a resource queue, the queue cannot have any roles assigned to it, nor can it have any statements waiting in the queue. Only a superuser can drop a resource queue.</p>
 <h2 id="parameters"><a class="header" href="#parameters"><a id="section4"></a>Parameters</a></h2>
-<p>queue_name
-:   The name of a resource queue to remove.</p>
+<h3 id="queue_name"><a class="header" href="#queue_name">queue_name</a></h3>
+<p>The name of a resource queue to remove.</p>
 <h2 id="notes"><a class="header" href="#notes"><a id="section5"></a>Notes</a></h2>
 <p>Use <a href="ALTER_ROLE.html">ALTER ROLE</a> to remove a user from a resource queue.</p>
 <p>To see all the currently active queries for all resource queues, perform the following query of the <code>pg_locks</code> table joined with the <code>pg_roles</code> and <code>pg_resqueue</code> tables:</p>

@@ -170,15 +170,14 @@
 <p>When more than one row is specified, all the rows must have the same number of elements. The data types of the resulting table’s columns are determined by combining the explicit or inferred types of the expressions appearing in that column, using the same rules as for <code>UNION</code>.</p>
 <p>Within larger commands, <code>VALUES</code> is syntactically allowed anywhere that <code>SELECT</code> is. Because it is treated like a <code>SELECT</code> by the grammar, it is possible to use the <code>ORDER BY</code>, <code>LIMIT</code> (or equivalent <code>FETCH FIRST</code>), and <code>OFFSET</code> clauses with a <code>VALUES</code> command.</p>
 <h2 id="parameters"><a class="header" href="#parameters"><a id="section4"></a>Parameters</a></h2>
-<p>expression
-:   A constant or expression to compute and insert at the indicated place in the resulting table (set of rows). In a <code>VALUES</code> list appearing at the top level of an <code>INSERT</code>, an expression can be replaced by <code>DEFAULT</code> to indicate that the destination column’s default value should be inserted. <code>DEFAULT</code> cannot be used when <code>VALUES</code> appears in other contexts.</p>
-<p>sort_expression
-:   An expression or integer constant indicating how to sort the result rows. This expression may refer to the columns of the <code>VALUES</code> result as <code>column1</code>, <code>column2</code>, etc. For more details, see “The ORDER BY Clause” in the parameters for <a href="SELECT.html">SELECT</a>.</p>
-<p>operator
-:   A sorting operator. For more details, see “The ORDER BY Clause” in the parameters for <a href="SELECT.html">SELECT</a>.</p>
-<p>LIMIT count
-OFFSET start
-:   The maximum number of rows to return. For more details, see “The LIMIT Clause” in the parameters for <a href="SELECT.html">SELECT</a>.</p>
+<h3 id="expression"><a class="header" href="#expression">expression</a></h3>
+<p>A constant or expression to compute and insert at the indicated place in the resulting table (set of rows). In a <code>VALUES</code> list appearing at the top level of an <code>INSERT</code>, an expression can be replaced by <code>DEFAULT</code> to indicate that the destination column’s default value should be inserted. <code>DEFAULT</code> cannot be used when <code>VALUES</code> appears in other contexts.</p>
+<h3 id="sort_expression"><a class="header" href="#sort_expression">sort_expression</a></h3>
+<p>An expression or integer constant indicating how to sort the result rows. This expression may refer to the columns of the <code>VALUES</code> result as <code>column1</code>, <code>column2</code>, etc. For more details, see “The ORDER BY Clause” in the parameters for <a href="SELECT.html">SELECT</a>.</p>
+<h3 id="operator"><a class="header" href="#operator">operator</a></h3>
+<p>A sorting operator. For more details, see “The ORDER BY Clause” in the parameters for <a href="SELECT.html">SELECT</a>.</p>
+<h3 id="limit-countoffset-start"><a class="header" href="#limit-countoffset-start">LIMIT count<br/>OFFSET start</a></h3>
+<p>The maximum number of rows to return. For more details, see “The LIMIT Clause” in the parameters for <a href="SELECT.html">SELECT</a>.</p>
 <h2 id="notes"><a class="header" href="#notes"><a id="section5"></a>Notes</a></h2>
 <p><code>VALUES</code> lists with very large numbers of rows should be avoided, as you may encounter out-of-memory failures or poor performance. <code>VALUES</code> appearing within <code>INSERT</code> is a special case (because the desired column types are known from the <code>INSERT</code>’s target table, and need not be inferred by scanning the <code>VALUES</code> list), so it can handle larger lists than are practical in other contexts.</p>
 <h2 id="examples"><a class="header" href="#examples"><a id="section6"></a>Examples</a></h2>

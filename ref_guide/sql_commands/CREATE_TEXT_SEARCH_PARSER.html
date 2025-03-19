@@ -174,18 +174,18 @@
 <p>You must be a superuser to use <code>CREATE TEXT SEARCH PARSER</code>. (This restriction is made because an erroneous text search parser definition could confuse or even crash the server.)</p>
 <p>Refer to <a href="../../admin_guide/textsearch/full-text-search.html">Using Full Text Search</a> for further information.</p>
 <h2 id="parameters"><a class="header" href="#parameters"><a id="section4"></a>Parameters</a></h2>
-<p><code>name</code>
-:   The name of the text search parser to be created. The name can be schema-qualified.</p>
-<p><code>start\_function</code>
-:   The name of the start function for the parser.</p>
-<p><code>gettoken\_function</code>
-:   The name of the get-next-token function for the parser.</p>
-<p><code>end\_function</code>
-:   The name of the end function for the parser.</p>
-<p><code>lextypes\_function</code>
-:   The name of the lextypes function for the parser (a function that returns information about the set of token types it produces).</p>
-<p><code>headline\_function</code>
-:   The name of the headline function for the parser (a function that summarizes a set of tokens).</p>
+<h3 id="name"><a class="header" href="#name"><code>name</code></a></h3>
+<p>The name of the text search parser to be created. The name can be schema-qualified.</p>
+<h3 id="start_function"><a class="header" href="#start_function"><code>start\_function</code></a></h3>
+<p>The name of the start function for the parser.</p>
+<h3 id="gettoken_function"><a class="header" href="#gettoken_function"><code>gettoken\_function</code></a></h3>
+<p>The name of the get-next-token function for the parser.</p>
+<h3 id="end_function"><a class="header" href="#end_function"><code>end\_function</code></a></h3>
+<p>The name of the end function for the parser.</p>
+<h3 id="lextypes_function"><a class="header" href="#lextypes_function"><code>lextypes\_function</code></a></h3>
+<p>The name of the lextypes function for the parser (a function that returns information about the set of token types it produces).</p>
+<h3 id="headline_function"><a class="header" href="#headline_function"><code>headline\_function</code></a></h3>
+<p>The name of the headline function for the parser (a function that summarizes a set of tokens).</p>
 <p>The function names can be schema-qualified if necessary. Argument types are not given, since the argument list for each type of function is predetermined. All except the headline function are required.</p>
 <p>The arguments can appear in any order, not only the one shown above.</p>
 <h2 id="compatibility"><a class="header" href="#compatibility"><a id="section7"></a>Compatibility</a></h2>

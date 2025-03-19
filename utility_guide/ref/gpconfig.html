@@ -187,41 +187,41 @@ gpconfig --help
 <li><code>PGDATABASE</code></li>
 </ul>
 <h2 id="options"><a class="header" href="#options"><a id="section4"></a>Options</a></h2>
-<p>-c | –change param_name
-:   Changes a configuration parameter setting by adding the new setting to the bottom of the <code>postgresql.conf</code> files.</p>
-<p>-v | –value value
-:   The value to use for the configuration parameter you specified with the <code>-c</code> option. By default, this value is applied to all segments, their mirrors, the master, and the standby master.</p>
-<p>:   The utility correctly quotes the value when adding the setting to the <code>postgresql.conf</code> files.</p>
-<p>:   To set the value to an empty string, enter empty single quotes (<code>''</code>).</p>
-<p>-m | –mastervalue master_value
-:   The master value to use for the configuration parameter you specified with the <code>-c</code> option. If specified, this value only applies to the master and standby master. This option can only be used with <code>-v</code>.</p>
-<p>–masteronly
-:   When specified, <code>gpconfig</code> will only edit the master <code>postgresql.conf</code> file.</p>
-<p>-r | –remove param_name
-:   Removes a configuration parameter setting by commenting out the entry in the <code>postgresql.conf</code> files.</p>
-<p>-l | –list
-:   Lists all configuration parameters supported by the <code>gpconfig</code> utility.</p>
-<p>-s | –show param_name
-:   Shows the value for a configuration parameter used on all instances (master and segments) in the SynxDB system. If there is a difference in a parameter value among the instances, the utility displays an error message. Running <code>gpconfig</code> with the <code>-s</code> option reads parameter values directly from the database, and not the <code>postgresql.conf</code> file. If you are using <code>gpconfig</code> to set configuration parameters across all segments, then running <code>gpconfig -s</code> to verify the changes, you might still see the previous (old) values. You must reload the configuration files (<code>gpstop -u</code>) or restart the system (<code>gpstop -r</code>) for changes to take effect.</p>
-<p>–file
-:   For a configuration parameter, shows the value from the <code>postgresql.conf</code> file on all instances (master and segments) in the SynxDB system. If there is a difference in a parameter value among the instances, the utility displays a message. Must be specified with the <code>-s</code> option.</p>
-<p>:   For example, the configuration parameter <code>statement_mem</code> is set to 64MB for a user with the <code>ALTER ROLE</code> command, and the value in the <code>postgresql.conf</code> file is 128MB. Running the command <code>gpconfig -s statement_mem --file</code> displays 128MB. The command <code>gpconfig -s statement_mem</code> run by the user displays 64MB.</p>
-<p>:   Not valid with the <code>--file-compare</code> option.</p>
-<p>–file-compare
-:   For a configuration parameter, compares the current SynxDB value with the value in the <code>postgresql.conf</code> files on hosts (master and segments). The values in the <code>postgresql.conf files</code> represent the value when SynxDB is restarted.</p>
-<p>:   If the values are not the same, the utility displays the values from all hosts. If all hosts have the same value, the utility displays a summary report.</p>
-<p>:   Not valid with the <code>--file</code> option.</p>
-<p>–skipvalidation
-:   Overrides the system validation checks of <code>gpconfig</code> and allows you to operate on any server configuration parameter, including hidden parameters and restricted parameters that cannot be changed by <code>gpconfig</code>. When used with the <code>-l</code> option (list), it shows the list of restricted parameters.</p>
+<h3 id="-c--change-param_name"><a class="header" href="#-c--change-param_name">-c | –change param_name</a></h3>
+<p>Changes a configuration parameter setting by adding the new setting to the bottom of the <code>postgresql.conf</code> files.</p>
+<h3 id="-v--value-value"><a class="header" href="#-v--value-value">-v | –value value</a></h3>
+<p>The value to use for the configuration parameter you specified with the <code>-c</code> option. By default, this value is applied to all segments, their mirrors, the master, and the standby master.</p>
+<p>The utility correctly quotes the value when adding the setting to the <code>postgresql.conf</code> files.</p>
+<p>To set the value to an empty string, enter empty single quotes (<code>''</code>).</p>
+<h3 id="-m--mastervalue-master_value"><a class="header" href="#-m--mastervalue-master_value">-m | –mastervalue master_value</a></h3>
+<p>The master value to use for the configuration parameter you specified with the <code>-c</code> option. If specified, this value only applies to the master and standby master. This option can only be used with <code>-v</code>.</p>
+<h3 id="masteronly"><a class="header" href="#masteronly">–masteronly</a></h3>
+<p>When specified, <code>gpconfig</code> will only edit the master <code>postgresql.conf</code> file.</p>
+<h3 id="-r--remove-param_name"><a class="header" href="#-r--remove-param_name">-r | –remove param_name</a></h3>
+<p>Removes a configuration parameter setting by commenting out the entry in the <code>postgresql.conf</code> files.</p>
+<h3 id="-l--list"><a class="header" href="#-l--list">-l | –list</a></h3>
+<p>Lists all configuration parameters supported by the <code>gpconfig</code> utility.</p>
+<h3 id="-s--show-param_name"><a class="header" href="#-s--show-param_name">-s | –show param_name</a></h3>
+<p>Shows the value for a configuration parameter used on all instances (master and segments) in the SynxDB system. If there is a difference in a parameter value among the instances, the utility displays an error message. Running <code>gpconfig</code> with the <code>-s</code> option reads parameter values directly from the database, and not the <code>postgresql.conf</code> file. If you are using <code>gpconfig</code> to set configuration parameters across all segments, then running <code>gpconfig -s</code> to verify the changes, you might still see the previous (old) values. You must reload the configuration files (<code>gpstop -u</code>) or restart the system (<code>gpstop -r</code>) for changes to take effect.</p>
+<h3 id="file"><a class="header" href="#file">–file</a></h3>
+<p>For a configuration parameter, shows the value from the <code>postgresql.conf</code> file on all instances (master and segments) in the SynxDB system. If there is a difference in a parameter value among the instances, the utility displays a message. Must be specified with the <code>-s</code> option.</p>
+<p>For example, the configuration parameter <code>statement_mem</code> is set to 64MB for a user with the <code>ALTER ROLE</code> command, and the value in the <code>postgresql.conf</code> file is 128MB. Running the command <code>gpconfig -s statement_mem --file</code> displays 128MB. The command <code>gpconfig -s statement_mem</code> run by the user displays 64MB.</p>
+<p>Not valid with the <code>--file-compare</code> option.</p>
+<h3 id="file-compare"><a class="header" href="#file-compare">–file-compare</a></h3>
+<p>For a configuration parameter, compares the current SynxDB value with the value in the <code>postgresql.conf</code> files on hosts (master and segments). The values in the <code>postgresql.conf files</code> represent the value when SynxDB is restarted.</p>
+<p>If the values are not the same, the utility displays the values from all hosts. If all hosts have the same value, the utility displays a summary report.</p>
+<p>Not valid with the <code>--file</code> option.</p>
+<h3 id="skipvalidation"><a class="header" href="#skipvalidation">–skipvalidation</a></h3>
+<p>Overrides the system validation checks of <code>gpconfig</code> and allows you to operate on any server configuration parameter, including hidden parameters and restricted parameters that cannot be changed by <code>gpconfig</code>. When used with the <code>-l</code> option (list), it shows the list of restricted parameters.</p>
 <blockquote>
 <p><strong>Caution</strong> Use extreme caution when setting configuration parameters with this option.</p>
 </blockquote>
-<p>–verbose
-:   Displays additional log information during <code>gpconfig</code> command execution.</p>
-<p>–debug
-:   Sets logging output to debug level.</p>
-<p>-? | -h | –help
-:   Displays the online help.</p>
+<h3 id="verbose"><a class="header" href="#verbose">–verbose</a></h3>
+<p>Displays additional log information during <code>gpconfig</code> command execution.</p>
+<h3 id="debug"><a class="header" href="#debug">–debug</a></h3>
+<p>Sets logging output to debug level.</p>
+<h3 id="----h--help"><a class="header" href="#----h--help">-? | -h | –help</a></h3>
+<p>Displays the online help.</p>
 <h2 id="examples"><a class="header" href="#examples"><a id="section5"></a>Examples</a></h2>
 <p>Set the <code>max_connections</code> setting to 100 on all segments and 10 on the master:</p>
 <pre><code>gpconfig -c max_connections -v 100 -m 10

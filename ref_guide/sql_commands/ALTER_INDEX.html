@@ -181,16 +181,16 @@ ALTER INDEX ALL IN TABLESPACE &lt;name&gt; [ OWNED BY &lt;role_name&gt; [, ... ]
 <li><strong>RESET</strong> — Resets storage parameters for the index to their defaults. The built-in index methods all accept a single parameter: fillfactor. As with <code>SET</code>, a <code>REINDEX</code> may be needed to update the index entirely.</li>
 </ul>
 <h2 id="parameters"><a class="header" href="#parameters"><a id="section4"></a>Parameters</a></h2>
-<p>name
-:   The name (optionally schema-qualified) of an existing index to alter.</p>
-<p>new_name
-:   New name for the index.</p>
-<p>tablespace_name
-:   The tablespace to which the index will be moved.</p>
-<p>storage_parameter
-:   The name of an index-method-specific storage parameter.</p>
-<p>value
-:   The new value for an index-method-specific storage parameter. This might be a number or a word depending on the parameter.</p>
+<h3 id="name"><a class="header" href="#name">name</a></h3>
+<p>The name (optionally schema-qualified) of an existing index to alter.</p>
+<h3 id="new_name"><a class="header" href="#new_name">new_name</a></h3>
+<p>New name for the index.</p>
+<h3 id="tablespace_name"><a class="header" href="#tablespace_name">tablespace_name</a></h3>
+<p>The tablespace to which the index will be moved.</p>
+<h3 id="storage_parameter"><a class="header" href="#storage_parameter">storage_parameter</a></h3>
+<p>The name of an index-method-specific storage parameter.</p>
+<h3 id="value"><a class="header" href="#value">value</a></h3>
+<p>The new value for an index-method-specific storage parameter. This might be a number or a word depending on the parameter.</p>
 <h2 id="notes"><a class="header" href="#notes"><a id="section5"></a>Notes</a></h2>
 <p>These operations are also possible using <code>ALTER TABLE</code>.</p>
 <p>Changing any part of a system catalog index is not permitted.</p>

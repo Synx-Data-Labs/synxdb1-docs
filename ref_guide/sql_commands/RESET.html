@@ -167,10 +167,10 @@ RESET ALL
 <p><code>RESET</code> restores system configuration parameters to their default values. <code>RESET</code> is an alternative spelling for <code>SET configuration\_parameter TO DEFAULT</code>.</p>
 <p>The default value is defined as the value that the parameter would have had, had no <code>SET</code> ever been issued for it in the current session. The actual source of this value might be a compiled-in default, the master <code>postgresql.conf</code> configuration file, command-line options, or per-database or per-user default settings. See <a href="../config_params/guc_config.html">Server Configuration Parameters</a> for more information.</p>
 <h2 id="parameters"><a class="header" href="#parameters"><a id="section4"></a>Parameters</a></h2>
-<p>configuration_parameter
-:   The name of a system configuration parameter. See <a href="../config_params/guc_config.html">Server Configuration Parameters</a> for details.</p>
-<p>ALL
-:   Resets all settable configuration parameters to their default values.</p>
+<h3 id="configuration_parameter"><a class="header" href="#configuration_parameter">configuration_parameter</a></h3>
+<p>The name of a system configuration parameter. See <a href="../config_params/guc_config.html">Server Configuration Parameters</a> for details.</p>
+<h3 id="all"><a class="header" href="#all">ALL</a></h3>
+<p>Resets all settable configuration parameters to their default values.</p>
 <h2 id="examples"><a class="header" href="#examples"><a id="section5"></a>Examples</a></h2>
 <p>Set the <code>statement_mem</code> configuration parameter to its default value:</p>
 <pre><code>RESET statement_mem; 

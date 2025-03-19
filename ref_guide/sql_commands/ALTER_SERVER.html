@@ -176,16 +176,16 @@ ALTER SERVER &lt;server_name&gt; RENAME TO &lt;new_name&gt;
 </ul>
 <p>Superusers automatically satisfy all of these criteria.</p>
 <h2 id="parameters"><a class="header" href="#parameters"><a id="section4"></a>Parameters</a></h2>
-<p>server_name
-:   The name of an existing server.</p>
-<p>new_version
-:   The new server version.</p>
-<p>OPTIONS ( [ ADD | SET | DROP ] option [‘value’] [, … ] )
-:   Change the server’s options. <code>ADD</code>, <code>SET</code>, and <code>DROP</code> specify the action to perform. If no operation is explicitly specified, the default operation is <code>ADD</code>. Option names must be unique. SynxDB validates names and values using the server’s foreign-data wrapper library.</p>
-<p>OWNER TO new_owner
-:   Specifies the new owner of the foreign server.</p>
-<p>RENAME TO new_name
-:   Specifies the new name of the foreign server.</p>
+<h3 id="server_name"><a class="header" href="#server_name">server_name</a></h3>
+<p>The name of an existing server.</p>
+<h3 id="new_version"><a class="header" href="#new_version">new_version</a></h3>
+<p>The new server version.</p>
+<h3 id="options---add--set--drop--option-value----"><a class="header" href="#options---add--set--drop--option-value----">OPTIONS ( [ ADD | SET | DROP ] option [‘value’] [, … ] )</a></h3>
+<p>Change the server’s options. <code>ADD</code>, <code>SET</code>, and <code>DROP</code> specify the action to perform. If no operation is explicitly specified, the default operation is <code>ADD</code>. Option names must be unique. SynxDB validates names and values using the server’s foreign-data wrapper library.</p>
+<h3 id="owner-to-new_owner"><a class="header" href="#owner-to-new_owner">OWNER TO new_owner</a></h3>
+<p>Specifies the new owner of the foreign server.</p>
+<h3 id="rename-to-new_name"><a class="header" href="#rename-to-new_name">RENAME TO new_name</a></h3>
+<p>Specifies the new name of the foreign server.</p>
 <h2 id="examples"><a class="header" href="#examples"><a id="section6"></a>Examples</a></h2>
 <p>Change the definition of a server named <code>foo</code> by adding connection options:</p>
 <pre><code>ALTER SERVER foo OPTIONS (host 'foo', dbname 'foodb');

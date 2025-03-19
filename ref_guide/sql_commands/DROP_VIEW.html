@@ -164,14 +164,14 @@
 <h2 id="description"><a class="header" href="#description"><a id="section3"></a>Description</a></h2>
 <p><code>DROP VIEW</code> will remove an existing view. Only the owner of a view can remove it.</p>
 <h2 id="parameters"><a class="header" href="#parameters"><a id="section4"></a>Parameters</a></h2>
-<p>IF EXISTS
-:   Do not throw an error if the view does not exist. A notice is issued in this case.</p>
-<p>name
-:   The name (optionally schema-qualified) of the view to remove.</p>
-<p>CASCADE
-:   Automatically drop objects that depend on the view (such as other views).</p>
-<p>RESTRICT
-:   Refuse to drop the view if any objects depend on it. This is the default.</p>
+<h3 id="if-exists"><a class="header" href="#if-exists">IF EXISTS</a></h3>
+<p>Do not throw an error if the view does not exist. A notice is issued in this case.</p>
+<h3 id="name"><a class="header" href="#name">name</a></h3>
+<p>The name (optionally schema-qualified) of the view to remove.</p>
+<h3 id="cascade"><a class="header" href="#cascade">CASCADE</a></h3>
+<p>Automatically drop objects that depend on the view (such as other views).</p>
+<h3 id="restrict"><a class="header" href="#restrict">RESTRICT</a></h3>
+<p>Refuse to drop the view if any objects depend on it. This is the default.</p>
 <h2 id="examples"><a class="header" href="#examples"><a id="section5"></a>Examples</a></h2>
 <p>Remove the view <code>topten</code>:</p>
 <pre><code>DROP VIEW topten;

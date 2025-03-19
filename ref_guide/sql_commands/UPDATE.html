@@ -182,36 +182,36 @@ UPDATE [ONLY] &lt;table&gt; [[AS] &lt;alias&gt;]
 </code></pre>
 <p>where count is the number of rows updated. If count is 0, no rows matched the condition (this is not considered an error).</p>
 <h2 id="parameters"><a class="header" href="#parameters"><a id="section5"></a>Parameters</a></h2>
-<p>with_query
-:   The <code>WITH</code> clause allows you to specify one or more subqueries that can be referenced by name in the <code>UPDATE</code> query.</p>
-<p>:   For an <code>UPDATE</code> command that includes a <code>WITH</code> clause, the clause can only contain <code>SELECT</code> commands, the <code>WITH</code> clause cannot contain a data-modifying command (<code>INSERT</code>, <code>UPDATE</code>, or <code>DELETE</code>).</p>
-<p>:   It is possible for the query (<code>SELECT</code> statement) to also contain a <code>WITH</code> clause. In such a case both sets of with_query can be referenced within the <code>UPDATE</code> query, but the second one takes precedence since it is more closely nested.</p>
-<p>:   See <a href="../../admin_guide/query/topics/CTE-query.html">WITH Queries (Common Table Expressions)</a> and <a href="SELECT.html">SELECT</a> for details.</p>
-<p>ONLY
-:   If specified, update rows from the named table only. When not specified, any tables inheriting from the named table are also processed.</p>
-<p>table
-:   The name (optionally schema-qualified) of an existing table.</p>
-<p>alias
-:   A substitute name for the target table. When an alias is provided, it completely hides the actual name of the table. For example, given <code>UPDATE foo AS f</code>, the remainder of the <code>UPDATE</code> statement must refer to this table as <code>f</code> not <code>foo</code>.</p>
-<p>column
-:   The name of a column in table. The column name can be qualified with a subfield name or array subscript, if needed. Do not include the table’s name in the specification of a target column.</p>
-<p>expression
-:   An expression to assign to the column. The expression may use the old values of this and other columns in the table.</p>
-<p>DEFAULT
-:   Set the column to its default value (which will be NULL if no specific default expression has been assigned to it).</p>
-<p>fromlist
-:   A list of table expressions, allowing columns from other tables to appear in the <code>WHERE</code> condition and the update expressions. This is similar to the list of tables that can be specified in the <code>FROM</code> clause of a <code>SELECT</code> statement. Note that the target table must not appear in the fromlist, unless you intend a self-join (in which case it must appear with an alias in the fromlist).</p>
-<p>condition
-:   An expression that returns a value of type boolean. Only rows for which this expression returns true will be updated.</p>
-<p>cursor_name
-:   The name of the cursor to use in a <code>WHERE CURRENT OF</code> condition. The row to be updated is the one most recently fetched from the cursor. The cursor must be a non-grouping query on the <code>UPDATE</code> command target table. See <a href="DECLARE.html">DECLARE</a> for more information about creating cursors.</p>
-<p>:   <code>WHERE CURRENT OF</code> cannot be specified together with a Boolean condition.</p>
-<p>:   Note that <code>WHERE CURRENT OF</code> cannot be specified together with a Boolean condition. The <code>UPDATE...WHERE CURRENT OF</code> statement can only be run on the server, for example in an interactive psql session or a script. Language extensions such as PL/pgSQL do not have support for updatable cursors.</p>
-<p>:   See <a href="DECLARE.html">DECLARE</a> for more information about creating cursors.</p>
-<p>output_expression
-:   An expression to be computed and returned by the <code>UPDATE</code> command after each row is updated. The expression may use any column names of the table or table(s) listed in <code>FROM</code>. Write <code>*</code> to return all columns.</p>
-<p>output_name
-:   A name to use for a returned column.</p>
+<h3 id="with_query"><a class="header" href="#with_query">with_query</a></h3>
+<p>The <code>WITH</code> clause allows you to specify one or more subqueries that can be referenced by name in the <code>UPDATE</code> query.</p>
+<p>For an <code>UPDATE</code> command that includes a <code>WITH</code> clause, the clause can only contain <code>SELECT</code> commands, the <code>WITH</code> clause cannot contain a data-modifying command (<code>INSERT</code>, <code>UPDATE</code>, or <code>DELETE</code>).</p>
+<p>It is possible for the query (<code>SELECT</code> statement) to also contain a <code>WITH</code> clause. In such a case both sets of with_query can be referenced within the <code>UPDATE</code> query, but the second one takes precedence since it is more closely nested.</p>
+<p>See <a href="../../admin_guide/query/topics/CTE-query.html">WITH Queries (Common Table Expressions)</a> and <a href="SELECT.html">SELECT</a> for details.</p>
+<h3 id="only"><a class="header" href="#only">ONLY</a></h3>
+<p>If specified, update rows from the named table only. When not specified, any tables inheriting from the named table are also processed.</p>
+<h3 id="table"><a class="header" href="#table">table</a></h3>
+<p>The name (optionally schema-qualified) of an existing table.</p>
+<h3 id="alias"><a class="header" href="#alias">alias</a></h3>
+<p>A substitute name for the target table. When an alias is provided, it completely hides the actual name of the table. For example, given <code>UPDATE foo AS f</code>, the remainder of the <code>UPDATE</code> statement must refer to this table as <code>f</code> not <code>foo</code>.</p>
+<h3 id="column"><a class="header" href="#column">column</a></h3>
+<p>The name of a column in table. The column name can be qualified with a subfield name or array subscript, if needed. Do not include the table’s name in the specification of a target column.</p>
+<h3 id="expression"><a class="header" href="#expression">expression</a></h3>
+<p>An expression to assign to the column. The expression may use the old values of this and other columns in the table.</p>
+<h3 id="default"><a class="header" href="#default">DEFAULT</a></h3>
+<p>Set the column to its default value (which will be NULL if no specific default expression has been assigned to it).</p>
+<h3 id="fromlist"><a class="header" href="#fromlist">fromlist</a></h3>
+<p>A list of table expressions, allowing columns from other tables to appear in the <code>WHERE</code> condition and the update expressions. This is similar to the list of tables that can be specified in the <code>FROM</code> clause of a <code>SELECT</code> statement. Note that the target table must not appear in the fromlist, unless you intend a self-join (in which case it must appear with an alias in the fromlist).</p>
+<h3 id="condition"><a class="header" href="#condition">condition</a></h3>
+<p>An expression that returns a value of type boolean. Only rows for which this expression returns true will be updated.</p>
+<h3 id="cursor_name"><a class="header" href="#cursor_name">cursor_name</a></h3>
+<p>The name of the cursor to use in a <code>WHERE CURRENT OF</code> condition. The row to be updated is the one most recently fetched from the cursor. The cursor must be a non-grouping query on the <code>UPDATE</code> command target table. See <a href="DECLARE.html">DECLARE</a> for more information about creating cursors.</p>
+<p><code>WHERE CURRENT OF</code> cannot be specified together with a Boolean condition.</p>
+<p>Note that <code>WHERE CURRENT OF</code> cannot be specified together with a Boolean condition. The <code>UPDATE...WHERE CURRENT OF</code> statement can only be run on the server, for example in an interactive psql session or a script. Language extensions such as PL/pgSQL do not have support for updatable cursors.</p>
+<p>See <a href="DECLARE.html">DECLARE</a> for more information about creating cursors.</p>
+<h3 id="output_expression"><a class="header" href="#output_expression">output_expression</a></h3>
+<p>An expression to be computed and returned by the <code>UPDATE</code> command after each row is updated. The expression may use any column names of the table or table(s) listed in <code>FROM</code>. Write <code>*</code> to return all columns.</p>
+<h3 id="output_name"><a class="header" href="#output_name">output_name</a></h3>
+<p>A name to use for a returned column.</p>
 <h2 id="notes"><a class="header" href="#notes"><a id="section6"></a>Notes</a></h2>
 <p><code>SET</code> is not allowed on the SynxDB distribution key columns of a table.</p>
 <p>When a <code>FROM</code> clause is present, what essentially happens is that the target table is joined to the tables mentioned in the from list, and each output row of the join represents an update operation for the target table. When using <code>FROM</code> you should ensure that the join produces at most one output row for each row to be modified. In other words, a target row should not join to more than one row from the other table(s). If it does, then only one of the join rows will be used to update the target row, but which one will be used is not readily predictable.</p>

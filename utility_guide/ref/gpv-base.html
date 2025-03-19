@@ -177,10 +177,10 @@ gpv base import [ -f &lt;file_name&gt; | --ova=&lt;file_name&gt; ] [ -t &lt;temp
 <h3 id="import"><a class="header" href="#import"><a id="import"></a>import</a></h3>
 <p>Import an existing virtual machine template or an OVA file as a new base virtual machine. The <code>gpv base import</code> command creates a new base virtual machine from your own virtual machine template (certified to follow all the existing policies), or from an OVA file, such as the SynxDB Virtual Machine base template.</p>
 <p>Options:</p>
-<p>-f, –ova=file_name
-:   Specify a local OVA file name.</p>
-<p>-t, –template=template_name
-:   Specify an existing virtual machine template <code>template_name</code>.</p>
+<h3 id="-f-ovafile_name"><a class="header" href="#-f-ovafile_name">-f, –ova=file_name</a></h3>
+<p>Specify a local OVA file name.</p>
+<h3 id="-t-templatetemplate_name"><a class="header" href="#-t-templatetemplate_name">-t, –template=template_name</a></h3>
+<p>Specify an existing virtual machine template <code>template_name</code>.</p>
 <h4 id="examples"><a class="header" href="#examples"><a id="examples"></a>Examples</a></h4>
 <p>Import an existing virtual machine template:</p>
 <pre><code>gpv base import -t my-company-template

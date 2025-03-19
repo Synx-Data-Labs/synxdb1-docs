@@ -180,18 +180,18 @@ VACUUM [FULL] [FREEZE] [VERBOSE] ANALYZE
 <p><strong>Outputs</strong></p>
 <p>When <code>VERBOSE</code> is specified, <code>VACUUM</code> emits progress messages to indicate which table is currently being processed. Various statistics about the tables are printed as well.</p>
 <h2 id="parameters"><a class="header" href="#parameters"><a id="section5"></a>Parameters</a></h2>
-<p>FULL
-:   Selects a full vacuum, which may reclaim more space, but takes much longer and exclusively locks the table. This method also requires extra disk space, since it writes a new copy of the table and doesn’t release the old copy until the operation is complete. Usually this should only be used when a significant amount of space needs to be reclaimed from within the table.</p>
-<p>FREEZE
-:   Specifying <code>FREEZE</code> is equivalent to performing <code>VACUUM</code> with the <code>vacuum_freeze_min_age</code> server configuration parameter set to zero. See <a href="../config_params/guc_config.html">Server Configuration Parameters</a> for information about <code>vacuum_freeze_min_age</code>.</p>
-<p>VERBOSE
-:   Prints a detailed vacuum activity report for each table.</p>
-<p>ANALYZE
-:   Updates statistics used by the planner to determine the most efficient way to run a query.</p>
-<p>table
-:   The name (optionally schema-qualified) of a specific table to vacuum. Defaults to all tables in the current database.</p>
-<p>column
-:   The name of a specific column to analyze. Defaults to all columns. If a column list is specified, <code>ANALYZE</code> is implied.</p>
+<h3 id="full"><a class="header" href="#full">FULL</a></h3>
+<p>Selects a full vacuum, which may reclaim more space, but takes much longer and exclusively locks the table. This method also requires extra disk space, since it writes a new copy of the table and doesn’t release the old copy until the operation is complete. Usually this should only be used when a significant amount of space needs to be reclaimed from within the table.</p>
+<h3 id="freeze"><a class="header" href="#freeze">FREEZE</a></h3>
+<p>Specifying <code>FREEZE</code> is equivalent to performing <code>VACUUM</code> with the <code>vacuum_freeze_min_age</code> server configuration parameter set to zero. See <a href="../config_params/guc_config.html">Server Configuration Parameters</a> for information about <code>vacuum_freeze_min_age</code>.</p>
+<h3 id="verbose"><a class="header" href="#verbose">VERBOSE</a></h3>
+<p>Prints a detailed vacuum activity report for each table.</p>
+<h3 id="analyze"><a class="header" href="#analyze">ANALYZE</a></h3>
+<p>Updates statistics used by the planner to determine the most efficient way to run a query.</p>
+<h3 id="table"><a class="header" href="#table">table</a></h3>
+<p>The name (optionally schema-qualified) of a specific table to vacuum. Defaults to all tables in the current database.</p>
+<h3 id="column"><a class="header" href="#column">column</a></h3>
+<p>The name of a specific column to analyze. Defaults to all columns. If a column list is specified, <code>ANALYZE</code> is implied.</p>
 <h2 id="notes"><a class="header" href="#notes"><a id="section6"></a>Notes</a></h2>
 <p><code>VACUUM</code> cannot be run inside a transaction block.</p>
 <p>Vacuum active databases frequently (at least nightly), in order to remove expired rows. After adding or deleting a large number of rows, running the <code>VACUUM ANALYZE</code> command for the affected table might be useful. This updates the system catalogs with the results of all recent changes, and allows the SynxDB query optimizer to make better choices in planning queries.</p>

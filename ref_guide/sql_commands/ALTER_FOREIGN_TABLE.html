@@ -190,60 +190,60 @@ ALTER FOREIGN TABLE [ IF EXISTS ] &lt;name&gt;
 </code></pre>
 <h2 id="description"><a class="header" href="#description"><a id="section3"></a>Description</a></h2>
 <p><code>ALTER FOREIGN TABLE</code> changes the definition of an existing foreign table. There are several subforms of the command:</p>
-<p>ADD COLUMN
-:   This form adds a new column to the foreign table, using the same syntax as <a href="CREATE_FOREIGN_TABLE.html">CREATE FOREIGN TABLE</a>. Unlike the case when you add a column to a regular table, nothing happens to the underlying storage: this action simply declares that some new column is now accessible through the foreign table.</p>
-<p>DROP COLUMN [ IF EXISTS ]
-:   This form drops a column from a foreign table. You must specify <code>CASCADE</code> if any objects outside of the table depend on the column; for example, views. If you specify <code>IF EXISTS</code> and the column does not exist, no error is thrown. SynxDB issues a notice instead.</p>
-<p>IF EXISTS
-:   If you specify <code>IF EXISTS</code> and the foreign table does not exist, no error is thrown. SynxDB issues a notice instead.</p>
-<p>SET DATA TYPE
-:   This form changes the type of a column of a foreign table.</p>
-<p>SET/DROP DEFAULT
-:   These forms set or remove the default value for a column. Default values apply only in subsequent <code>INSERT</code> or <code>UPDATE</code> commands; they do not cause rows already in the table to change.</p>
-<p>SET/DROP NOT NULL
-:   Mark a column as allowing, or not allowing, null values.</p>
-<p>SET STATISTICS
-:   This form sets the per-column statistics-gathering target for subsequent <code>ANALYZE</code> operations. See the similar form of <a href="ALTER_TABLE.html">ALTER TABLE</a> for more details.</p>
-<p>SET ( attribute_option = value [, …] ] )
-RESET ( attribute_option [, … ] )
-:   This form sets or resets per-attribute options. See the similar form of <a href="ALTER_TABLE.html">ALTER TABLE</a> for more details.</p>
-<p>DISABLE/ENABLE [ REPLICA | ALWAYS ] TRIGGER
-:   These forms configure the firing of trigger(s) belonging to the foreign table. See the similar form of <a href="ALTER_TABLE.html">ALTER TABLE</a> for more details.</p>
-<p>OWNER
-:   This form changes the owner of the foreign table to the specified user.</p>
-<p>RENAME
-:   The <code>RENAME</code> forms change the name of a foreign table or the name of an individual column in a foreign table.</p>
-<p>SET SCHEMA
-:   This form moves the foreign table into another schema.</p>
-<p>OPTIONS ( [ ADD | SET | DROP ] option [‘value’] [, … ] )
-:   Change options for the foreign table. <code>ADD</code>, <code>SET</code>, and <code>DROP</code> specify the action to perform. If no operation is explicitly specified, the default operation is <code>ADD</code>. Option names must be unique. SynxDB validates names and values using the server’s foreign-data wrapper.</p>
+<h3 id="add-column"><a class="header" href="#add-column">ADD COLUMN</a></h3>
+<p>This form adds a new column to the foreign table, using the same syntax as <a href="CREATE_FOREIGN_TABLE.html">CREATE FOREIGN TABLE</a>. Unlike the case when you add a column to a regular table, nothing happens to the underlying storage: this action simply declares that some new column is now accessible through the foreign table.</p>
+<h3 id="drop-column--if-exists-"><a class="header" href="#drop-column--if-exists-">DROP COLUMN [ IF EXISTS ]</a></h3>
+<p>This form drops a column from a foreign table. You must specify <code>CASCADE</code> if any objects outside of the table depend on the column; for example, views. If you specify <code>IF EXISTS</code> and the column does not exist, no error is thrown. SynxDB issues a notice instead.</p>
+<h3 id="if-exists"><a class="header" href="#if-exists">IF EXISTS</a></h3>
+<p>If you specify <code>IF EXISTS</code> and the foreign table does not exist, no error is thrown. SynxDB issues a notice instead.</p>
+<h3 id="set-data-type"><a class="header" href="#set-data-type">SET DATA TYPE</a></h3>
+<p>This form changes the type of a column of a foreign table.</p>
+<h3 id="setdrop-default"><a class="header" href="#setdrop-default">SET/DROP DEFAULT</a></h3>
+<p>These forms set or remove the default value for a column. Default values apply only in subsequent <code>INSERT</code> or <code>UPDATE</code> commands; they do not cause rows already in the table to change.</p>
+<h3 id="setdrop-not-null"><a class="header" href="#setdrop-not-null">SET/DROP NOT NULL</a></h3>
+<p>Mark a column as allowing, or not allowing, null values.</p>
+<h3 id="set-statistics"><a class="header" href="#set-statistics">SET STATISTICS</a></h3>
+<p>This form sets the per-column statistics-gathering target for subsequent <code>ANALYZE</code> operations. See the similar form of <a href="ALTER_TABLE.html">ALTER TABLE</a> for more details.</p>
+<h3 id="set--attribute_option--value----"><a class="header" href="#set--attribute_option--value----">SET ( attribute_option = value [, …] ] )</a></h3>
+<h3 id="reset--attribute_option----"><a class="header" href="#reset--attribute_option----">RESET ( attribute_option [, … ] )</a></h3>
+<p>This form sets or resets per-attribute options. See the similar form of <a href="ALTER_TABLE.html">ALTER TABLE</a> for more details.</p>
+<h3 id="disableenable--replica--always--trigger"><a class="header" href="#disableenable--replica--always--trigger">DISABLE/ENABLE [ REPLICA | ALWAYS ] TRIGGER</a></h3>
+<p>These forms configure the firing of trigger(s) belonging to the foreign table. See the similar form of <a href="ALTER_TABLE.html">ALTER TABLE</a> for more details.</p>
+<h3 id="owner"><a class="header" href="#owner">OWNER</a></h3>
+<p>This form changes the owner of the foreign table to the specified user.</p>
+<h3 id="rename"><a class="header" href="#rename">RENAME</a></h3>
+<p>The <code>RENAME</code> forms change the name of a foreign table or the name of an individual column in a foreign table.</p>
+<h3 id="set-schema"><a class="header" href="#set-schema">SET SCHEMA</a></h3>
+<p>This form moves the foreign table into another schema.</p>
+<h3 id="options---add--set--drop--option-value----"><a class="header" href="#options---add--set--drop--option-value----">OPTIONS ( [ ADD | SET | DROP ] option [‘value’] [, … ] )</a></h3>
+<p>Change options for the foreign table. <code>ADD</code>, <code>SET</code>, and <code>DROP</code> specify the action to perform. If no operation is explicitly specified, the default operation is <code>ADD</code>. Option names must be unique. SynxDB validates names and values using the server’s foreign-data wrapper.</p>
 <p>You can combine all of the actions except <code>RENAME</code> and <code>SET SCHEMA</code> into a list of multiple alterations for SynxDB to apply in parallel. For example, it is possible to add several columns and/or alter the type of several columns in a single command.</p>
 <p>You must own the table to use <code>ALTER FOREIGN TABLE</code>. To change the schema of a foreign table, you must also have <code>CREATE</code> privilege on the new schema. To alter the owner, you must also be a direct or indirect member of the new owning role, and that role must have <code>CREATE</code> privilege on the table’s schema. (These restrictions enforce that altering the owner doesn’t do anything you couldn’t do by dropping and recreating the table. However, a superuser can alter ownership of any table anyway.) To add a column or to alter a column type, you must also have <code>USAGE</code> privilege on the data type.</p>
 <h2 id="parameters"><a class="header" href="#parameters"><a id="section4"></a>Parameters</a></h2>
-<p>name
-:   The name (possibly schema-qualified) of an existing foreign table to alter.</p>
-<p>column_name
-:   The name of a new or existing column.</p>
-<p>new_column_name
-:   The new name for an existing column.</p>
-<p>new_name
-:   The new name for the foreign table.</p>
-<p>data_type
-:   The data type of the new column, or new data type for an existing column.</p>
-<p>CASCADE
-:   Automatically drop objects that depend on the dropped column (for example, views referencing the column).</p>
-<p>RESTRICT
-:   Refuse to drop the column if there are any dependent objects. This is the default behavior.</p>
-<p>trigger_name
-:   Name of a single trigger to deactivate or enable.</p>
-<p>ALL
-:   Deactivate or activate all triggers belonging to the foreign table. (This requires superuser privilege if any of the triggers are internally generated triggers. The core system does not add such triggers to foreign tables, but add-on code could do so.)</p>
-<p>USER
-:   Deactivate or activate all triggers belonging to the foreign table except for internally generated triggers.</p>
-<p>new_owner
-:   The user name of the new owner of the foreign table.</p>
-<p>new_schema
-:   The name of the schema to which the foreign table will be moved.</p>
+<h3 id="name"><a class="header" href="#name">name</a></h3>
+<p>The name (possibly schema-qualified) of an existing foreign table to alter.</p>
+<h3 id="column_name"><a class="header" href="#column_name">column_name</a></h3>
+<p>The name of a new or existing column.</p>
+<h3 id="new_column_name"><a class="header" href="#new_column_name">new_column_name</a></h3>
+<p>The new name for an existing column.</p>
+<h3 id="new_name"><a class="header" href="#new_name">new_name</a></h3>
+<p>The new name for the foreign table.</p>
+<h3 id="data_type"><a class="header" href="#data_type">data_type</a></h3>
+<p>The data type of the new column, or new data type for an existing column.</p>
+<h3 id="cascade"><a class="header" href="#cascade">CASCADE</a></h3>
+<p>Automatically drop objects that depend on the dropped column (for example, views referencing the column).</p>
+<h3 id="restrict"><a class="header" href="#restrict">RESTRICT</a></h3>
+<p>Refuse to drop the column if there are any dependent objects. This is the default behavior.</p>
+<h3 id="trigger_name"><a class="header" href="#trigger_name">trigger_name</a></h3>
+<p>Name of a single trigger to deactivate or enable.</p>
+<h3 id="all"><a class="header" href="#all">ALL</a></h3>
+<p>Deactivate or activate all triggers belonging to the foreign table. (This requires superuser privilege if any of the triggers are internally generated triggers. The core system does not add such triggers to foreign tables, but add-on code could do so.)</p>
+<h3 id="user"><a class="header" href="#user">USER</a></h3>
+<p>Deactivate or activate all triggers belonging to the foreign table except for internally generated triggers.</p>
+<h3 id="new_owner"><a class="header" href="#new_owner">new_owner</a></h3>
+<p>The user name of the new owner of the foreign table.</p>
+<h3 id="new_schema"><a class="header" href="#new_schema">new_schema</a></h3>
+<p>The name of the schema to which the foreign table will be moved.</p>
 <h2 id="notes"><a class="header" href="#notes"><a id="section5"></a>Notes</a></h2>
 <p>The key word <code>COLUMN</code> is noise and can be omitted.</p>
 <p>Consistency with the foreign server is not checked when a column is added or removed with <code>ADD COLUMN</code> or <code>DROP COLUMN</code>, a <code>NOT NULL</code> constraint is added, or a column type is changed with <code>SET DATA TYPE</code>. It is your responsibility to ensure that the table definition matches the remote side.</p>

@@ -204,111 +204,111 @@ gprestore --help
 <p><code>gprestore</code> can send status email notifications after a back up operation completes. You specify when the utility sends the mail and the email recipients in a configuration file. See <a href="../../admin_guide/managing/backup-gpbackup.html">Configuring Email Notifications</a>.</p>
 <p><strong>Note:</strong> This utility uses secure shell (SSH) connections between systems to perform its tasks. In large SynxDB deployments, cloud deployments, or deployments with a large number of segments per host, this utility may exceed the host’s maximum threshold for unauthenticated connections. Consider updating the SSH <code>MaxStartups</code> and <code>MaxSessions</code> configuration parameters to increase this threshold. For more information about SSH configuration options, refer to the SSH documentation for your Linux distribution.</p>
 <h2 id="options"><a class="header" href="#options"><a id="opts"></a>Options</a></h2>
-<p><strong>–timestamp</strong> YYYYMMDDHHMMSS
-:   Required. Specifies the timestamp of the <code>gpbackup</code> backup set to restore. By default <code>gprestore</code> tries to locate metadata files for the timestamp on the SynxDB master host in the $MASTER_DATA_DIRECTORY/backups/YYYYMMDD/YYYYMMDDhhmmss/ directory, and CSV data files in the &lt;seg_dir&gt;/backups/YYYYMMDD/YYYYMMDDhhmmss/ directory of each segment host.</p>
-<p><strong>–backup-dir</strong> directory
-:   Optional. Sources all backup files (metadata files and data files) from the specified directory. You must specify directory as an absolute path (not relative). If you do not supply this option, <code>gprestore</code> tries to locate metadata files for the timestamp on the SynxDB master host in the $MASTER_DATA_DIRECTORY/backups/YYYYMMDD/YYYYMMDDhhmmss/ directory. CSV data files must be available on each segment in the &lt;seg_dir&gt;/backups/YYYYMMDD/YYYYMMDDhhmmss/ directory. Include this option when you specify a custom backup directory with <code>gpbackup</code>.</p>
-<p>:   You cannot combine this option with the option <code>--plugin-config</code>.</p>
-<p><strong>–create-db</strong>
-:   Optional. Creates the database before restoring the database object metadata.</p>
-<p>:   The database is created by cloning the empty standard system database <code>template0</code>.</p>
-<p><strong>–copy-queue-size</strong> int
-:   Optional. Specifies the number of <code>COPY</code> commands <code>gprestore</code> should enqueue when restoring a backup set. This option optimizes restore performance by reducing the amount of time spent initializing <code>COPY</code> commands. If you do not set this option to 2 or greater, <code>gprestore</code> enqueues 1 <code>COPY</code> command at a time.</p>
-<p><strong>–data-only</strong>
-:   Optional. Restores table data from a backup created with the <code>gpbackup</code> utility, without creating the database tables. This option assumes the tables exist in the target database. To restore data for a specific set of tables from a backup set, you can specify an option to include tables or schemas or exclude tables or schemas. Specify the <code>--with-stats</code> option to restore table statistics from the backup.</p>
-<p>:   The backup set must contain the table data to be restored. For example, a backup created with the <code>gpbackup</code> option <code>--metadata-only</code> does not contain table data.</p>
-<p>:   <code>SEQUENCE</code> values are updated to match the values taken at the time of the backup.</p>
-<p>:   To restore only database tables, without restoring the table data, use the option <code>--metadata-only</code>.</p>
-<p><strong>–debug</strong>
-:   Optional. Displays verbose and debug log messages during a restore operation.</p>
-<p><strong>–exclude-schema</strong> schema_name
-:   Optional. Specifies a database schema to exclude from the restore operation. You can specify this option multiple times. You cannot combine this option with the option <code>--include-schema</code>, <code>--include-schema-file</code>, or a table filtering option such as <code>--include-table</code>.</p>
-<p><strong>–exclude-schema-file</strong> file_name
-:   Optional. Specifies a text file containing a list of schemas to exclude from the backup. Each line in the text file must define a single schema. The file must not include trailing lines. If a schema name uses any character other than a lowercase letter, number, or an underscore character, then you must include that name in double quotes. You cannot combine this option with the option <code>--include-schema</code> or <code>--include-schema-file</code>, or a table filtering option such as <code>--include-table</code>.</p>
-<p><strong>–exclude-table</strong> schema.table
-:   Optional. Specifies a table to exclude from the restore operation. You can specify this option multiple times. The table must be in the format <code>&lt;schema-name&gt;.&lt;table-name&gt;</code>. If a table or schema name uses any character other than a lowercase letter, number, or an underscore character, then you must include that name in double quotes. You can specify this option multiple times. If the table is not in the backup set, the restore operation fails. You cannot specify a leaf partition of a partitioned table.</p>
-<p>:   You cannot combine this option with the option <code>--exclude-schema</code>, <code>--exclude-schema-file</code>, or another a table filtering option such as <code>--include-table</code>.</p>
-<p><strong>–exclude-table-file</strong> file_name
-:   Optional. Specifies a text file containing a list of tables to exclude from the restore operation. Each line in the text file must define a single table using the format <code>&lt;schema-name&gt;.&lt;table-name&gt;</code>. The file must not include trailing lines. If a table or schema name uses any character other than a lowercase letter, number, or an underscore character, then you must include that name in double quotes. If a table is not in the backup set, the restore operation fails. You cannot specify a leaf partition of a partitioned table.</p>
-<p>:   You cannot combine this option with the option <code>--exclude-schema</code>, <code>--exclude-schema-file</code>, or another a table filtering option such as <code>--include-table</code>.</p>
-<p><strong>–include-schema</strong> schema_name
-:   Optional. Specifies a database schema to restore. You can specify this option multiple times. If you specify this option, any schemas that you specify must be available in the backup set. Any schemas that are not included in subsequent <code>--include-schema</code> options are omitted from the restore operation.</p>
-<p>:   If a schema that you specify for inclusion exists in the database, the utility issues an error and continues the operation. The utility fails if a table being restored exists in the database.</p>
-<p>:   You cannot use this option if objects in the backup set have dependencies on multiple schemas.</p>
-<p>:   See <a href="../../admin_guide/managing/backup-gpbackup.html">Filtering the Contents of a Backup or Restore</a> for more information.</p>
-<p><strong>–include-schema-file</strong> file_name
-:   Optional. Specifies a text file containing a list of schemas to restore. Each line in the text file must define a single schema. The file must not include trailing lines. If a schema name uses any character other than a lowercase letter, number, or an underscore character, then you must include that name in double quotes.</p>
-<p>:   The schemas must exist in the backup set. Any schemas not listed in this file are omitted from the restore operation.</p>
-<p>:   You cannot use this option if objects in the backup set have dependencies on multiple schemas.</p>
-<p><strong>–include-table</strong> schema.table
-:   Optional. Specifies a table to restore. The table must be in the format &lt;schema-name&gt;.&lt;table-name&gt;. You can specify this option multiple times. You cannot specify a leaf partition of a partitioned table. For information on specifying special characters in schema and table names, see the <code>gpbackup</code> <a href="gpbackup.html">Schema and Table Names</a> section.</p>
-<p>:   You can also specify the qualified name of a sequence, a view, or a materialized view.</p>
-<p>:   If you specify this option, the utility does not automatically restore dependent objects. You must also explicitly specify the dependent objects that are required. For example if you restore a view or a materialized view, you must also restore the tables that the view or the materialized view uses. If you restore a table that uses a sequence, you must also restore the sequence. The dependent objects must exist in the backup set.</p>
-<p>:   You cannot combine this option with a schema filtering option such as <code>--include-schema</code>, or another table filtering option such as <code>--exclude-table-file</code>.</p>
-<p><strong>–include-table-file</strong> file_name
-:   Optional. Specifies a text file containing a list of tables to restore. Each line in the text file must define a single table using the format <code>&lt;schema-name&gt;.&lt;table-name&gt;</code>. The file must not include trailing lines. Any tables not listed in this file are omitted from the restore operation. You cannot specify a leaf partition of a partitioned table. For information on specifying special characters in schema and table names, see the <code>gpbackup</code> <a href="gpbackup.html">Schema and Table Names</a> section.</p>
-<p>:   You can also specify the qualified name of a sequence, a view, or a materialized view.</p>
-<p>:   If you specify this option, the utility does not automatically restore dependent objects. You must also explicitly specify dependent objects that are required. For example if you restore a view or a materialized view, you must also specify the tables that the view or the materialized uses. If you specify a table that uses a sequence, you must also specify the sequence. The dependent objects must exist in the backup set.</p>
-<p>:   For a materialized view, the data is not restored. To populate the materialized view with data, you must use <code>REFRESH MATERIALIZED VIEW</code> and the tables that are referenced by the materialized view definition must be available.</p>
-<p>:   If you use the <code>--include-table-file</code> option, <code>gprestore</code> does not create roles or set the owner of the tables. The utility restores table indexes and rules. Triggers are also restored but are not supported in SynxDB.</p>
-<p>:   See <a href="../../admin_guide/managing/backup-gpbackup.html">Filtering the Contents of a Backup or Restore</a> for more information.</p>
-<p>–incremental (Beta)
-:   Optional. Requires the <code>--data-only option</code>. Restores only the table data in the incremental backup specified by the <code>--timestamp</code> option. Table data is not restored from previous incremental backups in the backup set. For information about incremental backups, see <a href="../../admin_guide/managing/backup-gpbackup-incremental.html">Creating and Using Incremental Backups with gpbackup and gprestore</a>.
-<br/><br/><strong>Warning:</strong> This is a Beta featureand is not supported in a production environment.</p>
-<p>:   An incremental backup contains the following table data that can be restored.</p>
-<p>:   -   Data from all heap tables.</p>
+<h3 id="timestamp"><a class="header" href="#timestamp">–timestamp  <YYYYMMDDHHMMSS></a></h3>
+<p>Required. Specifies the timestamp of the <code>gpbackup</code> backup set to restore. By default <code>gprestore</code> tries to locate metadata files for the timestamp on the SynxDB master host in the $MASTER_DATA_DIRECTORY/backups/YYYYMMDD/YYYYMMDDhhmmss/ directory, and CSV data files in the &lt;seg_dir&gt;/backups/YYYYMMDD/YYYYMMDDhhmmss/ directory of each segment host.</p>
+<h3 id="backup-dir"><a class="header" href="#backup-dir">–backup-dir  <directory></a></h3>
+<p>Optional. Sources all backup files (metadata files and data files) from the specified directory. You must specify directory as an absolute path (not relative). If you do not supply this option, <code>gprestore</code> tries to locate metadata files for the timestamp on the SynxDB master host in the $MASTER_DATA_DIRECTORY/backups/YYYYMMDD/YYYYMMDDhhmmss/ directory. CSV data files must be available on each segment in the &lt;seg_dir&gt;/backups/YYYYMMDD/YYYYMMDDhhmmss/ directory. Include this option when you specify a custom backup directory with <code>gpbackup</code>.</p>
+<p>You cannot combine this option with the option <code>--plugin-config</code>.</p>
+<h3 id="create-db"><a class="header" href="#create-db">–create-db</a></h3>
+<p>Optional. Creates the database before restoring the database object metadata.</p>
+<p>The database is created by cloning the empty standard system database <code>template0</code>.</p>
+<h3 id="copy-queue-size"><a class="header" href="#copy-queue-size">–copy-queue-size  <int></a></h3>
+<p>Optional. Specifies the number of <code>COPY</code> commands <code>gprestore</code> should enqueue when restoring a backup set. This option optimizes restore performance by reducing the amount of time spent initializing <code>COPY</code> commands. If you do not set this option to 2 or greater, <code>gprestore</code> enqueues 1 <code>COPY</code> command at a time.</p>
+<h3 id="data-only"><a class="header" href="#data-only">–data-only</a></h3>
+<p>Optional. Restores table data from a backup created with the <code>gpbackup</code> utility, without creating the database tables. This option assumes the tables exist in the target database. To restore data for a specific set of tables from a backup set, you can specify an option to include tables or schemas or exclude tables or schemas. Specify the <code>--with-stats</code> option to restore table statistics from the backup.</p>
+<p>The backup set must contain the table data to be restored. For example, a backup created with the <code>gpbackup</code> option <code>--metadata-only</code> does not contain table data.</p>
+<p><code>SEQUENCE</code> values are updated to match the values taken at the time of the backup.</p>
+<p>To restore only database tables, without restoring the table data, use the option <code>--metadata-only</code>.</p>
+<h3 id="debug"><a class="header" href="#debug">–debug</a></h3>
+<p>Optional. Displays verbose and debug log messages during a restore operation.</p>
+<h3 id="exclude-schema--schema_name"><a class="header" href="#exclude-schema--schema_name">–exclude-schema  &lt;schema_name&gt;</a></h3>
+<p>Optional. Specifies a database schema to exclude from the restore operation. You can specify this option multiple times. You cannot combine this option with the option <code>--include-schema</code>, <code>--include-schema-file</code>, or a table filtering option such as <code>--include-table</code>.</p>
+<h3 id="exclude-schema-file--file_name"><a class="header" href="#exclude-schema-file--file_name">–exclude-schema-file  &lt;file_name&gt;</a></h3>
+<p>Optional. Specifies a text file containing a list of schemas to exclude from the backup. Each line in the text file must define a single schema. The file must not include trailing lines. If a schema name uses any character other than a lowercase letter, number, or an underscore character, then you must include that name in double quotes. You cannot combine this option with the option <code>--include-schema</code> or <code>--include-schema-file</code>, or a table filtering option such as <code>--include-table</code>.</p>
+<h3 id="exclude-table--schematable"><a class="header" href="#exclude-table--schematable">–exclude-table  &lt;schema.table&gt;</a></h3>
+<p>Optional. Specifies a table to exclude from the restore operation. You can specify this option multiple times. The table must be in the format <code>&lt;schema-name&gt;.&lt;table-name&gt;</code>. If a table or schema name uses any character other than a lowercase letter, number, or an underscore character, then you must include that name in double quotes. You can specify this option multiple times. If the table is not in the backup set, the restore operation fails. You cannot specify a leaf partition of a partitioned table.</p>
+<p>You cannot combine this option with the option <code>--exclude-schema</code>, <code>--exclude-schema-file</code>, or another a table filtering option such as <code>--include-table</code>.</p>
+<h3 id="exclude-table-file--file_name"><a class="header" href="#exclude-table-file--file_name">–exclude-table-file  &lt;file_name&gt;</a></h3>
+<p>Optional. Specifies a text file containing a list of tables to exclude from the restore operation. Each line in the text file must define a single table using the format <code>&lt;schema-name&gt;.&lt;table-name&gt;</code>. The file must not include trailing lines. If a table or schema name uses any character other than a lowercase letter, number, or an underscore character, then you must include that name in double quotes. If a table is not in the backup set, the restore operation fails. You cannot specify a leaf partition of a partitioned table.</p>
+<p>You cannot combine this option with the option <code>--exclude-schema</code>, <code>--exclude-schema-file</code>, or another a table filtering option such as <code>--include-table</code>.</p>
+<h3 id="include-schema--schema_name"><a class="header" href="#include-schema--schema_name">–include-schema  &lt;schema_name&gt;</a></h3>
+<p>Optional. Specifies a database schema to restore. You can specify this option multiple times. If you specify this option, any schemas that you specify must be available in the backup set. Any schemas that are not included in subsequent <code>--include-schema</code> options are omitted from the restore operation.</p>
+<p>If a schema that you specify for inclusion exists in the database, the utility issues an error and continues the operation. The utility fails if a table being restored exists in the database.</p>
+<p>You cannot use this option if objects in the backup set have dependencies on multiple schemas.</p>
+<p>See <a href="../../admin_guide/managing/backup-gpbackup.html">Filtering the Contents of a Backup or Restore</a> for more information.</p>
+<h3 id="include-schema-file--file_name"><a class="header" href="#include-schema-file--file_name">–include-schema-file  &lt;file_name&gt;</a></h3>
+<p>Optional. Specifies a text file containing a list of schemas to restore. Each line in the text file must define a single schema. The file must not include trailing lines. If a schema name uses any character other than a lowercase letter, number, or an underscore character, then you must include that name in double quotes.</p>
+<p>The schemas must exist in the backup set. Any schemas not listed in this file are omitted from the restore operation.</p>
+<p>You cannot use this option if objects in the backup set have dependencies on multiple schemas.</p>
+<h3 id="include-table--schematable"><a class="header" href="#include-table--schematable">–include-table  &lt;schema.table&gt;</a></h3>
+<p>Optional. Specifies a table to restore. The table must be in the format <schema-name>.<table-name>. You can specify this option multiple times. You cannot specify a leaf partition of a partitioned table. For information on specifying special characters in schema and table names, see the <code>gpbackup</code> <a href="gpbackup.html">Schema and Table Names</a> section.</p>
+<p>You can also specify the qualified name of a sequence, a view, or a materialized view.</p>
+<p>If you specify this option, the utility does not automatically restore dependent objects. You must also explicitly specify the dependent objects that are required. For example if you restore a view or a materialized view, you must also restore the tables that the view or the materialized view uses. If you restore a table that uses a sequence, you must also restore the sequence. The dependent objects must exist in the backup set.</p>
+<p>You cannot combine this option with a schema filtering option such as <code>--include-schema</code>, or another table filtering option such as <code>--exclude-table-file</code>.</p>
+<h3 id="include-table-file--file_name"><a class="header" href="#include-table-file--file_name">–include-table-file  &lt;file_name&gt;</a></h3>
+<p>Optional. Specifies a text file containing a list of tables to restore. Each line in the text file must define a single table using the format <code>&lt;schema-name&gt;.&lt;table-name&gt;</code>. The file must not include trailing lines. Any tables not listed in this file are omitted from the restore operation. You cannot specify a leaf partition of a partitioned table. For information on specifying special characters in schema and table names, see the <code>gpbackup</code> <a href="gpbackup.html">Schema and Table Names</a> section.</p>
+<p>You can also specify the qualified name of a sequence, a view, or a materialized view.</p>
+<p>If you specify this option, the utility does not automatically restore dependent objects. You must also explicitly specify dependent objects that are required. For example if you restore a view or a materialized view, you must also specify the tables that the view or the materialized uses. If you specify a table that uses a sequence, you must also specify the sequence. The dependent objects must exist in the backup set.</p>
+<p>For a materialized view, the data is not restored. To populate the materialized view with data, you must use <code>REFRESH MATERIALIZED VIEW</code> and the tables that are referenced by the materialized view definition must be available.</p>
+<p>If you use the <code>--include-table-file</code> option, <code>gprestore</code> does not create roles or set the owner of the tables. The utility restores table indexes and rules. Triggers are also restored but are not supported in SynxDB.</p>
+<p>See <a href="../../admin_guide/managing/backup-gpbackup.html">Filtering the Contents of a Backup or Restore</a> for more information.</p>
+<h3 id="incremental-beta"><a class="header" href="#incremental-beta">–incremental &lt;(Beta)&gt;</a></h3>
+<p>Optional. Requires the <code>--data-only option</code>. Restores only the table data in the incremental backup specified by the <code>--timestamp</code> option. Table data is not restored from previous incremental backups in the backup set. For information about incremental backups, see <a href="../../admin_guide/managing/backup-gpbackup-incremental.html">Creating and Using Incremental Backups with gpbackup and gprestore</a>.
+<br/><br/><strong>Warning:</strong> This is a Beta feature and is not supported in a production environment.</p>
+<p>An incremental backup contains the following table data that can be restored.</p>
 <ul>
+<li>Data from all heap tables.</li>
 <li>Data from append-optimized tables that have been modified since the previous backup.</li>
 <li>Data from leaf partitions that have been modified from the previous backup.</li>
 </ul>
-<p>:   When this option is specified, <code>gprestore</code> restores table data by truncating the table and reloading data into the table. <code>SEQUENCE</code> values are then updated to match the values taken at the time of the backup.</p>
-<p>:   Before performing the restore operation, <code>gprestore</code> ensures that the tables being restored exist. If a table does not exist, <code>gprestore</code> returns an error and exits. If the <code>--on-error-continue</code> option is specified, <code>gprestore</code> logs missing tables and attempts to complete the restore operation.</p>
-<p>:   <strong>Warning:</strong> When this option is specified, <code>gpbackup</code> assumes that no changes have been made to the table definitions of the tables being restored, such as adding or removing columns.</p>
-<p><strong>–truncate-table</strong>
-:   Optional. Truncate data from a set of tables before restoring the table data from a backup. This option lets you replace table data with data from a backup. Otherwise, table data might be duplicated.</p>
-<p>:   You must specify the set of tables with either the option <code>--include-table</code> or <code>--include-table-file</code>. You must also specify <code>--data-only</code> to restore table data without creating the tables.</p>
-<p>:   You can use this option with the <code>--redirect-db</code> option. You cannot use this option with <code>--redirect-schema</code>.</p>
-<p><strong>–redirect-schema</strong> schema_name
-:   Optional. Restore data in the specified schema instead of the original schemas. The specified schema must already exist. If the data being restored is in multiple schemas, all the data is redirected into the specified schema.</p>
-<p>:   This option must be used with an option that includes tables or schemas: <code>--include-table</code>, <code>--include-table-file</code>, <code>--include-schema</code>, or <code>--include-schema-file</code>.</p>
-<p>:   You cannot use this option with an option that excludes schemas or tables such as <code>--exclude-schema</code> or <code>--exclude-table</code>.</p>
-<p>:   You can use this option with the <code>--metadata-only</code> or <code>--data-only</code> options.</p>
-<p><strong>–jobs</strong> int
-:   Optional. Specifies the number of parallel connections to use when restoring table data and metadata. By default, <code>gprestore</code> uses 1 connection. Increasing this number can improve the speed of restoring data.
+<p>When this option is specified, <code>gprestore</code> restores table data by truncating the table and reloading data into the table. <code>SEQUENCE</code> values are then updated to match the values taken at the time of the backup.</p>
+<p>Before performing the restore operation, <code>gprestore</code> ensures that the tables being restored exist. If a table does not exist, <code>gprestore</code> returns an error and exits. If the <code>--on-error-continue</code> option is specified, <code>gprestore</code> logs missing tables and attempts to complete the restore operation.</p>
+<p><strong>Warning:</strong> When this option is specified, <code>gpbackup</code> assumes that no changes have been made to the table definitions of the tables being restored, such as adding or removing columns.</p>
+<h3 id="truncate-table"><a class="header" href="#truncate-table">–truncate-table</a></h3>
+<p>Optional. Truncate data from a set of tables before restoring the table data from a backup. This option lets you replace table data with data from a backup. Otherwise, table data might be duplicated.</p>
+<p>You must specify the set of tables with either the option <code>--include-table</code> or <code>--include-table-file</code>. You must also specify <code>--data-only</code> to restore table data without creating the tables.</p>
+<p>You can use this option with the <code>--redirect-db</code> option. You cannot use this option with <code>--redirect-schema</code>.</p>
+<h3 id="redirect-schema--schema_name"><a class="header" href="#redirect-schema--schema_name">–redirect-schema  &lt;schema_name&gt;</a></h3>
+<p>Optional. Restore data in the specified schema instead of the original schemas. The specified schema must already exist. If the data being restored is in multiple schemas, all the data is redirected into the specified schema.</p>
+<p>This option must be used with an option that includes tables or schemas: <code>--include-table</code>, <code>--include-table-file</code>, <code>--include-schema</code>, or <code>--include-schema-file</code>.</p>
+<p>You cannot use this option with an option that excludes schemas or tables such as <code>--exclude-schema</code> or <code>--exclude-table</code>.</p>
+<p>You can use this option with the <code>--metadata-only</code> or <code>--data-only</code> options.</p>
+<h3 id="jobs"><a class="header" href="#jobs">–jobs  <int></a></h3>
+<p>Optional. Specifies the number of parallel connections to use when restoring table data and metadata. By default, <code>gprestore</code> uses 1 connection. Increasing this number can improve the speed of restoring data.
 <br/><br/><strong>Note:</strong> If you used the <code>gpbackup --single-data-file</code> option to combine table backups into a single file per segment, you cannot set <code>--jobs</code> to a value higher than 1 to perform a parallel restore operation.</p>
-<p><strong>–metadata-only</strong>
-:   Optional. Creates database tables from a backup created with the <code>gpbackup</code> utility, but does not restore the table data. This option assumes the tables do not exist in the target database. To create a specific set of tables from a backup set, you can specify an option to include tables or schemas or exclude tables or schemas. Specify the option <code>--with-globals</code> to restore the SynxDB system objects.</p>
-<p>:   The backup set must contain the DDL for tables to be restored. For example, a backup created with the <code>gpbackup</code> option <code>--data-only</code> does not contain the DDL for tables.</p>
-<p>:   To restore table data after you create the database tables, see the option <code>--data-only</code>.</p>
-<p><strong>–on-error-continue</strong>
-:   Optional. Specify this option to continue the restore operation if an SQL error occurs when creating database metadata (such as tables, roles, or functions) or restoring data. If another type of error occurs, the utility exits. The default is to exit on the first error.</p>
-<p>:   When this option is included, the utility displays an error summary and writes error information to the <code>gprestore</code> log file and continues the restore operation. The utility also creates text files in the backup directory that contain the list of tables that generated SQL errors.
+<h3 id="metadata-only"><a class="header" href="#metadata-only">–metadata-only</a></h3>
+<p>Optional. Creates database tables from a backup created with the <code>gpbackup</code> utility, but does not restore the table data. This option assumes the tables do not exist in the target database. To create a specific set of tables from a backup set, you can specify an option to include tables or schemas or exclude tables or schemas. Specify the option <code>--with-globals</code> to restore the SynxDB system objects.</p>
+<p>The backup set must contain the DDL for tables to be restored. For example, a backup created with the <code>gpbackup</code> option <code>--data-only</code> does not contain the DDL for tables.</p>
+<p>To restore table data after you create the database tables, see the option <code>--data-only</code>.</p>
+<h3 id="on-error-continue"><a class="header" href="#on-error-continue">–on-error-continue</a></h3>
+<p>Optional. Specify this option to continue the restore operation if an SQL error occurs when creating database metadata (such as tables, roles, or functions) or restoring data. If another type of error occurs, the utility exits. The default is to exit on the first error.</p>
+<p>When this option is included, the utility displays an error summary and writes error information to the <code>gprestore</code> log file and continues the restore operation. The utility also creates text files in the backup directory that contain the list of tables that generated SQL errors.
 -   Tables with metadata errors - <code>gprestore_&lt;backup-timestamp&gt;_&lt;restore-time&gt;_error_tables_metadata</code>
 -   Tables with data errors - <code>gprestore_&lt;backup-timestamp&gt;_&lt;restore-time&gt;_error_tables_data</code></p>
-<p><strong>–plugin-config</strong> config-file_location
-:   Specify the location of the <code>gpbackup</code> plugin configuration file, a YAML-formatted text file. The file contains configuration information for the plugin application that <code>gprestore</code> uses during the restore operation.</p>
-<p>:   If you specify the <code>--plugin-config</code> option when you back up a database, you must specify this option with configuration information for a corresponding plugin application when you restore the database from the backup.</p>
-<p>:   You cannot combine this option with the option <code>--backup-dir</code>.</p>
-<p>:   For information about using storage plugin applications, see <a href="../../admin_guide/managing/backup-plugins.html">Using gpbackup Storage Plugins</a>.</p>
-<p><strong>–quiet</strong>
-:   Optional. Suppress all non-warning, non-error log messages.</p>
-<p><strong>–redirect-db</strong> database_name
-:   Optional. Restore to the specified database_name instead of to the database that was backed up.</p>
-<p><strong>–verbose</strong>
-:   Optional. Displays verbose log messages during a restore operation.</p>
-<p><strong>–version</strong>
-:   Optional. Print the version number and exit.</p>
-<p><strong>–with-globals</strong>
-:   Optional. Restores SynxDB system objects in the backup set, in addition to database objects. See <a href="../../admin_guide/managing/backup-gpbackup.html">Objects Included in a Backup or Restore</a>.</p>
-<p><strong>–with-stats</strong>
-:   Optional. Restore query plan statistics from the backup set. If the backup set was not created with the <code>--with-stats</code> option, an error is returned. Restored tables will only have statistics from the backup. You cannot use this option with <code>--run-analyze</code>.</p>
-<p>:   To collect current statistics for the restored tables during the restore operation, use the <code>--run-analyze</code> option. As an alternative, you can run the <code>ANALYZE</code> command on the tables after the tables are restored.</p>
-<p><strong>–run-analyze</strong>
-:   Optional. Run <code>ANALYZE</code> on the tables that are restored. For a partitioned table, <code>ANALYZE</code> is run on the root partitioned table. If <code>--with-stats</code> was specified for the backup, those statistics are ignored. You cannot use this option with <code>--with-stats</code>.</p>
-<p>:   If the backup being restored used the <code>gpbackup</code> option <code>--leaf-partition-data</code>, <code>gprestore</code> runs <code>ANALYZE</code> only on the individual leaf partitions that are restored, not the root partitioned table. For SynxDB 5, <code>ANALYZE</code> updates the root partitioned table statistics when all leaf partitions have statistics as the default. For SynxDB 4, you must run <code>ANALYZE</code> on the root partitioned table to update the root partition statistics.</p>
-<p>:   Depending the tables being restored, running <code>ANALYZE</code> on restored tables might increase the duration of the restore operation.</p>
-<p>–help
-:   Displays the online help.</p>
+<h3 id="plugin-config--config-file_location"><a class="header" href="#plugin-config--config-file_location">–plugin-config  &lt;config-file_location&gt;</a></h3>
+<p>Specify the location of the <code>gpbackup</code> plugin configuration file, a YAML-formatted text file. The file contains configuration information for the plugin application that <code>gprestore</code> uses during the restore operation.</p>
+<p>If you specify the <code>--plugin-config</code> option when you back up a database, you must specify this option with configuration information for a corresponding plugin application when you restore the database from the backup.</p>
+<p>You cannot combine this option with the option <code>--backup-dir</code>.</p>
+<p>For information about using storage plugin applications, see <a href="../../admin_guide/managing/backup-plugins.html">Using gpbackup Storage Plugins</a>.</p>
+<h3 id="quiet"><a class="header" href="#quiet">–quiet</a></h3>
+<p>Optional. Suppress all non-warning, non-error log messages.</p>
+<h3 id="redirect-db--database_name"><a class="header" href="#redirect-db--database_name">–redirect-db  &lt;database_name&gt;</a></h3>
+<p>Optional. Restore to the specified database_name instead of to the database that was backed up.</p>
+<h3 id="verbose"><a class="header" href="#verbose">–verbose</a></h3>
+<p>Optional. Displays verbose log messages during a restore operation.</p>
+<h3 id="version"><a class="header" href="#version">–version</a></h3>
+<p>Optional. Print the version number and exit.</p>
+<h3 id="with-globals"><a class="header" href="#with-globals">–with-globals</a></h3>
+<p>Optional. Restores SynxDB system objects in the backup set, in addition to database objects. See <a href="../../admin_guide/managing/backup-gpbackup.html">Objects Included in a Backup or Restore</a>.</p>
+<h3 id="with-stats"><a class="header" href="#with-stats">–with-stats</a></h3>
+<p>Optional. Restore query plan statistics from the backup set. If the backup set was not created with the <code>--with-stats</code> option, an error is returned. Restored tables will only have statistics from the backup. You cannot use this option with <code>--run-analyze</code>.</p>
+<p>To collect current statistics for the restored tables during the restore operation, use the <code>--run-analyze</code> option. As an alternative, you can run the <code>ANALYZE</code> command on the tables after the tables are restored.</p>
+<h3 id="run-analyze"><a class="header" href="#run-analyze">–run-analyze</a></h3>
+<p>Optional. Run <code>ANALYZE</code> on the tables that are restored. For a partitioned table, <code>ANALYZE</code> is run on the root partitioned table. If <code>--with-stats</code> was specified for the backup, those statistics are ignored. You cannot use this option with <code>--with-stats</code>.</p>
+<p>If the backup being restored used the <code>gpbackup</code> option <code>--leaf-partition-data</code>, <code>gprestore</code> runs <code>ANALYZE</code> only on the individual leaf partitions that are restored, not the root partitioned table. For SynxDB 5, <code>ANALYZE</code> updates the root partitioned table statistics when all leaf partitions have statistics as the default. For SynxDB 4, you must run <code>ANALYZE</code> on the root partitioned table to update the root partition statistics.</p>
+<p>Depending the tables being restored, running <code>ANALYZE</code> on restored tables might increase the duration of the restore operation.</p>
+<h3 id="help"><a class="header" href="#help">–help</a></h3>
+<p>Displays the online help.</p>
 <h2 id="return-codes"><a class="header" href="#return-codes"><a id="return_codes"></a>Return Codes</a></h2>
 <p>One of these codes is returned after <code>gprestore</code> completes.</p>
 <ul>

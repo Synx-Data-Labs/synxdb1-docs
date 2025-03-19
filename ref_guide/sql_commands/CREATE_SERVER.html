@@ -170,31 +170,31 @@
 <p>A foreign server typically encapsulates connection information that a foreign-data wrapper uses to access an external data source. Additional user-specific connection information may be specified by means of user mappings.</p>
 <p>Creating a server requires the <code>USAGE</code> privilege on the foreign-data wrapper specified.</p>
 <h2 id="parameters"><a class="header" href="#parameters"><a id="section4"></a>Parameters</a></h2>
-<p>server_name
-:   The name of the foreign server to create. The server name must be unique within the database.</p>
-<p>server_type
-:   Optional server type, potentially useful to foreign-data wrappers.</p>
-<p>server_version
-:   Optional server version, potentially useful to foreign-data wrappers.</p>
-<p>fdw_name
-:   Name of the foreign-data wrapper that manages the server.</p>
-<p>OPTIONS ( option ‘value’ [, … ] )
-:   The options for the new foreign server. The options typically define the connection details of the server, but the actual names and values are dependent upon the server’s foreign-data wrapper.</p>
-<p>mpp_execute { ‘master’ | ‘any’ | ‘all segments’ }
-:   A SynxDB-specific option that identifies the host from which the foreign-data wrapper reads or writes data:</p>
-<pre><code>-   `master` \(the default\)—Read or write data from the master host.
--   `any`—Read data from either the master host or any one segment, depending on which path costs less.
--   `all segments`—Read or write data from all segments. To support this option value, the foreign-data wrapper should have a policy that matches the segments to data.
-&lt;br/&gt;&lt;br/&gt;&gt; **Note** SynxDB supports parallel writes to foreign tables only when you set `mpp_execute 'all segments'`.
-
-Support for the foreign server `mpp_execute` option, and the specific modes, is foreign-data wrapper-specific.
-
-The `mpp_execute` option can be specified in multiple commands: `CREATE FOREIGN TABLE`, `CREATE SERVER`, and `CREATE FOREIGN DATA WRAPPER`. The foreign table setting takes precedence over the foreign server setting, followed by the foreign-data wrapper setting.
-</code></pre>
-<p>num_segments ‘num’
-:   When <code>mpp_execute</code> is set to <code>'all segments'</code>, the SynxDB-specific <code>num_segments</code> option identifies the number of query executors that SynxDB spawns on the source SynxDB cluster. If you do not provide a value, num defaults to the number of segments in the source cluster.</p>
-<pre><code>Support for the foreign server `num_segments` option is foreign-data wrapper-specific.
-</code></pre>
+<h3 id="server_name"><a class="header" href="#server_name">server_name</a></h3>
+<p>The name of the foreign server to create. The server name must be unique within the database.</p>
+<h3 id="server_type"><a class="header" href="#server_type">server_type</a></h3>
+<p>Optional server type, potentially useful to foreign-data wrappers.</p>
+<h3 id="server_version"><a class="header" href="#server_version">server_version</a></h3>
+<p>Optional server version, potentially useful to foreign-data wrappers.</p>
+<h3 id="fdw_name"><a class="header" href="#fdw_name">fdw_name</a></h3>
+<p>Name of the foreign-data wrapper that manages the server.</p>
+<h3 id="options--option-value----"><a class="header" href="#options--option-value----">OPTIONS ( option ‘value’ [, … ] )</a></h3>
+<p>The options for the new foreign server. The options typically define the connection details of the server, but the actual names and values are dependent upon the server’s foreign-data wrapper.</p>
+<h3 id="mpp_execute--master--any--all-segments-"><a class="header" href="#mpp_execute--master--any--all-segments-">mpp_execute { ‘master’ | ‘any’ | ‘all segments’ }</a></h3>
+<p>A SynxDB-specific option that identifies the host from which the foreign-data wrapper reads or writes data:</p>
+<ul>
+<li><code>master</code> (the default)—Read or write data from the master host.</li>
+<li><code>any</code>—Read data from either the master host or any one segment, depending on which path costs less.</li>
+<li><code>all segments</code>—Read or write data from all segments. To support this option value, the foreign-data wrapper should have a policy that matches the segments to data.</li>
+</ul>
+<blockquote>
+<p><strong>Note</strong> SynxDB supports parallel writes to foreign tables only when you set <code>mpp_execute 'all segments'</code>.</p>
+</blockquote>
+<p>Support for the foreign server <code>mpp_execute</code> option, and the specific modes, is foreign-data wrapper-specific.</p>
+<p>The <code>mpp_execute</code> option can be specified in multiple commands: <code>CREATE FOREIGN TABLE</code>, <code>CREATE SERVER</code>, and <code>CREATE FOREIGN DATA WRAPPER</code>. The foreign table setting takes precedence over the foreign server setting, followed by the foreign-data wrapper setting.</p>
+<h3 id="num_segments-num"><a class="header" href="#num_segments-num">num_segments ‘num’</a></h3>
+<p>When <code>mpp_execute</code> is set to <code>'all segments'</code>, the SynxDB-specific <code>num_segments</code> option identifies the number of query executors that SynxDB spawns on the source SynxDB cluster. If you do not provide a value, num defaults to the number of segments in the source cluster.</p>
+<p>Support for the foreign server <code>num_segments</code> option is foreign-data wrapper-specific.</p>
 <h2 id="notes"><a class="header" href="#notes"><a id="section5"></a>Notes</a></h2>
 <p>When using the dblink module (see <a href="../modules/dblink.html">dblink</a>), you can use the foreign server name as an argument of the <code>dblink_connect()</code> function to provide the connection parameters. You must have the <code>USAGE</code> privilege on the foreign server to use it in this manner.</p>
 <h2 id="examples"><a class="header" href="#examples"><a id="section6"></a>Examples</a></h2>

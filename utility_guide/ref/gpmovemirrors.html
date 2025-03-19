@@ -172,48 +172,37 @@ gpmovemirrors --version
 <p>By default, the utility will prompt you for the file system location(s) where it will move the mirror segment data directories.</p>
 <p>You must make sure that the user who runs <code>gpmovemirrors</code> (the <code>gpadmin</code> user) has permissions to write to the data directory locations specified. You may want to create these directories on the segment hosts and <code>chown</code> them to the appropriate user before running <code>gpmovemirrors</code>.</p>
 <h2 id="options"><a class="header" href="#options"><a id="section4"></a>Options</a></h2>
-<p>-b segment_batch_size
-:   The maximum number of segments per host to operate on in parallel. Valid values are <code>1</code> to <code>128</code>. If not specified, the utility will start recovering up to 64 segments in parallel on each host.</p>
-<p>-B batch_size
-:   The number of hosts to work on in parallel. If not specified, the utility will start working on up to 16 hosts in parallel. Valid values are <code>1</code> to <code>64</code>.</p>
-<p>-d master_data_directory
-:   The master data directory. If not specified, the value set for <code>$MASTER_DATA_DIRECTORY</code> will be used.</p>
-<p>–hba-hostnames boolean
-:   Optional. Controls whether this utility uses IP addresses or host names in the <code>pg_hba.conf</code> file when updating this file with addresses that can connect to SynxDB. When set to 0 – the default value – this utility uses IP addresses when updating this file. When set to 1, this utility uses host names when updating this file. For consistency, use the same value that was specified for <code>HBA_HOSTNAMES</code> when the SynxDB system was initialized. For information about how SynxDB resolves host names in the <code>pg_hba.conf</code> file, see <a href="../../admin_guide/client_auth.html">Configuring Client Authentication</a>.</p>
-<p>-i move_config_file
-:   A configuration file containing information about which mirror segments to move, and where to move them.</p>
-<p>:   You must have one mirror segment listed for each primary segment in the system. Each line inside the configuration file has the following format (as per attributes in the <code>gp_segment_configuration</code> catalog table):</p>
-<p>:   ```
-&lt;old_address&gt;|<port>|&lt;data_dir&gt; &lt;new_address&gt;|<port>|&lt;data_dir&gt;</p>
-<pre><code>
-:   Where `&lt;old_address&gt;` and `&lt;new_address&gt;` are the host names or IP addresses of the segment hosts, `&lt;port&gt;` is the communication port, and `&lt;data_dir&gt;` is the segment instance data directory.
-
--l logfile\_directory
-:   The directory to write the log file. Defaults to `~/gpAdminLogs`.
-
--v \(verbose\)
-:   Sets logging output to verbose.
-
---version \(show utility version\)
-:   Displays the version of this utility.
-
--? \(help\)
-:   Displays the online help.
-
-## &lt;a id="section5"&gt;&lt;/a&gt;Examples 
-
-Moves mirrors from an existing SynxDB system to a different set of hosts:
-
+<h3 id="-b-segment_batch_size"><a class="header" href="#-b-segment_batch_size">-b segment_batch_size</a></h3>
+<p>The maximum number of segments per host to operate on in parallel. Valid values are <code>1</code> to <code>128</code>. If not specified, the utility will start recovering up to 64 segments in parallel on each host.</p>
+<h3 id="-b-batch_size"><a class="header" href="#-b-batch_size">-B batch_size</a></h3>
+<p>The number of hosts to work on in parallel. If not specified, the utility will start working on up to 16 hosts in parallel. Valid values are <code>1</code> to <code>64</code>.</p>
+<h3 id="-d-master_data_directory"><a class="header" href="#-d-master_data_directory">-d master_data_directory</a></h3>
+<p>The master data directory. If not specified, the value set for <code>$MASTER_DATA_DIRECTORY</code> will be used.</p>
+<h3 id="hba-hostnames-boolean"><a class="header" href="#hba-hostnames-boolean">–hba-hostnames boolean</a></h3>
+<p>Optional. Controls whether this utility uses IP addresses or host names in the <code>pg_hba.conf</code> file when updating this file with addresses that can connect to SynxDB. When set to 0 – the default value – this utility uses IP addresses when updating this file. When set to 1, this utility uses host names when updating this file. For consistency, use the same value that was specified for <code>HBA_HOSTNAMES</code> when the SynxDB system was initialized. For information about how SynxDB resolves host names in the <code>pg_hba.conf</code> file, see <a href="../../admin_guide/client_auth.html">Configuring Client Authentication</a>.</p>
+<h3 id="-i-move_config_file"><a class="header" href="#-i-move_config_file">-i move_config_file</a></h3>
+<p>A configuration file containing information about which mirror segments to move, and where to move them.</p>
+<p>You must have one mirror segment listed for each primary segment in the system. Each line inside the configuration file has the following format (as per attributes in the <code>gp_segment_configuration</code> catalog table):</p>
+<pre><code>&lt;old_address&gt;|&lt;port&gt;|&lt;data_dir&gt; &lt;new_address&gt;|&lt;port&gt;|&lt;data_dir&gt;
 </code></pre>
-<p>$ gpmovemirrors -i move_config_file</p>
-<pre><code>
-Where the `move_config_file` looks something like this:
-
+<p>Where <code>&lt;old_address&gt;</code> and <code>&lt;new_address&gt;</code> are the host names or IP addresses of the segment hosts, <code>&lt;port&gt;</code> is the communication port, and <code>&lt;data_dir&gt;</code> is the segment instance data directory.</p>
+<h3 id="-l-logfile_directory"><a class="header" href="#-l-logfile_directory">-l logfile_directory</a></h3>
+<p>The directory to write the log file. Defaults to <code>~/gpAdminLogs</code>.</p>
+<h3 id="-v-verbose"><a class="header" href="#-v-verbose">-v (verbose)</a></h3>
+<p>Sets logging output to verbose.</p>
+<h3 id="version-show-utility-version"><a class="header" href="#version-show-utility-version">–version (show utility version)</a></h3>
+<p>Displays the version of this utility.</p>
+<h3 id="--help"><a class="header" href="#--help">-? (help)</a></h3>
+<p>Displays the online help.</p>
+<h2 id="examples"><a class="header" href="#examples"><a id="section5"></a>Examples</a></h2>
+<p>Moves mirrors from an existing SynxDB system to a different set of hosts:</p>
+<pre><code>$ gpmovemirrors -i move_config_file
 </code></pre>
-<p>sdw2|50000|/data2/mirror/gpseg0 sdw3|50000|/data/mirror/gpseg0
+<p>Where the <code>move_config_file</code> looks something like this:</p>
+<pre><code>sdw2|50000|/data2/mirror/gpseg0 sdw3|50000|/data/mirror/gpseg0
 sdw2|50001|/data2/mirror/gpseg1 sdw4|50001|/data/mirror/gpseg1
-sdw3|50002|/data2/mirror/gpseg2 sdw1|50002|/data/mirror/gpseg2</p>
-<pre><code>
+sdw3|50002|/data2/mirror/gpseg2 sdw1|50002|/data/mirror/gpseg2
+
 </code></pre>
 
                     </main>

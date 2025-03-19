@@ -170,18 +170,18 @@ ALTER TEXT SEARCH DICTIONARY &lt;name&gt; SET SCHEMA &lt;new_schema&gt;
 <p><code>ALTER TEXT SEARCH DICTIONARY</code> changes the definition of a text search dictionary. You can change the dictionary’s template-specific options, or change the dictionary’s name or owner.</p>
 <p>You must be the owner of the dictionary to use <code>ALTER TEXT SEARCH DICTIONARY</code>.</p>
 <h2 id="parameters"><a class="header" href="#parameters"><a id="section4"></a>Parameters</a></h2>
-<p><code>name</code>
-:   The name (optionally schema-qualified) of an existing text search dictionary.</p>
-<p><code>option</code>
-:   The name of a template-specific option to be set for this dictionary.</p>
-<p><code>value</code>
-:   The new value to use for a template-specific option. If the equal sign and value are omitted, then any previous setting for the option is removed from the dictionary, allowing the default to be used.</p>
-<p><code>new\_name</code>
-:   The new name of the text search dictionary.</p>
-<p><code>new\_owner</code>
-:   The new owner of the text search dictionary.</p>
-<p><code>new\_schema</code>
-:   The new schema for the text search dictionary.</p>
+<h3 id="name"><a class="header" href="#name"><code>name</code></a></h3>
+<p>The name (optionally schema-qualified) of an existing text search dictionary.</p>
+<h3 id="option"><a class="header" href="#option"><code>option</code></a></h3>
+<p>The name of a template-specific option to be set for this dictionary.</p>
+<h3 id="value"><a class="header" href="#value"><code>value</code></a></h3>
+<p>The new value to use for a template-specific option. If the equal sign and value are omitted, then any previous setting for the option is removed from the dictionary, allowing the default to be used.</p>
+<h3 id="new_name"><a class="header" href="#new_name"><code>new\_name</code></a></h3>
+<p>The new name of the text search dictionary.</p>
+<h3 id="new_owner"><a class="header" href="#new_owner"><code>new\_owner</code></a></h3>
+<p>The new owner of the text search dictionary.</p>
+<h3 id="new_schema"><a class="header" href="#new_schema"><code>new\_schema</code></a></h3>
+<p>The new schema for the text search dictionary.</p>
 <p>Template-specific options can appear in any order.</p>
 <h2 id="examples"><a class="header" href="#examples"><a id="section5"></a>Examples</a></h2>
 <p>The following example command changes the stopword list for a Snowball-based dictionary. Other parameters remain unchanged.</p>

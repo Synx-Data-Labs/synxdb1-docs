@@ -170,15 +170,14 @@ RESET ROLE
 <p>The specified rolename must be a role that the current session user is a member of. If the session user is a superuser, any role can be selected.</p>
 <p>The <code>NONE</code> and <code>RESET</code> forms reset the current role identifier to be the current session role identifier. These forms may be run by any user.</p>
 <h2 id="parameters"><a class="header" href="#parameters"><a id="section4"></a>Parameters</a></h2>
-<p>SESSION
-:   Specifies that the command takes effect for the current session. This is the default.</p>
-<p>LOCAL
-:   Specifies that the command takes effect for only the current transaction. After <code>COMMIT</code> or <code>ROLLBACK</code>, the session-level setting takes effect again. Note that <code>SET LOCAL</code> will appear to have no effect if it is run outside of a transaction.</p>
-<p>rolename
-:   The name of a role to use for permissions checking in this session.</p>
-<p>NONE
-RESET
-:   Reset the current role identifier to be the current session role identifier (that of the role used to log in).</p>
+<h3 id="session"><a class="header" href="#session">SESSION</a></h3>
+<p>Specifies that the command takes effect for the current session. This is the default.</p>
+<h3 id="local"><a class="header" href="#local">LOCAL</a></h3>
+<p>Specifies that the command takes effect for only the current transaction. After <code>COMMIT</code> or <code>ROLLBACK</code>, the session-level setting takes effect again. Note that <code>SET LOCAL</code> will appear to have no effect if it is run outside of a transaction.</p>
+<h3 id="rolename"><a class="header" href="#rolename">rolename</a></h3>
+<p>The name of a role to use for permissions checking in this session.</p>
+<h3 id="nonereset"><a class="header" href="#nonereset">NONE<br/>RESET</a></h3>
+<p>Reset the current role identifier to be the current session role identifier (that of the role used to log in).</p>
 <h2 id="notes"><a class="header" href="#notes"><a id="section5"></a>Notes</a></h2>
 <p>Using this command, it is possible to either add privileges or restrict privileges. If the session user role has the <code>INHERITS</code> attribute, then it automatically has all the privileges of every role that it could <code>SET ROLE</code> to; in this case <code>SET ROLE</code> effectively drops all the privileges assigned directly to the session user and to the other roles it is a member of, leaving only the privileges available to the named role. On the other hand, if the session user role has the <code>NOINHERITS</code> attribute, <code>SET ROLE</code> drops the privileges assigned directly to the session user and instead acquires the privileges available to the named role.</p>
 <p>In particular, when a superuser chooses to <code>SET ROLE</code> to a non-superuser role, they lose their superuser privileges.</p>

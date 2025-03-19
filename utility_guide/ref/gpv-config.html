@@ -236,9 +236,9 @@ gpv config set vsphere &lt;setting&gt;
 </code></pre>
 <p>Where <code>setting</code> can be one of the following:</p>
 <p>deployment-type &lt;type_name&gt;
-:   Specifies whether the SynxDB deployment uses mirror segments or not. Valid values of <code>&lt;type_name&gt;</code> include <code>mirrored</code> and <code>mirrorless</code>. For example: <code>gpv config set database deployment-type mirrored</code>.</p>
+Specifies whether the SynxDB deployment uses mirror segments or not. Valid values of <code>&lt;type_name&gt;</code> include <code>mirrored</code> and <code>mirrorless</code>. For example: <code>gpv config set database deployment-type mirrored</code>.</p>
 <p>prefix &lt;prefix_name&gt;
-:   Specifies a label which serves as a prefix for the names of the resource pool and the virtual machines in the SynxDB cluster. For example, <code>gpv config set database prefix gpdb</code> prepends <code>gpdb</code> to virtual machines and resource pool names.</p>
+Specifies a label which serves as a prefix for the names of the resource pool and the virtual machines in the SynxDB cluster. For example, <code>gpv config set database prefix gpdb</code> prepends <code>gpdb</code> to virtual machines and resource pool names.</p>
 <h4 id="network-base-vm"><a class="header" href="#network-base-vm"><a id="network-base"></a>network base-vm</a></h4>
 <p>Configure the network settings for the base virtual machine</p>
 <pre><code>gpv config set network base-vm &lt;setting&gt;
@@ -278,36 +278,36 @@ gpv config set vsphere &lt;setting&gt;
 </code></pre>
 <p>Where <code>setting</code> can be one of the following:</p>
 <p>base-name &lt;base_VM_name&gt;
-:    Set the name of the base virtual machine to use during configuring and deploying SynxDB on vSphere.</p>
+Set the name of the base virtual machine to use during configuring and deploying SynxDB on vSphere.</p>
 <p>gpadmin-password
-:    Set the guest operating system password for <code>gpadmin</code> user. The utility prompts you to enter a password when you enter this command.</p>
+Set the guest operating system password for <code>gpadmin</code> user. The utility prompts you to enter a password when you enter this command.</p>
 <p>primary-segment-vm-count &lt;number_of_segment_vms&gt;
-:    Set the number of virtual machines to house primary segments. For example: <code>gpv config set vm primary-segment-vm-count 64</code>.</p>
+Set the number of virtual machines to house primary segments. For example: <code>gpv config set vm primary-segment-vm-count 64</code>.</p>
 <p>root-password
-:    Set the guest operating system password for <code>root</code> user. The utility prompts you to enter a password when you enter this command.</p>
+Set the guest operating system password for <code>root</code> user. The utility prompts you to enter a password when you enter this command.</p>
 <h4 id="vsphere"><a class="header" href="#vsphere"><a id="vsphere"></a>vsphere</a></h4>
 <p>Configure the settings for vSphere.</p>
 <pre><code>gpv config set vsphere &lt;setting&gt;
 </code></pre>
 <p>Where <code>setting</code> can be one of the following:</p>
 <p>admin-password
-:    Set the password for the vCenter administrator. The utility prompts you to enter a password when you enter this command.</p>
+Set the password for the vCenter administrator. The utility prompts you to enter a password when you enter this command.</p>
 <p>admin-username &lt;user_name&gt;
-:    Set the username of the vCenter administrator.</p>
+Set the username of the vCenter administrator.</p>
 <p>compute-cluster-name &lt;compute_cluster_name&gt;
-:    Set the name of the compute cluster to use.</p>
+Set the name of the compute cluster to use.</p>
 <p>datacenter-name &lt;datacenter_name&gt;
-:    Set the name of the datacenter to use.</p>
+Set the name of the datacenter to use.</p>
 <p>storage-name &lt;storage_name&gt;
-:    Set the name of the vSphere datastore or datastore cluster. Specify the name of the storage layer to use within vCenter. For vSAN, specify the datastore name; for Dell PowerFlex, specify the datastore cluster name.</p>
+Set the name of the vSphere datastore or datastore cluster. Specify the name of the storage layer to use within vCenter. For vSAN, specify the datastore name; for Dell PowerFlex, specify the datastore cluster name.</p>
 <p>storage-policy &lt;storage_policy&gt;
-:    Set the virtual machine storage policy for the storage layer, if applicable. This setting is required for vSAN only. When specifying the policy, ensure that it is surrounded by quotation marks if the policy’s name contains whitespace. For example: <code>gpv config set vsphere storage-policy "this policy contains spaces"</code>.</p>
+Set the virtual machine storage policy for the storage layer, if applicable. This setting is required for vSAN only. When specifying the policy, ensure that it is surrounded by quotation marks if the policy’s name contains whitespace. For example: <code>gpv config set vsphere storage-policy "this policy contains spaces"</code>.</p>
 <p>storage-type &lt;storage_type&gt;
-:    Set the type of storage layer to use. Possible values are <code>powerflex</code> and <code>vsan</code>.</p>
+Set the type of storage layer to use. Possible values are <code>powerflex</code> and <code>vsan</code>.</p>
 <p>vcenter-address &lt;vcenter_address&gt;
-:    Set the address of the target vCenter. Do not include the protocol prefix in the address (http://, https://). For example: <code>gpv config set vsphere vcenter-address gp.vcenter.example.com</code>.</p>
+Set the address of the target vCenter. Do not include the protocol prefix in the address (http://, https://). For example: <code>gpv config set vsphere vcenter-address gp.vcenter.example.com</code>.</p>
 <p>vsphere-distributed-switch-mtu &lt;mtu_size&gt;
-:    Specify the Maximum Transfer Unit (MTU) for the vSphere distributed switch, in bytes. Valid values range from 1500 to 9000.</p>
+Specify the Maximum Transfer Unit (MTU) for the vSphere distributed switch, in bytes. Valid values range from 1500 to 9000.</p>
 
                     </main>
 

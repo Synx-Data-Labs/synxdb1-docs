@@ -172,14 +172,14 @@
 <p><strong>Important</strong> Before issuing a <code>DROP EXTENSION</code> with the <code>CASCADE</code> keyword, you should be aware of all object that depend on the extension to avoid unintended consequences.</p>
 </blockquote>
 <h2 id="parameters"><a class="header" href="#parameters"><a id="section4"></a>Parameters</a></h2>
-<p>IF EXISTS
-:   Do not throw an error if the extension does not exist. A notice is issued.</p>
-<p>name
-:   The name of an installed extension.</p>
-<p>CASCADE
-:   Automatically drop objects that depend on the extension, and in turn all objects that depend on those objects. See the PostgreSQL information about <a href="https://www.postgresql.org/docs/9.6/ddl-depend.html">Dependency Tracking</a>.</p>
-<p>RESTRICT
-:   Refuse to drop an extension if any objects depend on it, other than the extension member objects. This is the default.</p>
+<h3 id="if-exists"><a class="header" href="#if-exists">IF EXISTS</a></h3>
+<p>Do not throw an error if the extension does not exist. A notice is issued.</p>
+<h3 id="name"><a class="header" href="#name">name</a></h3>
+<p>The name of an installed extension.</p>
+<h3 id="cascade"><a class="header" href="#cascade">CASCADE</a></h3>
+<p>Automatically drop objects that depend on the extension, and in turn all objects that depend on those objects. See the PostgreSQL information about <a href="https://www.postgresql.org/docs/9.6/ddl-depend.html">Dependency Tracking</a>.</p>
+<h3 id="restrict"><a class="header" href="#restrict">RESTRICT</a></h3>
+<p>Refuse to drop an extension if any objects depend on it, other than the extension member objects. This is the default.</p>
 <h2 id="compatibility"><a class="header" href="#compatibility"><a id="section6"></a>Compatibility</a></h2>
 <p><code>DROP EXTENSION</code> is a SynxDB extension.</p>
 <h2 id="see-also"><a class="header" href="#see-also"><a id="section7"></a>See Also</a></h2>

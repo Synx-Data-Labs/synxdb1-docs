@@ -172,23 +172,22 @@ SET [SESSION | LOCAL] TIME ZONE {&lt;timezone&gt; | LOCAL | DEFAULT}
 <p>If you create a cursor with the <code>DECLARE</code> command in a transaction, you cannot use the <code>SET</code> command in the transaction until you close the cursor with the <code>CLOSE</code> command.</p>
 <p>See <a href="../config_params/guc_config.html">Server Configuration Parameters</a> for information about server parameters.</p>
 <h2 id="parameters"><a class="header" href="#parameters"><a id="section4"></a>Parameters</a></h2>
-<p>SESSION
-:   Specifies that the command takes effect for the current session. This is the default.</p>
-<p>LOCAL
-:   Specifies that the command takes effect for only the current transaction. After <code>COMMIT</code> or <code>ROLLBACK</code>, the session-level setting takes effect again. Note that <code>SET LOCAL</code> will appear to have no effect if it is run outside of a transaction.</p>
-<p>configuration_parameter
-:   The name of a SynxDB configuration parameter. Only parameters classified as <em>session</em> can be changed with <code>SET</code>. See <a href="../config_params/guc_config.html">Server Configuration Parameters</a> for details.</p>
-<p>value
-:   New value of parameter. Values can be specified as string constants, identifiers, numbers, or comma-separated lists of these. <code>DEFAULT</code> can be used to specify resetting the parameter to its default value. If specifying memory sizing or time units, enclose the value in single quotes.</p>
-<p>TIME ZONE
-:   <code>SET TIME ZONE</code> value is an alias for <code>SET timezone TO value</code>. The syntax <code>SET TIME ZONE</code> allows special syntax for the time zone specification. Here are examples of valid values:</p>
-<p>:   <code>'PST8PDT'</code></p>
-<p>:   <code>'Europe/Rome'</code></p>
-<p>:   <code>-7</code> (time zone 7 hours west from UTC)</p>
-<p>:   <code>INTERVAL '-08:00' HOUR TO MINUTE</code> (time zone 8 hours west from UTC).</p>
-<p>LOCAL
-DEFAULT
-:   Set the time zone to your local time zone (that is, server’s default value of timezone). See the <a href="https://www.postgresql.org/docs/9.4/datatype-datetime.html#DATATYPE-TIMEZONES">Time zone section of the PostgreSQL documentation</a> for more information about time zones in SynxDB.</p>
+<h3 id="session"><a class="header" href="#session">SESSION</a></h3>
+<p>Specifies that the command takes effect for the current session. This is the default.</p>
+<h3 id="local"><a class="header" href="#local">LOCAL</a></h3>
+<p>Specifies that the command takes effect for only the current transaction. After <code>COMMIT</code> or <code>ROLLBACK</code>, the session-level setting takes effect again. Note that <code>SET LOCAL</code> will appear to have no effect if it is run outside of a transaction.</p>
+<h3 id="configuration_parameter"><a class="header" href="#configuration_parameter">configuration_parameter</a></h3>
+<p>The name of a SynxDB configuration parameter. Only parameters classified as <em>session</em> can be changed with <code>SET</code>. See <a href="../config_params/guc_config.html">Server Configuration Parameters</a> for details.</p>
+<h3 id="value"><a class="header" href="#value">value</a></h3>
+<p>New value of parameter. Values can be specified as string constants, identifiers, numbers, or comma-separated lists of these. <code>DEFAULT</code> can be used to specify resetting the parameter to its default value. If specifying memory sizing or time units, enclose the value in single quotes.</p>
+<h3 id="time-zone"><a class="header" href="#time-zone">TIME ZONE</a></h3>
+<p><code>SET TIME ZONE</code> value is an alias for <code>SET timezone TO value</code>. The syntax <code>SET TIME ZONE</code> allows special syntax for the time zone specification. Here are examples of valid values:</p>
+<p><code>'PST8PDT'</code></p>
+<p><code>'Europe/Rome'</code></p>
+<p><code>-7</code> (time zone 7 hours west from UTC)</p>
+<p><code>INTERVAL '-08:00' HOUR TO MINUTE</code> (time zone 8 hours west from UTC).</p>
+<h3 id="localdefault"><a class="header" href="#localdefault">LOCAL<br/>DEFAULT</a></h3>
+<p>Set the time zone to your local time zone (that is, server’s default value of timezone). See the <a href="https://www.postgresql.org/docs/9.4/datatype-datetime.html#DATATYPE-TIMEZONES">Time zone section of the PostgreSQL documentation</a> for more information about time zones in SynxDB.</p>
 <h2 id="examples"><a class="header" href="#examples"><a id="section5"></a>Examples</a></h2>
 <p>Set the schema search path:</p>
 <pre><code>SET search_path TO my_schema, public;

@@ -166,8 +166,8 @@
 <p>Destroying a savepoint makes it unavailable as a rollback point, but it has no other user visible behavior. It does not undo the effects of commands run after the savepoint was established. (To do that, see <a href="ROLLBACK_TO_SAVEPOINT.html">ROLLBACK TO SAVEPOINT</a>.) Destroying a savepoint when it is no longer needed may allow the system to reclaim some resources earlier than transaction end.</p>
 <p><code>RELEASE SAVEPOINT</code> also destroys all savepoints that were established <em>after</em> the named savepoint was established.</p>
 <h2 id="parameters"><a class="header" href="#parameters"><a id="section4"></a>Parameters</a></h2>
-<p>savepoint_name
-:   The name of the savepoint to destroy.</p>
+<h3 id="savepoint_name"><a class="header" href="#savepoint_name">savepoint_name</a></h3>
+<p>The name of the savepoint to destroy.</p>
 <h2 id="examples"><a class="header" href="#examples"><a id="section5"></a>Examples</a></h2>
 <p>To establish and later destroy a savepoint:</p>
 <pre><code>BEGIN;

@@ -182,31 +182,31 @@ ALTER OPERATOR FAMILY &lt;name&gt; USING &lt;index_method&gt; SET SCHEMA &lt;new
 <p><code>ALTER OPERATOR FAMILY</code> does not presently check whether the operator family definition includes all the operators and functions required by the index method, nor whether the operators and functions form a self-consistent set. It is the user’s responsibility to define a valid operator family.</p>
 <p><code>OPERATOR</code> and <code>FUNCTION</code> clauses can appear in any order.</p>
 <h2 id="parameters"><a class="header" href="#parameters"><a id="section4"></a>Parameters</a></h2>
-<p>name
-:   The name (optionally schema-qualified) of an existing operator family.</p>
-<p>index_method
-:   The name of the index method this operator family is for.</p>
-<p>strategy_number
-:   The index method’s strategy number for an operator associated with the operator family.</p>
-<p>operator_name
-:   The name (optionally schema-qualified) of an operator associated with the operator family.</p>
-<p>op_type
-:   In an <code>OPERATOR</code> clause, the operand data type(s) of the operator, or <code>NONE</code> to signify a left-unary or right-unary operator. Unlike the comparable syntax in <code>CREATE OPERATOR CLASS</code>, the operand data types must always be specified. In an <code>ADD FUNCTION</code> clause, the operand data type(s) the function is intended to support, if different from the input data type(s) of the function. For B-tree comparison functions it is not necessary to specify op_type since the function’s input data type(s) are always the correct ones to use. For B-tree sort support functions and all functions in GiST, SP-GiST, and GIN operator classes, it is necessary to specify the operand data type(s) the function is to be used with.</p>
-<p>sort_family_name
-:   The name (optionally schema-qualified) of an existing <code>btree</code> operator family that describes the sort ordering associated with an ordering operator.</p>
-<p>:   If neither <code>FOR SEARCH</code> nor <code>FOR ORDER BY</code> is specified, <code>FOR SEARCH</code> is the default.</p>
-<p>support_number
-:   The index method’s support procedure number for a function associated with the operator family.</p>
-<p>funcname
-:   The name (optionally schema-qualified) of a function that is an index method support procedure for the operator family.</p>
-<p>argument_types
-:   The parameter data type(s) of the function.</p>
-<p>new_name
-:   The new name of the operator family.</p>
-<p>new_owner
-:   The new owner of the operator family.</p>
-<p>new_schema
-:   The new schema for the operator family.</p>
+<h3 id="name"><a class="header" href="#name">name</a></h3>
+<p>The name (optionally schema-qualified) of an existing operator family.</p>
+<h3 id="index_method"><a class="header" href="#index_method">index_method</a></h3>
+<p>The name of the index method this operator family is for.</p>
+<h3 id="strategy_number"><a class="header" href="#strategy_number">strategy_number</a></h3>
+<p>The index method’s strategy number for an operator associated with the operator family.</p>
+<h3 id="operator_name"><a class="header" href="#operator_name">operator_name</a></h3>
+<p>The name (optionally schema-qualified) of an operator associated with the operator family.</p>
+<h3 id="op_type"><a class="header" href="#op_type">op_type</a></h3>
+<p>In an <code>OPERATOR</code> clause, the operand data type(s) of the operator, or <code>NONE</code> to signify a left-unary or right-unary operator. Unlike the comparable syntax in <code>CREATE OPERATOR CLASS</code>, the operand data types must always be specified. In an <code>ADD FUNCTION</code> clause, the operand data type(s) the function is intended to support, if different from the input data type(s) of the function. For B-tree comparison functions it is not necessary to specify op_type since the function’s input data type(s) are always the correct ones to use. For B-tree sort support functions and all functions in GiST, SP-GiST, and GIN operator classes, it is necessary to specify the operand data type(s) the function is to be used with.</p>
+<h3 id="sort_family_name"><a class="header" href="#sort_family_name">sort_family_name</a></h3>
+<p>The name (optionally schema-qualified) of an existing <code>btree</code> operator family that describes the sort ordering associated with an ordering operator.</p>
+<p>If neither <code>FOR SEARCH</code> nor <code>FOR ORDER BY</code> is specified, <code>FOR SEARCH</code> is the default.</p>
+<h3 id="support_number"><a class="header" href="#support_number">support_number</a></h3>
+<p>The index method’s support procedure number for a function associated with the operator family.</p>
+<h3 id="funcname"><a class="header" href="#funcname">funcname</a></h3>
+<p>The name (optionally schema-qualified) of a function that is an index method support procedure for the operator family.</p>
+<h3 id="argument_types"><a class="header" href="#argument_types">argument_types</a></h3>
+<p>The parameter data type(s) of the function.</p>
+<h3 id="new_name"><a class="header" href="#new_name">new_name</a></h3>
+<p>The new name of the operator family.</p>
+<h3 id="new_owner"><a class="header" href="#new_owner">new_owner</a></h3>
+<p>The new owner of the operator family.</p>
+<h3 id="new_schema"><a class="header" href="#new_schema">new_schema</a></h3>
+<p>The new schema for the operator family.</p>
 <h2 id="compatibility"><a class="header" href="#compatibility"><a id="section5"></a>Compatibility</a></h2>
 <p>There is no <code>ALTER OPERATOR FAMILY</code> statement in the SQL standard.</p>
 <h2 id="notes"><a class="header" href="#notes"><a id="section6"></a>Notes</a></h2>

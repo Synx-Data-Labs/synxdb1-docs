@@ -171,18 +171,18 @@
 <p><code>CREATE OPERATOR CLASS</code> does not presently check whether the operator class definition includes all the operators and functions required by the index method, nor whether the operators and functions form a self-consistent set. It is the user’s responsibility to define a valid operator class.</p>
 <p>You must be a superuser to create an operator class.</p>
 <h2 id="parameters"><a class="header" href="#parameters"><a id="section4"></a>Parameters</a></h2>
-<p>name
-:   The (optionally schema-qualified) name of the operator class to be defined. Two operator classes in the same schema can have the same name only if they are for different index methods.</p>
-<p>DEFAULT
-:   Makes the operator class the default operator class for its data type. At most one operator class can be the default for a specific data type and index method.</p>
-<p>data_type
-:   The column data type that this operator class is for.</p>
-<p>index_method
-:   The name of the index method this operator class is for. Choices are <code>btree</code>, <code>bitmap</code>, and <code>gist</code>.</p>
-<p>family_name
-:   The name of the existing operator family to add this operator class to. If not specified, a family named the same as the operator class is used (creating it, if it doesn’t already exist).</p>
-<p>strategy_number
-:   The operators associated with an operator class are identified by <em>strategy numbers</em>, which serve to identify the semantics of each operator within the context of its operator class. For example, B-trees impose a strict ordering on keys, lesser to greater, and so operators like <em>less than</em> and <em>greater than or equal to</em> are interesting with respect to a B-tree. These strategies can be thought of as generalized operators. Each operator class specifies which actual operator corresponds to each strategy for a particular data type and interpretation of the index semantics. The corresponding strategy numbers for each index method are as follows:</p>
+<h3 id="name"><a class="header" href="#name">name</a></h3>
+<p>The (optionally schema-qualified) name of the operator class to be defined. Two operator classes in the same schema can have the same name only if they are for different index methods.</p>
+<h3 id="default"><a class="header" href="#default">DEFAULT</a></h3>
+<p>Makes the operator class the default operator class for its data type. At most one operator class can be the default for a specific data type and index method.</p>
+<h3 id="data_type"><a class="header" href="#data_type">data_type</a></h3>
+<p>The column data type that this operator class is for.</p>
+<h3 id="index_method"><a class="header" href="#index_method">index_method</a></h3>
+<p>The name of the index method this operator class is for. Choices are <code>btree</code>, <code>bitmap</code>, and <code>gist</code>.</p>
+<h3 id="family_name"><a class="header" href="#family_name">family_name</a></h3>
+<p>The name of the existing operator family to add this operator class to. If not specified, a family named the same as the operator class is used (creating it, if it doesn’t already exist).</p>
+<h3 id="strategy_number"><a class="header" href="#strategy_number">strategy_number</a></h3>
+<p>The operators associated with an operator class are identified by <em>strategy numbers</em>, which serve to identify the semantics of each operator within the context of its operator class. For example, B-trees impose a strict ordering on keys, lesser to greater, and so operators like <em>less than</em> and <em>greater than or equal to</em> are interesting with respect to a B-tree. These strategies can be thought of as generalized operators. Each operator class specifies which actual operator corresponds to each strategy for a particular data type and interpretation of the index semantics. The corresponding strategy numbers for each index method are as follows:</p>
 <pre><code>|Operation|Strategy Number|
 |---------|---------------|
 |less than|1|
@@ -206,16 +206,16 @@
 |strictly above|11|
 |does not extend below|12|
 </code></pre>
-<p>sort_family_name
-:   The name (optionally schema-qualified) of an existing <code>btree</code> operator family that describes the sort ordering associated with an ordering operator.</p>
-<p>:   If neither <code>FOR SEARCH</code> nor <code>FOR ORDER BY</code> is specified, <code>FOR SEARCH</code> is the default.</p>
-<p>operator_name
-:   The name (optionally schema-qualified) of an operator associated with the operator class.</p>
-<p>op_type
-:   In an <code>OPERATOR</code> clause, the operand data type(s) of the operator, or <code>NONE</code> to signify a left-unary or right-unary operator. The operand data types can be omitted in the normal case where they are the same as the operator class’s data type.</p>
-<p>:   In a <code>FUNCTION</code> clause, the operand data type(s) the function is intended to support, if different from the input data type(s) of the function (for B-tree comparison functions and hash functions) or the class’s data type (for B-tree sort support functions and all functions in GiST, SP-GiST, and GIN operator classes). These defaults are correct, and so op_type need not be specified in <code>FUNCTION</code> clauses, except for the case of a B-tree sort support function that is meant to support cross-data-type comparisons.</p>
-<p>support_number
-:   Index methods require additional support routines in order to work. These operations are administrative routines used internally by the index methods. As with strategies, the operator class identifies which specific functions should play each of these roles for a given data type and semantic interpretation. The index method defines the set of functions it needs, and the operator class identifies the correct functions to use by assigning them to the <em>support function numbers</em> as follows:</p>
+<h3 id="sort_family_name"><a class="header" href="#sort_family_name">sort_family_name</a></h3>
+<p>The name (optionally schema-qualified) of an existing <code>btree</code> operator family that describes the sort ordering associated with an ordering operator.</p>
+<p>If neither <code>FOR SEARCH</code> nor <code>FOR ORDER BY</code> is specified, <code>FOR SEARCH</code> is the default.</p>
+<h3 id="operator_name"><a class="header" href="#operator_name">operator_name</a></h3>
+<p>The name (optionally schema-qualified) of an operator associated with the operator class.</p>
+<h3 id="op_type"><a class="header" href="#op_type">op_type</a></h3>
+<p>In an <code>OPERATOR</code> clause, the operand data type(s) of the operator, or <code>NONE</code> to signify a left-unary or right-unary operator. The operand data types can be omitted in the normal case where they are the same as the operator class’s data type.</p>
+<p>In a <code>FUNCTION</code> clause, the operand data type(s) the function is intended to support, if different from the input data type(s) of the function (for B-tree comparison functions and hash functions) or the class’s data type (for B-tree sort support functions and all functions in GiST, SP-GiST, and GIN operator classes). These defaults are correct, and so op_type need not be specified in <code>FUNCTION</code> clauses, except for the case of a B-tree sort support function that is meant to support cross-data-type comparisons.</p>
+<h3 id="support_number"><a class="header" href="#support_number">support_number</a></h3>
+<p>Index methods require additional support routines in order to work. These operations are administrative routines used internally by the index methods. As with strategies, the operator class identifies which specific functions should play each of these roles for a given data type and semantic interpretation. The index method defines the set of functions it needs, and the operator class identifies the correct functions to use by assigning them to the <em>support function numbers</em> as follows:</p>
 <pre><code>|Function|Support Number|
 |--------|--------------|
 |Compare two keys and return an integer less than zero, zero, or greater than zero, indicating whether the first key is less than, equal to, or greater than the second.|1|
@@ -230,12 +230,12 @@
 |picksplit - determine which entries of a page are to be moved to the new page and compute the union keys for resulting pages.|6|
 |equal - compare two keys and return true if they are equal.|7|
 </code></pre>
-<p>funcname
-:   The name (optionally schema-qualified) of a function that is an index method support procedure for the operator class.</p>
-<p>argument_types
-:   The parameter data type(s) of the function.</p>
-<p>storage_type
-:   The data type actually stored in the index. Normally this is the same as the column data type, but some index methods (currently GiST and GIN) allow it to be different. The <code>STORAGE</code> clause must be omitted unless the index method allows a different type to be used.</p>
+<h3 id="funcname"><a class="header" href="#funcname">funcname</a></h3>
+<p>The name (optionally schema-qualified) of a function that is an index method support procedure for the operator class.</p>
+<h3 id="argument_types"><a class="header" href="#argument_types">argument_types</a></h3>
+<p>The parameter data type(s) of the function.</p>
+<h3 id="storage_type"><a class="header" href="#storage_type">storage_type</a></h3>
+<p>The data type actually stored in the index. Normally this is the same as the column data type, but some index methods (currently GiST and GIN) allow it to be different. The <code>STORAGE</code> clause must be omitted unless the index method allows a different type to be used.</p>
 <h2 id="notes"><a class="header" href="#notes"><a id="section5"></a>Notes</a></h2>
 <p>Because the index machinery does not check access permissions on functions before using them, including a function or operator in an operator class is the same as granting public execute permission on it. This is usually not an issue for the sorts of functions that are useful in an operator class.</p>
 <p>The operators should not be defined by SQL functions. A SQL function is likely to be inlined into the calling query, which will prevent the optimizer from recognizing that the query matches an index.</p>

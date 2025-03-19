@@ -171,21 +171,20 @@ Event Triggers, which capture only DDL events, <em>are</em> supported in SynxDB.
 </blockquote>
 <p><a href="SELECT.html">SELECT</a> does not modify any rows so you can not create <code>SELECT</code> triggers. Rules and views are more appropriate in such cases.</p>
 <h2 id="parameters"><a class="header" href="#parameters"><a id="section4"></a>Parameters</a></h2>
-<p>name
-:   The name to give the new trigger. This must be distinct from the name of any other trigger for the same table.</p>
-<p>BEFORE AFTER
-:   Determines whether the function is called before or after the event. If the trigger fires before the event, the trigger may skip the operation for the current row, or change the row being inserted (for <code>INSERT</code> and <code>UPDATE</code> operations only). If the trigger fires after the event, all changes, including the last insertion, update, or deletion, are visible to the trigger.</p>
-<p>event
-:   Specifies the event that will fire the trigger (<code>INSERT</code>, <code>UPDATE</code>, or <code>DELETE</code>). Multiple events can be specified using OR.</p>
-<p>table
-:   The name (optionally schema-qualified) of the table the trigger is for.</p>
-<p>FOR EACH ROW
-FOR EACH STATEMENT
-:   This specifies whether the trigger procedure should be fired once for every row affected by the trigger event, or just once per SQL statement. If neither is specified, <code>FOR EACH STATEMENT</code> is the default. A trigger that is marked <code>FOR EACH ROW</code> is called once for every row that the operation modifies. In contrast, a trigger that is marked <code>FOR EACH STATEMENT</code> only runs once for any given operation, regardless of how many rows it modifies.</p>
-<p>funcname
-:   A user-supplied function that is declared as <code>IMMUTABLE</code>, taking no arguments, and returning type <code>trigger</code>, which is run when the trigger fires. This function must not run SQL or modify the database in any way.</p>
-<p>arguments
-:   An optional comma-separated list of arguments to be provided to the function when the trigger is run. The arguments are literal string constants. Simple names and numeric constants may be written here, too, but they will all be converted to strings. Please check the description of the implementation language of the trigger function about how the trigger arguments are accessible within the function; it may be different from normal function arguments.</p>
+<h3 id="name"><a class="header" href="#name">name</a></h3>
+<p>The name to give the new trigger. This must be distinct from the name of any other trigger for the same table.</p>
+<h3 id="before-after"><a class="header" href="#before-after">BEFORE AFTER</a></h3>
+<p>Determines whether the function is called before or after the event. If the trigger fires before the event, the trigger may skip the operation for the current row, or change the row being inserted (for <code>INSERT</code> and <code>UPDATE</code> operations only). If the trigger fires after the event, all changes, including the last insertion, update, or deletion, are visible to the trigger.</p>
+<h3 id="event"><a class="header" href="#event">event</a></h3>
+<p>Specifies the event that will fire the trigger (<code>INSERT</code>, <code>UPDATE</code>, or <code>DELETE</code>). Multiple events can be specified using OR.</p>
+<h3 id="table"><a class="header" href="#table">table</a></h3>
+<p>The name (optionally schema-qualified) of the table the trigger is for.</p>
+<h3 id="for-each-rowfor-each-statement"><a class="header" href="#for-each-rowfor-each-statement">FOR EACH ROW<br/>FOR EACH STATEMENT</a></h3>
+<p>This specifies whether the trigger procedure should be fired once for every row affected by the trigger event, or just once per SQL statement. If neither is specified, <code>FOR EACH STATEMENT</code> is the default. A trigger that is marked <code>FOR EACH ROW</code> is called once for every row that the operation modifies. In contrast, a trigger that is marked <code>FOR EACH STATEMENT</code> only runs once for any given operation, regardless of how many rows it modifies.</p>
+<h3 id="funcname"><a class="header" href="#funcname">funcname</a></h3>
+<p>A user-supplied function that is declared as <code>IMMUTABLE</code>, taking no arguments, and returning type <code>trigger</code>, which is run when the trigger fires. This function must not run SQL or modify the database in any way.</p>
+<h3 id="arguments"><a class="header" href="#arguments">arguments</a></h3>
+<p>An optional comma-separated list of arguments to be provided to the function when the trigger is run. The arguments are literal string constants. Simple names and numeric constants may be written here, too, but they will all be converted to strings. Please check the description of the implementation language of the trigger function about how the trigger arguments are accessible within the function; it may be different from normal function arguments.</p>
 <h2 id="notes"><a class="header" href="#notes"><a id="section5"></a>Notes</a></h2>
 <p>To create a trigger on a table, the user must have the <code>TRIGGER</code> privilege on the table.</p>
 <h2 id="examples"><a class="header" href="#examples"><a id="section6"></a>Examples</a></h2>

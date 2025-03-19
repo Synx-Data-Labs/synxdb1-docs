@@ -190,28 +190,28 @@
 </code></pre>
 <p>The count is the number of rows fetched (possibly zero). Note that in <code>psql</code>, the command tag will not actually be displayed, since <code>psql</code> displays the fetched rows instead.</p>
 <h2 id="parameters"><a class="header" href="#parameters"><a id="section5"></a>Parameters</a></h2>
-<p>forward_direction
-:   Defines the fetch direction and number of rows to fetch. Only forward fetches are allowed in SynxDB. It can be one of the following:</p>
-<p>NEXT
-:   Fetch the next row. This is the default if direction is omitted.</p>
-<p>FIRST
-:   Fetch the first row of the query (same as <code>ABSOLUTE 1</code>). Only allowed if it is the first <code>FETCH</code> operation using this cursor.</p>
-<p>ABSOLUTE count
-:   Fetch the specified row of the query. Position after last row if count is out of range. Only allowed if the row specified by count moves the cursor position forward.</p>
-<p>RELATIVE count
-:   Fetch the specified row of the query count rows ahead of the current cursor position. <code>RELATIVE 0</code> re-fetches the current row, if any. Only allowed if count moves the cursor position forward.</p>
-<p>count
-:   Fetch the next count number of rows (same as <code>FORWARD count</code>).</p>
-<p>ALL
-:   Fetch all remaining rows (same as <code>FORWARD ALL</code>).</p>
-<p>FORWARD
-:   Fetch the next row (same as <code>NEXT</code>).</p>
-<p>FORWARD count
-:   Fetch the next count number of rows. <code>FORWARD 0</code> re-fetches the current row.</p>
-<p>FORWARD ALL
-:   Fetch all remaining rows.</p>
-<p>cursor_name
-:   The name of an open cursor.</p>
+<h3 id="forward_direction"><a class="header" href="#forward_direction">forward_direction</a></h3>
+<p>Defines the fetch direction and number of rows to fetch. Only forward fetches are allowed in SynxDB. It can be one of the following:</p>
+<h3 id="next"><a class="header" href="#next">NEXT</a></h3>
+<p>Fetch the next row. This is the default if direction is omitted.</p>
+<h3 id="first"><a class="header" href="#first">FIRST</a></h3>
+<p>Fetch the first row of the query (same as <code>ABSOLUTE 1</code>). Only allowed if it is the first <code>FETCH</code> operation using this cursor.</p>
+<h3 id="absolute-count"><a class="header" href="#absolute-count">ABSOLUTE count</a></h3>
+<p>Fetch the specified row of the query. Position after last row if count is out of range. Only allowed if the row specified by count moves the cursor position forward.</p>
+<h3 id="relative-count"><a class="header" href="#relative-count">RELATIVE count</a></h3>
+<p>Fetch the specified row of the query count rows ahead of the current cursor position. <code>RELATIVE 0</code> re-fetches the current row, if any. Only allowed if count moves the cursor position forward.</p>
+<h3 id="count"><a class="header" href="#count">count</a></h3>
+<p>Fetch the next count number of rows (same as <code>FORWARD count</code>).</p>
+<h3 id="all"><a class="header" href="#all">ALL</a></h3>
+<p>Fetch all remaining rows (same as <code>FORWARD ALL</code>).</p>
+<h3 id="forward"><a class="header" href="#forward">FORWARD</a></h3>
+<p>Fetch the next row (same as <code>NEXT</code>).</p>
+<h3 id="forward-count"><a class="header" href="#forward-count">FORWARD count</a></h3>
+<p>Fetch the next count number of rows. <code>FORWARD 0</code> re-fetches the current row.</p>
+<h3 id="forward-all"><a class="header" href="#forward-all">FORWARD ALL</a></h3>
+<p>Fetch all remaining rows.</p>
+<h3 id="cursor_name"><a class="header" href="#cursor_name">cursor_name</a></h3>
+<p>The name of an open cursor.</p>
 <h2 id="notes"><a class="header" href="#notes"><a id="section6"></a>Notes</a></h2>
 <p>SynxDB does not support scrollable cursors, so you can only use <code>FETCH</code> to move the cursor position forward.</p>
 <p><code>ABSOLUTE</code> fetches are not any faster than navigating to the desired row with a relative move: the underlying implementation must traverse all the intermediate rows anyway.</p>

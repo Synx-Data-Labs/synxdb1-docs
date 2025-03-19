@@ -165,8 +165,8 @@
 <p><code>CLOSE</code> frees the resources associated with an open cursor. After the cursor is closed, no subsequent operations are allowed on it. A cursor should be closed when it is no longer needed.</p>
 <p>Every non-holdable open cursor is implicitly closed when a transaction is terminated by <code>COMMIT</code> or <code>ROLLBACK</code>. A holdable cursor is implicitly closed if the transaction that created it is prematurely ended via <code>ROLLBACK</code>. If the creating transaction successfully commits, the holdable cursor remains open until an explicit <code>CLOSE</code> is run, or the client disconnects.</p>
 <h2 id="parameters"><a class="header" href="#parameters"><a id="section4"></a>Parameters</a></h2>
-<p>cursor_name
-:   The name of an open cursor to close.</p>
+<h3 id="cursor_name"><a class="header" href="#cursor_name">cursor_name</a></h3>
+<p>The name of an open cursor to close.</p>
 <h2 id="notes"><a class="header" href="#notes"><a id="section5"></a>Notes</a></h2>
 <p>SynxDB does not have an explicit <code>OPEN</code> cursor statement. A cursor is considered open when it is declared. Use the <code>DECLARE</code> statement to declare (and open) a cursor.</p>
 <p>You can see all available cursors by querying the <a href="../system_catalogs/pg_cursors.html">pg_cursors</a> system view.</p>

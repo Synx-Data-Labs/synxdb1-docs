@@ -206,49 +206,44 @@ Enter mirror segment data directory location 2 of 2 &gt; /gpdb/m2
 <p><strong>Note</strong> This utility uses secure shell (SSH) connections between systems to perform its tasks. In large SynxDB deployments, cloud deployments, or deployments with a large number of segments per host, this utility may exceed the host’s maximum threshold for unauthenticated connections. Consider updating the SSH <code>MaxStartups</code> configuration parameter to increase this threshold. For more information about SSH configuration options, refer to the SSH documentation for your Linux distribution.</p>
 </blockquote>
 <h2 id="options"><a class="header" href="#options"><a id="section4"></a>Options</a></h2>
-<p>-a (do not prompt)
-:   Run in quiet mode - do not prompt for information. Must supply a configuration file with either <code>-m</code> or <code>-i</code> if this option is used.</p>
-<p>-b segment_batch_size
-:   The maximum number of segments per host to operate on in parallel. Valid values are <code>1</code> to <code>128</code>. If not specified, the utility will start recovering up to 64 segments in parallel on each host.</p>
-<p>-B batch_size
-:   The number of hosts to work on in parallel. If not specified, the utility will start working on up to 16 hosts in parallel. Valid values are <code>1</code> to <code>64</code>.</p>
-<p>-d master_data_directory
-:   The master data directory. If not specified, the value set for <code>$MASTER_DATA_DIRECTORY</code> will be used.</p>
-<p>–hba-hostnames boolean
-:   Optional. Controls whether this utility uses IP addresses or host names in the <code>pg_hba.conf</code> file when updating this file with addresses that can connect to SynxDB. When set to 0 – the default value – this utility uses IP addresses when updating this file. When set to 1, this utility uses host names when updating this file. For consistency, use the same value that was specified for <code>HBA_HOSTNAMES</code> when the SynxDB system was initialized. For information about how SynxDB resolves host names in the <code>pg_hba.conf</code> file, see <a href="../../admin_guide/client_auth.html">Configuring Client Authentication</a>.</p>
-<p>-i mirror_config_file
-:   A configuration file containing one line for each mirror segment you want to create. You must have one mirror segment instance listed for each primary segment in the system. The format of this file is as follows (as per attributes in the <a href="../../ref_guide/system_catalogs/gp_segment_configuration.html">gp_segment_configuration</a> catalog table):</p>
-<p>:   ```
-<contentID>|<address>|<port>|&lt;data_dir&gt;</p>
-<pre><code>
-:   Where `&lt;contentID&gt;` is the segment instance content ID, `&lt;address&gt;` is the hostname or IP address of the segment host, `&lt;port&gt;` is the communication port, and `&lt;data_dir&gt;` is the segment instance data directory. For information about using a hostname or IP address, see [Specifying Hosts using Hostnames or IP Addresses](#host_ip). Also, see [Using Host Systems with Multiple NICs](#multi_nic).
-
--l logfile\_directory
-:   The directory to write the log file. Defaults to `~/gpAdminLogs`.
-
--m datadir\_config\_file
-:   A configuration file containing a list of file system locations where the mirror data directories will be created. If not supplied, the utility prompts you for locations. Each line in the file specifies a mirror data directory location. For example:
-
-:   ```
-/gpdata/m1
+<h3 id="-a-do-not-prompt"><a class="header" href="#-a-do-not-prompt">-a (do not prompt)</a></h3>
+<p>Run in quiet mode - do not prompt for information. Must supply a configuration file with either <code>-m</code> or <code>-i</code> if this option is used.</p>
+<h3 id="-b-segment_batch_size"><a class="header" href="#-b-segment_batch_size">-b segment_batch_size</a></h3>
+<p>The maximum number of segments per host to operate on in parallel. Valid values are <code>1</code> to <code>128</code>. If not specified, the utility will start recovering up to 64 segments in parallel on each host.</p>
+<h3 id="-b-batch_size"><a class="header" href="#-b-batch_size">-B batch_size</a></h3>
+<p>The number of hosts to work on in parallel. If not specified, the utility will start working on up to 16 hosts in parallel. Valid values are <code>1</code> to <code>64</code>.</p>
+<h3 id="-d-master_data_directory"><a class="header" href="#-d-master_data_directory">-d master_data_directory</a></h3>
+<p>The master data directory. If not specified, the value set for <code>$MASTER_DATA_DIRECTORY</code> will be used.</p>
+<h3 id="hba-hostnames-boolean"><a class="header" href="#hba-hostnames-boolean">–hba-hostnames boolean</a></h3>
+<p>Optional. Controls whether this utility uses IP addresses or host names in the <code>pg_hba.conf</code> file when updating this file with addresses that can connect to SynxDB. When set to 0 – the default value – this utility uses IP addresses when updating this file. When set to 1, this utility uses host names when updating this file. For consistency, use the same value that was specified for <code>HBA_HOSTNAMES</code> when the SynxDB system was initialized. For information about how SynxDB resolves host names in the <code>pg_hba.conf</code> file, see <a href="../../admin_guide/client_auth.html">Configuring Client Authentication</a>.</p>
+<h3 id="-i-mirror_config_file"><a class="header" href="#-i-mirror_config_file">-i mirror_config_file</a></h3>
+<p>A configuration file containing one line for each mirror segment you want to create. You must have one mirror segment instance listed for each primary segment in the system. The format of this file is as follows (as per attributes in the <a href="../../ref_guide/system_catalogs/gp_segment_configuration.html">gp_segment_configuration</a> catalog table):</p>
+<pre><code>&lt;contentID&gt;|&lt;address&gt;|&lt;port&gt;|&lt;data_dir&gt;
+</code></pre>
+<p>Where <code>&lt;contentID&gt;</code> is the segment instance content ID, <code>&lt;address&gt;</code> is the hostname or IP address of the segment host, <code>&lt;port&gt;</code> is the communication port, and <code>&lt;data_dir&gt;</code> is the segment instance data directory. For information about using a hostname or IP address, see <a href="#host_ip">Specifying Hosts using Hostnames or IP Addresses</a>. Also, see <a href="#multi_nic">Using Host Systems with Multiple NICs</a>.</p>
+<h3 id="-l-logfile_directory"><a class="header" href="#-l-logfile_directory">-l logfile_directory</a></h3>
+<p>The directory to write the log file. Defaults to <code>~/gpAdminLogs</code>.</p>
+<h3 id="-m-datadir_config_file"><a class="header" href="#-m-datadir_config_file">-m datadir_config_file</a></h3>
+<p>A configuration file containing a list of file system locations where the mirror data directories will be created. If not supplied, the utility prompts you for locations. Each line in the file specifies a mirror data directory location. For example:</p>
+<pre><code>/gpdata/m1
 /gpdata/m2
 /gpdata/m3
 /gpdata/m4
 </code></pre>
-<p>-o output_sample_mirror_config
-:   If you are not sure how to lay out the mirror configuration file used by the <code>-i</code> option, you can run <code>gpaddmirrors</code> with this option to generate a sample mirror configuration file based on your primary segment configuration. The utility will prompt you for your mirror segment data directory locations (unless you provide these in a file using <code>-m</code>). You can then edit this file to change the host names to alternate mirror hosts if necessary.</p>
-<p>-p port_offset
-:   Optional. This number is used to calculate the database ports used for mirror segments. The default offset is 1000. Mirror port assignments are calculated as follows:
+<h3 id="-o-output_sample_mirror_config"><a class="header" href="#-o-output_sample_mirror_config">-o output_sample_mirror_config</a></h3>
+<p>If you are not sure how to lay out the mirror configuration file used by the <code>-i</code> option, you can run <code>gpaddmirrors</code> with this option to generate a sample mirror configuration file based on your primary segment configuration. The utility will prompt you for your mirror segment data directory locations (unless you provide these in a file using <code>-m</code>). You can then edit this file to change the host names to alternate mirror hosts if necessary.</p>
+<h3 id="-p-port_offset"><a class="header" href="#-p-port_offset">-p port_offset</a></h3>
+<p>Optional. This number is used to calculate the database ports used for mirror segments. The default offset is 1000. Mirror port assignments are calculated as follows:
 <code>    primary_port + offset = mirror_database_port    </code></p>
-<p>:   For example, if a primary segment has port 50001, then its mirror will use a database port of 51001, by default.</p>
-<p>-s (spread mirrors)
-:   Spreads the mirror segments across the available hosts. The default is to group a set of mirror segments together on an alternate host from their primary segment set. Mirror spreading will place each mirror on a different host within the SynxDB array. Spreading is only allowed if there is a sufficient number of hosts in the array (number of hosts is greater than the number of segment instances per host).</p>
-<p>-v (verbose)
-:   Sets logging output to verbose.</p>
-<p>–version (show utility version)
-:   Displays the version of this utility.</p>
-<p>-? (help)
-:   Displays the online help.</p>
+<p>For example, if a primary segment has port 50001, then its mirror will use a database port of 51001, by default.</p>
+<h3 id="-s-spread-mirrors"><a class="header" href="#-s-spread-mirrors">-s (spread mirrors)</a></h3>
+<p>Spreads the mirror segments across the available hosts. The default is to group a set of mirror segments together on an alternate host from their primary segment set. Mirror spreading will place each mirror on a different host within the SynxDB array. Spreading is only allowed if there is a sufficient number of hosts in the array (number of hosts is greater than the number of segment instances per host).</p>
+<h3 id="-v-verbose"><a class="header" href="#-v-verbose">-v (verbose)</a></h3>
+<p>Sets logging output to verbose.</p>
+<h3 id="version-show-utility-version"><a class="header" href="#version-show-utility-version">–version (show utility version)</a></h3>
+<p>Displays the version of this utility.</p>
+<h3 id="--help"><a class="header" href="#--help">-? (help)</a></h3>
+<p>Displays the online help.</p>
 <h2 id="specifying-hosts-using-hostnames-or-ip-addresses"><a class="header" href="#specifying-hosts-using-hostnames-or-ip-addresses"><a id="host_ip"></a>Specifying Hosts using Hostnames or IP Addresses</a></h2>
 <p>When specifying a mirroring configuration using the <code>gpaddmirrors</code> option <code>-i</code>, you can specify either a hostname or an IP address for the &lt;address&gt; value.</p>
 <ul>

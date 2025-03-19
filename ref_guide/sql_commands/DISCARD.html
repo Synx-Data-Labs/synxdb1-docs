@@ -164,19 +164,19 @@
 <h2 id="description"><a class="header" href="#description"><a id="section3"></a>Description</a></h2>
 <p><code>DISCARD</code> releases internal resources associated with a database session. This command is useful for partially or fully resetting the session’s state. There are several subcommands to release different types of resources. <code>DISCARD ALL</code> is not supported by SynxDB.</p>
 <h2 id="parameters"><a class="header" href="#parameters"><a id="section4"></a>Parameters</a></h2>
-<p>PLANS
-:   Releases all cached query plans, forcing re-planning to occur the next time the associated prepared statement is used.</p>
-<p>SEQUENCES
-:   Discards all cached sequence-related state, including any preallocated sequence values that have not yet been returned by <code>nextval()</code>. (See <code>CREATE SEQUENCE</code> for a description of preallocated sequence values.)</p>
-<p>TEMPORARY/TEMP
-:   Drops all temporary tables created in the current session.</p>
-<p>ALL
-:   Releases all temporary resources associated with the current session and resets the session to its initial state.</p>
-<pre><code>&gt; **Note** SynxDB does not support `DISCARD ALL` and returns a notice message if you attempt to run the command.
-</code></pre>
-<p>:   As an alternative, you can the run following commands to release temporary session resources:</p>
-<pre><code>```
-SET SESSION AUTHORIZATION DEFAULT;
+<h3 id="plans"><a class="header" href="#plans">PLANS</a></h3>
+<p>Releases all cached query plans, forcing re-planning to occur the next time the associated prepared statement is used.</p>
+<h3 id="sequences"><a class="header" href="#sequences">SEQUENCES</a></h3>
+<p>Discards all cached sequence-related state, including any preallocated sequence values that have not yet been returned by <code>nextval()</code>. (See <code>CREATE SEQUENCE</code> for a description of preallocated sequence values.)</p>
+<h3 id="temporarytemp"><a class="header" href="#temporarytemp">TEMPORARY/TEMP</a></h3>
+<p>Drops all temporary tables created in the current session.</p>
+<h3 id="all"><a class="header" href="#all">ALL</a></h3>
+<p>Releases all temporary resources associated with the current session and resets the session to its initial state.</p>
+<blockquote>
+<p><strong>Note</strong> SynxDB does not support <code>DISCARD ALL</code> and returns a notice message if you attempt to run the command.</p>
+</blockquote>
+<p>As an alternative, you can the run following commands to release temporary session resources:</p>
+<pre><code>SET SESSION AUTHORIZATION DEFAULT;
 RESET ALL;
 DEALLOCATE ALL;
 CLOSE ALL;
@@ -184,7 +184,6 @@ SELECT pg_advisory_unlock_all();
 DISCARD PLANS;
 DISCARD SEQUENCES;
 DISCARD TEMP;
-```
 </code></pre>
 <h2 id="compatibility"><a class="header" href="#compatibility"><a id="section6"></a>Compatibility</a></h2>
 <p><code>DISCARD</code> is a SynxDB extension.</p>

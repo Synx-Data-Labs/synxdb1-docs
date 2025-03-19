@@ -165,8 +165,8 @@
 <p><code>SAVEPOINT</code> establishes a new savepoint within the current transaction.</p>
 <p>A savepoint is a special mark inside a transaction that allows all commands that are run after it was established to be rolled back, restoring the transaction state to what it was at the time of the savepoint.</p>
 <h2 id="parameters"><a class="header" href="#parameters"><a id="section4"></a>Parameters</a></h2>
-<p>savepoint_name
-:   The name of the new savepoint.</p>
+<h3 id="savepoint_name"><a class="header" href="#savepoint_name">savepoint_name</a></h3>
+<p>The name of the new savepoint.</p>
 <h2 id="notes"><a class="header" href="#notes"><a id="section5"></a>Notes</a></h2>
 <p>Use <a href="ROLLBACK_TO_SAVEPOINT.html">ROLLBACK TO SAVEPOINT</a> to rollback to a savepoint. Use <a href="RELEASE_SAVEPOINT.html">RELEASE SAVEPOINT</a> to destroy a savepoint, keeping the effects of commands run after it was established.</p>
 <p>Savepoints can only be established when inside a transaction block. There can be multiple savepoints defined within a transaction.</p>

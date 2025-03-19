@@ -208,90 +208,89 @@ IGNORE EXTERNAL PARTITIONS
 <pre><code>NOTICE: Rejected &lt;count&gt; badly formatted rows.
 </code></pre>
 <h2 id="parameters"><a class="header" href="#parameters"><a id="section5"></a>Parameters</a></h2>
-<p>table_name
-:   The name (optionally schema-qualified) of an existing table.</p>
-<p>column_name
-:   An optional list of columns to be copied. If no column list is specified, all columns of the table will be copied.</p>
-<p>:   When copying in text format, the default, a row of data in a column of type <code>bytea</code> can be up to 256MB.</p>
-<p>query
-:   A <code>SELECT</code> or <code>VALUES</code> command whose results are to be copied. Note that parentheses are required around the query.</p>
-<p>filename
-:   The path name of the input or output file. An input file name can be an absolute or relative path, but an output file name must be an absolute path. Windows users might need to use an <code>E''</code> string and double any backslashes used in the path name.</p>
-<p>PROGRAM ‘command’
-:   Specify a command to run. In <code>COPY FROM</code>, the input is read from standard output of the command, and in <code>COPY TO</code>, the output is written to the standard input of the command. The command must be specified from the viewpoint of the SynxDB master host system, and must be executable by the SynxDB administrator user (<code>gpadmin</code>).</p>
-<p>:   The command is invoked by a shell. When passing arguments to the shell, strip or escape any special characters that have a special meaning for the shell. For security reasons, it is best to use a fixed command string, or at least avoid passing any user input in the string.</p>
-<p>:   When <code>ON SEGMENT</code> is specified, the command must be executable on all SynxDB primary segment hosts by the SynxDB administrator user (<code>gpadmin</code>). The command is run by each SynxDB segment instance. The <code>&lt;SEGID&gt;</code> is required in the command.</p>
-<p>:   See the <code>ON SEGMENT</code> clause for information about command syntax requirements and the data that is copied when the clause is specified.</p>
-<p>STDIN
-:   Specifies that input comes from the client application. The <code>ON SEGMENT</code> clause is not supported with <code>STDIN</code>.</p>
-<p>STDOUT
-:   Specifies that output goes to the client application. The <code>ON SEGMENT</code> clause is not supported with <code>STDOUT</code>.</p>
-<p>boolean
-:   Specifies whether the selected option should be turned on or off. You can write <code>TRUE</code>, <code>ON</code>, or <code>1</code> to enable the option, and <code>FALSE</code>, <code>OFF</code>, or <code>0</code> to deactivate it. The boolean value can also be omitted, in which case <code>TRUE</code> is assumed.</p>
-<p>FORMAT
-:   Selects the data format to be read or written: <code>text</code>, <code>csv</code> (Comma Separated Values), or <code>binary</code>. The default is <code>text</code>.</p>
-<p>OIDS
-:   Specifies copying the OID for each row. (An error is raised if OIDS is specified for a table that does not have OIDs, or in the case of copying a query.)</p>
-<p>FREEZE
-:   Requests copying the data with rows already frozen, just as they would be after running the <code>VACUUM FREEZE</code> command. This is intended as a performance option for initial data loading. Rows will be frozen only if the table being loaded has been created or truncated in the current subtransaction, there are no cursors open, and there are no older snapshots held by this transaction.</p>
-<p>:   Note that all other sessions will immediately be able to see the data once it has been successfully loaded. This violates the normal rules of MVCC visibility and users specifying this option should be aware of the potential problems this might cause.</p>
-<p>DELIMITER
-:   Specifies the character that separates columns within each row (line) of the file. The default is a tab character in <code>text</code> format, a comma in <code>CSV</code> format. This must be a single one-byte character. This option is not allowed when using <code>binary</code> format.</p>
-<p>NULL
-:   Specifies the string that represents a null value. The default is <code>\N</code> (backslash-N) in <code>text</code> format, and an unquoted empty string in <code>CSV</code> format. You might prefer an empty string even in <code>text</code> format for cases where you don’t want to distinguish nulls from empty strings. This option is not allowed when using <code>binary</code> format.</p>
-<pre><code>&gt; **Note** When using `COPY FROM`, any data item that matches this string will be stored as a null value, so you should make sure that you use the same string as you used with `COPY TO`.
+<h3 id="table_name"><a class="header" href="#table_name">table_name</a></h3>
+<p>The name (optionally schema-qualified) of an existing table.</p>
+<h3 id="column_name"><a class="header" href="#column_name">column_name</a></h3>
+<p>An optional list of columns to be copied. If no column list is specified, all columns of the table will be copied.</p>
+<p>When copying in text format, the default, a row of data in a column of type <code>bytea</code> can be up to 256MB.</p>
+<h3 id="query"><a class="header" href="#query">query</a></h3>
+<p>A <code>SELECT</code> or <code>VALUES</code> command whose results are to be copied. Note that parentheses are required around the query.</p>
+<h3 id="filename"><a class="header" href="#filename">filename</a></h3>
+<p>The path name of the input or output file. An input file name can be an absolute or relative path, but an output file name must be an absolute path. Windows users might need to use an <code>E''</code> string and double any backslashes used in the path name.</p>
+<h3 id="program-command"><a class="header" href="#program-command">PROGRAM ‘command’</a></h3>
+<p>Specify a command to run. In <code>COPY FROM</code>, the input is read from standard output of the command, and in <code>COPY TO</code>, the output is written to the standard input of the command. The command must be specified from the viewpoint of the SynxDB master host system, and must be executable by the SynxDB administrator user (<code>gpadmin</code>).</p>
+<p>The command is invoked by a shell. When passing arguments to the shell, strip or escape any special characters that have a special meaning for the shell. For security reasons, it is best to use a fixed command string, or at least avoid passing any user input in the string.</p>
+<p>When <code>ON SEGMENT</code> is specified, the command must be executable on all SynxDB primary segment hosts by the SynxDB administrator user (<code>gpadmin</code>). The command is run by each SynxDB segment instance. The <code>&lt;SEGID&gt;</code> is required in the command.</p>
+<p>See the <code>ON SEGMENT</code> clause for information about command syntax requirements and the data that is copied when the clause is specified.</p>
+<h3 id="stdin"><a class="header" href="#stdin">STDIN</a></h3>
+<p>Specifies that input comes from the client application. The <code>ON SEGMENT</code> clause is not supported with <code>STDIN</code>.</p>
+<h3 id="stdout"><a class="header" href="#stdout">STDOUT</a></h3>
+<p>Specifies that output goes to the client application. The <code>ON SEGMENT</code> clause is not supported with <code>STDOUT</code>.</p>
+<h3 id="boolean"><a class="header" href="#boolean">boolean</a></h3>
+<p>Specifies whether the selected option should be turned on or off. You can write <code>TRUE</code>, <code>ON</code>, or <code>1</code> to enable the option, and <code>FALSE</code>, <code>OFF</code>, or <code>0</code> to deactivate it. The boolean value can also be omitted, in which case <code>TRUE</code> is assumed.</p>
+<h3 id="format"><a class="header" href="#format">FORMAT</a></h3>
+<p>Selects the data format to be read or written: <code>text</code>, <code>csv</code> (Comma Separated Values), or <code>binary</code>. The default is <code>text</code>.</p>
+<h3 id="oids"><a class="header" href="#oids">OIDS</a></h3>
+<p>Specifies copying the OID for each row. (An error is raised if OIDS is specified for a table that does not have OIDs, or in the case of copying a query.)</p>
+<h3 id="freeze"><a class="header" href="#freeze">FREEZE</a></h3>
+<p>Requests copying the data with rows already frozen, just as they would be after running the <code>VACUUM FREEZE</code> command. This is intended as a performance option for initial data loading. Rows will be frozen only if the table being loaded has been created or truncated in the current subtransaction, there are no cursors open, and there are no older snapshots held by this transaction.</p>
+<p>Note that all other sessions will immediately be able to see the data once it has been successfully loaded. This violates the normal rules of MVCC visibility and users specifying this option should be aware of the potential problems this might cause.</p>
+<h3 id="delimiter"><a class="header" href="#delimiter">DELIMITER</a></h3>
+<p>Specifies the character that separates columns within each row (line) of the file. The default is a tab character in <code>text</code> format, a comma in <code>CSV</code> format. This must be a single one-byte character. This option is not allowed when using <code>binary</code> format.</p>
+<h3 id="null"><a class="header" href="#null">NULL</a></h3>
+<p>Specifies the string that represents a null value. The default is <code>\N</code> (backslash-N) in <code>text</code> format, and an unquoted empty string in <code>CSV</code> format. You might prefer an empty string even in <code>text</code> format for cases where you don’t want to distinguish nulls from empty strings. This option is not allowed when using <code>binary</code> format.</p>
+<blockquote>
+<p><strong>Note</strong> When using <code>COPY FROM</code>, any data item that matches this string will be stored as a null value, so you should make sure that you use the same string as you used with <code>COPY TO</code>.</p>
+</blockquote>
+<h3 id="header"><a class="header" href="#header">HEADER</a></h3>
+<p>Specifies that a file contains a header line with the names of each column in the file. On output, the first line contains the column names from the table, and on input, the first line is ignored. This option is allowed only when using <code>CSV</code> format.</p>
+<h3 id="quote"><a class="header" href="#quote">QUOTE</a></h3>
+<p>Specifies the quoting character to be used when a data value is quoted. The default is double-quote. This must be a single one-byte character. This option is allowed only when using <code>CSV</code> format.</p>
+<h3 id="escape"><a class="header" href="#escape">ESCAPE</a></h3>
+<p>Specifies the character that should appear before a data character that matches the <code>QUOTE</code> value. The default is the same as the <code>QUOTE</code> value (so that the quoting character is doubled if it appears in the data). This must be a single one-byte character. This option is allowed only when using <code>CSV</code> format.</p>
+<h3 id="force_quote"><a class="header" href="#force_quote">FORCE_QUOTE</a></h3>
+<p>Forces quoting to be used for all non-<code>NULL</code> values in each specified column. <code>NULL</code> output is never quoted. If <code>*</code>is specified, non-<code>NULL</code> values will be quoted in all columns. This option is allowed only in <code>COPY TO</code>, and only when using <code>CSV</code> format.</p>
+<h3 id="force_not_null"><a class="header" href="#force_not_null">FORCE_NOT_NULL</a></h3>
+<p>Do not match the specified columns’ values against the null string. In the default case where the null string is empty, this means that empty values will be read as zero-length strings rather than nulls, even when they are not quoted. This option is allowed only in <code>COPY FROM</code>, and only when using <code>CSV</code> format.</p>
+<h3 id="force_null"><a class="header" href="#force_null">FORCE_NULL</a></h3>
+<p>Match the specified columns’ values against the null string, even if it has been quoted, and if a match is found set the value to <code>NULL</code>. In the default case where the null string is empty, this converts a quoted empty string into <code>NULL</code>. This option is allowed only in <code>COPY FROM</code>, and only when using <code>CSV</code> format.</p>
+<h3 id="encoding"><a class="header" href="#encoding">ENCODING</a></h3>
+<p>Specifies that the file is encoded in the encoding_name. If this option is omitted, the current client encoding is used. See the Notes below for more details.</p>
+<h3 id="on-segment"><a class="header" href="#on-segment">ON SEGMENT</a></h3>
+<p>Specify individual, segment data files on the segment hosts. Each file contains the table data that is managed by the primary segment instance. For example, when copying data to files from a table with a <code>COPY TO...ON SEGMENT</code> command, the command creates a file on the segment host for each segment instance on the host. Each file contains the table data that is managed by the segment instance.</p>
+<p>The <code>COPY</code> command does not copy data from or to mirror segment instances and segment data files.</p>
+<p>The keywords <code>STDIN</code> and <code>STDOUT</code> are not supported with <code>ON SEGMENT</code>.</p>
+<p>The <code>&lt;SEG_DATA_DIR&gt;</code> and <code>&lt;SEGID&gt;</code> string literals are used to specify an absolute path and file name with the following syntax:</p>
+<pre><code>COPY &lt;table&gt; [TO|FROM] '&lt;SEG_DATA_DIR&gt;/&lt;gpdumpname&gt;&lt;SEGID&gt;_&lt;suffix&gt;' ON SEGMENT;
 </code></pre>
-<p>HEADER
-:   Specifies that a file contains a header line with the names of each column in the file. On output, the first line contains the column names from the table, and on input, the first line is ignored. This option is allowed only when using <code>CSV</code> format.</p>
-<p>QUOTE
-:   Specifies the quoting character to be used when a data value is quoted. The default is double-quote. This must be a single one-byte character. This option is allowed only when using <code>CSV</code> format.</p>
-<p>ESCAPE
-:   Specifies the character that should appear before a data character that matches the <code>QUOTE</code> value. The default is the same as the <code>QUOTE</code> value (so that the quoting character is doubled if it appears in the data). This must be a single one-byte character. This option is allowed only when using <code>CSV</code> format.</p>
-<p>FORCE_QUOTE
-:   Forces quoting to be used for all non-<code>NULL</code> values in each specified column. <code>NULL</code> output is never quoted. If <code>*</code>is specified, non-<code>NULL</code> values will be quoted in all columns. This option is allowed only in <code>COPY TO</code>, and only when using <code>CSV</code> format.</p>
-<p>FORCE_NOT_NULL
-:   Do not match the specified columns’ values against the null string. In the default case where the null string is empty, this means that empty values will be read as zero-length strings rather than nulls, even when they are not quoted. This option is allowed only in <code>COPY FROM</code>, and only when using <code>CSV</code> format.</p>
-<p>FORCE_NULL
-:   Match the specified columns’ values against the null string, even if it has been quoted, and if a match is found set the value to <code>NULL</code>. In the default case where the null string is empty, this converts a quoted empty string into <code>NULL</code>. This option is allowed only in <code>COPY FROM</code>, and only when using <code>CSV</code> format.</p>
-<p>ENCODING
-:   Specifies that the file is encoded in the encoding_name. If this option is omitted, the current client encoding is used. See the Notes below for more details.</p>
-<p>ON SEGMENT
-:   Specify individual, segment data files on the segment hosts. Each file contains the table data that is managed by the primary segment instance. For example, when copying data to files from a table with a <code>COPY TO...ON SEGMENT</code> command, the command creates a file on the segment host for each segment instance on the host. Each file contains the table data that is managed by the segment instance.</p>
-<p>:   The <code>COPY</code> command does not copy data from or to mirror segment instances and segment data files.</p>
-<p>:   The keywords <code>STDIN</code> and <code>STDOUT</code> are not supported with <code>ON SEGMENT</code>.</p>
-<p>:   The <code>&lt;SEG_DATA_DIR&gt;</code> and <code>&lt;SEGID&gt;</code> string literals are used to specify an absolute path and file name with the following syntax:</p>
-<pre><code>```
-COPY &lt;table&gt; [TO|FROM] '&lt;SEG_DATA_DIR&gt;/&lt;gpdumpname&gt;&lt;SEGID&gt;_&lt;suffix&gt;' ON SEGMENT;
-```
-
-&lt;SEG\_DATA\_DIR\&gt;
-:   The string literal representing the absolute path of the segment instance data directory for `ON SEGMENT` copying. The angle brackets \(`&lt;` and `&gt;`\) are part of the string literal used to specify the path. `COPY` replaces the string literal with the segment path\(s\) when `COPY` is run. An absolute path can be used in place of the `&lt;SEG_DATA_DIR&gt;` string literal.
-
-&lt;SEGID\&gt;
-:   The string literal representing the content ID number of the segment instance to be copied when copying `ON SEGMENT`. `&lt;SEGID&gt;` is a required part of the file name when `ON SEGMENT` is specified. The angle brackets are part of the string literal used to specify the file name.
-:   With `COPY TO`, the string literal is replaced by the content ID of the segment instance when the `COPY` command is run.
-:   With `COPY FROM`, specify the segment instance content ID in the name of the file and place that file on the segment instance host. There must be a file for each primary segment instance on each host. When the `COPY FROM` command is run, the data is copied from the file to the segment instance.
-</code></pre>
-<p>:   When the <code>PROGRAM command</code> clause is specified, the <code>&lt;SEGID&gt;</code> string literal is required in the command, the <code>&lt;SEG_DATA_DIR&gt;</code> string literal is optional. See <a href="#section11">Examples</a>.</p>
-<p>:   For a <code>COPY FROM...ON SEGMENT</code> command, the table distribution policy is checked when data is copied into the table. By default, an error is returned if a data row violates the table distribution policy. You can deactivate the distribution policy check with the server configuration parameter <code>gp_enable_segment_copy_checking</code>. See <a href="#section6">Notes</a>.</p>
-<p>NEWLINE
-:   Specifies the newline used in your data files — <code>LF</code> (Line feed, 0x0A), <code>CR</code> (Carriage return, 0x0D), or <code>CRLF</code> (Carriage return plus line feed, 0x0D 0x0A). If not specified, a SynxDB segment will detect the newline type by looking at the first row of data it receives and using the first newline type encountered.</p>
-<p>CSV
-:   Selects Comma Separated Value (CSV) mode. See <a href="#section9">CSV Format</a>.</p>
-<p>FILL MISSING FIELDS
-:   In <code>COPY FROM</code> more for both <code>TEXT</code> and <code>CSV</code>, specifying <code>FILL MISSING FIELDS</code> will set missing trailing field values to <code>NULL</code> (instead of reporting an error) when a row of data has missing data fields at the end of a line or row. Blank rows, fields with a <code>NOT NULL</code> constraint, and trailing delimiters on a line will still report an error.</p>
-<p>LOG ERRORS
-:   This is an optional clause that can precede a <code>SEGMENT REJECT LIMIT</code> clause to capture error log information about rows with formatting errors.</p>
-<p>:   Error log information is stored internally and is accessed with the SynxDB built-in SQL function <code>gp_read_error_log()</code>.</p>
-<p>:   See <a href="#section6">Notes</a> for information about the error log information and built-in functions for viewing and managing error log information.</p>
-<p>SEGMENT REJECT LIMIT count [ROWS | PERCENT]
-:   Runs a <code>COPY FROM</code> operation in single row error isolation mode. If the input rows have format errors they will be discarded provided that the reject limit count is not reached on any SynxDB segment instance during the load operation. The reject limit count can be specified as number of rows (the default) or percentage of total rows (1-100). If <code>PERCENT</code> is used, each segment starts calculating the bad row percentage only after the number of rows specified by the parameter <code>gp_reject_percent_threshold</code> has been processed. The default for <code>gp_reject_percent_threshold</code> is 300 rows. Constraint errors such as violation of a <code>NOT NULL</code>, <code>CHECK</code>, or <code>UNIQUE</code> constraint will still be handled in ‘all-or-nothing’ input mode. If the limit is not reached, all good rows will be loaded and any error rows discarded.</p>
-<p>:   &gt; <strong>Note</strong> SynxDB limits the initial number of rows that can contain formatting errors if the <code>SEGMENT REJECT LIMIT</code> is not triggered first or is not specified. If the first 1000 rows are rejected, the <code>COPY</code> operation is stopped and rolled back.</p>
+<h3 id="seg_data_dir"><a class="header" href="#seg_data_dir">&lt;SEG_DATA_DIR&gt;</a></h3>
+<p>The string literal representing the absolute path of the segment instance data directory for <code>ON SEGMENT</code> copying. The angle brackets (<code>&lt;</code> and <code>&gt;</code>) are part of the string literal used to specify the path. <code>COPY</code> replaces the string literal with the segment path(s) when <code>COPY</code> is run. An absolute path can be used in place of the <code>&lt;SEG_DATA_DIR&gt;</code> string literal.</p>
+<h3 id="segid"><a class="header" href="#segid">&lt;SEGID&gt;</a></h3>
+<p>The string literal representing the content ID number of the segment instance to be copied when copying <code>ON SEGMENT</code>. <code>&lt;SEGID&gt;</code> is a required part of the file name when <code>ON SEGMENT</code> is specified. The angle brackets are part of the string literal used to specify the file name.</p>
+<p>With <code>COPY TO</code>, the string literal is replaced by the content ID of the segment instance when the <code>COPY</code> command is run.</p>
+<p>With <code>COPY FROM</code>, specify the segment instance content ID in the name of the file and place that file on the segment instance host. There must be a file for each primary segment instance on each host. When the <code>COPY FROM</code> command is run, the data is copied from the file to the segment instance.</p>
+<p>When the <code>PROGRAM command</code> clause is specified, the <code>&lt;SEGID&gt;</code> string literal is required in the command, the <code>&lt;SEG_DATA_DIR&gt;</code> string literal is optional. See <a href="#section11">Examples</a>.</p>
+<p>For a <code>COPY FROM...ON SEGMENT</code> command, the table distribution policy is checked when data is copied into the table. By default, an error is returned if a data row violates the table distribution policy. You can deactivate the distribution policy check with the server configuration parameter <code>gp_enable_segment_copy_checking</code>. See <a href="#section6">Notes</a>.</p>
+<h3 id="newline"><a class="header" href="#newline">NEWLINE</a></h3>
+<p>Specifies the newline used in your data files — <code>LF</code> (Line feed, 0x0A), <code>CR</code> (Carriage return, 0x0D), or <code>CRLF</code> (Carriage return plus line feed, 0x0D 0x0A). If not specified, a SynxDB segment will detect the newline type by looking at the first row of data it receives and using the first newline type encountered.</p>
+<h3 id="csv"><a class="header" href="#csv">CSV</a></h3>
+<p>Selects Comma Separated Value (CSV) mode. See <a href="#section9">CSV Format</a>.</p>
+<h3 id="fill-missing-fields"><a class="header" href="#fill-missing-fields">FILL MISSING FIELDS</a></h3>
+<p>In <code>COPY FROM</code> more for both <code>TEXT</code> and <code>CSV</code>, specifying <code>FILL MISSING FIELDS</code> will set missing trailing field values to <code>NULL</code> (instead of reporting an error) when a row of data has missing data fields at the end of a line or row. Blank rows, fields with a <code>NOT NULL</code> constraint, and trailing delimiters on a line will still report an error.</p>
+<h3 id="log-errors"><a class="header" href="#log-errors">LOG ERRORS</a></h3>
+<p>This is an optional clause that can precede a <code>SEGMENT REJECT LIMIT</code> clause to capture error log information about rows with formatting errors.</p>
+<p>Error log information is stored internally and is accessed with the SynxDB built-in SQL function <code>gp_read_error_log()</code>.</p>
+<p>See <a href="#section6">Notes</a> for information about the error log information and built-in functions for viewing and managing error log information.</p>
+<h3 id="segment-reject-limit-count-rows--percent"><a class="header" href="#segment-reject-limit-count-rows--percent">SEGMENT REJECT LIMIT count [ROWS | PERCENT]</a></h3>
+<p>Runs a <code>COPY FROM</code> operation in single row error isolation mode. If the input rows have format errors they will be discarded provided that the reject limit count is not reached on any SynxDB segment instance during the load operation. The reject limit count can be specified as number of rows (the default) or percentage of total rows (1-100). If <code>PERCENT</code> is used, each segment starts calculating the bad row percentage only after the number of rows specified by the parameter <code>gp_reject_percent_threshold</code> has been processed. The default for <code>gp_reject_percent_threshold</code> is 300 rows. Constraint errors such as violation of a <code>NOT NULL</code>, <code>CHECK</code>, or <code>UNIQUE</code> constraint will still be handled in ‘all-or-nothing’ input mode. If the limit is not reached, all good rows will be loaded and any error rows discarded.</p>
+<blockquote>
+<p><strong>Note</strong> SynxDB limits the initial number of rows that can contain formatting errors if the <code>SEGMENT REJECT LIMIT</code> is not triggered first or is not specified. If the first 1000 rows are rejected, the <code>COPY</code> operation is stopped and rolled back.</p>
+</blockquote>
 <p>The limit for the number of initial rejected rows can be changed with the SynxDB server configuration parameter <code>gp_initial_bad_row_limit</code>. See <a href="../config_params/guc_config.html">Server Configuration Parameters</a> for information about the parameter.</p>
-<p>IGNORE EXTERNAL PARTITIONS
-:   When copying data from partitioned tables, data are not copied from leaf child partitions that are external tables. A message is added to the log file when data are not copied.</p>
-<p>:   If this clause is not specified and SynxDB attempts to copy data from a leaf child partition that is an external table, an error is returned.</p>
-<p>:   See the next section “Notes” for information about specifying an SQL query to copy data from leaf child partitions that are external tables.</p>
+<h3 id="ignore-external-partitions"><a class="header" href="#ignore-external-partitions">IGNORE EXTERNAL PARTITIONS</a></h3>
+<p>When copying data from partitioned tables, data are not copied from leaf child partitions that are external tables. A message is added to the log file when data are not copied.</p>
+<p>If this clause is not specified and SynxDB attempts to copy data from a leaf child partition that is an external table, an error is returned.</p>
+<p>See the next section “Notes” for information about specifying an SQL query to copy data from leaf child partitions that are external tables.</p>
 <h2 id="notes"><a class="header" href="#notes"><a id="section6"></a>Notes</a></h2>
 <p><code>COPY</code> can only be used with tables, not with external tables or views. However, you can write <code>COPY (SELECT * FROM viewname) TO ...</code></p>
 <p><code>COPY</code> only deals with the specific table named; it does not copy data to or from child tables. Thus for example <code>COPY table TO</code> shows the same data as <code>SELECT * FROM ONLY </code>table``. But <code>COPY (SELECT * FROM table) TO ...</code> can be used to dump all of the data in an inheritance hierarchy.</p>
@@ -379,11 +378,15 @@ COPY &lt;table&gt; [TO|FROM] '&lt;SEG_DATA_DIR&gt;/&lt;gpdumpname&gt;&lt;SEGID&g
 <ul>
 <li>
 <p><strong>File Header</strong> — The file header consists of 15 bytes of fixed fields, followed by a variable-length header extension area. The fixed fields are:</p>
-<ul>
-<li><strong>Signature</strong> — 11-byte sequence PGCOPY\n\377\r\n\0 — note that the zero byte is a required part of the signature. (The signature is designed to allow easy identification of files that have been munged by a non-8-bit-clean transfer. This signature will be changed by end-of-line-translation filters, dropped zero bytes, dropped high bits, or parity changes.)</li>
-<li><strong>Flags field</strong> — 32-bit integer bit mask to denote important aspects of the file format. Bits are numbered from 0 (LSB) to 31 (MSB). Note that this field is stored in network byte order (most significant byte first), as are all the integer fields used in the file format. Bits 16-31 are reserved to denote critical file format issues; a reader should cancel if it finds an unexpected bit set in this range. Bits 0-15 are reserved to signal backwards-compatible format issues; a reader should simply ignore any unexpected bits set in this range. Currently only one flag is defined, and the rest must be zero (Bit 16: 1 if data has OIDs, 0 if not).</li>
-<li><strong>Header extension area length</strong> — 32-bit integer, length in bytes of remainder of header, not including self. Currently, this is zero, and the first tuple follows immediately. Future changes to the format might allow additional data to be present in the header. A reader should silently skip over any header extension data it does not know what to do with. The header extension area is envisioned to contain a sequence of self-identifying chunks. The flags field is not intended to tell readers what is in the extension area. Specific design of header extension contents is left for a later release.</li>
-</ul>
+</li>
+<li>
+<p><strong>Signature</strong> — 11-byte sequence PGCOPY\n\377\r\n\0 — note that the zero byte is a required part of the signature. (The signature is designed to allow easy identification of files that have been munged by a non-8-bit-clean transfer. This signature will be changed by end-of-line-translation filters, dropped zero bytes, dropped high bits, or parity changes.)</p>
+</li>
+<li>
+<p><strong>Flags field</strong> — 32-bit integer bit mask to denote important aspects of the file format. Bits are numbered from 0 (LSB) to 31 (MSB). Note that this field is stored in network byte order (most significant byte first), as are all the integer fields used in the file format. Bits 16-31 are reserved to denote critical file format issues; a reader should cancel if it finds an unexpected bit set in this range. Bits 0-15 are reserved to signal backwards-compatible format issues; a reader should simply ignore any unexpected bits set in this range. Currently only one flag is defined, and the rest must be zero (Bit 16: 1 if data has OIDs, 0 if not).</p>
+</li>
+<li>
+<p><strong>Header extension area length</strong> — 32-bit integer, length in bytes of remainder of header, not including self. Currently, this is zero, and the first tuple follows immediately. Future changes to the format might allow additional data to be present in the header. A reader should silently skip over any header extension data it does not know what to do with. The header extension area is envisioned to contain a sequence of self-identifying chunks. The flags field is not intended to tell readers what is in the extension area. Specific design of header extension contents is left for a later release.</p>
 </li>
 <li>
 <p><strong>Tuples</strong> — Each tuple begins with a 16-bit integer count of the number of fields in the tuple. (Presently, all tuples in a table will have the same count, but that might not always be true.) Then, repeated for each field in the tuple, there is a 32-bit length word followed by that many bytes of field data. (The length word does not include itself, and can be zero.) As a special case, -1 indicates a NULL field value. No value bytes follow in the NULL case.</p>

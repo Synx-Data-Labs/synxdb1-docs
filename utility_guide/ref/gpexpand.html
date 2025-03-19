@@ -219,45 +219,45 @@ gpexpand --version
 <p><strong>Note</strong> This utility uses secure shell (SSH) connections between systems to perform its tasks. In large SynxDB deployments, cloud deployments, or deployments with a large number of segments per host, this utility may exceed the host’s maximum threshold for unauthenticated connections. Consider updating the SSH <code>MaxStartups</code> and <code>MaxSessions</code> configuration parameters to increase this threshold. For more information about SSH configuration options, refer to the SSH documentation for your Linux distribution.</p>
 </blockquote>
 <h2 id="options"><a class="header" href="#options"><a id="section5"></a>Options</a></h2>
-<p>-a | –analyze
-:   Run <code>ANALYZE</code> to update the table statistics after expansion. The default is to not run <code>ANALYZE</code>.</p>
-<p>-B batch_size
-:   Batch size of remote commands to send to a given host before making a one-second pause. Default is <code>16</code>. Valid values are 1-128.</p>
-<p>:   The <code>gpexpand</code> utility issues a number of setup commands that may exceed the host’s maximum threshold for unauthenticated connections as defined by <code>MaxStartups</code> in the SSH daemon configuration. The one-second pause allows authentications to be completed before <code>gpexpand</code> issues any more commands.</p>
-<p>:   The default value does not normally need to be changed. However, it may be necessary to reduce the maximum number of commands if <code>gpexpand</code> fails with connection errors such as <code>'ssh_exchange_identification: Connection closed by remote host.'</code></p>
-<p>-c | –clean
-:   Remove the expansion schema.</p>
-<p>-d | –duration hh:mm:ss
-:   Duration of the expansion session from beginning to end.</p>
-<p>-e | –end ‘YYYY-MM-DD hh:mm:ss’
-:   Ending date and time for the expansion session.</p>
-<p>-f | –hosts-file filename
-:   Specifies the name of a file that contains a list of new hosts for system expansion. Each line of the file must contain a single host name.</p>
-<p>:   This file can contain hostnames with or without network interfaces specified. The <code>gpexpand</code> utility handles either case, adding interface numbers to end of the hostname if the original nodes are configured with multiple network interfaces.</p>
+<h3 id="-a--analyze"><a class="header" href="#-a--analyze">-a | –analyze</a></h3>
+<p>Run <code>ANALYZE</code> to update the table statistics after expansion. The default is to not run <code>ANALYZE</code>.</p>
+<h3 id="-b-batch_size"><a class="header" href="#-b-batch_size">-B batch_size</a></h3>
+<p>Batch size of remote commands to send to a given host before making a one-second pause. Default is <code>16</code>. Valid values are 1-128.</p>
+<p>The <code>gpexpand</code> utility issues a number of setup commands that may exceed the host’s maximum threshold for unauthenticated connections as defined by <code>MaxStartups</code> in the SSH daemon configuration. The one-second pause allows authentications to be completed before <code>gpexpand</code> issues any more commands.</p>
+<p>The default value does not normally need to be changed. However, it may be necessary to reduce the maximum number of commands if <code>gpexpand</code> fails with connection errors such as <code>'ssh_exchange_identification: Connection closed by remote host.'</code></p>
+<h3 id="-c--clean"><a class="header" href="#-c--clean">-c | –clean</a></h3>
+<p>Remove the expansion schema.</p>
+<h3 id="-d--duration-hhmmss"><a class="header" href="#-d--duration-hhmmss">-d | –duration hh:mm:ss</a></h3>
+<p>Duration of the expansion session from beginning to end.</p>
+<h3 id="-e--end-yyyy-mm-dd-hhmmss"><a class="header" href="#-e--end-yyyy-mm-dd-hhmmss">-e | –end ‘YYYY-MM-DD hh:mm:ss’</a></h3>
+<p>Ending date and time for the expansion session.</p>
+<h3 id="-f--hosts-file-filename"><a class="header" href="#-f--hosts-file-filename">-f | –hosts-file filename</a></h3>
+<p>Specifies the name of a file that contains a list of new hosts for system expansion. Each line of the file must contain a single host name.</p>
+<p>This file can contain hostnames with or without network interfaces specified. The <code>gpexpand</code> utility handles either case, adding interface numbers to end of the hostname if the original nodes are configured with multiple network interfaces.</p>
 <pre><code>&gt; **Note** The SynxDB segment host naming convention is `sdwN` where `sdw` is a prefix and `N` is an integer. For example, `sdw1`, `sdw2` and so on. For hosts with multiple interfaces, the convention is to append a dash \(`-`\) and number to the host name. For example, `sdw1-1` and `sdw1-2` are the two interface names for host `sdw1`.
 </code></pre>
-<p>:   For information about using a hostname or IP address, see <a href="#host_ip">Specifying Hosts using Hostnames or IP Addresses</a>. Also, see <a href="#multi_nic">Using Host Systems with Multiple NICs</a>.</p>
-<p>-i | –input input_file
-:   Specifies the name of the expansion configuration file, which contains one line for each segment to be added in the format of:</p>
-<p>:   hostname|address|port|datadir|dbid|content|preferred_role</p>
-<p>-n parallel_processes
-:   The number of tables to redistribute simultaneously. Valid values are 1 - 96.</p>
-<p>:   Each table redistribution process requires two database connections: one to alter the table, and another to update the table’s status in the expansion schema. Before increasing <code>-n</code>, check the current value of the server configuration parameter <code>max_connections</code> and make sure the maximum connection limit is not exceeded.</p>
-<p>-r | –rollback
-:   Roll back a failed expansion setup operation.</p>
-<p>-s | –silent
-:   Runs in silent mode. Does not prompt for confirmation to proceed on warnings.</p>
-<p>-S | –simple-progress
-:   If specified, the <code>gpexpand</code> utility records only the minimum progress information in the SynxDB table <em>gpexpand.expansion_progress</em>. The utility does not record the relation size information and status information in the table <em>gpexpand.status_detail</em>.</p>
-<p>:   Specifying this option can improve performance by reducing the amount of progress information written to the <em>gpexpand</em> tables.</p>
+<p>For information about using a hostname or IP address, see <a href="#host_ip">Specifying Hosts using Hostnames or IP Addresses</a>. Also, see <a href="#multi_nic">Using Host Systems with Multiple NICs</a>.</p>
+<h3 id="-i--input-input_file"><a class="header" href="#-i--input-input_file">-i | –input input_file</a></h3>
+<p>Specifies the name of the expansion configuration file, which contains one line for each segment to be added in the format of:</p>
+<p>hostname|address|port|datadir|dbid|content|preferred_role</p>
+<h3 id="-n-parallel_processes"><a class="header" href="#-n-parallel_processes">-n parallel_processes</a></h3>
+<p>The number of tables to redistribute simultaneously. Valid values are 1 - 96.</p>
+<p>Each table redistribution process requires two database connections: one to alter the table, and another to update the table’s status in the expansion schema. Before increasing <code>-n</code>, check the current value of the server configuration parameter <code>max_connections</code> and make sure the maximum connection limit is not exceeded.</p>
+<h3 id="-r--rollback"><a class="header" href="#-r--rollback">-r | –rollback</a></h3>
+<p>Roll back a failed expansion setup operation.</p>
+<h3 id="-s--silent"><a class="header" href="#-s--silent">-s | –silent</a></h3>
+<p>Runs in silent mode. Does not prompt for confirmation to proceed on warnings.</p>
+<h3 id="-s--simple-progress"><a class="header" href="#-s--simple-progress">-S | –simple-progress</a></h3>
+<p>If specified, the <code>gpexpand</code> utility records only the minimum progress information in the SynxDB table <em>gpexpand.expansion_progress</em>. The utility does not record the relation size information and status information in the table <em>gpexpand.status_detail</em>.</p>
+<p>Specifying this option can improve performance by reducing the amount of progress information written to the <em>gpexpand</em> tables.</p>
 <p>[-t | –tardir] directory
-:   The fully qualified path to a directory on segment hosts where the <code>gpexpand</code> utility copies a temporary tar file. The file contains SynxDB files that are used to create segment instances. The default directory is the user home directory.</p>
-<p>-v | –verbose
-:   Verbose debugging output. With this option, the utility will output all DDL and DML used to expand the database.</p>
-<p>–version
-:   Display the utility’s version number and exit.</p>
-<p>-? | -h | –help
-:   Displays the online help.</p>
+The fully qualified path to a directory on segment hosts where the <code>gpexpand</code> utility copies a temporary tar file. The file contains SynxDB files that are used to create segment instances. The default directory is the user home directory.</p>
+<h3 id="-v--verbose"><a class="header" href="#-v--verbose">-v | –verbose</a></h3>
+<p>Verbose debugging output. With this option, the utility will output all DDL and DML used to expand the database.</p>
+<h3 id="version"><a class="header" href="#version">–version</a></h3>
+<p>Display the utility’s version number and exit.</p>
+<h3 id="----h--help"><a class="header" href="#----h--help">-? | -h | –help</a></h3>
+<p>Displays the online help.</p>
 <h2 id="specifying-hosts-using-hostnames-or-ip-addresses"><a class="header" href="#specifying-hosts-using-hostnames-or-ip-addresses"><a id="host_ip"></a>Specifying Hosts using Hostnames or IP Addresses</a></h2>
 <p>When expanding a SynxDB system, you can specify either a hostname or an IP address for the value.</p>
 <ul>

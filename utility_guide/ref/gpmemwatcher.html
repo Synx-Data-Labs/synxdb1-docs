@@ -171,22 +171,20 @@ gpmemwatcher -h | --help
 <p>The <code>gpmemwatcher</code> utility is a daemon that runs on all servers of a SynxDB cluster. It tracks the memory usage of each process by collecting the output of the <code>ps</code> command every 60 seconds. It is a low impact process that only consumes 4 MB of memory. It will generate approximately 30 MB of data over a 24-hour period.</p>
 <p>You may use this utility if SynxDB is reporting <code>Out of memory</code> errors and causing segments to go down or queries to fail. You collect the memory usage information of one or multiple servers within the SynxDB cluster with <code>gpmemwatcher</code> and then use <a href="gpmemreport.html">gpmemreport</a> to analyze the files collected.</p>
 <h2 id="options"><a class="header" href="#options"><a id="section4"></a>Options</a></h2>
-<p>-f | –host_file hostfile
-:   Indicates the hostfile input file that lists the hosts from which the utility should collect memory usage information. The file must include the hostnames and a working directory that exists on each one of the hosts. For example:</p>
-<pre><code>```
-mdw:/home/gpadmin/gpmemwatcher_dir/working
+<h3 id="-f--host_file-hostfile"><a class="header" href="#-f--host_file-hostfile">-f | –host_file hostfile</a></h3>
+<p>Indicates the hostfile input file that lists the hosts from which the utility should collect memory usage information. The file must include the hostnames and a working directory that exists on each one of the hosts. For example:</p>
+<pre><code>mdw:/home/gpadmin/gpmemwatcher_dir/working
 sdw1:/home/gpadmin/gpmemwatcher_dir/working
 sdw2:/home/gpadmin/gpmemwatcher_dir/working
 sdw3:/home/gpadmin/gpmemwatcher_dir/working
 sdw4:/home/gpadmin/gpmemwatcher_dir/working
-```
 </code></pre>
-<p>–stop
-:   Stops all the <code>gpmemwatcher</code> processes, generates <code>.gz</code> data files in the current directory, and removes all the work files from all the hosts.</p>
-<p>–version
-:   Displays the version of this utility.</p>
-<p>-h | –help
-:   Displays the online help.</p>
+<h3 id="stop"><a class="header" href="#stop">–stop</a></h3>
+<p>Stops all the <code>gpmemwatcher</code> processes, generates <code>.gz</code> data files in the current directory, and removes all the work files from all the hosts.</p>
+<h3 id="version"><a class="header" href="#version">–version</a></h3>
+<p>Displays the version of this utility.</p>
+<h3 id="-h--help"><a class="header" href="#-h--help">-h | –help</a></h3>
+<p>Displays the online help.</p>
 <h2 id="examples"><a class="header" href="#examples"><a id="section5"></a>Examples</a></h2>
 <p><strong>Example 1: Start the utility specifying the list of hosts from which to collect the information</strong></p>
 <p>Create the file <code>/home/gpadmin/hostmap.txt</code> that contains the following:</p>

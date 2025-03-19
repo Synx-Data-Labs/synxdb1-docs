@@ -180,20 +180,20 @@ gpdeletesystem -v
 </ul>
 <p>This utility will not uninstall the SynxDB software.</p>
 <h2 id="options"><a class="header" href="#options"><a id="section4"></a>Options</a></h2>
-<p>-d master_data_directory
-:   Specifies the master host data directory. If this option is not specified, the setting for the environment variable <code>MASTER_DATA_DIRECTORY</code> is used. If this option is specified, it overrides any setting of <code>MASTER_DATA_DIRECTORY</code>. If master_data_directory cannot be determined, the utility returns an error.</p>
-<p>-B parallel_processes
-:   The number of segments to delete in parallel. If not specified, the utility will start up to 60 parallel processes depending on how many segment instances it needs to delete.</p>
-<p>-f (force)
-:   Force a delete even if backup files are found in the data directories. The default is to not delete SynxDB instances if backup files are present.</p>
-<p>-l logfile_directory
-:   The directory to write the log file. Defaults to <code>~/gpAdminLogs</code>.</p>
-<p>-D (debug)
-:   Sets logging level to debug.</p>
-<p>-? (help)
-:   Displays the online help.</p>
-<p>-v (show utility version)
-:   Displays the version, status, last updated date, and check sum of this utility.</p>
+<h3 id="-d-master_data_directory"><a class="header" href="#-d-master_data_directory">-d master_data_directory</a></h3>
+<p>Specifies the master host data directory. If this option is not specified, the setting for the environment variable <code>MASTER_DATA_DIRECTORY</code> is used. If this option is specified, it overrides any setting of <code>MASTER_DATA_DIRECTORY</code>. If master_data_directory cannot be determined, the utility returns an error.</p>
+<h3 id="-b-parallel_processes"><a class="header" href="#-b-parallel_processes">-B parallel_processes</a></h3>
+<p>The number of segments to delete in parallel. If not specified, the utility will start up to 60 parallel processes depending on how many segment instances it needs to delete.</p>
+<h3 id="-f-force"><a class="header" href="#-f-force">-f (force)</a></h3>
+<p>Force a delete even if backup files are found in the data directories. The default is to not delete SynxDB instances if backup files are present.</p>
+<h3 id="-l-logfile_directory"><a class="header" href="#-l-logfile_directory">-l logfile_directory</a></h3>
+<p>The directory to write the log file. Defaults to <code>~/gpAdminLogs</code>.</p>
+<h3 id="-d-debug"><a class="header" href="#-d-debug">-D (debug)</a></h3>
+<p>Sets logging level to debug.</p>
+<h3 id="--help"><a class="header" href="#--help">-? (help)</a></h3>
+<p>Displays the online help.</p>
+<h3 id="-v-show-utility-version"><a class="header" href="#-v-show-utility-version">-v (show utility version)</a></h3>
+<p>Displays the version, status, last updated date, and check sum of this utility.</p>
 <h2 id="examples"><a class="header" href="#examples"><a id="section5"></a>Examples</a></h2>
 <p>Delete a SynxDB system:</p>
 <pre><code>gpdeletesystem -d /gpdata/gp-1

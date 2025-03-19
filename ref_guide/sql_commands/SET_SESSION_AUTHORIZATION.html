@@ -171,15 +171,14 @@ RESET SESSION AUTHORIZATION
 <p>The session user identifier may be changed only if the initial session user (the authenticated user) had the superuser privilege. Otherwise, the command is accepted only if it specifies the authenticated user name.</p>
 <p>The <code>DEFAULT</code> and <code>RESET</code> forms reset the session and current user identifiers to be the originally authenticated user name. These forms may be run by any user.</p>
 <h2 id="parameters"><a class="header" href="#parameters"><a id="section4"></a>Parameters</a></h2>
-<p>SESSION
-:   Specifies that the command takes effect for the current session. This is the default.</p>
-<p>LOCAL
-:   Specifies that the command takes effect for only the current transaction. After <code>COMMIT</code> or <code>ROLLBACK</code>, the session-level setting takes effect again. Note that <code>SET LOCAL</code> will appear to have no effect if it is run outside of a transaction.</p>
-<p>rolename
-:   The name of the role to assume.</p>
-<p>NONE
-RESET
-:   Reset the session and current role identifiers to be that of the role used to log in.</p>
+<h3 id="session"><a class="header" href="#session">SESSION</a></h3>
+<p>Specifies that the command takes effect for the current session. This is the default.</p>
+<h3 id="local"><a class="header" href="#local">LOCAL</a></h3>
+<p>Specifies that the command takes effect for only the current transaction. After <code>COMMIT</code> or <code>ROLLBACK</code>, the session-level setting takes effect again. Note that <code>SET LOCAL</code> will appear to have no effect if it is run outside of a transaction.</p>
+<h3 id="rolename"><a class="header" href="#rolename">rolename</a></h3>
+<p>The name of the role to assume.</p>
+<h3 id="nonereset"><a class="header" href="#nonereset">NONE<br/>RESET</a></h3>
+<p>Reset the session and current role identifiers to be that of the role used to log in.</p>
 <h2 id="examples"><a class="header" href="#examples"><a id="section5"></a>Examples</a></h2>
 <pre><code>SELECT SESSION_USER, CURRENT_USER;
  session_user | current_user 

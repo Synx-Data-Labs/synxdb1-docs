@@ -174,47 +174,55 @@ gpstate -? | -h | --help
 <li>A mapping of primary segments to their corresponding mirror segments.</li>
 </ul>
 <h2 id="options"><a class="header" href="#options"><a id="section4"></a>Options</a></h2>
-<p>-b (brief status)
-:   Optional. Display a brief summary of the state of the SynxDB system. This is the default option.</p>
-<p>-B parallel_processes
-:   The number of segments to check in parallel. If not specified, the utility will start up to 60 parallel processes depending on how many segment instances it needs to check.</p>
-<p>-c (show primary to mirror mappings)
-:   Optional. Display mapping of primary segments to their corresponding mirror segments.</p>
-<p>-d master_data_directory
-:   Optional. The master data directory. If not specified, the value set for <code>$MASTER_DATA_DIRECTORY</code> will be used.</p>
-<p>-e (show segments with mirror status issues)
-:   Show details on primary/mirror segment pairs that have potential issues. These issues include:</p>
-<pre><code>-   Whether any segments are down.
--   Whether any primary-mirror segment pairs are out of sync – including information on how many bytes are remaining to sync \(as displayed in the `WAL sync remaining bytes` output field\).
-
-&gt; **Note** `gpstate -e` does not display segment pairs that are in sync.
-
-&gt; **Note** You must have `rsync` version 3.1.x or higher installed in order to view the tracking information for segments undergoing a differential recovery.
-
--   Whether any primary-mirror segment pairs are not in their preferred roles.
-</code></pre>
-<p>-f (show standby master details)
-:   Display details of the standby master host if configured.</p>
-<p>-i (show SynxDB version)
-:   Display the SynxDB software version information for each instance.</p>
-<p>-l logfile_directory
-:   The directory to write the log file. Defaults to <code>~/gpAdminLogs</code>.</p>
-<p>-m (list mirrors)
-:   Optional. List the mirror segment instances in the system and their current role.</p>
-<p>-p (show ports)
-:   List the port numbers used throughout the SynxDB system.</p>
-<p>-q (no screen output)
-:   Optional. Run in quiet mode. Except for warning messages, command output is not displayed on the screen. However, this information is still written to the log file.</p>
-<p>-Q (quick status)
-:   Optional. Checks segment status in the system catalog on the master host. Does not poll the segments for status.</p>
-<p>-s (detailed status)
-:   Optional. Displays detailed status information about the SynxDB system.</p>
-<p>-v (verbose output)
-:   Optional. Displays error messages and outputs detailed status and progress information.</p>
-<p>-x (expand)
-:   Optional. Displays detailed information about the progress and state of a SynxDB system expansion.</p>
-<p>-? | -h | –help (help)
-:   Displays the online help.</p>
+<h3 id="-b-brief-status"><a class="header" href="#-b-brief-status">-b (brief status)</a></h3>
+<p>Optional. Display a brief summary of the state of the SynxDB system. This is the default option.</p>
+<h3 id="-b-parallel_processes"><a class="header" href="#-b-parallel_processes">-B parallel_processes</a></h3>
+<p>The number of segments to check in parallel. If not specified, the utility will start up to 60 parallel processes depending on how many segment instances it needs to check.</p>
+<h3 id="-c-show-primary-to-mirror-mappings"><a class="header" href="#-c-show-primary-to-mirror-mappings">-c (show primary to mirror mappings)</a></h3>
+<p>Optional. Display mapping of primary segments to their corresponding mirror segments.</p>
+<h3 id="-d-master_data_directory"><a class="header" href="#-d-master_data_directory">-d master_data_directory</a></h3>
+<p>Optional. The master data directory. If not specified, the value set for <code>$MASTER_DATA_DIRECTORY</code> will be used.</p>
+<h3 id="-e-show-segments-with-mirror-status-issues"><a class="header" href="#-e-show-segments-with-mirror-status-issues">-e (show segments with mirror status issues)</a></h3>
+<p>Show details on primary/mirror segment pairs that have potential issues. These issues include:</p>
+<ul>
+<li>
+<p>Whether any segments are down.</p>
+</li>
+<li>
+<p>Whether any primary-mirror segment pairs are out of sync – including information on how many bytes are remaining to sync (as displayed in the <code>WAL sync remaining bytes</code> output field).</p>
+<blockquote>
+<p><strong>Note</strong> <code>gpstate -e</code> does not display segment pairs that are in sync.</p>
+</blockquote>
+<blockquote>
+<p><strong>Note</strong> You must have <code>rsync</code> version 3.1.x or higher installed in order to view the tracking information for segments undergoing a differential recovery.</p>
+</blockquote>
+</li>
+<li>
+<p>Whether any primary-mirror segment pairs are not in their preferred roles.</p>
+</li>
+</ul>
+<h3 id="-f-show-standby-master-details"><a class="header" href="#-f-show-standby-master-details">-f (show standby master details)</a></h3>
+<p>Display details of the standby master host if configured.</p>
+<h3 id="-i-show-synxdb-version"><a class="header" href="#-i-show-synxdb-version">-i (show SynxDB version)</a></h3>
+<p>Display the SynxDB software version information for each instance.</p>
+<h3 id="-l-logfile_directory"><a class="header" href="#-l-logfile_directory">-l logfile_directory</a></h3>
+<p>The directory to write the log file. Defaults to <code>~/gpAdminLogs</code>.</p>
+<h3 id="-m-list-mirrors"><a class="header" href="#-m-list-mirrors">-m (list mirrors)</a></h3>
+<p>Optional. List the mirror segment instances in the system and their current role.</p>
+<h3 id="-p-show-ports"><a class="header" href="#-p-show-ports">-p (show ports)</a></h3>
+<p>List the port numbers used throughout the SynxDB system.</p>
+<h3 id="-q-no-screen-output"><a class="header" href="#-q-no-screen-output">-q (no screen output)</a></h3>
+<p>Optional. Run in quiet mode. Except for warning messages, command output is not displayed on the screen. However, this information is still written to the log file.</p>
+<h3 id="-q-quick-status"><a class="header" href="#-q-quick-status">-Q (quick status)</a></h3>
+<p>Optional. Checks segment status in the system catalog on the master host. Does not poll the segments for status.</p>
+<h3 id="-s-detailed-status"><a class="header" href="#-s-detailed-status">-s (detailed status)</a></h3>
+<p>Optional. Displays detailed status information about the SynxDB system.</p>
+<h3 id="-v-verbose-output"><a class="header" href="#-v-verbose-output">-v (verbose output)</a></h3>
+<p>Optional. Displays error messages and outputs detailed status and progress information.</p>
+<h3 id="-x-expand"><a class="header" href="#-x-expand">-x (expand)</a></h3>
+<p>Optional. Displays detailed information about the progress and state of a SynxDB system expansion.</p>
+<h3 id="----h--help-help"><a class="header" href="#----h--help-help">-? | -h | –help (help)</a></h3>
+<p>Displays the online help.</p>
 <h2 id="output-field-definitions"><a class="header" href="#output-field-definitions"><a id="section5"></a>Output Field Definitions</a></h2>
 <p>The following output fields are reported by <code>gpstate -s</code> for the master:</p>
 <div class="table-wrapper"><table><thead><tr><th>Output Data</th><th>Description</th></tr></thead><tbody>

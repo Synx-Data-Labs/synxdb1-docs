@@ -164,14 +164,14 @@
 <h2 id="description"><a class="header" href="#description"><a id="section3"></a>Description</a></h2>
 <p><code>DROP SCHEMA</code> removes schemas from the database. A schema can only be dropped by its owner or a superuser. Note that the owner can drop the schema (and thereby all contained objects) even if they do not own some of the objects within the schema.</p>
 <h2 id="parameters"><a class="header" href="#parameters"><a id="section4"></a>Parameters</a></h2>
-<p>IF EXISTS
-:   Do not throw an error if the schema does not exist. A notice is issued in this case.</p>
-<p>name
-:   The name of the schema to remove.</p>
-<p>CASCADE
-:   Automatically drops any objects contained in the schema (tables, functions, etc.).</p>
-<p>RESTRICT
-:   Refuse to drop the schema if it contains any objects. This is the default.</p>
+<h3 id="if-exists"><a class="header" href="#if-exists">IF EXISTS</a></h3>
+<p>Do not throw an error if the schema does not exist. A notice is issued in this case.</p>
+<h3 id="name"><a class="header" href="#name">name</a></h3>
+<p>The name of the schema to remove.</p>
+<h3 id="cascade"><a class="header" href="#cascade">CASCADE</a></h3>
+<p>Automatically drops any objects contained in the schema (tables, functions, etc.).</p>
+<h3 id="restrict"><a class="header" href="#restrict">RESTRICT</a></h3>
+<p>Refuse to drop the schema if it contains any objects. This is the default.</p>
 <h2 id="examples"><a class="header" href="#examples"><a id="section5"></a>Examples</a></h2>
 <p>Remove the schema <code>mystuff</code> from the database, along with everything it contains:</p>
 <pre><code>DROP SCHEMA mystuff CASCADE;

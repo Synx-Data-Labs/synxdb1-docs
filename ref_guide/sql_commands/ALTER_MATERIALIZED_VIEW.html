@@ -186,18 +186,18 @@ where &lt;action&gt; is one of:
 <p>You must own the materialized view to use <code>ALTER MATERIALIZED VIEW</code>. To change a materialized view’s schema, you must also have <code>CREATE</code> privilege on the new schema. To alter the owner, you must also be a direct or indirect member of the new owning role, and that role must have <code>CREATE</code> privilege on the materialized view’s schema. (These restrictions enforce that altering the owner doesn’t do anything you couldn’t do by dropping and recreating the materialized view. However, a superuser can alter ownership of any view anyway.)</p>
 <p>The statement subforms and actions available for <code>ALTER MATERIALIZED VIEW</code> are a subset of those available for <code>ALTER TABLE</code>, and have the same meaning when used for materialized views. See the descriptions for <a href="ALTER_TABLE.html">ALTER TABLE</a> for details.</p>
 <h2 id="parameters"><a class="header" href="#parameters"><a id="section4"></a>Parameters</a></h2>
-<p>name
-:   The name (optionally schema-qualified) of an existing materialized view.</p>
-<p>column_name
-:   Name of a new or existing column.</p>
-<p>new_column_name
-:   New name for an existing column.</p>
-<p>new_owner
-:   The user name of the new owner of the materialized view.</p>
-<p>new_name
-:   The new name for the materialized view.</p>
-<p>new_schema
-:   The new schema for the materialized view.</p>
+<h3 id="name"><a class="header" href="#name">name</a></h3>
+<p>The name (optionally schema-qualified) of an existing materialized view.</p>
+<h3 id="column_name"><a class="header" href="#column_name">column_name</a></h3>
+<p>Name of a new or existing column.</p>
+<h3 id="new_column_name"><a class="header" href="#new_column_name">new_column_name</a></h3>
+<p>New name for an existing column.</p>
+<h3 id="new_owner"><a class="header" href="#new_owner">new_owner</a></h3>
+<p>The user name of the new owner of the materialized view.</p>
+<h3 id="new_name"><a class="header" href="#new_name">new_name</a></h3>
+<p>The new name for the materialized view.</p>
+<h3 id="new_schema"><a class="header" href="#new_schema">new_schema</a></h3>
+<p>The new schema for the materialized view.</p>
 <h2 id="examples"><a class="header" href="#examples"><a id="section6"></a>Examples</a></h2>
 <p>To rename the materialized view foo to bar:</p>
 <pre><code>ALTER MATERIALIZED VIEW foo RENAME TO bar;

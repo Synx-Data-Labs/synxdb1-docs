@@ -174,20 +174,20 @@ ALTER AGGREGATE &lt;name&gt; ( &lt;aggregate_signature&gt; ) SET SCHEMA &lt;new_
 <p><code>ALTER AGGREGATE</code> changes the definition of an aggregate function.</p>
 <p>You must own the aggregate function to use <code>ALTER AGGREGATE</code>. To change the schema of an aggregate function, you must also have <code>CREATE</code> privilege on the new schema. To alter the owner, you must also be a direct or indirect member of the new owning role, and that role must have <code>CREATE</code> privilege on the aggregate function’s schema. (These restrictions enforce that altering the owner does not do anything you could not do by dropping and recreating the aggregate function. However, a superuser can alter ownership of any aggregate function anyway.)</p>
 <h2 id="parameters"><a class="header" href="#parameters"><a id="section4"></a>Parameters</a></h2>
-<p>name
-:   The name (optionally schema-qualified) of an existing aggregate function.</p>
-<p>argmode
-:   The mode of an argument: <code>IN</code> or <code>VARIADIC</code>. If omitted, the default is <code>IN</code>.</p>
-<p>argname
-:   The name of an argument. Note that <code>ALTER AGGREGATE</code> does not actually pay any attention to argument names, since only the argument data types are needed to determine the aggregate function’s identity.</p>
-<p>argtype
-:   An input data type on which the aggregate function operates. To reference a zero-argument aggregate function, write <code>*</code> in place of the list of input data types. To reference an ordered-set aggregate function, write <code>ORDER BY</code> between the direct and aggregated argument specifications.</p>
-<p>new_name
-:   The new name of the aggregate function.</p>
-<p>new_owner
-:   The new owner of the aggregate function.</p>
-<p>new_schema
-:   The new schema for the aggregate function.</p>
+<h3 id="name"><a class="header" href="#name">name</a></h3>
+<p>The name (optionally schema-qualified) of an existing aggregate function.</p>
+<h3 id="argmode"><a class="header" href="#argmode">argmode</a></h3>
+<p>The mode of an argument: <code>IN</code> or <code>VARIADIC</code>. If omitted, the default is <code>IN</code>.</p>
+<h3 id="argname"><a class="header" href="#argname">argname</a></h3>
+<p>The name of an argument. Note that <code>ALTER AGGREGATE</code> does not actually pay any attention to argument names, since only the argument data types are needed to determine the aggregate function’s identity.</p>
+<h3 id="argtype"><a class="header" href="#argtype">argtype</a></h3>
+<p>An input data type on which the aggregate function operates. To reference a zero-argument aggregate function, write <code>*</code> in place of the list of input data types. To reference an ordered-set aggregate function, write <code>ORDER BY</code> between the direct and aggregated argument specifications.</p>
+<h3 id="new_name"><a class="header" href="#new_name">new_name</a></h3>
+<p>The new name of the aggregate function.</p>
+<h3 id="new_owner"><a class="header" href="#new_owner">new_owner</a></h3>
+<p>The new owner of the aggregate function.</p>
+<h3 id="new_schema"><a class="header" href="#new_schema">new_schema</a></h3>
+<p>The new schema for the aggregate function.</p>
 <h2 id="notes"><a class="header" href="#notes"><a id="notes"></a>Notes</a></h2>
 <p>The recommended syntax for referencing an ordered-set aggregate is to write <code>ORDER BY</code> between the direct and aggregated argument specifications, in the same style as in <a href="CREATE_AGGREGATE.html">CREATE AGGREGATE</a>. However, it will also work to omit <code>ORDER BY</code> and just run the direct and aggregated argument specifications into a single list. In this abbreviated form, if <code>VARIADIC "any"</code> was used in both the direct and aggregated argument lists, write <code>VARIADIC "any"</code> only once.</p>
 <h2 id="examples"><a class="header" href="#examples"><a id="section5"></a>Examples</a></h2>

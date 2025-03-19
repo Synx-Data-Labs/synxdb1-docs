@@ -170,14 +170,14 @@ ALTER CONVERSION &lt;name&gt; SET SCHEMA &lt;new_schema&gt;
 <p><code>ALTER CONVERSION</code> changes the definition of a conversion.</p>
 <p>You must own the conversion to use <code>ALTER CONVERSION</code>. To alter the owner, you must also be a direct or indirect member of the new owning role, and that role must have <code>CREATE</code> privilege on the conversion’s schema. (These restrictions enforce that altering the owner does not do anything you could not do by dropping and recreating the conversion. However, a superuser can alter ownership of any conversion anyway.)</p>
 <h2 id="parameters"><a class="header" href="#parameters"><a id="section4"></a>Parameters</a></h2>
-<p>name
-:   The name (optionally schema-qualified) of an existing conversion.</p>
-<p>newname
-:   The new name of the conversion.</p>
-<p>newowner
-:   The new owner of the conversion.</p>
-<p>new_schema
-:   The new schema for the conversion.</p>
+<h3 id="name"><a class="header" href="#name">name</a></h3>
+<p>The name (optionally schema-qualified) of an existing conversion.</p>
+<h3 id="newname"><a class="header" href="#newname">newname</a></h3>
+<p>The new name of the conversion.</p>
+<h3 id="newowner"><a class="header" href="#newowner">newowner</a></h3>
+<p>The new owner of the conversion.</p>
+<h3 id="new_schema"><a class="header" href="#new_schema">new_schema</a></h3>
+<p>The new schema for the conversion.</p>
 <h2 id="examples"><a class="header" href="#examples"><a id="section5"></a>Examples</a></h2>
 <p>To rename the conversion <code>iso_8859_1_to_utf8</code> to <code>latin1_to_unicode</code>:</p>
 <pre><code>ALTER CONVERSION iso_8859_1_to_utf8 RENAME TO 

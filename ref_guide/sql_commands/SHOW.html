@@ -166,10 +166,10 @@ SHOW ALL
 <h2 id="description"><a class="header" href="#description"><a id="section3"></a>Description</a></h2>
 <p><code>SHOW</code> displays the current settings of SynxDB system configuration parameters. You can set these parameters with the <code>SET</code> statement, or by editing the <code>postgresql.conf</code> configuration file of the SynxDB master. Note that some parameters viewable by <code>SHOW</code> are read-only — their values can be viewed but not set. See the SynxDB Reference Guide for details.</p>
 <h2 id="parameters"><a class="header" href="#parameters"><a id="section4"></a>Parameters</a></h2>
-<p>configuration_parameter
-:   The name of a system configuration parameter.</p>
-<p>ALL
-:   Shows the current value of all configuration parameters.</p>
+<h3 id="configuration_parameter"><a class="header" href="#configuration_parameter">configuration_parameter</a></h3>
+<p>The name of a system configuration parameter.</p>
+<h3 id="all"><a class="header" href="#all">ALL</a></h3>
+<p>Shows the current value of all configuration parameters.</p>
 <h2 id="examples"><a class="header" href="#examples"><a id="section5"></a>Examples</a></h2>
 <p>Show the current setting of the parameter <code>DateStyle</code>:</p>
 <pre><code>SHOW DateStyle;

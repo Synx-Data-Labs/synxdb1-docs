@@ -166,14 +166,14 @@ ALTER COLLATION &lt;name&gt; OWNER TO &lt;new_owner&gt;
 ALTER COLLATION &lt;name&gt; SET SCHEMA &lt;new_schema&gt;
 </code></pre>
 <h2 id="parameters"><a class="header" href="#parameters"><a id="section4"></a>Parameters</a></h2>
-<p>name
-:   The name (optionally schema-qualified) of an existing collation.</p>
-<p>new_name
-:   The new name of the collation.</p>
-<p>new_owner
-:   The new owner of the collation.</p>
-<p>new_schema
-:   The new schema for the collation.</p>
+<h3 id="name"><a class="header" href="#name">name</a></h3>
+<p>The name (optionally schema-qualified) of an existing collation.</p>
+<h3 id="new_name"><a class="header" href="#new_name">new_name</a></h3>
+<p>The new name of the collation.</p>
+<h3 id="new_owner"><a class="header" href="#new_owner">new_owner</a></h3>
+<p>The new owner of the collation.</p>
+<h3 id="new_schema"><a class="header" href="#new_schema">new_schema</a></h3>
+<p>The new schema for the collation.</p>
 <h2 id="description"><a class="header" href="#description"><a id="section3"></a>Description</a></h2>
 <p>You must own the collation to use <code>ALTER COLLATION</code>. To alter the owner, you must also be a direct or indirect member of the new owning role, and that role must have <code>CREATE</code> privilege on the collation’s schema. (These restrictions enforce that altering the owner doesn’t do anything you couldn’t do by dropping and recreating the collation. However, a superuser can alter ownership of any collation anyway.)</p>
 <h2 id="examples"><a class="header" href="#examples"><a id="section5"></a>Examples</a></h2>

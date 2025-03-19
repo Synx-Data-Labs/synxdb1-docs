@@ -164,9 +164,9 @@
 <h2 id="description"><a class="header" href="#description"><a id="section3"></a>Description</a></h2>
 <p><code>ABORT</code> rolls back the current transaction and causes all the updates made by the transaction to be discarded. This command is identical in behavior to the standard SQL command <a href="ROLLBACK.html">ROLLBACK</a>, and is present only for historical reasons.</p>
 <h2 id="parameters"><a class="header" href="#parameters"><a id="section4"></a>Parameters</a></h2>
-<p>WORK
-TRANSACTION
-:   Optional key words. They have no effect.</p>
+<h3 id="work"><a class="header" href="#work">WORK</a></h3>
+<h3 id="transaction"><a class="header" href="#transaction">TRANSACTION</a></h3>
+<p>Optional key words. They have no effect.</p>
 <h2 id="notes"><a class="header" href="#notes"><a id="section5"></a>Notes</a></h2>
 <p>Use <code>COMMIT</code> to successfully terminate a transaction.</p>
 <p>Issuing <code>ABORT</code> when not inside a transaction does no harm, but it will provoke a warning message.</p>

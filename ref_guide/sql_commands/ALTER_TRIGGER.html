@@ -164,12 +164,12 @@
 <h2 id="description"><a class="header" href="#description"><a id="section3"></a>Description</a></h2>
 <p><code>ALTER TRIGGER</code> changes properties of an existing trigger. The <code>RENAME</code> clause changes the name of the given trigger without otherwise changing the trigger definition. You must own the table on which the trigger acts to be allowed to change its properties.</p>
 <h2 id="parameters"><a class="header" href="#parameters"><a id="section4"></a>Parameters</a></h2>
-<p>name
-:   The name of an existing trigger to alter.</p>
-<p>table
-:   The name of the table on which this trigger acts.</p>
-<p>newname
-:   The new name for the trigger.</p>
+<h3 id="name"><a class="header" href="#name">name</a></h3>
+<p>The name of an existing trigger to alter.</p>
+<h3 id="table"><a class="header" href="#table">table</a></h3>
+<p>The name of the table on which this trigger acts.</p>
+<h3 id="newname"><a class="header" href="#newname">newname</a></h3>
+<p>The new name for the trigger.</p>
 <h2 id="notes"><a class="header" href="#notes"><a id="section5"></a>Notes</a></h2>
 <p>The ability to temporarily activate or deactivate a trigger is provided by <a href="ALTER_TABLE.html">ALTER TABLE</a>, not by <code>ALTER TRIGGER</code>, because <code>ALTER TRIGGER</code> has no convenient way to express the option of activating or deactivating all of a table’s triggers at once.</p>
 <p>Note that SynxDB has limited support of triggers in this release. See <a href="CREATE_TRIGGER.html">CREATE TRIGGER</a> for more information.</p>

@@ -165,12 +165,12 @@
 <h2 id="description"><a class="header" href="#description"><a id="section3"></a>Description</a></h2>
 <p><code>DROP USER MAPPING</code> removes an existing user mapping from a foreign server. To run this command, the current user must be the owner of the server containing the mapping.</p>
 <h2 id="parameters"><a class="header" href="#parameters"><a id="section4"></a>Parameters</a></h2>
-<p>IF EXISTS
-:   Do not throw an error if the user mapping does not exist. SynxDB issues a notice in this case.</p>
-<p>username
-:   User name of the mapping. <code>CURRENT_USER</code> and <code>USER</code> match the name of the current user. <code>PUBLIC</code> is used to match all present and future user names in the system.</p>
-<p>servername
-:   Server name of the user mapping.</p>
+<h3 id="if-exists"><a class="header" href="#if-exists">IF EXISTS</a></h3>
+<p>Do not throw an error if the user mapping does not exist. SynxDB issues a notice in this case.</p>
+<h3 id="username"><a class="header" href="#username">username</a></h3>
+<p>User name of the mapping. <code>CURRENT_USER</code> and <code>USER</code> match the name of the current user. <code>PUBLIC</code> is used to match all present and future user names in the system.</p>
+<h3 id="servername"><a class="header" href="#servername">servername</a></h3>
+<p>Server name of the user mapping.</p>
 <h2 id="examples"><a class="header" href="#examples"><a id="section6"></a>Examples</a></h2>
 <p>Drop the user mapping named <code>bob</code>, server <code>foo</code> if it exists:</p>
 <pre><code>DROP USER MAPPING IF EXISTS FOR bob SERVER foo;

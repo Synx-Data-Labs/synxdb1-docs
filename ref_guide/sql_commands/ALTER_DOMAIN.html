@@ -192,26 +192,26 @@ ALTER DOMAIN &lt;name&gt; SET SCHEMA &lt;new_schema&gt;
 </ul>
 <p>You must own the domain to use <code>ALTER DOMAIN</code>. To change the schema of a domain, you must also have <code>CREATE</code> privilege on the new schema. To alter the owner, you must also be a direct or indirect member of the new owning role, and that role must have <code>CREATE</code> privilege on the domain’s schema. (These restrictions enforce that altering the owner does not do anything you could not do by dropping and recreating the domain. However, a superuser can alter ownership of any domain anyway.)</p>
 <h2 id="parameters"><a class="header" href="#parameters"><a id="section4"></a>Parameters</a></h2>
-<p>name
-:   The name (optionally schema-qualified) of an existing domain to alter.</p>
-<p>domain_constraint
-:   New domain constraint for the domain.</p>
-<p>constraint_name
-:   Name of an existing constraint to drop or rename.</p>
-<p>NOT VALID
-:   Do not verify existing column data for constraint validity.</p>
-<p>CASCADE
-:   Automatically drop objects that depend on the constraint.</p>
-<p>RESTRICT
-:   Refuse to drop the constraint if there are any dependent objects. This is the default behavior.</p>
-<p>new_name
-:   The new name for the domain.</p>
-<p>new_constraint_name
-:   The new name for the constraint.</p>
-<p>new_owner
-:   The user name of the new owner of the domain.</p>
-<p>new_schema
-:   The new schema for the domain.</p>
+<h3 id="name"><a class="header" href="#name">name</a></h3>
+<p>The name (optionally schema-qualified) of an existing domain to alter.</p>
+<h3 id="domain_constraint"><a class="header" href="#domain_constraint">domain_constraint</a></h3>
+<p>New domain constraint for the domain.</p>
+<h3 id="constraint_name"><a class="header" href="#constraint_name">constraint_name</a></h3>
+<p>Name of an existing constraint to drop or rename.</p>
+<h3 id="not-valid"><a class="header" href="#not-valid">NOT VALID</a></h3>
+<p>Do not verify existing column data for constraint validity.</p>
+<h3 id="cascade"><a class="header" href="#cascade">CASCADE</a></h3>
+<p>Automatically drop objects that depend on the constraint.</p>
+<h3 id="restrict"><a class="header" href="#restrict">RESTRICT</a></h3>
+<p>Refuse to drop the constraint if there are any dependent objects. This is the default behavior.</p>
+<h3 id="new_name"><a class="header" href="#new_name">new_name</a></h3>
+<p>The new name for the domain.</p>
+<h3 id="new_constraint_name"><a class="header" href="#new_constraint_name">new_constraint_name</a></h3>
+<p>The new name for the constraint.</p>
+<h3 id="new_owner"><a class="header" href="#new_owner">new_owner</a></h3>
+<p>The user name of the new owner of the domain.</p>
+<h3 id="new_schema"><a class="header" href="#new_schema">new_schema</a></h3>
+<p>The new schema for the domain.</p>
 <h2 id="examples"><a class="header" href="#examples"><a id="section5"></a>Examples</a></h2>
 <p>To add a <code>NOT NULL</code> constraint to a domain:</p>
 <pre><code>ALTER DOMAIN zipcode SET NOT NULL;

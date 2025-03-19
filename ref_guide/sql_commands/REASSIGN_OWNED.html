@@ -164,10 +164,10 @@
 <h2 id="description"><a class="header" href="#description"><a id="section3"></a>Description</a></h2>
 <p><code>REASSIGN OWNED</code> changes the ownership of database objects owned by any of the old_roles to new_role.</p>
 <h2 id="parameters"><a class="header" href="#parameters"><a id="section4"></a>Parameters</a></h2>
-<p>old_role
-:   The name of a role. The ownership of all the objects in the current database, and of all shared objects (databases, tablespaces), owned by this role will be reassigned to new_role.</p>
-<p>new_role
-:   The name of the role that will be made the new owner of the affected objects.</p>
+<h3 id="old_role"><a class="header" href="#old_role">old_role</a></h3>
+<p>The name of a role. The ownership of all the objects in the current database, and of all shared objects (databases, tablespaces), owned by this role will be reassigned to new_role.</p>
+<h3 id="new_role"><a class="header" href="#new_role">new_role</a></h3>
+<p>The name of the role that will be made the new owner of the affected objects.</p>
 <h2 id="notes"><a class="header" href="#notes"><a id="section5"></a>Notes</a></h2>
 <p><code>REASSIGN OWNED</code> is often used to prepare for the removal of one or more roles. Because <code>REASSIGN OWNED</code> does not affect objects in other databases, it is usually necessary to run this command in each database that contains objects owned by a role that is to be removed.</p>
 <p><code>REASSIGN OWNED</code> requires privileges on both the source role(s) and the target role.</p>

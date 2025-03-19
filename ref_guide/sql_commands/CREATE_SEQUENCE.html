@@ -192,28 +192,24 @@
 </code></pre>
 <p>to examine the parameters and current state of a sequence. In particular, the last_value field of the sequence shows the last value allocated by any session.</p>
 <h2 id="parameters"><a class="header" href="#parameters"><a id="section4"></a>Parameters</a></h2>
-<p>TEMPORARY | TEMP
-:   If specified, the sequence object is created only for this session, and is automatically dropped on session exit. Existing permanent sequences with the same name are not visible (in this session) while the temporary sequence exists, unless they are referenced with schema-qualified names.</p>
-<p>name
-:   The name (optionally schema-qualified) of the sequence to be created.</p>
-<p>increment
-:   Specifies which value is added to the current sequence value to create a new value. A positive value will make an ascending sequence, a negative one a descending sequence. The default value is 1.</p>
-<p>minvalue
-NO MINVALUE
-:   Determines the minimum value a sequence can generate. If this clause is not supplied or <code>NO MINVALUE</code> is specified, then defaults will be used. The defaults are 1 and -263-1 for ascending and descending sequences, respectively.</p>
-<p>maxvalue
-NO MAXVALUE
-:   Determines the maximum value for the sequence. If this clause is not supplied or <code>NO MAXVALUE</code> is specified, then default values will be used. The defaults are 263-1 and -1 for ascending and descending sequences, respectively.</p>
-<p>start
-:   Allows the sequence to begin anywhere. The default starting value is minvalue for ascending sequences and maxvalue for descending ones.</p>
-<p>cache
-:   Specifies how many sequence numbers are to be preallocated and stored in memory for faster access. The minimum (and default) value is 1 (no cache).</p>
-<p>CYCLE
-NO CYCLE
-:   Allows the sequence to wrap around when the maxvalue (for ascending) or minvalue (for descending) has been reached. If the limit is reached, the next number generated will be the minvalue (for ascending) or maxvalue (for descending). If <code>NO CYCLE</code> is specified, any calls to <code>nextval()</code> after the sequence has reached its maximum value will return an error. If not specified, <code>NO CYCLE</code> is the default.</p>
-<p>OWNED BY table.column
-OWNED BY NONE
-:   Causes the sequence to be associated with a specific table column, such that if that column (or its whole table) is dropped, the sequence will be automatically dropped as well. The specified table must have the same owner and be in the same schema as the sequence. <code>OWNED BY NONE</code>, the default, specifies that there is no such association.</p>
+<h3 id="temporary--temp"><a class="header" href="#temporary--temp">TEMPORARY | TEMP</a></h3>
+<p>If specified, the sequence object is created only for this session, and is automatically dropped on session exit. Existing permanent sequences with the same name are not visible (in this session) while the temporary sequence exists, unless they are referenced with schema-qualified names.</p>
+<h3 id="name"><a class="header" href="#name">name</a></h3>
+<p>The name (optionally schema-qualified) of the sequence to be created.</p>
+<h3 id="increment"><a class="header" href="#increment">increment</a></h3>
+<p>Specifies which value is added to the current sequence value to create a new value. A positive value will make an ascending sequence, a negative one a descending sequence. The default value is 1.</p>
+<h3 id="minvalueno-minvalue"><a class="header" href="#minvalueno-minvalue">minvalue<br/>NO MINVALUE</a></h3>
+<p>Determines the minimum value a sequence can generate. If this clause is not supplied or <code>NO MINVALUE</code> is specified, then defaults will be used. The defaults are 1 and -263-1 for ascending and descending sequences, respectively.</p>
+<h3 id="maxvalueno-maxvalue"><a class="header" href="#maxvalueno-maxvalue">maxvalue<br/>NO MAXVALUE</a></h3>
+<p>Determines the maximum value for the sequence. If this clause is not supplied or <code>NO MAXVALUE</code> is specified, then default values will be used. The defaults are 263-1 and -1 for ascending and descending sequences, respectively.</p>
+<h3 id="start"><a class="header" href="#start">start</a></h3>
+<p>Allows the sequence to begin anywhere. The default starting value is minvalue for ascending sequences and maxvalue for descending ones.</p>
+<h3 id="cache"><a class="header" href="#cache">cache</a></h3>
+<p>Specifies how many sequence numbers are to be preallocated and stored in memory for faster access. The minimum (and default) value is 1 (no cache).</p>
+<h3 id="cycleno-cycle"><a class="header" href="#cycleno-cycle">CYCLE<br/>NO CYCLE</a></h3>
+<p>Allows the sequence to wrap around when the maxvalue (for ascending) or minvalue (for descending) has been reached. If the limit is reached, the next number generated will be the minvalue (for ascending) or maxvalue (for descending). If <code>NO CYCLE</code> is specified, any calls to <code>nextval()</code> after the sequence has reached its maximum value will return an error. If not specified, <code>NO CYCLE</code> is the default.</p>
+<h3 id="owned-by-tablecolumnowned-by-none"><a class="header" href="#owned-by-tablecolumnowned-by-none">OWNED BY table.column<br/>OWNED BY NONE</a></h3>
+<p>Causes the sequence to be associated with a specific table column, such that if that column (or its whole table) is dropped, the sequence will be automatically dropped as well. The specified table must have the same owner and be in the same schema as the sequence. <code>OWNED BY NONE</code>, the default, specifies that there is no such association.</p>
 <h2 id="notes"><a class="header" href="#notes"><a id="section5"></a>Notes</a></h2>
 <p>Sequences are based on bigint arithmetic, so the range cannot exceed the range of an eight-byte integer (-9223372036854775808 to 9223372036854775807).</p>
 <p>Although multiple sessions are guaranteed to allocate distinct sequence values, the values may be generated out of sequence when all the sessions are considered. For example, session A might reserve values 1..10 and return <code>nextval=1</code>, then session B might reserve values 11..20 and return <code>nextval=11</code> before session A has generated nextval=2. Thus, you should only assume that the <code>nextval()</code> values are all distinct, not that they are generated purely sequentially. Also, last_value will reflect the latest value reserved by any session, whether or not it has yet been returned by <code>nextval()</code>.</p>

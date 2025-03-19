@@ -171,58 +171,58 @@ createuser -V | --version
 <p><code>createuser</code> is a wrapper around the SQL command <code>CREATE ROLE</code>.</p>
 <h2 id="options"><a class="header" href="#options"><a id="section4"></a>Options</a></h2>
 <p>role_name
-:   The name of the role to be created. This name must be different from all existing roles in this SynxDB installation.</p>
-<p>-c number | –connection-limit=number
-:   Set a maximum number of connections for the new role. The default is to set no limit.</p>
-<p>-d | –createdb
-:   The new role will be allowed to create databases.</p>
-<p>-D | –no-createdb
-:   The new role will not be allowed to create databases. This is the default.</p>
-<p>-e | –echo
-:   Echo the commands that <code>createuser</code> generates and sends to the server.</p>
-<p>-E | –encrypted
-:   Encrypts the role’s password stored in the database. If not specified, the default password behavior is used.</p>
-<p>-i | –inherit
-:   The new role will automatically inherit privileges of roles it is a member of. This is the default.</p>
-<p>-I | –no-inherit
-:   The new role will not automatically inherit privileges of roles it is a member of.</p>
-<p>–interactive
-:   Prompt for the user name if none is specified on the command line, and also prompt for whichever of the options <code>-d</code>/<code>-D</code>, <code>-r</code>/<code>-R</code>, <code>-s</code>/<code>-S</code> is not specified on the command line.</p>
-<p>-l | –login
-:   The new role will be allowed to log in to SynxDB. This is the default.</p>
-<p>-L | –no-login
-:   The new role will not be allowed to log in (a group-level role).</p>
-<p>-N | –unencrypted
-:   Does not encrypt the role’s password stored in the database. If not specified, the default password behavior is used.</p>
-<p>-P | –pwprompt
-:   If given, <code>createuser</code> will issue a prompt for the password of the new role. This is not necessary if you do not plan on using password authentication.</p>
-<p>-r | –createrole
-:   The new role will be allowed to create new roles (<code>CREATEROLE</code> privilege).</p>
-<p>-R | –no-createrole
-:   The new role will not be allowed to create new roles. This is the default.</p>
-<p>-s | –superuser
-:   The new role will be a superuser.</p>
-<p>-S | –no-superuser
-:   The new role will not be a superuser. This is the default.</p>
-<p>-V | –version
-:   Print the <code>createuser</code> version and exit.</p>
-<p>–replication
-:   The new user will have the <code>REPLICATION</code> privilege, which is described more fully in the documentation for <a href="../../ref_guide/sql_commands/CREATE_ROLE.html">CREATE ROLE</a>.</p>
-<p>–no-replication
-:   The new user will not have the <code>REPLICATION</code> privilege, which is described more fully in the documentation for <a href="../../ref_guide/sql_commands/CREATE_ROLE.html">CREATE ROLE</a>.</p>
-<p>-? | –help
-:   Show help about <code>createuser</code> command line arguments, and exit.</p>
+The name of the role to be created. This name must be different from all existing roles in this SynxDB installation.</p>
+<h3 id="-c-number--connection-limitnumber"><a class="header" href="#-c-number--connection-limitnumber">-c number | –connection-limit=number</a></h3>
+<p>Set a maximum number of connections for the new role. The default is to set no limit.</p>
+<h3 id="-d--createdb"><a class="header" href="#-d--createdb">-d | –createdb</a></h3>
+<p>The new role will be allowed to create databases.</p>
+<h3 id="-d--no-createdb"><a class="header" href="#-d--no-createdb">-D | –no-createdb</a></h3>
+<p>The new role will not be allowed to create databases. This is the default.</p>
+<h3 id="-e--echo"><a class="header" href="#-e--echo">-e | –echo</a></h3>
+<p>Echo the commands that <code>createuser</code> generates and sends to the server.</p>
+<h3 id="-e--encrypted"><a class="header" href="#-e--encrypted">-E | –encrypted</a></h3>
+<p>Encrypts the role’s password stored in the database. If not specified, the default password behavior is used.</p>
+<h3 id="-i--inherit"><a class="header" href="#-i--inherit">-i | –inherit</a></h3>
+<p>The new role will automatically inherit privileges of roles it is a member of. This is the default.</p>
+<h3 id="-i--no-inherit"><a class="header" href="#-i--no-inherit">-I | –no-inherit</a></h3>
+<p>The new role will not automatically inherit privileges of roles it is a member of.</p>
+<h3 id="interactive"><a class="header" href="#interactive">–interactive</a></h3>
+<p>Prompt for the user name if none is specified on the command line, and also prompt for whichever of the options <code>-d</code>/<code>-D</code>, <code>-r</code>/<code>-R</code>, <code>-s</code>/<code>-S</code> is not specified on the command line.</p>
+<h3 id="-l--login"><a class="header" href="#-l--login">-l | –login</a></h3>
+<p>The new role will be allowed to log in to SynxDB. This is the default.</p>
+<h3 id="-l--no-login"><a class="header" href="#-l--no-login">-L | –no-login</a></h3>
+<p>The new role will not be allowed to log in (a group-level role).</p>
+<h3 id="-n--unencrypted"><a class="header" href="#-n--unencrypted">-N | –unencrypted</a></h3>
+<p>Does not encrypt the role’s password stored in the database. If not specified, the default password behavior is used.</p>
+<h3 id="-p--pwprompt"><a class="header" href="#-p--pwprompt">-P | –pwprompt</a></h3>
+<p>If given, <code>createuser</code> will issue a prompt for the password of the new role. This is not necessary if you do not plan on using password authentication.</p>
+<h3 id="-r--createrole"><a class="header" href="#-r--createrole">-r | –createrole</a></h3>
+<p>The new role will be allowed to create new roles (<code>CREATEROLE</code> privilege).</p>
+<h3 id="-r--no-createrole"><a class="header" href="#-r--no-createrole">-R | –no-createrole</a></h3>
+<p>The new role will not be allowed to create new roles. This is the default.</p>
+<h3 id="-s--superuser"><a class="header" href="#-s--superuser">-s | –superuser</a></h3>
+<p>The new role will be a superuser.</p>
+<h3 id="-s--no-superuser"><a class="header" href="#-s--no-superuser">-S | –no-superuser</a></h3>
+<p>The new role will not be a superuser. This is the default.</p>
+<h3 id="-v--version"><a class="header" href="#-v--version">-V | –version</a></h3>
+<p>Print the <code>createuser</code> version and exit.</p>
+<h3 id="replication"><a class="header" href="#replication">–replication</a></h3>
+<p>The new user will have the <code>REPLICATION</code> privilege, which is described more fully in the documentation for <a href="../../ref_guide/sql_commands/CREATE_ROLE.html">CREATE ROLE</a>.</p>
+<h3 id="no-replication"><a class="header" href="#no-replication">–no-replication</a></h3>
+<p>The new user will not have the <code>REPLICATION</code> privilege, which is described more fully in the documentation for <a href="../../ref_guide/sql_commands/CREATE_ROLE.html">CREATE ROLE</a>.</p>
+<h3 id="---help"><a class="header" href="#---help">-? | –help</a></h3>
+<p>Show help about <code>createuser</code> command line arguments, and exit.</p>
 <p><strong>Connection Options</strong></p>
-<p>-h host | –host=host
-:   The host name of the machine on which the SynxDB master database server is running. If not specified, reads from the environment variable <code>PGHOST</code> or defaults to localhost.</p>
-<p>-p port | –port=port
-:   The TCP port on which the SynxDB master database server is listening for connections. If not specified, reads from the environment variable <code>PGPORT</code> or defaults to 5432.</p>
-<p>-U username | –username=username
-:   The database role name to connect as. If not specified, reads from the environment variable <code>PGUSER</code> or defaults to the current system role name.</p>
-<p>-w | –no-password
-:   Never issue a password prompt. If the server requires password authentication and a password is not available by other means such as a <code>.pgpass</code> file, the connection attempt will fail. This option can be useful in batch jobs and scripts where no user is present to enter a password.</p>
-<p>-W | –password
-:   Force a password prompt.</p>
+<h3 id="-h-host--hosthost"><a class="header" href="#-h-host--hosthost">-h host | –host=host</a></h3>
+<p>The host name of the machine on which the SynxDB master database server is running. If not specified, reads from the environment variable <code>PGHOST</code> or defaults to localhost.</p>
+<h3 id="-p-port--portport"><a class="header" href="#-p-port--portport">-p port | –port=port</a></h3>
+<p>The TCP port on which the SynxDB master database server is listening for connections. If not specified, reads from the environment variable <code>PGPORT</code> or defaults to 5432.</p>
+<h3 id="-u-username--usernameusername"><a class="header" href="#-u-username--usernameusername">-U username | –username=username</a></h3>
+<p>The database role name to connect as. If not specified, reads from the environment variable <code>PGUSER</code> or defaults to the current system role name.</p>
+<h3 id="-w--no-password"><a class="header" href="#-w--no-password">-w | –no-password</a></h3>
+<p>Never issue a password prompt. If the server requires password authentication and a password is not available by other means such as a <code>.pgpass</code> file, the connection attempt will fail. This option can be useful in batch jobs and scripts where no user is present to enter a password.</p>
+<h3 id="-w--password"><a class="header" href="#-w--password">-W | –password</a></h3>
+<p>Force a password prompt.</p>
 <h2 id="examples"><a class="header" href="#examples"><a id="section6"></a>Examples</a></h2>
 <p>To create a role <code>joe</code> on the default database server:</p>
 <pre><code>$ createuser joe

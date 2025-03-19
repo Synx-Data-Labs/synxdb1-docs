@@ -174,43 +174,45 @@
 <p>The expression used in the <code>WHERE</code> clause may refer only to columns of the underlying table, but it can use all columns, not just the ones being indexed. Subqueries and aggregate expressions are also forbidden in <code>WHERE</code>. The same restrictions apply to index fields that are expressions.</p>
 <p>All functions and operators used in an index definition must be immutable. Their results must depend only on their arguments and never on any outside influence (such as the contents of another table or a parameter value). This restriction ensures that the behavior of the index is well-defined. To use a user-defined function in an index expression or <code>WHERE</code> clause, remember to mark the function <code>IMMUTABLE</code> when you create it.</p>
 <h2 id="parameters"><a class="header" href="#parameters"><a id="section4"></a>Parameters</a></h2>
-<p>UNIQUE
-:   Checks for duplicate values in the table when the index is created and each time data is added. Duplicate entries will generate an error. Unique indexes only apply to B-tree indexes. In SynxDB, unique indexes are allowed only if the columns of the index key are the same as (or a superset of) the SynxDB distribution key. On partitioned tables, a unique index is only supported within an individual partition - not across all partitions.</p>
-<p>name
-:   The name of the index to be created. The index is always created in the same schema as its parent table. If the name is omitted, SynxDB chooses a suitable name based on the parent table’s name and the indexed column name(s).</p>
-<p>table_name
-:   The name (optionally schema-qualified) of the table to be indexed.</p>
-<p>method
-:   The name of the index method to be used. Choices are <code>btree</code>, <code>bitmap</code>, <code>gist</code>, <code>spgist</code>, and <code>gin</code>. The default method is <code>btree</code>.</p>
-<p>:   Currently, only the B-tree, GiST, and GIN index methods support multicolumn indexes. Up to 32 fields can be specified by default. Only B-tree currently supports unique indexes.</p>
-<p>:   GPORCA supports only B-tree, bitmap, GiST, and GIN indexes. GPORCA ignores indexes created with unsupported indexing methods.</p>
-<p>column_name
-:   The name of a column of the table on which to create the index. Only the B-tree, bitmap, GiST, and GIN index methods support multicolumn indexes.</p>
-<p>expression
-:   An expression based on one or more columns of the table. The expression usually must be written with surrounding parentheses, as shown in the syntax. However, the parentheses may be omitted if the expression has the form of a function call.</p>
-<p>collation
-:   The name of the collation to use for the index. By default, the index uses the collation declared for the column to be indexed or the result collation of the expression to be indexed. Indexes with non-default collations can be useful for queries that involve expressions using non-default collations.</p>
-<p>opclass
-:   The name of an operator class. The operator class identifies the operators to be used by the index for that column. For example, a B-tree index on four-byte integers would use the <code>int4_ops</code> class (this operator class includes comparison functions for four-byte integers). In practice the default operator class for the column’s data type is usually sufficient. The main point of having operator classes is that for some data types, there could be more than one meaningful ordering. For example, a complex-number data type could be sorted by either absolute value or by real part. We could do this by defining two operator classes for the data type and then selecting the proper class when making an index.</p>
-<p>ASC
-:   Specifies ascending sort order (which is the default).</p>
-<p>DESC
-:   Specifies descending sort order.</p>
-<p>NULLS FIRST
-:   Specifies that nulls sort before non-nulls. This is the default when <code>DESC</code> is specified.</p>
-<p>NULLS LAST
-:   Specifies that nulls sort after non-nulls. This is the default when <code>DESC</code> is not specified.</p>
-<p>storage_parameter
-:   The name of an index-method-specific storage parameter. Each index method has its own set of allowed storage parameters.</p>
-<p>:   <code>FILLFACTOR</code> - B-tree, bitmap, GiST, and SP-GiST index methods all accept this parameter. The <code>FILLFACTOR</code> for an index is a percentage that determines how full the index method will try to pack index pages. For B-trees, leaf pages are filled to this percentage during initial index build, and also when extending the index at the right (adding new largest key values). If pages subsequently become completely full, they will be split, leading to gradual degradation in the index’s efficiency. B-trees use a default fillfactor of 90, but any integer value from 10 to 100 can be selected. If the table is static then fillfactor 100 is best to minimize the index’s physical size, but for heavily updated tables a smaller fillfactor is better to minimize the need for page splits. The other index methods use fillfactor in different but roughly analogous ways; the default fillfactor varies between methods.</p>
-<p>:   <code>BUFFERING</code> - In addition to <code>FILLFACTOR</code>, GiST indexes additionally accept the <code>BUFFERING</code> parameter. <code>BUFFERING</code> determines whether SynxDB builds the index using the buffering build technique described in <a href="https://www.postgresql.org/docs/9.4/gist-implementation.html">GiST buffering build</a> in the PostgreSQL documentation. With <code>OFF</code> it is deactivated, with <code>ON</code> it is enabled, and with <code>AUTO</code> it is initially deactivated, but turned on on-the-fly once the index size reaches <a href="../config_params/guc-list.html">effective-cache-size</a>. The default is <code>AUTO</code>.</p>
-<p>:   <code>FASTUPDATE</code> - The GIN index method accepts the <code>FASTUPDATE</code> storage parameter. <code>FASTUPDATE</code> is a Boolean parameter that deactivates or enables the GIN index fast update technique. A value of ON enables fast update (the default), and OFF deactivates it. See <a href="https://www.postgresql.org/docs/9.4/gin-implementation.html#GIN-FAST-UPDATE">GIN fast update technique</a> in the PostgreSQL documentation for more information.</p>
+<h3 id="unique"><a class="header" href="#unique">UNIQUE</a></h3>
+<p>Checks for duplicate values in the table when the index is created and each time data is added. Duplicate entries will generate an error. Unique indexes only apply to B-tree indexes. In SynxDB, unique indexes are allowed only if the columns of the index key are the same as (or a superset of) the SynxDB distribution key. On partitioned tables, a unique index is only supported within an individual partition - not across all partitions.</p>
+<h3 id="name"><a class="header" href="#name">name</a></h3>
+<p>The name of the index to be created. The index is always created in the same schema as its parent table. If the name is omitted, SynxDB chooses a suitable name based on the parent table’s name and the indexed column name(s).</p>
+<h3 id="table_name"><a class="header" href="#table_name">table_name</a></h3>
+<p>The name (optionally schema-qualified) of the table to be indexed.</p>
+<h3 id="method"><a class="header" href="#method">method</a></h3>
+<p>The name of the index method to be used. Choices are <code>btree</code>, <code>bitmap</code>, <code>gist</code>, <code>spgist</code>, and <code>gin</code>. The default method is <code>btree</code>.</p>
+<h3 id=""><a class="header" href="#"></a></h3>
+<p>Currently, only the B-tree, GiST, and GIN index methods support multicolumn indexes. Up to 32 fields can be specified by default. Only B-tree currently supports unique indexes.</p>
+<h3 id="-1"><a class="header" href="#-1"></a></h3>
+<p>GPORCA supports only B-tree, bitmap, GiST, and GIN indexes. GPORCA ignores indexes created with unsupported indexing methods.</p>
+<h3 id="column_name"><a class="header" href="#column_name">column_name</a></h3>
+<p>The name of a column of the table on which to create the index. Only the B-tree, bitmap, GiST, and GIN index methods support multicolumn indexes.</p>
+<h3 id="expression"><a class="header" href="#expression">expression</a></h3>
+<p>An expression based on one or more columns of the table. The expression usually must be written with surrounding parentheses, as shown in the syntax. However, the parentheses may be omitted if the expression has the form of a function call.</p>
+<h3 id="collation"><a class="header" href="#collation">collation</a></h3>
+<p>The name of the collation to use for the index. By default, the index uses the collation declared for the column to be indexed or the result collation of the expression to be indexed. Indexes with non-default collations can be useful for queries that involve expressions using non-default collations.</p>
+<h3 id="opclass"><a class="header" href="#opclass">opclass</a></h3>
+<p>The name of an operator class. The operator class identifies the operators to be used by the index for that column. For example, a B-tree index on four-byte integers would use the <code>int4_ops</code> class (this operator class includes comparison functions for four-byte integers). In practice the default operator class for the column’s data type is usually sufficient. The main point of having operator classes is that for some data types, there could be more than one meaningful ordering. For example, a complex-number data type could be sorted by either absolute value or by real part. We could do this by defining two operator classes for the data type and then selecting the proper class when making an index.</p>
+<h3 id="asc"><a class="header" href="#asc">ASC</a></h3>
+<p>Specifies ascending sort order (which is the default).</p>
+<h3 id="desc"><a class="header" href="#desc">DESC</a></h3>
+<p>Specifies descending sort order.</p>
+<h3 id="nulls-first"><a class="header" href="#nulls-first">NULLS FIRST</a></h3>
+<p>Specifies that nulls sort before non-nulls. This is the default when <code>DESC</code> is specified.</p>
+<h3 id="nulls-last"><a class="header" href="#nulls-last">NULLS LAST</a></h3>
+<p>Specifies that nulls sort after non-nulls. This is the default when <code>DESC</code> is not specified.</p>
+<h3 id="storage_parameter"><a class="header" href="#storage_parameter">storage_parameter</a></h3>
+<p>The name of an index-method-specific storage parameter. Each index method has its own set of allowed storage parameters.</p>
+<p><code>FILLFACTOR</code> - B-tree, bitmap, GiST, and SP-GiST index methods all accept this parameter. The <code>FILLFACTOR</code> for an index is a percentage that determines how full the index method will try to pack index pages. For B-trees, leaf pages are filled to this percentage during initial index build, and also when extending the index at the right (adding new largest key values). If pages subsequently become completely full, they will be split, leading to gradual degradation in the index’s efficiency. B-trees use a default fillfactor of 90, but any integer value from 10 to 100 can be selected. If the table is static then fillfactor 100 is best to minimize the index’s physical size, but for heavily updated tables a smaller fillfactor is better to minimize the need for page splits. The other index methods use fillfactor in different but roughly analogous ways; the default fillfactor varies between methods.</p>
+<p><code>BUFFERING</code> - In addition to <code>FILLFACTOR</code>, GiST indexes additionally accept the <code>BUFFERING</code> parameter. <code>BUFFERING</code> determines whether SynxDB builds the index using the buffering build technique described in <a href="https://www.postgresql.org/docs/9.4/gist-implementation.html">GiST buffering build</a> in the PostgreSQL documentation. With <code>OFF</code> it is deactivated, with <code>ON</code> it is enabled, and with <code>AUTO</code> it is initially deactivated, but turned on on-the-fly once the index size reaches <a href="../config_params/guc-list.html">effective-cache-size</a>. The default is <code>AUTO</code>.</p>
+<p><code>FASTUPDATE</code> - The GIN index method accepts the <code>FASTUPDATE</code> storage parameter. <code>FASTUPDATE</code> is a Boolean parameter that deactivates or enables the GIN index fast update technique. A value of ON enables fast update (the default), and OFF deactivates it. See <a href="https://www.postgresql.org/docs/9.4/gin-implementation.html#GIN-FAST-UPDATE">GIN fast update technique</a> in the PostgreSQL documentation for more information.</p>
 <pre><code>&gt; **Note** Turning `FASTUPDATE` off via `ALTER INDEX` prevents future insertions from going into the list of pending index entries, but does not in itself flush previous entries. You might want to VACUUM the table afterward to ensure the pending list is emptied.
 </code></pre>
-<p>tablespace_name
-:   The tablespace in which to create the index. If not specified, the default tablespace is used, or <a href="../config_params/guc-list.html">temp_tablespaces</a> for indexes on temporary tables.</p>
-<p>predicate
-:   The constraint expression for a partial index.</p>
+<h3 id="tablespace_name"><a class="header" href="#tablespace_name">tablespace_name</a></h3>
+<p>The tablespace in which to create the index. If not specified, the default tablespace is used, or <a href="../config_params/guc-list.html">temp_tablespaces</a> for indexes on temporary tables.</p>
+<h3 id="predicate"><a class="header" href="#predicate">predicate</a></h3>
+<p>The constraint expression for a partial index.</p>
 <h2 id="notes"><a class="header" href="#notes"><a id="section5"></a>Notes</a></h2>
 <p>An <em>operator class</em> can be specified for each column of an index. The operator class identifies the operators to be used by the index for that column. For example, a B-tree index on four-byte integers would use the int4_ops class; this operator class includes comparison functions for four-byte integers. In practice the default operator class for the column’s data type is usually sufficient. The main point of having operator classes is that for some data types, there could be more than one meaningful ordering. For example, we might want to sort a complex-number data type either by absolute value or by real part. We could do this by defining two operator classes for the data type and then selecting the proper class when making an index.</p>
 <p>For index methods that support ordered scans (currently, only B-tree), the optional clauses <code>ASC</code>, <code>DESC</code>, <code>NULLS FIRST</code>, and/or <code>NULLS LAST</code> can be specified to modify the sort ordering of the index. Since an ordered index can be scanned either forward or backward, it is not normally useful to create a single-column <code>DESC</code> index — that sort ordering is already available with a regular index. The value of these options is that multicolumn indexes can be created that match the sort ordering requested by a mixed-ordering query, such as <code>SELECT ... ORDER BY x ASC, y DESC</code>. The <code>NULLS</code> options are useful if you need to support “nulls sort low” behavior, rather than the default “nulls sort high”, in queries that depend on indexes to avoid sorting steps.</p>

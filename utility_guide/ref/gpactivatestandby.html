@@ -189,22 +189,22 @@ Before running <code>gpactivatestandby</code>, be sure to run <code>gpstate -f</
 </code></pre>
 <p>After you activate the standby master as the primary master, the SynxDB system no longer has a standby master configured. You might want to specify another host to be the new standby with the <a href="gpinitstandby.html">gpinitstandby</a> utility.</p>
 <h2 id="options"><a class="header" href="#options"><a id="section4"></a>Options</a></h2>
-<p>-a (do not prompt)
-:   Do not prompt the user for confirmation.</p>
-<p>-d standby_master_datadir
-:   The absolute path of the data directory for the master host you are activating.</p>
-<p>:   If this option is not specified, <code>gpactivatestandby</code> uses the value of the <code>MASTER_DATA_DIRECTORY</code> environment variable setting on the master host you are activating. If this option is specified, it overrides any setting of <code>MASTER_DATA_DIRECTORY</code>.</p>
-<p>:   If a directory cannot be determined, the utility returns an error.</p>
-<p>-f (force activation)
-:   Use this option to force activation of the backup master host. Use this option only if you are sure that the standby and primary master hosts are consistent.</p>
-<p>-l logfile_directory
-:   The directory to write the log file. Defaults to <code>~/gpAdminLogs</code>.</p>
-<p>-q (no screen output)
-:   Run in quiet mode. Command output is not displayed on the screen, but is still written to the log file.</p>
-<p>-v (show utility version)
-:   Displays the version, status, last updated date, and check sum of this utility.</p>
-<p>-? | -h | –help (help)
-:   Displays the online help.</p>
+<h3 id="-a-do-not-prompt"><a class="header" href="#-a-do-not-prompt">-a (do not prompt)</a></h3>
+<p>Do not prompt the user for confirmation.</p>
+<h3 id="-d-standby_master_datadir"><a class="header" href="#-d-standby_master_datadir">-d standby_master_datadir</a></h3>
+<p>The absolute path of the data directory for the master host you are activating.</p>
+<p>If this option is not specified, <code>gpactivatestandby</code> uses the value of the <code>MASTER_DATA_DIRECTORY</code> environment variable setting on the master host you are activating. If this option is specified, it overrides any setting of <code>MASTER_DATA_DIRECTORY</code>.</p>
+<p>If a directory cannot be determined, the utility returns an error.</p>
+<h3 id="-f-force-activation"><a class="header" href="#-f-force-activation">-f (force activation)</a></h3>
+<p>Use this option to force activation of the backup master host. Use this option only if you are sure that the standby and primary master hosts are consistent.</p>
+<h3 id="-l-logfile_directory"><a class="header" href="#-l-logfile_directory">-l logfile_directory</a></h3>
+<p>The directory to write the log file. Defaults to <code>~/gpAdminLogs</code>.</p>
+<h3 id="-q-no-screen-output"><a class="header" href="#-q-no-screen-output">-q (no screen output)</a></h3>
+<p>Run in quiet mode. Command output is not displayed on the screen, but is still written to the log file.</p>
+<h3 id="-v-show-utility-version"><a class="header" href="#-v-show-utility-version">-v (show utility version)</a></h3>
+<p>Displays the version, status, last updated date, and check sum of this utility.</p>
+<h3 id="----h--help-help"><a class="header" href="#----h--help-help">-? | -h | –help (help)</a></h3>
+<p>Displays the online help.</p>
 <h2 id="example"><a class="header" href="#example"><a id="section5"></a>Example</a></h2>
 <p>Activate the standby master host and make it the active master instance for a SynxDB system (run from backup master host you are activating):</p>
 <pre><code>gpactivatestandby -d /gpdata

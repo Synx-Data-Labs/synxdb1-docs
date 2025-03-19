@@ -176,57 +176,53 @@ gplogfilter --version
 <p>By default, the output of <code>gplogfilter</code> is sent to standard output. Use the <code>-o</code> option to send the output to a file or a directory. If you supply an output file name ending in <code>.gz</code>, the output file will be compressed by default using maximum compression. If the output destination is a directory, the output file is given the same name as the input file.</p>
 <h2 id="options"><a class="header" href="#options"><a id="section4"></a>Options</a></h2>
 <p><strong>Timestamp Options</strong></p>
-<p>-b datetime | –begin=datetime
-:   Specifies a starting date and time to begin searching for log entries in the format of <code>YYYY-MM-DD [hh:mm[:ss]]</code>.</p>
-<p>:   If a time is specified, the date and time must be enclosed in either single or double quotes. This example encloses the date and time in single quotes:</p>
-<p>:   ```
-gplogfilter -b ‘2013-05-23 14:33’</p>
-<pre><code>
--e datetime \| --end=datetime
-:   Specifies an ending date and time to stop searching for log entries in the format of `YYYY-MM-DD [hh:mm[:ss]]`.
-
-:   If a time is specified, the date and time must be enclosed in either single or double quotes. This example encloses the date and time in single quotes:
-
-:   ```
-gplogfilter -e '2013-05-23 14:33' 
+<h3 id="-b-datetime--begindatetime"><a class="header" href="#-b-datetime--begindatetime">-b datetime | –begin=datetime</a></h3>
+<p>Specifies a starting date and time to begin searching for log entries in the format of <code>YYYY-MM-DD [hh:mm[:ss]]</code>.</p>
+<p>If a time is specified, the date and time must be enclosed in either single or double quotes. This example encloses the date and time in single quotes:</p>
+<pre><code>gplogfilter -b '2013-05-23 14:33'
 </code></pre>
-<p>-d&lt;time&gt; | –duration=&lt;time&gt;
-:   Specifies a time duration to search for log entries in the format of <code>[hh][:mm[:ss]]</code>. If used without either the <code>-b</code> or <code>-e</code> option, will use the current time as a basis.</p>
+<h3 id="-e-datetime--enddatetime"><a class="header" href="#-e-datetime--enddatetime">-e datetime | –end=datetime</a></h3>
+<p>Specifies an ending date and time to stop searching for log entries in the format of <code>YYYY-MM-DD [hh:mm[:ss]]</code>.</p>
+<p>If a time is specified, the date and time must be enclosed in either single or double quotes. This example encloses the date and time in single quotes:</p>
+<pre><code>gplogfilter -e '2013-05-23 14:33' 
+</code></pre>
+<h3 id="-dtime--durationtime"><a class="header" href="#-dtime--durationtime">-d&lt;time&gt; | –duration=&lt;time&gt;</a></h3>
+<p>Specifies a time duration to search for log entries in the format of <code>[hh][:mm[:ss]]</code>. If used without either the <code>-b</code> or <code>-e</code> option, will use the current time as a basis.</p>
 <p><strong>Pattern Matching Options</strong></p>
-<p>-c i [gnore] | r [espect] | –case=i [gnore] | r [espect]
-:   Matching of alphabetic characters is case sensitive by default unless proceeded by the <code>--case=ignore</code> option.</p>
-<p>-C ‘string’ | –columns=‘string’
-:   Selects specific columns from the log file. Specify the desired columns as a comma-delimited string of column numbers beginning with 1, where the second column from left is 2, the third is 3, and so on. See “Viewing the Database Server Log Files” in the <em>SynxDB Administrator Guide</em> for details about the log file format and for a list of the available columns and their associated number.</p>
-<p>-f ‘string’ | –find=‘string’
-:   Finds the log entries containing the specified string.</p>
-<p>-F ‘string’ | –nofind=‘string’
-:   Rejects the log entries containing the specified string.</p>
-<p>-m regex | –match=regex
-:   Finds log entries that match the specified Python regular expression. See <a href="https://docs.python.org/library/re.html">https://docs.python.org/library/re.html</a> for Python regular expression syntax.</p>
-<p>-M regex | –nomatch=regex
-:   Rejects log entries that match the specified Python regular expression. See <a href="https://docs.python.org/library/re.html">https://docs.python.org/library/re.html</a> for Python regular expression syntax.</p>
-<p>-t | –trouble
-:   Finds only the log entries that have <code>ERROR:</code>, <code>FATAL:</code>, or <code>PANIC:</code> in the first line.</p>
+<h3 id="-c-i-gnore--r-espect--casei-gnore--r-espect"><a class="header" href="#-c-i-gnore--r-espect--casei-gnore--r-espect">-c i [gnore] | r [espect] | –case=i [gnore] | r [espect]</a></h3>
+<p>Matching of alphabetic characters is case sensitive by default unless proceeded by the <code>--case=ignore</code> option.</p>
+<h3 id="-c-string--columnsstring"><a class="header" href="#-c-string--columnsstring">-C ‘string’ | –columns=‘string’</a></h3>
+<p>Selects specific columns from the log file. Specify the desired columns as a comma-delimited string of column numbers beginning with 1, where the second column from left is 2, the third is 3, and so on. See “Viewing the Database Server Log Files” in the <em>SynxDB Administrator Guide</em> for details about the log file format and for a list of the available columns and their associated number.</p>
+<h3 id="-f-string--findstring"><a class="header" href="#-f-string--findstring">-f ‘string’ | –find=‘string’</a></h3>
+<p>Finds the log entries containing the specified string.</p>
+<h3 id="-f-string--nofindstring"><a class="header" href="#-f-string--nofindstring">-F ‘string’ | –nofind=‘string’</a></h3>
+<p>Rejects the log entries containing the specified string.</p>
+<h3 id="-m-regex--matchregex"><a class="header" href="#-m-regex--matchregex">-m regex | –match=regex</a></h3>
+<p>Finds log entries that match the specified Python regular expression. See <a href="https://docs.python.org/library/re.html">https://docs.python.org/library/re.html</a> for Python regular expression syntax.</p>
+<h3 id="-m-regex--nomatchregex"><a class="header" href="#-m-regex--nomatchregex">-M regex | –nomatch=regex</a></h3>
+<p>Rejects log entries that match the specified Python regular expression. See <a href="https://docs.python.org/library/re.html">https://docs.python.org/library/re.html</a> for Python regular expression syntax.</p>
+<h3 id="-t--trouble"><a class="header" href="#-t--trouble">-t | –trouble</a></h3>
+<p>Finds only the log entries that have <code>ERROR:</code>, <code>FATAL:</code>, or <code>PANIC:</code> in the first line.</p>
 <p><strong>Output Options</strong></p>
-<p>-n &lt;integer&gt; | –tail=&lt;integer&gt;
-:   Limits the output to the last &lt;integer&gt; of qualifying log entries found.</p>
-<p>-s &lt;offset&gt; [limit] | –slice=&lt;offset&gt; [limit]
-:   From the list of qualifying log entries, returns the &lt;limit&gt; number of entries starting at the &lt;offset&gt; entry number, where an &lt;offset&gt; of zero (<code>0</code>) denotes the first entry in the result set and an &lt;offset&gt; of any number greater than zero counts back from the end of the result set.</p>
-<p>-o &lt;output_file&gt; | –out=&lt;output_file&gt;
-:   Writes the output to the specified file or directory location instead of <code>STDOUT</code>.</p>
-<p>-z 0-9 | –zip=0-9
-:   Compresses the output file to the specified compression level using <code>gzip</code>, where <code>0</code> is no compression and <code>9</code> is maximum compression. If you supply an output file name ending in <code>.gz</code>, the output file will be compressed by default using maximum compression.</p>
-<p>-a | –append
-:   If the output file already exists, appends to the file instead of overwriting it.</p>
+<h3 id="-n-integer--tailinteger"><a class="header" href="#-n-integer--tailinteger">-n &lt;integer&gt; | –tail=&lt;integer&gt;</a></h3>
+<p>Limits the output to the last &lt;integer&gt; of qualifying log entries found.</p>
+<h3 id="-s-offset-limit--sliceoffset-limit"><a class="header" href="#-s-offset-limit--sliceoffset-limit">-s &lt;offset&gt; [limit] | –slice=&lt;offset&gt; [limit]</a></h3>
+<p>From the list of qualifying log entries, returns the &lt;limit&gt; number of entries starting at the &lt;offset&gt; entry number, where an &lt;offset&gt; of zero (<code>0</code>) denotes the first entry in the result set and an &lt;offset&gt; of any number greater than zero counts back from the end of the result set.</p>
+<h3 id="-o-output_file--outoutput_file"><a class="header" href="#-o-output_file--outoutput_file">-o &lt;output_file&gt; | –out=&lt;output_file&gt;</a></h3>
+<p>Writes the output to the specified file or directory location instead of <code>STDOUT</code>.</p>
+<h3 id="-z-0-9--zip0-9"><a class="header" href="#-z-0-9--zip0-9">-z 0-9 | –zip=0-9</a></h3>
+<p>Compresses the output file to the specified compression level using <code>gzip</code>, where <code>0</code> is no compression and <code>9</code> is maximum compression. If you supply an output file name ending in <code>.gz</code>, the output file will be compressed by default using maximum compression.</p>
+<h3 id="-a--append"><a class="header" href="#-a--append">-a | –append</a></h3>
+<p>If the output file already exists, appends to the file instead of overwriting it.</p>
 <p><strong>Input Options</strong></p>
 <p>input_file
-:   The name of the input log file(s) to search through. If an input file is not supplied, <code>gplogfilter</code> will use the <code>$MASTER_DATA_DIRECTORY</code> environment variable to locate the SynxDB master log file. To read from standard input, use a dash (<code>-</code>) as the input file name.</p>
-<p>-u | –unzip
-:   Uncompress the input file using <code>gunzip</code>. If the input file name ends in <code>.gz</code>, it will be uncompressed by default.</p>
-<p>–help
-:   Displays the online help.</p>
-<p>–version
-:   Displays the version of this utility.</p>
+The name of the input log file(s) to search through. If an input file is not supplied, <code>gplogfilter</code> will use the <code>$MASTER_DATA_DIRECTORY</code> environment variable to locate the SynxDB master log file. To read from standard input, use a dash (<code>-</code>) as the input file name.</p>
+<h3 id="-u--unzip"><a class="header" href="#-u--unzip">-u | –unzip</a></h3>
+<p>Uncompress the input file using <code>gunzip</code>. If the input file name ends in <code>.gz</code>, it will be uncompressed by default.</p>
+<h3 id="help"><a class="header" href="#help">–help</a></h3>
+<p>Displays the online help.</p>
+<h3 id="version"><a class="header" href="#version">–version</a></h3>
+<p>Displays the version of this utility.</p>
 <h2 id="examples"><a class="header" href="#examples"><a id="section9"></a>Examples</a></h2>
 <p>Display the last three error messages in the master log file:</p>
 <pre><code>gplogfilter -t -n 3

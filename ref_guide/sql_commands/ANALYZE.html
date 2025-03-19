@@ -181,37 +181,36 @@ ANALYZE [VERBOSE] ROOTPARTITION {ALL | &lt;root_partition_table_name&gt; [ (&lt;
 <p><strong>Note</strong> You can also use the SynxDB utility <code>analyzedb</code> to update table statistics. The <code>analyzedb</code> utility can update statistics for multiple tables concurrently. The utility can also check table statistics and update statistics only if the statistics are not current or do not exist. For information about the utility, see the <em>SynxDB Utility Guide</em>.</p>
 </blockquote>
 <h2 id="parameters"><a class="header" href="#parameters"><a id="section4"></a>Parameters</a></h2>
-<p>{ root_partition_table_name | leaf_partition_table_name } [ (column [, …] ) ]
-:   Collect statistics for partitioned tables including HLL statistics. HLL statistics are collected only on leaf child partitions.</p>
-<p>:   <code>ANALYZE root\_partition\_table\_name</code>, collects statistics on all leaf child partitions and the root partition.</p>
-<p>:   <code>ANALYZE leaf\_partition\_table\_name</code>, collects statistics on the leaf child partition.</p>
-<p>:   By default, if you specify a leaf child partition, and all other leaf child partitions have statistics, <code>ANALYZE</code> updates the root partition statistics. If not all leaf child partitions have statistics, <code>ANALYZE</code> logs information about the leaf child partitions that do not have statistics. For information about when root partition statistics are collected, see <a href="#section5">Notes</a>.</p>
-<p>ROOTPARTITION [ALL]
-:   Collect statistics only on the root partition of partitioned tables based on the data in the partitioned table. If possible, <code>ANALYZE</code> uses leaf child partition statistics to generate root partition statistics. Otherwise, <code>ANALYZE</code> collects the statistics by sampling leaf child partition data. Statistics are not collected on the leaf child partitions, the data is only sampled. HLL statistics are not collected.</p>
-<p>:   For information about when the <code>ROOTPARTITION</code> keyword is required, see <a href="#section5">Notes</a>.</p>
-<p>:   When you specify <code>ROOTPARTITION</code>, you must specify either <code>ALL</code> or the name of a partitioned table.</p>
-<p>:   If you specify <code>ALL</code> with <code>ROOTPARTITION</code>, SynxDB collects statistics for the root partition of all partitioned tables in the database. If there are no partitioned tables in the database, a message stating that there are no partitioned tables is returned. For tables that are not partitioned tables, statistics are not collected.</p>
-<p>:   If you specify a table name with <code>ROOTPARTITION</code> and the table is not a partitioned table, no statistics are collected for the table and a warning message is returned.</p>
-<p>:   The <code>ROOTPARTITION</code> clause is not valid with <code>VACUUM ANALYZE</code>. The command <code>VACUUM ANALYZE ROOTPARTITION</code> returns an error.</p>
-<p>:   The time to run <code>ANALYZE ROOTPARTITION</code> is similar to the time to analyze a non-partitioned table with the same data since <code>ANALYZE ROOTPARTITION</code> only samples the leaf child partition data.</p>
-<p>:   For the partitioned table <em>sales_curr_yr</em>, this example command collects statistics only on the root partition of the partitioned table. <code>ANALYZE ROOTPARTITION sales_curr_yr;</code></p>
-<p>:   This example <code>ANALYZE</code> command collects statistics on the root partition of all the partitioned tables in the database.</p>
-<pre><code>```
-ANALYZE ROOTPARTITION ALL;
-```
+<h3 id="-root_partition_table_name--leaf_partition_table_name---column----"><a class="header" href="#-root_partition_table_name--leaf_partition_table_name---column----">{ root_partition_table_name | leaf_partition_table_name } [ (column [, …] ) ]</a></h3>
+<p>Collect statistics for partitioned tables including HLL statistics. HLL statistics are collected only on leaf child partitions.</p>
+<p><code>ANALYZE root\_partition\_table\_name</code>, collects statistics on all leaf child partitions and the root partition.</p>
+<p><code>ANALYZE leaf\_partition\_table\_name</code>, collects statistics on the leaf child partition.</p>
+<p>By default, if you specify a leaf child partition, and all other leaf child partitions have statistics, <code>ANALYZE</code> updates the root partition statistics. If not all leaf child partitions have statistics, <code>ANALYZE</code> logs information about the leaf child partitions that do not have statistics. For information about when root partition statistics are collected, see <a href="#section5">Notes</a>.</p>
+<h3 id="rootpartition-all"><a class="header" href="#rootpartition-all">ROOTPARTITION [ALL]</a></h3>
+<p>Collect statistics only on the root partition of partitioned tables based on the data in the partitioned table. If possible, <code>ANALYZE</code> uses leaf child partition statistics to generate root partition statistics. Otherwise, <code>ANALYZE</code> collects the statistics by sampling leaf child partition data. Statistics are not collected on the leaf child partitions, the data is only sampled. HLL statistics are not collected.</p>
+<p>For information about when the <code>ROOTPARTITION</code> keyword is required, see <a href="#section5">Notes</a>.</p>
+<p>When you specify <code>ROOTPARTITION</code>, you must specify either <code>ALL</code> or the name of a partitioned table.</p>
+<p>If you specify <code>ALL</code> with <code>ROOTPARTITION</code>, SynxDB collects statistics for the root partition of all partitioned tables in the database. If there are no partitioned tables in the database, a message stating that there are no partitioned tables is returned. For tables that are not partitioned tables, statistics are not collected.</p>
+<p>If you specify a table name with <code>ROOTPARTITION</code> and the table is not a partitioned table, no statistics are collected for the table and a warning message is returned.</p>
+<p>The <code>ROOTPARTITION</code> clause is not valid with <code>VACUUM ANALYZE</code>. The command <code>VACUUM ANALYZE ROOTPARTITION</code> returns an error.</p>
+<p>The time to run <code>ANALYZE ROOTPARTITION</code> is similar to the time to analyze a non-partitioned table with the same data since <code>ANALYZE ROOTPARTITION</code> only samples the leaf child partition data.</p>
+<p>For the partitioned table <em>sales_curr_yr</em>, this example command collects statistics only on the root partition of the partitioned table. <code>ANALYZE ROOTPARTITION sales_curr_yr;</code></p>
+<p>This example <code>ANALYZE</code> command collects statistics on the root partition of all the partitioned tables in the database.</p>
+<pre><code>ANALYZE ROOTPARTITION ALL;
 </code></pre>
-<p>VERBOSE
-:   Enables display of progress messages. When specified, <code>ANALYZE</code> emits this information</p>
-<pre><code>-   The table that is being processed.
--   The query that is run to generate the sample table.
--   The column for which statistics is being computed.
--   The queries that are issued to collect the different statistics for a single column.
--   The statistics that are collected.
-</code></pre>
-<p>table
-:   The name (possibly schema-qualified) of a specific table to analyze. If omitted, all regular tables (but not foreign tables) in the current database are analyzed.</p>
-<p>column
-:   The name of a specific column to analyze. Defaults to all columns.</p>
+<h3 id="verbose"><a class="header" href="#verbose">VERBOSE</a></h3>
+<p>Enables display of progress messages. When specified, <code>ANALYZE</code> emits this information</p>
+<ul>
+<li>The table that is being processed.</li>
+<li>The query that is run to generate the sample table.</li>
+<li>The column for which statistics is being computed.</li>
+<li>The queries that are issued to collect the different statistics for a single column.</li>
+<li>The statistics that are collected.</li>
+</ul>
+<h3 id="table"><a class="header" href="#table">table</a></h3>
+<p>The name (possibly schema-qualified) of a specific table to analyze. If omitted, all regular tables (but not foreign tables) in the current database are analyzed.</p>
+<h3 id="column"><a class="header" href="#column">column</a></h3>
+<p>The name of a specific column to analyze. Defaults to all columns.</p>
 <h2 id="notes"><a class="header" href="#notes"><a id="section5"></a>Notes</a></h2>
 <p>Foreign tables are analyzed only when explicitly selected. Not all foreign data wrappers support <code>ANALYZE</code>. If the table’s wrapper does not support <code>ANALYZE</code>, the command prints a warning and does nothing.</p>
 <p>It is a good idea to run <code>ANALYZE</code> periodically, or just after making major changes in the contents of a table. Accurate statistics helps SynxDB choose the most appropriate query plan, and thereby improve the speed of query processing. A common strategy for read-mostly databases is to run <a href="VACUUM.html">VACUUM</a> and <code>ANALYZE</code> once a day during a low-usage time of day. (This will not be sufficient if there is heavy update activity.) You can check for tables with missing statistics using the <code>gp_stats_missing</code> view, which is in the <code>gp_toolkit</code> schema:</p>

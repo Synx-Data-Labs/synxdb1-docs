@@ -169,16 +169,16 @@ CREATE COLLATION &lt;name&gt; FROM &lt;existing_collation&gt;
 <h2 id="description"><a class="header" href="#description"><a id="section3"></a>Description</a></h2>
 <p>To be able to create a collation, you must have <code>CREATE</code> privilege on the destination schema.</p>
 <h2 id="parameters"><a class="header" href="#parameters"><a id="section4"></a>Parameters</a></h2>
-<p>name
-:   The name of the collation. The collation name can be schema-qualified. If it is not, the collation is defined in the current schema. The collation name must be unique within that schema. (The system catalogs can contain collations with the same name for other encodings, but these are ignored if the database encoding does not match.)</p>
-<p>locale
-:   This is a shortcut for setting <code>LC_COLLATE</code> and <code>LC_CTYPE</code> at once. If you specify this, you cannot specify either of those parameters.</p>
-<p>lc_collate
-:   Use the specified operating system locale for the <code>LC_COLLATE</code> locale category. The locale must be applicable to the current database encoding. (See <a href="CREATE_DATABASE.html">CREATE DATABASE</a> for the precise rules.)</p>
-<p>lc_ctype
-:   Use the specified operating system locale for the <code>LC_CTYPE</code> locale category. The locale must be applicable to the current database encoding. (See <a href="CREATE_DATABASE.html">CREATE DATABASE</a> for the precise rules.)</p>
-<p>existing_collation
-:   The name of an existing collation to copy. The new collation will have the same properties as the existing one, but it will be an independent object.</p>
+<h3 id="name"><a class="header" href="#name">name</a></h3>
+<p>The name of the collation. The collation name can be schema-qualified. If it is not, the collation is defined in the current schema. The collation name must be unique within that schema. (The system catalogs can contain collations with the same name for other encodings, but these are ignored if the database encoding does not match.)</p>
+<h3 id="locale"><a class="header" href="#locale">locale</a></h3>
+<p>This is a shortcut for setting <code>LC_COLLATE</code> and <code>LC_CTYPE</code> at once. If you specify this, you cannot specify either of those parameters.</p>
+<h3 id="lc_collate"><a class="header" href="#lc_collate">lc_collate</a></h3>
+<p>Use the specified operating system locale for the <code>LC_COLLATE</code> locale category. The locale must be applicable to the current database encoding. (See <a href="CREATE_DATABASE.html">CREATE DATABASE</a> for the precise rules.)</p>
+<h3 id="lc_ctype"><a class="header" href="#lc_ctype">lc_ctype</a></h3>
+<p>Use the specified operating system locale for the <code>LC_CTYPE</code> locale category. The locale must be applicable to the current database encoding. (See <a href="CREATE_DATABASE.html">CREATE DATABASE</a> for the precise rules.)</p>
+<h3 id="existing_collation"><a class="header" href="#existing_collation">existing_collation</a></h3>
+<p>The name of an existing collation to copy. The new collation will have the same properties as the existing one, but it will be an independent object.</p>
 <h2 id="notes"><a class="header" href="#notes"><a id="section5"></a>Notes</a></h2>
 <p>To be able to create a collation, you must have <code>CREATE</code> privilege on the destination schema.</p>
 <p>Use <code>DROP COLLATION</code> to remove user-defined collations.</p>

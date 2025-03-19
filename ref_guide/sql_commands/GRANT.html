@@ -263,48 +263,49 @@ GRANT { SELECT | INSERT | ALL [PRIVILEGES] }
 </ul>
 <p>You can also use this command to grant users permissions to create and use <code>s3</code> and <code>pxf</code> external tables. However, external tables of type <code>http</code>, <code>https</code>, <code>gpfdist</code>, and <code>gpfdists</code>, are implemented internally in SynxDB instead of as custom protocols. For these types, use the <code>CREATE ROLE</code> or <code>ALTER ROLE</code> command to set the <code>CREATEEXTTABLE</code> or <code>NOCREATEEXTTABLE</code> attribute for each user. See <a href="CREATE_ROLE.html">CREATE ROLE</a> for syntax and examples.</p>
 <h2 id="parameters"><a class="header" href="#parameters"><a id="section7"></a>Parameters</a></h2>
-<p>SELECT
-:   Allows <code>SELECT</code> from any column, or the specific columns listed, of the specified table, view, or sequence. Also allows the use of <code>COPY TO</code>. This privilege is also needed to reference existing column values in <code>UPDATE</code> or <code>DELETE</code>.</p>
-<p>INSERT
-:   Allows <code>INSERT</code> of a new row into the specified table. If specific columns are listed, only those columns may be assigned to in the <code>INSERT</code> command (other columns will receive default values). Also allows <code>COPY FROM</code>.</p>
-<p>UPDATE
-:   Allows <code>UPDATE</code> of any column, or the specific columns listed, of the specified table. <code>SELECT ... FOR UPDATE</code> and <code>SELECT ... FOR SHARE</code> also require this privilege on at least one column, (as well as the <code>SELECT</code> privilege). For sequences, this privilege allows the use of the <code>nextval()</code> and <code>setval()</code> functions.</p>
-<p>DELETE
-:   Allows <code>DELETE</code> of a row from the specified table.</p>
-<p>REFERENCES
-:   This keyword is accepted, although foreign key constraints are currently not supported in SynxDB. To create a foreign key constraint, it is necessary to have this privilege on both the referencing and referenced columns. The privilege may be granted for all columns of a table, or just specific columns.</p>
-<p>TRIGGER
-:   Allows the creation of a trigger on the specified table.</p>
+<h3 id="select"><a class="header" href="#select">SELECT</a></h3>
+<p>Allows <code>SELECT</code> from any column, or the specific columns listed, of the specified table, view, or sequence. Also allows the use of <code>COPY TO</code>. This privilege is also needed to reference existing column values in <code>UPDATE</code> or <code>DELETE</code>.</p>
+<h3 id="insert"><a class="header" href="#insert">INSERT</a></h3>
+<p>Allows <code>INSERT</code> of a new row into the specified table. If specific columns are listed, only those columns may be assigned to in the <code>INSERT</code> command (other columns will receive default values). Also allows <code>COPY FROM</code>.</p>
+<h3 id="update"><a class="header" href="#update">UPDATE</a></h3>
+<p>Allows <code>UPDATE</code> of any column, or the specific columns listed, of the specified table. <code>SELECT ... FOR UPDATE</code> and <code>SELECT ... FOR SHARE</code> also require this privilege on at least one column, (as well as the <code>SELECT</code> privilege). For sequences, this privilege allows the use of the <code>nextval()</code> and <code>setval()</code> functions.</p>
+<h3 id="delete"><a class="header" href="#delete">DELETE</a></h3>
+<p>Allows <code>DELETE</code> of a row from the specified table.</p>
+<h3 id="references"><a class="header" href="#references">REFERENCES</a></h3>
+<p>This keyword is accepted, although foreign key constraints are currently not supported in SynxDB. To create a foreign key constraint, it is necessary to have this privilege on both the referencing and referenced columns. The privilege may be granted for all columns of a table, or just specific columns.</p>
+<h3 id="trigger"><a class="header" href="#trigger">TRIGGER</a></h3>
+<p>Allows the creation of a trigger on the specified table.</p>
 <pre><code>&gt; **Note** SynxDB does not support triggers.
 </code></pre>
-<p>TRUNCATE
-:   Allows <code>TRUNCATE</code> of all rows from the specified table.</p>
-<p>CREATE
-:   For databases, allows new schemas to be created within the database.</p>
-<p>:   For schemas, allows new objects to be created within the schema. To rename an existing object, you must own the object and have this privilege for the containing schema.</p>
-<p>:   For tablespaces, allows tables and indexes to be created within the tablespace, and allows databases to be created that have the tablespace as their default tablespace. (Note that revoking this privilege will not alter the placement of existing objects.)</p>
-<p>CONNECT
-:   Allows the user to connect to the specified database. This privilege is checked at connection startup (in addition to checking any restrictions imposed by <code>pg_hba.conf</code>).</p>
-<p>TEMPORARY
-TEMP
-:   Allows temporary tables to be created while using the database.</p>
-<p>EXECUTE
-:   Allows the use of the specified function and the use of any operators that are implemented on top of the function. This is the only type of privilege that is applicable to functions. (This syntax works for aggregate functions, as well.)</p>
-<p>USAGE
-:   For procedural languages, allows the use of the specified language for the creation of functions in that language. This is the only type of privilege that is applicable to procedural languages.</p>
-<p>:   For schemas, allows access to objects contained in the specified schema (assuming that the objects’ own privilege requirements are also met). Essentially this allows the grantee to look up objects within the schema.</p>
-<p>:   For sequences, this privilege allows the use of the <code>currval()</code> and <code>nextval()</code> function.</p>
-<p>:   For types and domains, this privilege allows the use of the type or domain in the creation of tables, functions, and other schema objects. (Note that it does not control general “usage” of the type, such as values of the type appearing in queries. It only prevents objects from being created that depend on the type. The main purpose of the privilege is controlling which users create dependencies on a type, which could prevent the owner from changing the type later.)</p>
-<p>:   For foreign-data wrappers, this privilege enables the grantee to create new servers using that foreign-data wrapper.</p>
-<p>:   For servers, this privilege enables the grantee to create foreign tables using the server, and also to create, alter, or drop their own user’s user mappings associated with that server.</p>
-<p>ALL PRIVILEGES
-:   Grant all of the available privileges at once. The <code>PRIVILEGES</code> key word is optional in SynxDB, though it is required by strict SQL.</p>
-<p>PUBLIC
-:   A special group-level role that denotes that the privileges are to be granted to all roles, including those that may be created later.</p>
-<p>WITH GRANT OPTION
-:   The recipient of the privilege may in turn grant it to others.</p>
-<p>WITH ADMIN OPTION
-:   The member of a role may in turn grant membership in the role to others.</p>
+<h3 id="truncate"><a class="header" href="#truncate">TRUNCATE</a></h3>
+<p>Allows <code>TRUNCATE</code> of all rows from the specified table.</p>
+<h3 id="create"><a class="header" href="#create">CREATE</a></h3>
+<p>For databases, allows new schemas to be created within the database.</p>
+<h3 id=""><a class="header" href="#"></a></h3>
+<p>For schemas, allows new objects to be created within the schema. To rename an existing object, you must own the object and have this privilege for the containing schema.</p>
+<h3 id="-1"><a class="header" href="#-1"></a></h3>
+<p>For tablespaces, allows tables and indexes to be created within the tablespace, and allows databases to be created that have the tablespace as their default tablespace. (Note that revoking this privilege will not alter the placement of existing objects.)</p>
+<h3 id="connect"><a class="header" href="#connect">CONNECT</a></h3>
+<p>Allows the user to connect to the specified database. This privilege is checked at connection startup (in addition to checking any restrictions imposed by <code>pg_hba.conf</code>).</p>
+<h3 id="temporarytemp"><a class="header" href="#temporarytemp">TEMPORARY<br/>TEMP</a></h3>
+<p>Allows temporary tables to be created while using the database.</p>
+<h3 id="execute"><a class="header" href="#execute">EXECUTE</a></h3>
+<p>Allows the use of the specified function and the use of any operators that are implemented on top of the function. This is the only type of privilege that is applicable to functions. (This syntax works for aggregate functions, as well.)</p>
+<h3 id="usage"><a class="header" href="#usage">USAGE</a></h3>
+<p>For procedural languages, allows the use of the specified language for the creation of functions in that language. This is the only type of privilege that is applicable to procedural languages.</p>
+<p>For schemas, allows access to objects contained in the specified schema (assuming that the objects’ own privilege requirements are also met). Essentially this allows the grantee to look up objects within the schema.</p>
+<p>For sequences, this privilege allows the use of the <code>currval()</code> and <code>nextval()</code> function.</p>
+<p>For types and domains, this privilege allows the use of the type or domain in the creation of tables, functions, and other schema objects. (Note that it does not control general “usage” of the type, such as values of the type appearing in queries. It only prevents objects from being created that depend on the type. The main purpose of the privilege is controlling which users create dependencies on a type, which could prevent the owner from changing the type later.)</p>
+<p>For foreign-data wrappers, this privilege enables the grantee to create new servers using that foreign-data wrapper.</p>
+<p>For servers, this privilege enables the grantee to create foreign tables using the server, and also to create, alter, or drop their own user’s user mappings associated with that server.</p>
+<h3 id="all-privileges"><a class="header" href="#all-privileges">ALL PRIVILEGES</a></h3>
+<p>Grant all of the available privileges at once. The <code>PRIVILEGES</code> key word is optional in SynxDB, though it is required by strict SQL.</p>
+<h3 id="public"><a class="header" href="#public">PUBLIC</a></h3>
+<p>A special group-level role that denotes that the privileges are to be granted to all roles, including those that may be created later.</p>
+<h3 id="with-grant-option"><a class="header" href="#with-grant-option">WITH GRANT OPTION</a></h3>
+<p>The recipient of the privilege may in turn grant it to others.</p>
+<h3 id="with-admin-option"><a class="header" href="#with-admin-option">WITH ADMIN OPTION</a></h3>
+<p>The member of a role may in turn grant membership in the role to others.</p>
 <h2 id="notes"><a class="header" href="#notes"><a id="section8"></a>Notes</a></h2>
 <p>A user may perform <code>SELECT</code>, <code>INSERT</code>, and so forth, on a column if they hold that privilege for either the specific column or the whole table. Granting the privilege at the table level and then revoking it for one column does not do what you might wish: the table-level grant is unaffected by a column-level operation.</p>
 <p>Database superusers can access all objects regardless of object privilege settings. One exception to this rule is view objects. Access to tables referenced in the view is determined by permissions of the view owner not the current user (even if the current user is a superuser).</p>

@@ -217,26 +217,26 @@ ROLLBACK;
 </code></pre>
 <p>Only the <code>ANALYZE</code> and <code>VERBOSE</code> options can be specified, and only in that order, without surrounding the option list in parentheses.</p>
 <h2 id="parameters"><a class="header" href="#parameters"><a id="section4"></a>Parameters</a></h2>
-<p>ANALYZE
-:   Carry out the command and show the actual run times and other statistics. This parameter defaults to <code>FALSE</code> if you omit it; specify <code>ANALYZE true</code> to enable it.</p>
-<p>VERBOSE
-:   Display additional information regarding the plan. Specifically, include the output column list for each node in the plan tree, schema-qualify table and function names, always label variables in expressions with their range table alias, and always print the name of each trigger for which statistics are displayed. This parameter defaults to <code>FALSE</code>if you omit it; specify <code>VERBOSE true</code> to enable it.</p>
-<p>COSTS
-:   Include information on the estimated startup and total cost of each plan node, as well as the estimated number of rows and the estimated width of each row. This parameter defaults to <code>TRUE</code> if you omit it; specify <code>COSTS false</code> to deactivate it.</p>
-<p>BUFFERS
-:   Include information on buffer usage. This parameter may be specified only when <code>ANALYZE</code> is also specified. If omitted, the default value is <code>false</code>, buffer usage information is not included.</p>
+<h3 id="analyze"><a class="header" href="#analyze">ANALYZE</a></h3>
+<p>Carry out the command and show the actual run times and other statistics. This parameter defaults to <code>FALSE</code> if you omit it; specify <code>ANALYZE true</code> to enable it.</p>
+<h3 id="verbose"><a class="header" href="#verbose">VERBOSE</a></h3>
+<p>Display additional information regarding the plan. Specifically, include the output column list for each node in the plan tree, schema-qualify table and function names, always label variables in expressions with their range table alias, and always print the name of each trigger for which statistics are displayed. This parameter defaults to <code>FALSE</code>if you omit it; specify <code>VERBOSE true</code> to enable it.</p>
+<h3 id="costs"><a class="header" href="#costs">COSTS</a></h3>
+<p>Include information on the estimated startup and total cost of each plan node, as well as the estimated number of rows and the estimated width of each row. This parameter defaults to <code>TRUE</code> if you omit it; specify <code>COSTS false</code> to deactivate it.</p>
+<h3 id="buffers"><a class="header" href="#buffers">BUFFERS</a></h3>
+<p>Include information on buffer usage. This parameter may be specified only when <code>ANALYZE</code> is also specified. If omitted, the default value is <code>false</code>, buffer usage information is not included.</p>
 <blockquote>
 <p><strong>Note</strong>
 SynxDB does not support specifying <code>BUFFERS [true]</code> for distributed queries; ignore any displayed buffer usage information.</p>
 </blockquote>
-<p>TIMING
-:   Include actual startup time and time spent in each node in the output. The overhead of repeatedly reading the system clock can slow down the query significantly on some systems, so it may be useful to set this parameter to <code>FALSE</code> when only actual row counts, and not exact times, are needed. Run time of the entire statement is always measured, even when node-level timing is turned off with this option. This parameter may only be used when <code>ANALYZE</code> is also enabled. It defaults to <code>TRUE</code>.</p>
-<p>FORMAT
-:   Specify the output format, which can be <code>TEXT</code>, <code>XML</code>, <code>JSON</code>, or <code>YAML</code>. Non-text output contains the same information as the text output format, but is easier for programs to parse. This parameter defaults to <code>TEXT</code>.</p>
-<p>boolean
-:   Specifies whether the selected option should be turned on or off. You can write <code>TRUE</code>, <code>ON</code>, or <code>1</code> to enable the option, and <code>FALSE</code>, <code>OFF</code>, or <code>0</code> to deactivate it. The boolean value can also be omitted, in which case <code>TRUE</code> is assumed.</p>
-<p>statement
-:   Any <code>SELECT</code>, <code>INSERT</code>, <code>UPDATE</code>, <code>DELETE</code>, <code>VALUES</code>, <code>EXECUTE</code>, <code>DECLARE</code>, or <code>CREATE TABLE AS</code> statement, whose execution plan you wish to see.</p>
+<h3 id="timing"><a class="header" href="#timing">TIMING</a></h3>
+<p>Include actual startup time and time spent in each node in the output. The overhead of repeatedly reading the system clock can slow down the query significantly on some systems, so it may be useful to set this parameter to <code>FALSE</code> when only actual row counts, and not exact times, are needed. Run time of the entire statement is always measured, even when node-level timing is turned off with this option. This parameter may only be used when <code>ANALYZE</code> is also enabled. It defaults to <code>TRUE</code>.</p>
+<h3 id="format"><a class="header" href="#format">FORMAT</a></h3>
+<p>Specify the output format, which can be <code>TEXT</code>, <code>XML</code>, <code>JSON</code>, or <code>YAML</code>. Non-text output contains the same information as the text output format, but is easier for programs to parse. This parameter defaults to <code>TEXT</code>.</p>
+<h3 id="boolean"><a class="header" href="#boolean">boolean</a></h3>
+<p>Specifies whether the selected option should be turned on or off. You can write <code>TRUE</code>, <code>ON</code>, or <code>1</code> to enable the option, and <code>FALSE</code>, <code>OFF</code>, or <code>0</code> to deactivate it. The boolean value can also be omitted, in which case <code>TRUE</code> is assumed.</p>
+<h3 id="statement"><a class="header" href="#statement">statement</a></h3>
+<p>Any <code>SELECT</code>, <code>INSERT</code>, <code>UPDATE</code>, <code>DELETE</code>, <code>VALUES</code>, <code>EXECUTE</code>, <code>DECLARE</code>, or <code>CREATE TABLE AS</code> statement, whose execution plan you wish to see.</p>
 <h2 id="notes"><a class="header" href="#notes"><a id="section5"></a>Notes</a></h2>
 <p>In order to allow the query optimizer to make reasonably informed decisions when optimizing queries, the <code>ANALYZE</code> statement should be run to record statistics about the distribution of data within the table. If you have not done this (or if the statistical distribution of the data in the table has changed significantly since the last time <code>ANALYZE</code> was run), the estimated costs are unlikely to conform to the real properties of the query, and consequently an inferior query plan may be chosen.</p>
 <p>An SQL statement that is run during the execution of an <code>EXPLAIN ANALYZE</code> command is excluded from SynxDB resource queues.</p>

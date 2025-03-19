@@ -175,22 +175,22 @@ ALTER TEXT SEARCH CONFIGURATION &lt;name&gt; SET SCHEMA &lt;new_schema&gt;
 <p><code>ALTER TEXT SEARCH CONFIGURATION</code> changes the definition of a text search configuration. You can modify its mappings from token types to dictionaries, or change the configuration’s name or owner.</p>
 <p>You must be the owner of the configuration to use <code>ALTER TEXT SEARCH CONFIGURATION</code>.</p>
 <h2 id="parameters"><a class="header" href="#parameters"><a id="section4"></a>Parameters</a></h2>
-<p><code>name</code>
-:   The name (optionally schema-qualified) of an existing text search configuration.</p>
-<p><code>token\_type</code>
-:   The name of a token type that is emitted by the configuration’s parser.</p>
-<p><code>dictionary\_name</code>
-:   The name of a text search dictionary to be consulted for the specified token type(s). If multiple dictionaries are listed, they are consulted in the specified order.</p>
-<p><code>old\_dictionary</code>
-:   The name of a text search dictionary to be replaced in the mapping.</p>
-<p><code>new\_dictionary</code>
-:   The name of a text search dictionary to be substituted for old_dictionary.</p>
-<p><code>new\_name</code>
-:   The new name of the text search configuration.</p>
-<p>new_owner
-:   The new owner of the text search configuration.</p>
-<p><code>new\_schema</code>
-:   The new schema for the text search configuration.</p>
+<h3 id="name"><a class="header" href="#name"><code>name</code></a></h3>
+<p>The name (optionally schema-qualified) of an existing text search configuration.</p>
+<h3 id="token_type"><a class="header" href="#token_type"><code>token\_type</code></a></h3>
+<p>The name of a token type that is emitted by the configuration’s parser.</p>
+<h3 id="dictionary_name"><a class="header" href="#dictionary_name"><code>dictionary\_name</code></a></h3>
+<p>The name of a text search dictionary to be consulted for the specified token type(s). If multiple dictionaries are listed, they are consulted in the specified order.</p>
+<h3 id="old_dictionary"><a class="header" href="#old_dictionary"><code>old\_dictionary</code></a></h3>
+<p>The name of a text search dictionary to be replaced in the mapping.</p>
+<h3 id="new_dictionary"><a class="header" href="#new_dictionary"><code>new\_dictionary</code></a></h3>
+<p>The name of a text search dictionary to be substituted for old_dictionary.</p>
+<h3 id="new_name"><a class="header" href="#new_name"><code>new\_name</code></a></h3>
+<p>The new name of the text search configuration.</p>
+<h3 id="new_owner"><a class="header" href="#new_owner">new_owner</a></h3>
+<p>The new owner of the text search configuration.</p>
+<h3 id="new_schema"><a class="header" href="#new_schema"><code>new\_schema</code></a></h3>
+<p>The new schema for the text search configuration.</p>
 <p>The <code>ADD MAPPING FOR</code> form installs a list of dictionaries to be consulted for the specified token type(s); it is an error if there is already a mapping for any of the token types. The <code>ALTER MAPPING FOR</code> form does the same, but first removing any existing mapping for those token types. The <code>ALTER MAPPING REPLACE</code> forms substitute new_dictionary for old_dictionary anywhere the latter appears. This is done for only the specified token types when <code>FOR</code> appears, or for all mappings of the configuration when it doesn’t. The <code>DROP MAPPING</code> form removes all dictionaries for the specified token type(s), causing tokens of those types to be ignored by the text search configuration. It is an error if there is no mapping for the token types, unless <code>IF EXISTS</code> appears.</p>
 <h2 id="examples"><a class="header" href="#examples"><a id="section5"></a>Examples</a></h2>
 <p>The following example replaces the <code>english</code> dictionary with the <code>swedish</code> dictionary anywhere that <code>english</code> is used within <code>my_config</code>.</p>

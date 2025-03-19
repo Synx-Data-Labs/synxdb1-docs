@@ -170,16 +170,16 @@
 <p>You must have the <code>TRUNCATE</code> privilege on the table to truncate table rows.</p>
 <p><code>TRUNCATE</code> acquires an access exclusive lock on the tables it operates on, which blocks all other concurrent operations on the table. When <code>RESTART IDENTITY</code> is specified, any sequences that are to be restarted are likewise locked exclusively. If concurrent access to a table is required, then the <code>DELETE</code> command should be used instead.</p>
 <h2 id="parameters"><a class="header" href="#parameters"><a id="section4"></a>Parameters</a></h2>
-<p>name
-:   The name (optionally schema-qualified) of a table to truncate. If <code>ONLY</code> is specified before the table name, only that table is truncated. If <code>ONLY</code> is not specified, the table and all its descendant tables (if any) are truncated. Optionally, <code>*</code> can be specified after the table name to explicitly indicate that descendant tables are included.</p>
-<p>CASCADE
-:   Because this key word applies to foreign key references (which are not supported in SynxDB) it has no effect.</p>
-<p>RESTART IDENTITY
-:   Automatically restart sequences owned by columns of the truncated table(s).</p>
-<p>CONTINUE IDENTITY
-:   Do not change the values of sequences. This is the default.</p>
-<p>RESTRICT
-:   Because this key word applies to foreign key references (which are not supported in SynxDB) it has no effect.</p>
+<h3 id="name"><a class="header" href="#name">name</a></h3>
+<p>The name (optionally schema-qualified) of a table to truncate. If <code>ONLY</code> is specified before the table name, only that table is truncated. If <code>ONLY</code> is not specified, the table and all its descendant tables (if any) are truncated. Optionally, <code>*</code> can be specified after the table name to explicitly indicate that descendant tables are included.</p>
+<h3 id="cascade"><a class="header" href="#cascade">CASCADE</a></h3>
+<p>Because this key word applies to foreign key references (which are not supported in SynxDB) it has no effect.</p>
+<h3 id="restart-identity"><a class="header" href="#restart-identity">RESTART IDENTITY</a></h3>
+<p>Automatically restart sequences owned by columns of the truncated table(s).</p>
+<h3 id="continue-identity"><a class="header" href="#continue-identity">CONTINUE IDENTITY</a></h3>
+<p>Do not change the values of sequences. This is the default.</p>
+<h3 id="restrict"><a class="header" href="#restrict">RESTRICT</a></h3>
+<p>Because this key word applies to foreign key references (which are not supported in SynxDB) it has no effect.</p>
 <h2 id="notes"><a class="header" href="#notes"><a id="section5"></a>Notes</a></h2>
 <p><code>TRUNCATE</code> will not run any user-defined <code>ON DELETE</code> triggers that might exist for the tables.</p>
 <p><code>TRUNCATE</code> will not truncate any tables that inherit from the named table. Only the named table is truncated, not its child tables.</p>

@@ -169,12 +169,12 @@ ALTER GROUP &lt;groupname&gt; RENAME TO &lt;newname&gt;
 <p><code>ALTER GROUP</code> changes the attributes of a user group. This is an obsolete command, though still accepted for backwards compatibility, because users and groups are superseded by the more general concept of roles. See <a href="ALTER_ROLE.html">ALTER ROLE</a> for more information.</p>
 <p>The first two variants add users to a group or remove them from a group. Any role can play the part of groupname or username. The preferred method for accomplishing these tasks is to use <a href="GRANT.html">GRANT</a> and <a href="REVOKE.html">REVOKE</a>.</p>
 <h2 id="parameters"><a class="header" href="#parameters"><a id="section4"></a>Parameters</a></h2>
-<p>groupname
-:   The name of the group (role) to modify.</p>
-<p>username
-:   Users (roles) that are to be added to or removed from the group. The users (roles) must already exist.</p>
-<p>newname
-:   The new name of the group (role).</p>
+<h3 id="groupname"><a class="header" href="#groupname">groupname</a></h3>
+<p>The name of the group (role) to modify.</p>
+<h3 id="username"><a class="header" href="#username">username</a></h3>
+<p>Users (roles) that are to be added to or removed from the group. The users (roles) must already exist.</p>
+<h3 id="newname"><a class="header" href="#newname">newname</a></h3>
+<p>The new name of the group (role).</p>
 <h2 id="examples"><a class="header" href="#examples"><a id="section5"></a>Examples</a></h2>
 <p>To add users to a group:</p>
 <pre><code>ALTER GROUP staff ADD USER karl, john;

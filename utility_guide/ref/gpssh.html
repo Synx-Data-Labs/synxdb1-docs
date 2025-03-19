@@ -176,28 +176,28 @@ gpssh --version
 <p>If you encounter network timeout problems when using <code>gpssh</code>, you can use <code>-d</code> and <code>-t</code> options or set parameters in the <code>gpssh.conf</code> file to control the timing that <code>gpssh</code> uses when validating the initial <code>ssh</code> connection. For information about the configuration file, see <a href="#section6">gpssh Configuration File</a>.</p>
 <h2 id="options"><a class="header" href="#options"><a id="section4"></a>Options</a></h2>
 <p>bash_command
-:   A bash shell command to run on all hosts involved in this session (optionally enclosed in quotes). If not specified, <code>gpssh</code> starts an interactive session.</p>
-<p>-d (delay) seconds
-:   Optional. Specifies the time, in seconds, to wait at the start of a <code>gpssh</code> interaction with <code>ssh</code>. Default is <code>0.05</code>. This option overrides the <code>delaybeforesend</code> value that is specified in the <code>gpssh.conf</code> configuration file.</p>
-<p>:   Increasing this value can cause a long wait time during <code>gpssh</code> startup.</p>
-<p>-e (echo)
-:   Optional. Echoes the commands passed to each host and their resulting output while running in non-interactive mode.</p>
-<p>-f hostfile_gpssh
-:   Specifies the name of a file that contains a list of hosts that will participate in this SSH session. The syntax of the host file is one host per line.</p>
-<p>-h hostname
-:   Specifies a single host name that will participate in this SSH session. You can use the <code>-h</code> option multiple times to specify multiple host names.</p>
-<p>-s
-:   Optional. If specified, before running any commands on the target host, <code>gpssh</code> sources the file <code>synxdb_path.sh</code> in the directory specified by the <code>$GPHOME</code> environment variable.</p>
-<p>:   This option is valid for both interactive mode and single command mode.</p>
-<p>-t multiplier
-:   Optional. A decimal number greater than 0 (zero) that is the multiplier for the timeout that <code>gpssh</code> uses when validating the <code>ssh</code> prompt. Default is <code>1</code>. This option overrides the <code>prompt_validation_timeout</code> value that is specified in the <code>gpssh.conf</code> configuration file.</p>
-<p>:   Increasing this value has a small impact during <code>gpssh</code> startup.</p>
-<p>-v (verbose mode)
-:   Optional. Reports additional messages in addition to the command output when running in non-interactive mode.</p>
-<p>–version
-:   Displays the version of this utility.</p>
-<p>-? (help)
-:   Displays the online help.</p>
+A bash shell command to run on all hosts involved in this session (optionally enclosed in quotes). If not specified, <code>gpssh</code> starts an interactive session.</p>
+<h3 id="-d-delay-seconds"><a class="header" href="#-d-delay-seconds">-d (delay) seconds</a></h3>
+<p>Optional. Specifies the time, in seconds, to wait at the start of a <code>gpssh</code> interaction with <code>ssh</code>. Default is <code>0.05</code>. This option overrides the <code>delaybeforesend</code> value that is specified in the <code>gpssh.conf</code> configuration file.</p>
+<p>Increasing this value can cause a long wait time during <code>gpssh</code> startup.</p>
+<h3 id="-e-echo"><a class="header" href="#-e-echo">-e (echo)</a></h3>
+<p>Optional. Echoes the commands passed to each host and their resulting output while running in non-interactive mode.</p>
+<h3 id="-f-hostfile_gpssh"><a class="header" href="#-f-hostfile_gpssh">-f hostfile_gpssh</a></h3>
+<p>Specifies the name of a file that contains a list of hosts that will participate in this SSH session. The syntax of the host file is one host per line.</p>
+<h3 id="-h-hostname"><a class="header" href="#-h-hostname">-h hostname</a></h3>
+<p>Specifies a single host name that will participate in this SSH session. You can use the <code>-h</code> option multiple times to specify multiple host names.</p>
+<h3 id="-s"><a class="header" href="#-s">-s</a></h3>
+<p>Optional. If specified, before running any commands on the target host, <code>gpssh</code> sources the file <code>synxdb_path.sh</code> in the directory specified by the <code>$GPHOME</code> environment variable.</p>
+<p>This option is valid for both interactive mode and single command mode.</p>
+<h3 id="-t-multiplier"><a class="header" href="#-t-multiplier">-t multiplier</a></h3>
+<p>Optional. A decimal number greater than 0 (zero) that is the multiplier for the timeout that <code>gpssh</code> uses when validating the <code>ssh</code> prompt. Default is <code>1</code>. This option overrides the <code>prompt_validation_timeout</code> value that is specified in the <code>gpssh.conf</code> configuration file.</p>
+<p>Increasing this value has a small impact during <code>gpssh</code> startup.</p>
+<h3 id="-v-verbose-mode"><a class="header" href="#-v-verbose-mode">-v (verbose mode)</a></h3>
+<p>Optional. Reports additional messages in addition to the command output when running in non-interactive mode.</p>
+<h3 id="version"><a class="header" href="#version">–version</a></h3>
+<p>Displays the version of this utility.</p>
+<h3 id="--help"><a class="header" href="#--help">-? (help)</a></h3>
+<p>Displays the online help.</p>
 <h2 id="gpssh-configuration-file"><a class="header" href="#gpssh-configuration-file"><a id="section6"></a>gpssh Configuration File</a></h2>
 <p>The <code>gpssh.conf</code> file contains parameters that let you adjust the timing that <code>gpssh</code> uses when validating the initial <code>ssh</code> connection. These parameters affect the network connection before the <code>gpssh</code> session runs commands with <code>ssh</code>. The location of the file is specified by the environment variable <code>MASTER_DATA_DIRECTORY</code>. If the environment variable is not defined or the <code>gpssh.conf</code> file does not exist, <code>gpssh</code> uses the default values or the values set with the <code>-d</code> and <code>-t</code> options. For information about the environment variable, see the <em>SynxDB Reference Guide</em>.</p>
 <p>The <code>gpssh.conf</code> file is a text file that consists of a <code>[gpssh]</code> section and parameters. On a line, the <code>#</code> (pound sign) indicates the start of a comment. This is an example <code>gpssh.conf</code> file.</p>
@@ -208,13 +208,13 @@ sync_retries = 5
 </code></pre>
 <p>These are the <code>gpssh.conf</code> parameters.</p>
 <p>delaybeforesend = seconds
-:   Specifies the time, in seconds, to wait at the start of a <code>gpssh</code> interaction with <code>ssh</code>. Default is 0.05. Increasing this value can cause a long wait time during <code>gpssh</code> startup. The <code>-d</code> option overrides this parameter.</p>
+Specifies the time, in seconds, to wait at the start of a <code>gpssh</code> interaction with <code>ssh</code>. Default is 0.05. Increasing this value can cause a long wait time during <code>gpssh</code> startup. The <code>-d</code> option overrides this parameter.</p>
 <p>prompt_validation_timeout = multiplier
-:   A decimal number greater than 0 (zero) that is the multiplier for the timeout that <code>gpssh</code> uses when validating the <code>ssh</code> prompt. Increasing this value has a small impact during <code>gpssh</code> startup. Default is <code>1</code>. The <code>-t</code> option overrides this parameter.</p>
+A decimal number greater than 0 (zero) that is the multiplier for the timeout that <code>gpssh</code> uses when validating the <code>ssh</code> prompt. Increasing this value has a small impact during <code>gpssh</code> startup. Default is <code>1</code>. The <code>-t</code> option overrides this parameter.</p>
 <p>sync_retries = attempts
-:   A non-negative integer that specifies the maximum number of times that <code>gpssh</code> attempts to connect to a remote SynxDB host. The default is 3. If the value is 0, <code>gpssh</code> returns an error if the initial connection attempt fails. Increasing the number of attempts also increases the time between retry attempts. This parameter cannot be configured with a command-line option.</p>
-<p>:   The <code>-t</code> option also affects the time between retry attempts.</p>
-<p>:   Increasing this value can compensate for slow network performance or segment host performance issues such as heavy CPU or I/O load. However, when a connection cannot be established, an increased value also increases the delay when an error is returned.</p>
+A non-negative integer that specifies the maximum number of times that <code>gpssh</code> attempts to connect to a remote SynxDB host. The default is 3. If the value is 0, <code>gpssh</code> returns an error if the initial connection attempt fails. Increasing the number of attempts also increases the time between retry attempts. This parameter cannot be configured with a command-line option.</p>
+<p>The <code>-t</code> option also affects the time between retry attempts.</p>
+<p>Increasing this value can compensate for slow network performance or segment host performance issues such as heavy CPU or I/O load. However, when a connection cannot be established, an increased value also increases the delay when an error is returned.</p>
 <h2 id="examples"><a class="header" href="#examples"><a id="section5"></a>Examples</a></h2>
 <p>Start an interactive group SSH session with all hosts listed in the file <code>hostfile_gpssh</code>:</p>
 <pre><code>$ gpssh -f hostfile_gpssh

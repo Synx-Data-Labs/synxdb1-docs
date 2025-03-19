@@ -189,92 +189,63 @@ ALTER ROLE &lt;name&gt; RESOURCE GROUP {&lt;group_name&gt; | NONE}
 </code></pre>
 <h2 id="description"><a class="header" href="#description"><a id="section3"></a>Description</a></h2>
 <p><code>ALTER ROLE</code> changes the attributes of a SynxDB role. There are several variants of this command.</p>
-<p><strong>WITH option</strong>
-:   Changes many of the role attributes that can be specified in <a href="CREATE_ROLE.html">CREATE ROLE</a>. (All of the possible attributes are covered, execept that there are no options for adding or removing memberships; use <a href="GRANT.html">GRANT</a> and <a href="REVOKE.html">REVOKE</a> for that.) Attributes not mentioned in the command retain their previous settings. Database superusers can change any of these settings for any role. Roles having <code>CREATEROLE</code> privilege can change any of these settings, but only for non-superuser and non-replication roles. Ordinary roles can only change their own password.</p>
-<p><strong>RENAME</strong>
-:   Changes the name of the role. Database superusers can rename any role. Roles having <code>CREATEROLE</code> privilege can rename non-superuser roles. The current session user cannot be renamed (connect as a different user to rename a role). Because MD5-encrypted passwords use the role name as cryptographic salt, renaming a role clears its password if the password is MD5-encrypted.</p>
-<p><strong>SET | RESET</strong>
-:   Changes a role’s session default for a specified configuration parameter, either for all databases or, when the <code>IN DATABASE</code> clause is specified, only for sessions in the named database. If <code>ALL</code> is specified instead of a role name, this changes the setting for all roles. Using <code>ALL</code> with <code>IN DATABASE</code> is effectively the same as using the command <code>ALTER DATABASE...SET...</code>.</p>
-<pre><code>Whenever the role subsequently starts a new session, the specified value becomes the session default, overriding whatever setting is present in the server configuration file \(`postgresql.conf`\) or has been received from the `postgres` command line. This only happens at login time; running [SET ROLE](SET_ROLE.html) or [SET SESSION AUTHORIZATION](SET_SESSION_AUTHORIZATION.html) does not cause new configuration values to be set.
-
-Database-specific settings attached to a role override settings for all databases. Settings for specific databases or specific roles override settings for all roles.
-
-For a role without `LOGIN` privilege, session defaults have no effect. Ordinary roles can change their own session defaults. Superusers can change anyone's session defaults. Roles having `CREATEROLE` privilege can change defaults for non-superuser roles. Ordinary roles can only set defaults for themselves. Certain configuration variables cannot be set this way, or can only be set if a superuser issues the command. See the *SynxDB Reference Guide* for information about all user-settable configuration parameters. Only superusers can change a setting for all roles in all databases.
-</code></pre>
-<p><strong>RESOURCE QUEUE</strong>
-:   Assigns the role to a resource queue. The role would then be subject to the limits assigned to the resource queue when issuing queries. Specify <code>NONE</code> to assign the role to the default resource queue. A role can only belong to one resource queue. For a role without <code>LOGIN</code> privilege, resource queues have no effect. See <a href="CREATE_RESOURCE_QUEUE.html">CREATE RESOURCE QUEUE</a> for more information.</p>
-<p><strong>RESOURCE GROUP</strong>
-:   Assigns a resource group to the role. The role would then be subject to the concurrent transaction, memory, and CPU limits configured for the resource group. You can assign a single resource group to one or more roles. You cannot assign a resource group that you create for an external component to a role. See <a href="CREATE_RESOURCE_GROUP.html">CREATE RESOURCE GROUP</a> for additional information.</p>
+<h3 id="with-option"><a class="header" href="#with-option"><strong>WITH option</strong></a></h3>
+<p>Changes many of the role attributes that can be specified in <a href="CREATE_ROLE.html">CREATE ROLE</a>. (All of the possible attributes are covered, execept that there are no options for adding or removing memberships; use <a href="GRANT.html">GRANT</a> and <a href="REVOKE.html">REVOKE</a> for that.) Attributes not mentioned in the command retain their previous settings. Database superusers can change any of these settings for any role. Roles having <code>CREATEROLE</code> privilege can change any of these settings, but only for non-superuser and non-replication roles. Ordinary roles can only change their own password.</p>
+<h3 id="rename"><a class="header" href="#rename"><strong>RENAME</strong></a></h3>
+<p>Changes the name of the role. Database superusers can rename any role. Roles having <code>CREATEROLE</code> privilege can rename non-superuser roles. The current session user cannot be renamed (connect as a different user to rename a role). Because MD5-encrypted passwords use the role name as cryptographic salt, renaming a role clears its password if the password is MD5-encrypted.</p>
+<h3 id="set--reset"><a class="header" href="#set--reset"><strong>SET | RESET</strong></a></h3>
+<p>Changes a role’s session default for a specified configuration parameter, either for all databases or, when the <code>IN DATABASE</code> clause is specified, only for sessions in the named database. If <code>ALL</code> is specified instead of a role name, this changes the setting for all roles. Using <code>ALL</code> with <code>IN DATABASE</code> is effectively the same as using the command <code>ALTER DATABASE...SET...</code>.</p>
+<p>Whenever the role subsequently starts a new session, the specified value becomes the session default, overriding whatever setting is present in the server configuration file (<code>postgresql.conf</code>) or has been received from the <code>postgres</code> command line. This only happens at login time; running <a href="SET_ROLE.html">SET ROLE</a> or <a href="SET_SESSION_AUTHORIZATION.html">SET SESSION AUTHORIZATION</a> does not cause new configuration values to be set.</p>
+<p>Database-specific settings attached to a role override settings for all databases. Settings for specific databases or specific roles override settings for all roles.</p>
+<p>For a role without <code>LOGIN</code> privilege, session defaults have no effect. Ordinary roles can change their own session defaults. Superusers can change anyone’s session defaults. Roles having <code>CREATEROLE</code> privilege can change defaults for non-superuser roles. Ordinary roles can only set defaults for themselves. Certain configuration variables cannot be set this way, or can only be set if a superuser issues the command. See the <em>SynxDB Reference Guide</em> for information about all user-settable configuration parameters. Only superusers can change a setting for all roles in all databases.</p>
+<h3 id="resource-queue"><a class="header" href="#resource-queue"><strong>RESOURCE QUEUE</strong></a></h3>
+<p>Assigns the role to a resource queue. The role would then be subject to the limits assigned to the resource queue when issuing queries. Specify <code>NONE</code> to assign the role to the default resource queue. A role can only belong to one resource queue. For a role without <code>LOGIN</code> privilege, resource queues have no effect. See <a href="CREATE_RESOURCE_QUEUE.html">CREATE RESOURCE QUEUE</a> for more information.</p>
+<h3 id="resource-group"><a class="header" href="#resource-group"><strong>RESOURCE GROUP</strong></a></h3>
+<p>Assigns a resource group to the role. The role would then be subject to the concurrent transaction, memory, and CPU limits configured for the resource group. You can assign a single resource group to one or more roles. You cannot assign a resource group that you create for an external component to a role. See <a href="CREATE_RESOURCE_GROUP.html">CREATE RESOURCE GROUP</a> for additional information.</p>
 <h2 id="parameters"><a class="header" href="#parameters"><a id="section4"></a>Parameters</a></h2>
-<p>name
-:   The name of the role whose attributes are to be altered.</p>
-<p>new_name
-:   The new name of the role.</p>
-<p>database_name
-:   The name of the database in which to set the configuration parameter.</p>
-<p>config_parameter=value
-:   Set this role’s session default for the specified configuration parameter to the given value. If value is <code>DEFAULT</code> or if <code>RESET</code> is used, the role-specific parameter setting is removed, so the role will inherit the system-wide default setting in new sessions. Use <code>RESET ALL</code> to clear all role-specific settings. <code>SET FROM CURRENT</code> saves the session’s current value of the parameter as the role-specific value. If <code>IN DATABASE</code> is specified, the configuration parameter is set or removed for the given role and database only. Whenever the role subsequently starts a new session, the specified value becomes the session default, overriding whatever setting is present in <code>postgresql.conf</code> or has been received from the <code>postgres</code> command line.</p>
-<p>:   Role-specific variable settings take effect only at login; <code>SET ROLE</code> and <a href="SET_SESSION_AUTHORIZATION.html">SET SESSION AUTHORIZATION</a> do not process role-specific variable settings.</p>
-<p>:   See <a href="../config_params/guc_config.html">Server Configuration Parameters</a> for information about user-settable configuration parameters.</p>
-<p>group_name
-:   The name of the resource group to assign to this role. Specifying the group_name <code>NONE</code> removes the role’s current resource group assignment and assigns a default resource group based on the role’s capability. <code>SUPERUSER</code> roles are assigned the <code>admin_group</code> resource group, while the <code>default_group</code> resource group is assigned to non-admin roles.</p>
-<p>:   You cannot assign a resource group that you create for an external component to a role.</p>
-<p>queue_name
-:   The name of the resource queue to which the user-level role is to be assigned. Only roles with <code>LOGIN</code> privilege can be assigned to a resource queue. To unassign a role from a resource queue and put it in the default resource queue, specify <code>NONE</code>. A role can only belong to one resource queue.</p>
-<p>SUPERUSER | NOSUPERUSER
-CREATEDB | NOCREATEDB
-CREATEROLE | NOCREATEROLE
-CREATEUSER | NOCREATEUSER
-:   <code>CREATEUSER</code> and <code>NOCREATEUSER</code> are obsolete, but still accepted, spellings of <code>SUPERUSER</code> and <code>NOSUPERUSER</code>. Note that they are not equivalent to the <code>CREATEROLE and</code> <code>NOCREATEROLE</code> clauses.</p>
-<p>CREATEEXTTABLE | NOCREATEEXTTABLE [(attribute=‘value’)]
-:   If <code>CREATEEXTTABLE</code> is specified, the role being defined is allowed to create external tables. The default <code>type</code> is <code>readable</code> and the default <code>protocol</code> is <code>gpfdist</code> if not specified. <code>NOCREATEEXTTABLE</code> (the default) denies the role the ability to create external tables. Note that external tables that use the <code>file</code> or <code>execute</code> protocols can only be created by superusers.</p>
-<p>INHERIT | NOINHERIT
-LOGIN | NOLOGIN
-REPLICATION
-NOREPLICATION
-CONNECTION LIMIT connlimit
-PASSWORD password
-ENCRYPTED | UNENCRYPTED
-VALID UNTIL ‘timestamp’
-:   These clauses alter role attributes originally set by <a href="CREATE_ROLE.html">CREATE ROLE</a>.</p>
-<p>DENY deny_point
-DENY BETWEEN deny_point AND deny_point
-:   The <code>DENY</code> and <code>DENY BETWEEN</code> keywords set time-based constraints that are enforced at login. <code>DENY</code> sets a day or a day and time to deny access. <code>DENY BETWEEN</code> sets an interval during which access is denied. Both use the parameter deny_point that has following format:</p>
-<pre><code>```
-DAY day [ TIME 'time' ]
-```
+<h3 id="name"><a class="header" href="#name">name</a></h3>
+<p>The name of the role whose attributes are to be altered.</p>
+<h3 id="new_name"><a class="header" href="#new_name">new_name</a></h3>
+<p>The new name of the role.</p>
+<h3 id="database_name"><a class="header" href="#database_name">database_name</a></h3>
+<p>The name of the database in which to set the configuration parameter.</p>
+<h3 id="config_parametervalue"><a class="header" href="#config_parametervalue">config_parameter=value</a></h3>
+<p>Set this role’s session default for the specified configuration parameter to the given value. If value is <code>DEFAULT</code> or if <code>RESET</code> is used, the role-specific parameter setting is removed, so the role will inherit the system-wide default setting in new sessions. Use <code>RESET ALL</code> to clear all role-specific settings. <code>SET FROM CURRENT</code> saves the session’s current value of the parameter as the role-specific value. If <code>IN DATABASE</code> is specified, the configuration parameter is set or removed for the given role and database only. Whenever the role subsequently starts a new session, the specified value becomes the session default, overriding whatever setting is present in <code>postgresql.conf</code> or has been received from the <code>postgres</code> command line.</p>
+<p>Role-specific variable settings take effect only at login; <code>SET ROLE</code> and <a href="SET_SESSION_AUTHORIZATION.html">SET SESSION AUTHORIZATION</a> do not process role-specific variable settings.</p>
+<p>See <a href="../config_params/guc_config.html">Server Configuration Parameters</a> for information about user-settable configuration parameters.</p>
+<h3 id="group_name"><a class="header" href="#group_name">group_name</a></h3>
+<p>The name of the resource group to assign to this role. Specifying the group_name <code>NONE</code> removes the role’s current resource group assignment and assigns a default resource group based on the role’s capability. <code>SUPERUSER</code> roles are assigned the <code>admin_group</code> resource group, while the <code>default_group</code> resource group is assigned to non-admin roles.</p>
+<p>You cannot assign a resource group that you create for an external component to a role.</p>
+<h3 id="queue_name"><a class="header" href="#queue_name">queue_name</a></h3>
+<p>The name of the resource queue to which the user-level role is to be assigned. Only roles with <code>LOGIN</code> privilege can be assigned to a resource queue. To unassign a role from a resource queue and put it in the default resource queue, specify <code>NONE</code>. A role can only belong to one resource queue.</p>
+<h3 id="superuser--nosuperusercreatedb--nocreatedbcreaterole--nocreaterolecreateuser--nocreateuser"><a class="header" href="#superuser--nosuperusercreatedb--nocreatedbcreaterole--nocreaterolecreateuser--nocreateuser">SUPERUSER | NOSUPERUSER<br/>CREATEDB | NOCREATEDB<br/>CREATEROLE | NOCREATEROLE<br/>CREATEUSER | NOCREATEUSER</a></h3>
+<p><code>CREATEUSER</code> and <code>NOCREATEUSER</code> are obsolete, but still accepted, spellings of <code>SUPERUSER</code> and <code>NOSUPERUSER</code>. Note that they are not equivalent to the <code>CREATEROLE and</code> <code>NOCREATEROLE</code> clauses.</p>
+<h3 id="createexttable--nocreateexttable-attributevalue"><a class="header" href="#createexttable--nocreateexttable-attributevalue">CREATEEXTTABLE | NOCREATEEXTTABLE [(attribute=‘value’)]</a></h3>
+<p>If <code>CREATEEXTTABLE</code> is specified, the role being defined is allowed to create external tables. The default <code>type</code> is <code>readable</code> and the default <code>protocol</code> is <code>gpfdist</code> if not specified. <code>NOCREATEEXTTABLE</code> (the default) denies the role the ability to create external tables. Note that external tables that use the <code>file</code> or <code>execute</code> protocols can only be created by superusers.</p>
+<h3 id="inherit--noinheritlogin--nologinreplicationnoreplicationconnection-limit-connlimitpassword-passwordencrypted--unencryptedvalid-until-timestamp"><a class="header" href="#inherit--noinheritlogin--nologinreplicationnoreplicationconnection-limit-connlimitpassword-passwordencrypted--unencryptedvalid-until-timestamp">INHERIT | NOINHERIT<br/>LOGIN | NOLOGIN<br/>REPLICATION<br/>NOREPLICATION<br/>CONNECTION LIMIT connlimit<br/>PASSWORD password<br/>ENCRYPTED | UNENCRYPTED<br/>VALID UNTIL ‘timestamp’</a></h3>
+<p>These clauses alter role attributes originally set by <a href="CREATE_ROLE.html">CREATE ROLE</a>.</p>
+<h3 id="deny-deny_pointdeny-between-deny_point-and-deny_point"><a class="header" href="#deny-deny_pointdeny-between-deny_point-and-deny_point">DENY deny_point<br/>DENY BETWEEN deny_point AND deny_point</a></h3>
+<p>The <code>DENY</code> and <code>DENY BETWEEN</code> keywords set time-based constraints that are enforced at login. <code>DENY</code> sets a day or a day and time to deny access. <code>DENY BETWEEN</code> sets an interval during which access is denied. Both use the parameter deny_point that has following format:</p>
+<pre><code>DAY day [ TIME 'time' ]
 </code></pre>
-<p>:   The two parts of the <code>deny_point</code> parameter use the following formats:</p>
-<pre><code>For day:
-
-```
-{'Sunday' | 'Monday' | 'Tuesday' |'Wednesday' | 'Thursday' | 'Friday' | 
+<p>The two parts of the <code>deny_point</code> parameter use the following formats:</p>
+<p>For day:</p>
+<pre><code>{'Sunday' | 'Monday' | 'Tuesday' |'Wednesday' | 'Thursday' | 'Friday' | 
 'Saturday' | 0-6 }
-```
-
-For `time:`
-
-```
-{ 00-23 : 00-59 | 01-12 : 00-59 { AM | PM }}
-```
-
-The `DENY BETWEEN` clause uses two deny\_point parameters which must indicate day and time.
-
-```
-DENY BETWEEN &lt;deny_point&gt; AND &lt;deny_point&gt;
-```
-
-For example:
-
-```
-ALTER USER user1 DENY BETWEEN day 'Sunday' time '00:00' AND day 'Monday' time '00:00'; 
-```
-
-For more information about time-based constraints and examples, see "Managing Roles and Privileges" in the *SynxDB Administrator Guide*.
 </code></pre>
-<p>DROP DENY FOR deny_point
-:   The <code>DROP DENY FOR</code> clause removes a time-based constraint from the role. It uses the deny_point parameter described above.</p>
-<p>:   For more information about time-based constraints and examples, see “Managing Roles and Privileges” in the <em>SynxDB Administrator Guide</em>.</p>
+<p>For <code>time:</code></p>
+<pre><code>{ 00-23 : 00-59 | 01-12 : 00-59 { AM | PM }}
+</code></pre>
+<p>The <code>DENY BETWEEN</code> clause uses two deny_point parameters which must indicate day and time.</p>
+<pre><code>DENY BETWEEN &lt;deny_point&gt; AND &lt;deny_point&gt;
+</code></pre>
+<p>For example:</p>
+<pre><code>ALTER USER user1 DENY BETWEEN day 'Sunday' time '00:00' AND day 'Monday' time '00:00'; 
+</code></pre>
+<p>For more information about time-based constraints and examples, see “Managing Roles and Privileges” in the <em>SynxDB Administrator Guide</em>.</p>
+<h3 id="drop-deny-for-deny_point"><a class="header" href="#drop-deny-for-deny_point">DROP DENY FOR deny_point</a></h3>
+<p>The <code>DROP DENY FOR</code> clause removes a time-based constraint from the role. It uses the deny_point parameter described above.</p>
+<p>For more information about time-based constraints and examples, see “Managing Roles and Privileges” in the <em>SynxDB Administrator Guide</em>.</p>
 <h2 id="notes"><a class="header" href="#notes"><a id="section5"></a>Notes</a></h2>
 <p>Use <a href="CREATE_ROLE.html">CREATE ROLE</a> to add new roles, and <a href="DROP_ROLE.html">DROP ROLE</a> to remove a role.</p>
 <p>Use <a href="GRANT.html">GRANT</a> and <a href="REVOKE.html">REVOKE</a> for adding and removing role memberships.</p>

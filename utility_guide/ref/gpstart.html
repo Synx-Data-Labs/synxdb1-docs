@@ -193,37 +193,37 @@ Continue only if you are certain that the standby is not acting as the master.
 </ul>
 <p>If the standby master is not accessible, you can start the system and troubleshoot standby master issues while the system is available.</p>
 <h2 id="options"><a class="header" href="#options"><a id="section4"></a>Options</a></h2>
-<p>-a
-:   Do not prompt the user for confirmation. Deactivates interactive mode.</p>
-<p>-B parallel_processes
-:   The number of segments to start in parallel. If not specified, the utility will start up to 64 parallel processes depending on how many segment instances it needs to start.</p>
-<p>-d master_data_directory
-:   Optional. The master host data directory. If not specified, the value set for <code>$MASTER_DATA_DIRECTORY</code> will be used.</p>
-<p>-l logfile_directory
-:   The directory to write the log file. Defaults to <code>~/gpAdminLogs</code>.</p>
-<p>-m
-:   Optional. Starts the master instance only, which may be useful for maintenance tasks. This mode only allows connections to the master in utility mode. For example:</p>
-<p>:   <code>PGOPTIONS='-c gp_session_role=utility' psql</code></p>
-<p>:   The consistency of the heap checksum setting on master and segment instances is not checked.</p>
-<p>-q
-:   Run in quiet mode. Command output is not displayed on the screen, but is still written to the log file.</p>
-<p>-R
-:   Starts SynxDB in restricted mode (only database superusers are allowed to connect).</p>
-<p>–skip-heap-checksum-validation
-:   During startup, the utility does not validate the consistency of the heap checksum setting among the SynxDB master and segment instances. The default is to ensure that the heap checksum setting is the same on all instances, either enabled or deactivated.</p>
+<h3 id="-a"><a class="header" href="#-a">-a</a></h3>
+<p>Do not prompt the user for confirmation. Deactivates interactive mode.</p>
+<h3 id="-b-parallel_processes"><a class="header" href="#-b-parallel_processes">-B parallel_processes</a></h3>
+<p>The number of segments to start in parallel. If not specified, the utility will start up to 64 parallel processes depending on how many segment instances it needs to start.</p>
+<h3 id="-d-master_data_directory"><a class="header" href="#-d-master_data_directory">-d master_data_directory</a></h3>
+<p>Optional. The master host data directory. If not specified, the value set for <code>$MASTER_DATA_DIRECTORY</code> will be used.</p>
+<h3 id="-l-logfile_directory"><a class="header" href="#-l-logfile_directory">-l logfile_directory</a></h3>
+<p>The directory to write the log file. Defaults to <code>~/gpAdminLogs</code>.</p>
+<h3 id="-m"><a class="header" href="#-m">-m</a></h3>
+<p>Optional. Starts the master instance only, which may be useful for maintenance tasks. This mode only allows connections to the master in utility mode. For example:</p>
+<p><code>PGOPTIONS='-c gp_session_role=utility' psql</code></p>
+<p>The consistency of the heap checksum setting on master and segment instances is not checked.</p>
+<h3 id="-q"><a class="header" href="#-q">-q</a></h3>
+<p>Run in quiet mode. Command output is not displayed on the screen, but is still written to the log file.</p>
+<h3 id="-r"><a class="header" href="#-r">-R</a></h3>
+<p>Starts SynxDB in restricted mode (only database superusers are allowed to connect).</p>
+<h3 id="skip-heap-checksum-validation"><a class="header" href="#skip-heap-checksum-validation">–skip-heap-checksum-validation</a></h3>
+<p>During startup, the utility does not validate the consistency of the heap checksum setting among the SynxDB master and segment instances. The default is to ensure that the heap checksum setting is the same on all instances, either enabled or deactivated.</p>
 <blockquote>
 <p><strong>Caution</strong> Starting SynxDB without this validation could lead to data loss. Use this option to start SynxDB only when it is necessary to ignore the heap checksum verification errors to recover data or to troubleshoot the errors.</p>
 </blockquote>
-<p>-t timeout_seconds
-:   Specifies a timeout in seconds to wait for a segment instance to start up. If a segment instance was shutdown abnormally (due to power failure or killing its <code>postgres</code> database listener process, for example), it may take longer to start up due to the database recovery and validation process. If not specified, the default timeout is 600 seconds.</p>
-<p>-v
-:   Displays detailed status, progress and error messages output by the utility.</p>
-<p>-y
-:   Optional. Do not start the standby master host. The default is to start the standby master host and synchronization process.</p>
-<p>-? | -h | –help
-:   Displays the online help.</p>
-<p>–version
-:   Displays the version of this utility.</p>
+<h3 id="-t-timeout_seconds"><a class="header" href="#-t-timeout_seconds">-t timeout_seconds</a></h3>
+<p>Specifies a timeout in seconds to wait for a segment instance to start up. If a segment instance was shutdown abnormally (due to power failure or killing its <code>postgres</code> database listener process, for example), it may take longer to start up due to the database recovery and validation process. If not specified, the default timeout is 600 seconds.</p>
+<h3 id="-v"><a class="header" href="#-v">-v</a></h3>
+<p>Displays detailed status, progress and error messages output by the utility.</p>
+<h3 id="-y"><a class="header" href="#-y">-y</a></h3>
+<p>Optional. Do not start the standby master host. The default is to start the standby master host and synchronization process.</p>
+<h3 id="----h--help"><a class="header" href="#----h--help">-? | -h | –help</a></h3>
+<p>Displays the online help.</p>
+<h3 id="version"><a class="header" href="#version">–version</a></h3>
+<p>Displays the version of this utility.</p>
 <h2 id="examples"><a class="header" href="#examples"><a id="section5"></a>Examples</a></h2>
 <p>Start a SynxDB system:</p>
 <pre><code>gpstart

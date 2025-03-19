@@ -187,29 +187,29 @@ gpmapreduce -h | --help
 <p><a href="https://en.wikipedia.org/wiki/MapReduce">MapReduce</a> is a programming model developed by Google for processing and generating large data sets on an array of commodity servers. SynxDB MapReduce allows programmers who are familiar with the MapReduce paradigm to write map and reduce functions and submit them to the SynxDB parallel engine for processing.</p>
 <p><code>gpmapreduce</code> is the SynxDB MapReduce program. You configure a SynxDB MapReduce job via a YAML-formatted configuration file that you pass to the program for execution by the SynxDB parallel engine. The SynxDB system distributes the input data, runs the program across a set of machines, handles machine failures, and manages the required inter-machine communication.</p>
 <h2 id="options"><a class="header" href="#options"><a id="section5"></a>Options</a></h2>
-<p>-f config.yaml
-:   Required. The YAML file that contains the SynxDB MapReduce job definitions. Refer to <a href="gpmapreduce-yaml.html">gpmapreduce.yaml</a> for the format and content of the parameters that you specify in this file.</p>
-<p>-? | –help
-:   Show help, then exit.</p>
-<p>-V | –version
-:   Show version information, then exit.</p>
-<p>-v | –verbose
-:   Show verbose output.</p>
-<p>-x | –explain
-:   Do not run MapReduce jobs, but produce explain plans.</p>
-<p>-X | –explain-analyze
-:   Run MapReduce jobs and produce explain-analyze plans.</p>
-<p>-k | –keyname=value
-:   Sets a YAML variable. A value is required. Defaults to “key” if no variable name is specified.</p>
+<h3 id="-f-configyaml"><a class="header" href="#-f-configyaml">-f config.yaml</a></h3>
+<p>Required. The YAML file that contains the SynxDB MapReduce job definitions. Refer to <a href="gpmapreduce-yaml.html">gpmapreduce.yaml</a> for the format and content of the parameters that you specify in this file.</p>
+<h3 id="---help"><a class="header" href="#---help">-? | –help</a></h3>
+<p>Show help, then exit.</p>
+<h3 id="-v--version"><a class="header" href="#-v--version">-V | –version</a></h3>
+<p>Show version information, then exit.</p>
+<h3 id="-v--verbose"><a class="header" href="#-v--verbose">-v | –verbose</a></h3>
+<p>Show verbose output.</p>
+<h3 id="-x--explain"><a class="header" href="#-x--explain">-x | –explain</a></h3>
+<p>Do not run MapReduce jobs, but produce explain plans.</p>
+<h3 id="-x--explain-analyze"><a class="header" href="#-x--explain-analyze">-X | –explain-analyze</a></h3>
+<p>Run MapReduce jobs and produce explain-analyze plans.</p>
+<h3 id="-k--keynamevalue"><a class="header" href="#-k--keynamevalue">-k | –keyname=value</a></h3>
+<p>Sets a YAML variable. A value is required. Defaults to “key” if no variable name is specified.</p>
 <p><strong>Connection Options</strong></p>
-<p>-h host | –host host
-:   Specifies the host name of the machine on which the SynxDB master database server is running. If not specified, reads from the environment variable <code>PGHOST</code> or defaults to localhost.</p>
-<p>-p port | –port port
-:   Specifies the TCP port on which the SynxDB master database server is listening for connections. If not specified, reads from the environment variable <code>PGPORT</code> or defaults to 5432.</p>
-<p>-U username | –username username
-:   The database role name to connect as. If not specified, reads from the environment variable <code>PGUSER</code> or defaults to the current system user name.</p>
-<p>-W | –password
-:   Force a password prompt.</p>
+<h3 id="-h-host--host-host"><a class="header" href="#-h-host--host-host">-h host | –host host</a></h3>
+<p>Specifies the host name of the machine on which the SynxDB master database server is running. If not specified, reads from the environment variable <code>PGHOST</code> or defaults to localhost.</p>
+<h3 id="-p-port--port-port"><a class="header" href="#-p-port--port-port">-p port | –port port</a></h3>
+<p>Specifies the TCP port on which the SynxDB master database server is listening for connections. If not specified, reads from the environment variable <code>PGPORT</code> or defaults to 5432.</p>
+<h3 id="-u-username--username-username"><a class="header" href="#-u-username--username-username">-U username | –username username</a></h3>
+<p>The database role name to connect as. If not specified, reads from the environment variable <code>PGUSER</code> or defaults to the current system user name.</p>
+<h3 id="-w--password"><a class="header" href="#-w--password">-W | –password</a></h3>
+<p>Force a password prompt.</p>
 <h2 id="examples"><a class="header" href="#examples"><a id="section7"></a>Examples</a></h2>
 <p>Run a MapReduce job as defined in <code>my_mrjob.yaml</code> and connect to the database <code>mydatabase</code>:</p>
 <pre><code>gpmapreduce -f my_mrjob.yaml mydatabase

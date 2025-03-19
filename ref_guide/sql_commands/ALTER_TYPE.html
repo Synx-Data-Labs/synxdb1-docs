@@ -221,31 +221,32 @@ where &lt;action&gt; is one of:
 <p><code>ALTER TYPE ... ADD VALUE</code> (the form that adds a new value to an enum type) cannot be run inside a transaction block.</p>
 <p>Comparisons involving an added enum value will sometimes be slower than comparisons involving only original members of the enum type. This will usually only occur if <code>BEFORE</code> or <code>AFTER</code> is used to set the new value’s sort position somewhere other than at the end of the list. However, sometimes it will happen even though the new value is added at the end (this occurs if the OID counter “wrapped around” since the original creation of the enum type). The slowdown is usually insignificant; but if it matters, optimal performance can be regained by dropping and recreating the enum type, or by dumping and reloading the database.</p>
 <h2 id="parameters"><a class="header" href="#parameters"><a id="section4"></a>Parameters</a></h2>
-<p>name
-:   The name (optionally schema-qualified) of an existing type to alter.</p>
-<p>new_name
-:   The new name for the type.</p>
-<p>new_owner
-:   The user name of the new owner of the type.</p>
-<p>new_schema
-:   The new schema for the type.</p>
-<p>attribute_name
-:   The name of the attribute to add, alter, or drop.</p>
-<p>new_attribute_name
-:   The new name of the attribute to be renamed.</p>
-<p>data_type
-:   The data type of the attribute to add, or the new type of the attribute to alter.</p>
-<p>new_enum_value
-:   The new value to be added to an enum type’s list of values. Like all enum literals, it needs to be quoted.</p>
-<p>existing_enum_value
-:   The existing enum value that the new value should be added immediately before or after in the enum type’s sort ordering. Like all enum literals, it needs to be quoted.</p>
-<p>storage_directive
-:   Identifies default storage options for the type when specified in a table column definition. Options include <code>COMPRESSTYPE</code>, <code>COMPRESSLEVEL</code>, and <code>BLOCKSIZE</code>.</p>
-<p>:   <strong>COMPRESSTYPE</strong> — Set to <code>ZLIB</code> (the default), <code>ZSTD</code>, or <code>RLE_TYPE</code> to specify the type of compression used.</p>
-<p>:   <strong>COMPRESSLEVEL</strong> — For Zstd compression, set to an integer value from 1 (fastest compression) to 19 (highest compression ratio). For zlib compression, the valid range is from 1 to 9. The default compression level is 1.</p>
-<p>:   <strong>BLOCKSIZE</strong> — Set to the size, in bytes, for each block in the column. The <code>BLOCKSIZE</code> must be between 8192 and 2097152 bytes, and be a multiple of 8192. The default block size is 32768.</p>
-<pre><code>&gt; **Note** storage\_directives defined at the table- or column-level override the default storage options defined for a type.
-</code></pre>
+<h3 id="name"><a class="header" href="#name">name</a></h3>
+<p>The name (optionally schema-qualified) of an existing type to alter.</p>
+<h3 id="new_name"><a class="header" href="#new_name">new_name</a></h3>
+<p>The new name for the type.</p>
+<h3 id="new_owner"><a class="header" href="#new_owner">new_owner</a></h3>
+<p>The user name of the new owner of the type.</p>
+<h3 id="new_schema"><a class="header" href="#new_schema">new_schema</a></h3>
+<p>The new schema for the type.</p>
+<h3 id="attribute_name"><a class="header" href="#attribute_name">attribute_name</a></h3>
+<p>The name of the attribute to add, alter, or drop.</p>
+<h3 id="new_attribute_name"><a class="header" href="#new_attribute_name">new_attribute_name</a></h3>
+<p>The new name of the attribute to be renamed.</p>
+<h3 id="data_type"><a class="header" href="#data_type">data_type</a></h3>
+<p>The data type of the attribute to add, or the new type of the attribute to alter.</p>
+<h3 id="new_enum_value"><a class="header" href="#new_enum_value">new_enum_value</a></h3>
+<p>The new value to be added to an enum type’s list of values. Like all enum literals, it needs to be quoted.</p>
+<h3 id="existing_enum_value"><a class="header" href="#existing_enum_value">existing_enum_value</a></h3>
+<p>The existing enum value that the new value should be added immediately before or after in the enum type’s sort ordering. Like all enum literals, it needs to be quoted.</p>
+<h3 id="storage_directive"><a class="header" href="#storage_directive">storage_directive</a></h3>
+<p>Identifies default storage options for the type when specified in a table column definition. Options include <code>COMPRESSTYPE</code>, <code>COMPRESSLEVEL</code>, and <code>BLOCKSIZE</code>.</p>
+<p><strong>COMPRESSTYPE</strong> — Set to <code>ZLIB</code> (the default), <code>ZSTD</code>, or <code>RLE_TYPE</code> to specify the type of compression used.</p>
+<p><strong>COMPRESSLEVEL</strong> — For Zstd compression, set to an integer value from 1 (fastest compression) to 19 (highest compression ratio). For zlib compression, the valid range is from 1 to 9. The default compression level is 1.</p>
+<p><strong>BLOCKSIZE</strong> — Set to the size, in bytes, for each block in the column. The <code>BLOCKSIZE</code> must be between 8192 and 2097152 bytes, and be a multiple of 8192. The default block size is 32768.</p>
+<blockquote>
+<p><strong>Note</strong> storage_directives defined at the table- or column-level override the default storage options defined for a type.</p>
+</blockquote>
 <h2 id="examples"><a class="header" href="#examples"><a id="section5"></a>Examples</a></h2>
 <p>To rename the data type named <code>electronic_mail</code>:</p>
 <pre><code>ALTER TYPE electronic_mail RENAME TO email;

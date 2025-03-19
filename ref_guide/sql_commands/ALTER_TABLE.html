@@ -403,110 +403,132 @@ For append-optimized and hash tables, <code>ADD COLUMN</code> requires a table r
 <p><strong>Note</strong> Memory usage increases significantly when a table has many partitions, if a table has compression, or if the blocksize for a table is large. If the number of relations associated with the table is large, this condition can force an operation on the table to use more memory. For example, if the table is a CO table and has a large number of columns, each column is a relation. An operation like <code>ALTER TABLE ALTER COLUMN</code> opens all the columns in the table allocates associated buffers. If a CO table has 40 columns and 100 partitions, and the columns are compressed and the blocksize is 2 MB (with a system factor of 3), the system attempts to allocate 24 GB, that is (40 ×100) × (2 ×3) MB or 24 GB.</p>
 </blockquote>
 <h2 id="parameters"><a class="header" href="#parameters"><a id="section4"></a>Parameters</a></h2>
-<p>ONLY
-:   Only perform the operation on the table name specified. If the <code>ONLY</code> keyword is not used, the operation will be performed on the named table and any child table partitions associated with that table.</p>
-<pre><code>&gt; **Note** Adding or dropping a column, or changing a column's type, in a parent or descendant table only is not permitted. The parent table and its descendents must always have the same columns and types.
-</code></pre>
-<p>name
-:   The name (possibly schema-qualified) of an existing table to alter. If <code>ONLY</code> is specified, only that table is altered. If <code>ONLY</code> is not specified, the table and all its descendant tables (if any) are updated.</p>
-<pre><code>&gt; **Note** Constraints can only be added to an entire table, not to a partition. Because of that restriction, the name parameter can only contain a table name, not a partition name.
-</code></pre>
-<p>column_name
-:   Name of a new or existing column. Note that SynxDB distribution key columns must be treated with special care. Altering or dropping these columns can change the distribution policy for the table.</p>
-<p>new_column_name
-:   New name for an existing column.</p>
-<p>new_name
-:   New name for the table.</p>
-<p>type
-:   Data type of the new column, or new data type for an existing column. If changing the data type of a SynxDB distribution key column, you are only allowed to change it to a compatible type (for example, <code>text</code> to <code>varchar</code> is OK, but <code>text</code> to <code>int</code> is not).</p>
-<p>table_constraint
-:   New table constraint for the table. Note that foreign key constraints are currently not supported in SynxDB. Also a table is only allowed one unique constraint and the uniqueness must be within the SynxDB distribution key.</p>
-<p>constraint_name
-:   Name of an existing constraint to drop.</p>
-<p>CASCADE
-:   Automatically drop objects that depend on the dropped column or constraint (for example, views referencing the column).</p>
-<p>RESTRICT
-:   Refuse to drop the column or constraint if there are any dependent objects. This is the default behavior.</p>
-<p>trigger_name
-:   Name of a single trigger to deactivate or enable. Note that SynxDB does not support triggers.</p>
-<p>ALL
-:   Deactivate or activate all triggers belonging to the table including constraint related triggers. This requires superuser privilege if any of the triggers are internally generated constraint triggers such as those that are used to implement foreign key constraints or deferrable uniqueness and exclusion constraints.</p>
-<p>USER
-:   Deactivate or activate all triggers belonging to the table except for internally generated constraint triggers such as those that are used to implement foreign key constraints or deferrable uniqueness and exclusion constraints.</p>
-<p>index_name
-:   The index name on which the table should be marked for clustering. Note that <code>CLUSTER</code> is not the recommended way to physically reorder a table in SynxDB because it takes so long. It is better to recreate the table with <a href="CREATE_TABLE_AS.html">CREATE TABLE AS</a> and order it by the index column(s).</p>
-<p>FILLFACTOR
-:   Set the fillfactor percentage for a table.</p>
-<p>:   The fillfactor option is valid only for heap tables (<code>appendoptimized=false</code>).</p>
-<p>value
-:   The new value for the <code>FILLFACTOR</code> parameter, which is a percentage between 10 and 100. 100 is the default.</p>
-<p>DISTRIBUTED BY ({column_name [opclass]}) | DISTRIBUTED RANDOMLY | DISTRIBUTED REPLICATED
-:   Specifies the distribution policy for a table. Changing a hash distribution policy causes the table data to be physically redistributed, which can be resource intensive. If you declare the same hash distribution policy or change from hash to random distribution, data will not be redistributed unless you declare <code>SET WITH (REORGANIZE=true)</code>.</p>
-<p>:   Changing to or from a replicated distribution policy causes the table data to be redistributed.</p>
-<p>analyze_hll_non_part_table=true|false
-:   Use <code>analyze_hll_non_part_table=true</code> to force collection of HLL statistics even if the table is not part of a partitioned table. The default is false.</p>
-<p>reorganize=true|false
-:   Use <code>REORGANIZE=true</code> when the hash distribution policy has not changed or when you have changed from a hash to a random distribution, and you want to redistribute the data anyways.</p>
-<p>parent_table
-:   A parent table to associate or de-associate with this table.</p>
-<p>new_owner
-:   The role name of the new owner of the table.</p>
-<p>new_tablespace
-:   The name of the tablespace to which the table will be moved.</p>
-<p>new_schema
-:   The name of the schema to which the table will be moved.</p>
-<p>parent_table_name
-:   When altering a partitioned table, the name of the top-level parent table.</p>
-<p>ALTER [DEFAULT] PARTITION
-:   If altering a partition deeper than the first level of partitions, use <code>ALTER PARTITION</code> clauses to specify which subpartition in the hierarchy you want to alter. For each partition level in the table hierarchy that is above the target partition, specify the partition that is related to the target partition in an <code>ALTER PARTITION</code> clause.</p>
-<p>DROP [DEFAULT] PARTITION
-:   Drops the specified partition. If the partition has subpartitions, the subpartitions are automatically dropped as well.</p>
-<p>TRUNCATE [DEFAULT] PARTITION
-:   Truncates the specified partition. If the partition has subpartitions, the subpartitions are automatically truncated as well.</p>
-<p>RENAME [DEFAULT] PARTITION
-:   Changes the partition name of a partition (not the relation name). Partitioned tables are created using the naming convention: <code>&lt;</code>parentname<code>&gt;_&lt;</code>level<code>&gt;_prt_&lt;</code>partition_name<code>&gt;</code>.</p>
-<p>ADD DEFAULT PARTITION
-:   Adds a default partition to an existing partition design. When data does not match to an existing partition, it is inserted into the default partition. Partition designs that do not have a default partition will reject incoming rows that do not match to an existing partition. Default partitions must be given a name.</p>
-<p>ADD PARTITION
-:   partition_element - Using the existing partition type of the table (range or list), defines the boundaries of new partition you are adding.</p>
-<p>:   name - A name for this new partition.</p>
-<p>:   <strong>VALUES</strong> - For list partitions, defines the value(s) that the partition will contain.</p>
-<p>:   <strong>START</strong> - For range partitions, defines the starting range value for the partition. By default, start values are <code>INCLUSIVE</code>. For example, if you declared a start date of ‘<code>2016-01-01</code>’, then the partition would contain all dates greater than or equal to ‘<code>2016-01-01</code>’. Typically the data type of the <code>START</code> expression is the same type as the partition key column. If that is not the case, then you must explicitly cast to the intended data type.</p>
-<p>:   <strong>END</strong> - For range partitions, defines the ending range value for the partition. By default, end values are <code>EXCLUSIVE</code>. For example, if you declared an end date of ‘<code>2016-02-01</code>’, then the partition would contain all dates less than but not equal to ‘<code>2016-02-01</code>’. Typically the data type of the <code>END</code> expression is the same type as the partition key column. If that is not the case, then you must explicitly cast to the intended data type.</p>
-<p>:   <strong>WITH</strong> - Sets the table storage options for a partition. For example, you may want older partitions to be append-optimized tables and newer partitions to be regular heap tables. See <a href="CREATE_TABLE.html">CREATE TABLE</a> for a description of the storage options.</p>
-<p>:   <strong>TABLESPACE</strong> - The name of the tablespace in which the partition is to be created.</p>
-<p>:   subpartition_spec - Only allowed on partition designs that were created without a subpartition template. Declares a subpartition specification for the new partition you are adding. If the partitioned table was originally defined using a subpartition template, then the template will be used to generate the subpartitions automatically.</p>
-<p>EXCHANGE [DEFAULT] PARTITION
-:   Exchanges another table into the partition hierarchy into the place of an existing partition. In a multi-level partition design, you can only exchange the lowest level partitions (those that contain data).</p>
-<p>:   The SynxDB server configuration parameter <code>gp_enable_exchange_default_partition</code> controls availability of the <code>EXCHANGE DEFAULT PARTITION</code> clause. The default value for the parameter is <code>off</code>. The clause is not available and SynxDB returns an error if the clause is specified in an <code>ALTER TABLE</code> command.</p>
-<p>:   For information about the parameter, see <a href="../config_params/guc_config.html">Server Configuration Parameters</a>.</p>
-<pre><code>&gt; **Caution** Before you exchange the default partition, you must ensure the data in the table to be exchanged, the new default partition, is valid for the default partition. For example, the data in the new default partition must not contain data that would be valid in other leaf child partitions of the partitioned table. Otherwise, queries against the partitioned table with the exchanged default partition that are run by GPORCA might return incorrect results.
-</code></pre>
-<p>:   <strong>WITH TABLE</strong> table_name - The name of the table you are swapping into the partition design. You can exchange a table where the table data is stored in the database. For example, the table is created with the <code>CREATE TABLE</code> command. The table must have the same number of columns, column order, column names, column types, and distribution policy as the parent table.</p>
-<p>:   With the <code>EXCHANGE PARTITION</code> clause, you can also exchange a readable external table (created with the <code>CREATE EXTERNAL TABLE</code> command) into the partition hierarchy in the place of an existing leaf child partition. If you specify a readable external table, you must also specify the <code>WITHOUT VALIDATION</code> clause to skip table validation against the <code>CHECK</code> constraint of the partition you are exchanging.</p>
-<p>:   Exchanging a leaf child partition with an external table is not supported if the partitioned table contains a column with a check constraint or a <code>NOT NULL</code> constraint.</p>
-<p>:   You cannot exchange a partition with a replicated table. Exchanging a partition with a partitioned table or a child partition of a partitioned table is not supported.</p>
-<p>:   <strong>WITH</strong> | <strong>WITHOUT VALIDATION</strong> - Validates that the data in the table matches the <code>CHECK</code> constraint of the partition you are exchanging. The default is to validate the data against the <code>CHECK</code> constraint.</p>
-<pre><code>&gt; **Caution** If you specify the `WITHOUT VALIDATION` clause, you must ensure that the data in table that you are exchanging for an existing child leaf partition is valid against the `CHECK` constraints on the partition. Otherwise, queries against the partitioned table might return incorrect results.
-</code></pre>
-<p>SET SUBPARTITION TEMPLATE
-:   Modifies the subpartition template for an existing partition. After a new subpartition template is set, all new partitions added will have the new subpartition design (existing partitions are not modified).</p>
-<p>SPLIT DEFAULT PARTITION
-:   Splits a default partition. In a multi-level partition, only a range partition can be split, not a list partition, and you can only split the lowest level default partitions (those that contain data). Splitting a default partition creates a new partition containing the values specified and leaves the default partition containing any values that do not match to an existing partition.</p>
-<p>:   <strong>AT</strong> - For list partitioned tables, specifies a single list value that should be used as the criteria for the split.</p>
-<p>:   <strong>START</strong> - For range partitioned tables, specifies a starting value for the new partition.</p>
-<p>:   <strong>END</strong> - For range partitioned tables, specifies an ending value for the new partition.</p>
-<p>:   <strong>INTO</strong> - Allows you to specify a name for the new partition. When using the <code>INTO</code> clause to split a default partition, the second partition name specified should always be that of the existing default partition. If you do not know the name of the default partition, you can look it up using the pg_partitions view.</p>
-<p>SPLIT PARTITION
-:   Splits an existing partition into two partitions. In a multi-level partition, only a range partition can be split, not a list partition, and you can only split the lowest level partitions (those that contain data).</p>
-<p>:   <strong>AT</strong> - Specifies a single value that should be used as the criteria for the split. The partition will be divided into two new partitions with the split value specified being the starting range for the latter partition.</p>
-<p>:   <strong>INTO</strong> - Allows you to specify names for the two new partitions created by the split.</p>
-<p>partition_name
-:   The given name of a partition. The given partition name is the <code>partitionname</code> column value in the <em><a href="../system_catalogs/pg_partitions.html">pg_partitions</a></em> system view.</p>
-<p>FOR (RANK(number))
-:   For range partitions, the rank of the partition in the range.</p>
-<p>FOR (‘value’)
-:   Specifies a partition by declaring a value that falls within the partition boundary specification. If the value declared with <code>FOR</code> matches to both a partition and one of its subpartitions (for example, if the value is a date and the table is partitioned by month and then by day), then <code>FOR</code> will operate on the first level where a match is found (for example, the monthly partition). If your intent is to operate on a subpartition, you must declare so as follows: <code>ALTER TABLE name ALTER PARTITION FOR ('2016-10-01') DROP PARTITION FOR ('2016-10-01');</code></p>
+<h3 id="only"><a class="header" href="#only">ONLY</a></h3>
+<p>Only perform the operation on the table name specified. If the <code>ONLY</code> keyword is not used, the operation will be performed on the named table and any child table partitions associated with that table.</p>
+<blockquote>
+<p><strong>Note</strong> Adding or dropping a column, or changing a column’s type, in a parent or descendant table only is not permitted. The parent table and its descendents must always have the same columns and types.</p>
+</blockquote>
+<h3 id="name"><a class="header" href="#name">name</a></h3>
+<p>The name (possibly schema-qualified) of an existing table to alter. If <code>ONLY</code> is specified, only that table is altered. If <code>ONLY</code> is not specified, the table and all its descendant tables (if any) are updated.</p>
+<blockquote>
+<p><strong>Note</strong> Constraints can only be added to an entire table, not to a partition. Because of that restriction, the name parameter can only contain a table name, not a partition name.</p>
+</blockquote>
+<h3 id="column_name"><a class="header" href="#column_name">column_name</a></h3>
+<p>Name of a new or existing column. Note that SynxDB distribution key columns must be treated with special care. Altering or dropping these columns can change the distribution policy for the table.</p>
+<h3 id="new_column_name"><a class="header" href="#new_column_name">new_column_name</a></h3>
+<p>New name for an existing column.</p>
+<h3 id="new_name"><a class="header" href="#new_name">new_name</a></h3>
+<p>New name for the table.</p>
+<h3 id="type"><a class="header" href="#type">type</a></h3>
+<p>Data type of the new column, or new data type for an existing column. If changing the data type of a SynxDB distribution key column, you are only allowed to change it to a compatible type (for example, <code>text</code> to <code>varchar</code> is OK, but <code>text</code> to <code>int</code> is not).</p>
+<h3 id="table_constraint"><a class="header" href="#table_constraint">table_constraint</a></h3>
+<p>New table constraint for the table. Note that foreign key constraints are currently not supported in SynxDB. Also a table is only allowed one unique constraint and the uniqueness must be within the SynxDB distribution key.</p>
+<h3 id="constraint_name"><a class="header" href="#constraint_name">constraint_name</a></h3>
+<p>Name of an existing constraint to drop.</p>
+<h3 id="cascade"><a class="header" href="#cascade">CASCADE</a></h3>
+<p>Automatically drop objects that depend on the dropped column or constraint (for example, views referencing the column).</p>
+<h3 id="restrict"><a class="header" href="#restrict">RESTRICT</a></h3>
+<p>Refuse to drop the column or constraint if there are any dependent objects. This is the default behavior.</p>
+<h3 id="trigger_name"><a class="header" href="#trigger_name">trigger_name</a></h3>
+<p>Name of a single trigger to deactivate or enable. Note that SynxDB does not support triggers.</p>
+<h3 id="all"><a class="header" href="#all">ALL</a></h3>
+<p>Deactivate or activate all triggers belonging to the table including constraint related triggers. This requires superuser privilege if any of the triggers are internally generated constraint triggers such as those that are used to implement foreign key constraints or deferrable uniqueness and exclusion constraints.</p>
+<h3 id="user"><a class="header" href="#user">USER</a></h3>
+<p>Deactivate or activate all triggers belonging to the table except for internally generated constraint triggers such as those that are used to implement foreign key constraints or deferrable uniqueness and exclusion constraints.</p>
+<h3 id="index_name"><a class="header" href="#index_name">index_name</a></h3>
+<p>The index name on which the table should be marked for clustering. Note that <code>CLUSTER</code> is not the recommended way to physically reorder a table in SynxDB because it takes so long. It is better to recreate the table with <a href="CREATE_TABLE_AS.html">CREATE TABLE AS</a> and order it by the index column(s).</p>
+<h3 id="fillfactor"><a class="header" href="#fillfactor">FILLFACTOR</a></h3>
+<p>Set the fillfactor percentage for a table.</p>
+<p>The fillfactor option is valid only for heap tables (<code>appendoptimized=false</code>).</p>
+<h3 id="value"><a class="header" href="#value">value</a></h3>
+<p>The new value for the <code>FILLFACTOR</code> parameter, which is a percentage between 10 and 100. 100 is the default.</p>
+<h3 id="distributed-by-column_name-opclass--distributed-randomly--distributed-replicated"><a class="header" href="#distributed-by-column_name-opclass--distributed-randomly--distributed-replicated">DISTRIBUTED BY ({column_name [opclass]}) | DISTRIBUTED RANDOMLY | DISTRIBUTED REPLICATED</a></h3>
+<p>Specifies the distribution policy for a table. Changing a hash distribution policy causes the table data to be physically redistributed, which can be resource intensive. If you declare the same hash distribution policy or change from hash to random distribution, data will not be redistributed unless you declare <code>SET WITH (REORGANIZE=true)</code>.</p>
+<p>Changing to or from a replicated distribution policy causes the table data to be redistributed.</p>
+<h3 id="analyze_hll_non_part_tabletruefalse"><a class="header" href="#analyze_hll_non_part_tabletruefalse">analyze_hll_non_part_table=true|false</a></h3>
+<p>Use <code>analyze_hll_non_part_table=true</code> to force collection of HLL statistics even if the table is not part of a partitioned table. The default is false.</p>
+<h3 id="reorganizetruefalse"><a class="header" href="#reorganizetruefalse">reorganize=true|false</a></h3>
+<p>Use <code>REORGANIZE=true</code> when the hash distribution policy has not changed or when you have changed from a hash to a random distribution, and you want to redistribute the data anyways.</p>
+<h3 id="parent_table"><a class="header" href="#parent_table">parent_table</a></h3>
+<p>A parent table to associate or de-associate with this table.</p>
+<h3 id="new_owner"><a class="header" href="#new_owner">new_owner</a></h3>
+<p>The role name of the new owner of the table.</p>
+<h3 id="new_tablespace"><a class="header" href="#new_tablespace">new_tablespace</a></h3>
+<p>The name of the tablespace to which the table will be moved.</p>
+<h3 id="new_schema"><a class="header" href="#new_schema">new_schema</a></h3>
+<p>The name of the schema to which the table will be moved.</p>
+<h3 id="parent_table_name"><a class="header" href="#parent_table_name">parent_table_name</a></h3>
+<p>When altering a partitioned table, the name of the top-level parent table.</p>
+<h3 id="alter-default-partition"><a class="header" href="#alter-default-partition">ALTER [DEFAULT] PARTITION</a></h3>
+<p>If altering a partition deeper than the first level of partitions, use <code>ALTER PARTITION</code> clauses to specify which subpartition in the hierarchy you want to alter. For each partition level in the table hierarchy that is above the target partition, specify the partition that is related to the target partition in an <code>ALTER PARTITION</code> clause.</p>
+<h3 id="drop-default-partition"><a class="header" href="#drop-default-partition">DROP [DEFAULT] PARTITION</a></h3>
+<p>Drops the specified partition. If the partition has subpartitions, the subpartitions are automatically dropped as well.</p>
+<h3 id="truncate-default-partition"><a class="header" href="#truncate-default-partition">TRUNCATE [DEFAULT] PARTITION</a></h3>
+<p>Truncates the specified partition. If the partition has subpartitions, the subpartitions are automatically truncated as well.</p>
+<h3 id="rename-default-partition"><a class="header" href="#rename-default-partition">RENAME [DEFAULT] PARTITION</a></h3>
+<p>Changes the partition name of a partition (not the relation name). Partitioned tables are created using the naming convention: <code>&lt;</code>parentname<code>&gt;_&lt;</code>level<code>&gt;_prt_&lt;</code>partition_name<code>&gt;</code>.</p>
+<h3 id="add-default-partition"><a class="header" href="#add-default-partition">ADD DEFAULT PARTITION</a></h3>
+<p>Adds a default partition to an existing partition design. When data does not match to an existing partition, it is inserted into the default partition. Partition designs that do not have a default partition will reject incoming rows that do not match to an existing partition. Default partitions must be given a name.</p>
+<h3 id="add-partition"><a class="header" href="#add-partition">ADD PARTITION</a></h3>
+<ul>
+<li>
+<p>partition_element - Using the existing partition type of the table (range or list), defines the boundaries of new partition you are adding.</p>
+</li>
+<li>
+<p>name - A name for this new partition.</p>
+</li>
+<li>
+<p><strong>VALUES</strong> - For list partitions, defines the value(s) that the partition will contain.</p>
+</li>
+<li>
+<p><strong>START</strong> - For range partitions, defines the starting range value for the partition. By default, start values are <code>INCLUSIVE</code>. For example, if you declared a start date of ‘<code>2016-01-01</code>’, then the partition would contain all dates greater than or equal to ‘<code>2016-01-01</code>’. Typically the data type of the <code>START</code> expression is the same type as the partition key column. If that is not the case, then you must explicitly cast to the intended data type.</p>
+</li>
+<li>
+<p><strong>END</strong> - For range partitions, defines the ending range value for the partition. By default, end values are <code>EXCLUSIVE</code>. For example, if you declared an end date of ‘<code>2016-02-01</code>’, then the partition would contain all dates less than but not equal to ‘<code>2016-02-01</code>’. Typically the data type of the <code>END</code> expression is the same type as the partition key column. If that is not the case, then you must explicitly cast to the intended data type.</p>
+</li>
+<li>
+<p><strong>WITH</strong> - Sets the table storage options for a partition. For example, you may want older partitions to be append-optimized tables and newer partitions to be regular heap tables. See <a href="CREATE_TABLE.html">CREATE TABLE</a> for a description of the storage options.</p>
+</li>
+<li>
+<p><strong>TABLESPACE</strong> - The name of the tablespace in which the partition is to be created.</p>
+</li>
+<li>
+<p>subpartition_spec - Only allowed on partition designs that were created without a subpartition template. Declares a subpartition specification for the new partition you are adding. If the partitioned table was originally defined using a subpartition template, then the template will be used to generate the subpartitions automatically.</p>
+</li>
+</ul>
+<h3 id="exchange-default-partition"><a class="header" href="#exchange-default-partition">EXCHANGE [DEFAULT] PARTITION</a></h3>
+<p>Exchanges another table into the partition hierarchy into the place of an existing partition. In a multi-level partition design, you can only exchange the lowest level partitions (those that contain data).</p>
+<p>The SynxDB server configuration parameter <code>gp_enable_exchange_default_partition</code> controls availability of the <code>EXCHANGE DEFAULT PARTITION</code> clause. The default value for the parameter is <code>off</code>. The clause is not available and SynxDB returns an error if the clause is specified in an <code>ALTER TABLE</code> command.</p>
+<p>For information about the parameter, see <a href="../config_params/guc_config.html">Server Configuration Parameters</a>.</p>
+<blockquote>
+<p><strong>Caution</strong> Before you exchange the default partition, you must ensure the data in the table to be exchanged, the new default partition, is valid for the default partition. For example, the data in the new default partition must not contain data that would be valid in other leaf child partitions of the partitioned table. Otherwise, queries against the partitioned table with the exchanged default partition that are run by GPORCA might return incorrect results.</p>
+</blockquote>
+<p><strong>WITH TABLE</strong> table_name - The name of the table you are swapping into the partition design. You can exchange a table where the table data is stored in the database. For example, the table is created with the <code>CREATE TABLE</code> command. The table must have the same number of columns, column order, column names, column types, and distribution policy as the parent table.</p>
+<p>With the <code>EXCHANGE PARTITION</code> clause, you can also exchange a readable external table (created with the <code>CREATE EXTERNAL TABLE</code> command) into the partition hierarchy in the place of an existing leaf child partition. If you specify a readable external table, you must also specify the <code>WITHOUT VALIDATION</code> clause to skip table validation against the <code>CHECK</code> constraint of the partition you are exchanging.</p>
+<p>Exchanging a leaf child partition with an external table is not supported if the partitioned table contains a column with a check constraint or a <code>NOT NULL</code> constraint.</p>
+<p>You cannot exchange a partition with a replicated table. Exchanging a partition with a partitioned table or a child partition of a partitioned table is not supported.</p>
+<p><strong>WITH</strong> | <strong>WITHOUT VALIDATION</strong> - Validates that the data in the table matches the <code>CHECK</code> constraint of the partition you are exchanging. The default is to validate the data against the <code>CHECK</code> constraint.</p>
+<blockquote>
+<p><strong>Caution</strong> If you specify the <code>WITHOUT VALIDATION</code> clause, you must ensure that the data in table that you are exchanging for an existing child leaf partition is valid against the <code>CHECK</code> constraints on the partition. Otherwise, queries against the partitioned table might return incorrect results.</p>
+</blockquote>
+<h3 id="set-subpartition-template"><a class="header" href="#set-subpartition-template">SET SUBPARTITION TEMPLATE</a></h3>
+<p>Modifies the subpartition template for an existing partition. After a new subpartition template is set, all new partitions added will have the new subpartition design (existing partitions are not modified).</p>
+<h3 id="split-default-partition"><a class="header" href="#split-default-partition">SPLIT DEFAULT PARTITION</a></h3>
+<p>Splits a default partition. In a multi-level partition, only a range partition can be split, not a list partition, and you can only split the lowest level default partitions (those that contain data). Splitting a default partition creates a new partition containing the values specified and leaves the default partition containing any values that do not match to an existing partition.</p>
+<p><strong>AT</strong> - For list partitioned tables, specifies a single list value that should be used as the criteria for the split.</p>
+<p><strong>START</strong> - For range partitioned tables, specifies a starting value for the new partition.</p>
+<p><strong>END</strong> - For range partitioned tables, specifies an ending value for the new partition.</p>
+<p><strong>INTO</strong> - Allows you to specify a name for the new partition. When using the <code>INTO</code> clause to split a default partition, the second partition name specified should always be that of the existing default partition. If you do not know the name of the default partition, you can look it up using the pg_partitions view.</p>
+<h3 id="split-partition"><a class="header" href="#split-partition">SPLIT PARTITION</a></h3>
+<p>Splits an existing partition into two partitions. In a multi-level partition, only a range partition can be split, not a list partition, and you can only split the lowest level partitions (those that contain data).</p>
+<p><strong>AT</strong> - Specifies a single value that should be used as the criteria for the split. The partition will be divided into two new partitions with the split value specified being the starting range for the latter partition.</p>
+<p><strong>INTO</strong> - Allows you to specify names for the two new partitions created by the split.</p>
+<h3 id="partition_name"><a class="header" href="#partition_name">partition_name</a></h3>
+<p>The given name of a partition. The given partition name is the <code>partitionname</code> column value in the <em><a href="../system_catalogs/pg_partitions.html">pg_partitions</a></em> system view.</p>
+<h3 id="for-ranknumber"><a class="header" href="#for-ranknumber">FOR (RANK(number))</a></h3>
+<p>For range partitions, the rank of the partition in the range.</p>
+<h3 id="for-value"><a class="header" href="#for-value">FOR (‘value’)</a></h3>
+<p>Specifies a partition by declaring a value that falls within the partition boundary specification. If the value declared with <code>FOR</code> matches to both a partition and one of its subpartitions (for example, if the value is a date and the table is partitioned by month and then by day), then <code>FOR</code> will operate on the first level where a match is found (for example, the monthly partition). If your intent is to operate on a subpartition, you must declare so as follows: <code>ALTER TABLE name ALTER PARTITION FOR ('2016-10-01') DROP PARTITION FOR ('2016-10-01');</code></p>
 <h2 id="notes"><a class="header" href="#notes"><a id="section5"></a>Notes</a></h2>
 <p>The table name specified in the <code>ALTER TABLE</code> command cannot be the name of a partition within a table.</p>
 <p>Take special care when altering or dropping columns that are part of the SynxDB distribution key as this can change the distribution policy for the table.</p>

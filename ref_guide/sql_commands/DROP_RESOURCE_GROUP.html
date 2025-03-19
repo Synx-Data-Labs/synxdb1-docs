@@ -166,8 +166,8 @@
 <p>To drop a role resource group, the group cannot be assigned to any roles, nor can it have any statements pending or running in the group. If you drop a resource group that you created for an external component, the behavior is determined by the external component. For example, dropping a resource group that you assigned to a PL/Container runtime stops running containers in the group.</p>
 <p>You cannot drop the pre-defined <code>admin_group</code> and <code>default_group</code> resource groups.</p>
 <h2 id="parameters"><a class="header" href="#parameters"><a id="section4"></a>Parameters</a></h2>
-<p>group_name
-:   The name of the resource group to remove.</p>
+<h3 id="group_name"><a class="header" href="#group_name">group_name</a></h3>
+<p>The name of the resource group to remove.</p>
 <h2 id="notes"><a class="header" href="#notes"><a id="section5"></a>Notes</a></h2>
 <p>You cannot submit a <code>DROP RESOURCE GROUP</code> command in an explicit transaction or sub-transaction.</p>
 <p>Use <a href="ALTER_ROLE.html">ALTER ROLE</a> to remove a resource group assigned to a specific user/role.</p>

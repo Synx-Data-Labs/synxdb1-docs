@@ -177,27 +177,27 @@ INSERT INTO &lt;table&gt; [( &lt;column&gt; [, ...] )]
 </code></pre>
 <p>The count is the number of rows inserted. If count is exactly one, and the target table has OIDs, then oid is the OID assigned to the inserted row. Otherwise OID is zero.</p>
 <h2 id="parameters"><a class="header" href="#parameters"><a id="section5"></a>Parameters</a></h2>
-<p>with_query
-:   The <code>WITH</code> clause allows you to specify one or more subqueries that can be referenced by name in the <code>INSERT</code> query.</p>
-<p>:   For an <code>INSERT</code> command that includes a <code>WITH</code> clause, the clause can only contain <code>SELECT</code> statements, the <code>WITH</code> clause cannot contain a data-modifying command (<code>INSERT</code>, <code>UPDATE</code>, or <code>DELETE</code>).</p>
-<p>:   It is possible for the query (<code>SELECT</code> statement) to also contain a <code>WITH</code> clause. In such a case both sets of with_query can be referenced within the <code>INSERT</code> query, but the second one takes precedence since it is more closely nested.</p>
-<p>:   See <a href="../../admin_guide/query/topics/CTE-query.html">WITH Queries (Common Table Expressions)</a> and <a href="SELECT.html">SELECT</a> for details.</p>
-<p>table
-:   The name (optionally schema-qualified) of an existing table.</p>
-<p>column
-:   The name of a column in table. The column name can be qualified with a subfield name or array subscript, if needed. (Inserting into only some fields of a composite column leaves the other fields null.)</p>
-<p>DEFAULT VALUES
-:   All columns will be filled with their default values.</p>
-<p>expression
-:   An expression or value to assign to the corresponding column.</p>
-<p>DEFAULT
-:   The corresponding column will be filled with its default value.</p>
-<p>query
-:   A query (<code>SELECT</code> statement) that supplies the rows to be inserted. Refer to the <code>SELECT</code> statement for a description of the syntax.</p>
-<p>output_expression
-:   An expression to be computed and returned by the <code>INSERT</code> command after each row is inserted. The expression can use any column names of the table. Write * to return all columns of the inserted row(s).</p>
-<p>output_name
-:   A name to use for a returned column.</p>
+<h3 id="with_query"><a class="header" href="#with_query">with_query</a></h3>
+<p>The <code>WITH</code> clause allows you to specify one or more subqueries that can be referenced by name in the <code>INSERT</code> query.</p>
+<p>For an <code>INSERT</code> command that includes a <code>WITH</code> clause, the clause can only contain <code>SELECT</code> statements, the <code>WITH</code> clause cannot contain a data-modifying command (<code>INSERT</code>, <code>UPDATE</code>, or <code>DELETE</code>).</p>
+<p>It is possible for the query (<code>SELECT</code> statement) to also contain a <code>WITH</code> clause. In such a case both sets of with_query can be referenced within the <code>INSERT</code> query, but the second one takes precedence since it is more closely nested.</p>
+<p>See <a href="../../admin_guide/query/topics/CTE-query.html">WITH Queries (Common Table Expressions)</a> and <a href="SELECT.html">SELECT</a> for details.</p>
+<h3 id="table"><a class="header" href="#table">table</a></h3>
+<p>The name (optionally schema-qualified) of an existing table.</p>
+<h3 id="column"><a class="header" href="#column">column</a></h3>
+<p>The name of a column in table. The column name can be qualified with a subfield name or array subscript, if needed. (Inserting into only some fields of a composite column leaves the other fields null.)</p>
+<h3 id="default-values"><a class="header" href="#default-values">DEFAULT VALUES</a></h3>
+<p>All columns will be filled with their default values.</p>
+<h3 id="expression"><a class="header" href="#expression">expression</a></h3>
+<p>An expression or value to assign to the corresponding column.</p>
+<h3 id="default"><a class="header" href="#default">DEFAULT</a></h3>
+<p>The corresponding column will be filled with its default value.</p>
+<h3 id="query"><a class="header" href="#query">query</a></h3>
+<p>A query (<code>SELECT</code> statement) that supplies the rows to be inserted. Refer to the <code>SELECT</code> statement for a description of the syntax.</p>
+<h3 id="output_expression"><a class="header" href="#output_expression">output_expression</a></h3>
+<p>An expression to be computed and returned by the <code>INSERT</code> command after each row is inserted. The expression can use any column names of the table. Write * to return all columns of the inserted row(s).</p>
+<h3 id="output_name"><a class="header" href="#output_name">output_name</a></h3>
+<p>A name to use for a returned column.</p>
 <h2 id="notes"><a class="header" href="#notes"><a id="section6"></a>Notes</a></h2>
 <p>To insert data into a partitioned table, you specify the root partitioned table, the table created with the <code>CREATE TABLE</code> command. You also can specify a leaf child table of the partitioned table in an <code>INSERT</code> command. An error is returned if the data is not valid for the specified leaf child table. Specifying a child table that is not a leaf child table in the <code>INSERT</code> command is not supported. Execution of other DML commands such as <code>UPDATE</code> and <code>DELETE</code> on any child table of a partitioned table is not supported. These commands must be run on the root partitioned table, the table created with the <code>CREATE TABLE</code> command.</p>
 <p>For a partitioned table, all the child tables are locked during the <code>INSERT</code> operation when the Global Deadlock Detector is not enabled (the default). Only some of the leaf child tables are locked when the Global Deadlock Detector is enabled. For information about the Global Deadlock Detector, see <a href="../../admin_guide/dml.html#topic_gdd">Global Deadlock Detector</a>.</p>

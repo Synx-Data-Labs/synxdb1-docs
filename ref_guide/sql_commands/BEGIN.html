@@ -171,18 +171,15 @@
 <p>Statements are run more quickly in a transaction block, because transaction start/commit requires significant CPU and disk activity. Execution of multiple statements inside a transaction is also useful to ensure consistency when making several related changes: other sessions will be unable to see the intermediate states wherein not all the related updates have been done.</p>
 <p>If the isolation level, read/write mode, or deferrable mode is specified, the new transaction has those characteristics, as if <a href="SET_TRANSACTION.html">SET TRANSACTION</a> was run.</p>
 <h2 id="parameters"><a class="header" href="#parameters"><a id="section4"></a>Parameters</a></h2>
-<p>WORK
-TRANSACTION
-:   Optional key words. They have no effect.</p>
-<p>SERIALIZABLE
-READ COMMITTED
-READ UNCOMMITTED
-:   The SQL standard defines four transaction isolation levels: <code>READ UNCOMMITTED</code>, <code>READ COMMITTED</code>, <code>REPEATABLE READ</code>, and <code>SERIALIZABLE</code>.</p>
-<p>:   <code>READ UNCOMMITTED</code> allows transactions to see changes made by uncomitted concurrent transactions. This is not possible in SynxDB, so <code>READ UNCOMMITTED</code> is treated the same as <code>READ COMMITTED</code>.</p>
-<p>:   <code>READ COMMITTED</code>, the default isolation level in SynxDB, guarantees that a statement can only see rows committed before it began. The same statement run twice in a transaction can produce different results if another concurrent transaction commits after the statement is run the first time.</p>
-<p>:   The <code>REPEATABLE READ</code> isolation level guarantees that a transaction can only see rows committed before it began. <code>REPEATABLE READ</code> is the strictest transaction isolation level SynxDB supports. Applications that use the <code>REPEATABLE READ</code> isolation level must be prepared to retry transactions due to serialization failures.</p>
-<p>:   The <code>SERIALIZABLE</code> transaction isolation level guarantees that running multiple concurrent transactions produces the same effects as running the same transactions one at a time. If you specify <code>SERIALIZABLE</code>, SynxDB falls back to <code>REPEATABLE READ</code>.</p>
-<p>:   Specifying <code>DEFERRABLE</code> has no effect in SynxDB, but the syntax is supported for compatibility with PostgreSQL. A transaction can only be deferred if it is <code>READ ONLY</code> and <code>SERIALIZABLE</code>, and SynxDB does not support <code>SERIALIAZABLE</code> transactions.</p>
+<h3 id="worktransaction"><a class="header" href="#worktransaction">WORK<br/>TRANSACTION</a></h3>
+<p>Optional key words. They have no effect.</p>
+<h3 id="serializableread-committedread-uncommitted"><a class="header" href="#serializableread-committedread-uncommitted">SERIALIZABLE<br/>READ COMMITTED<br/>READ UNCOMMITTED</a></h3>
+<p>The SQL standard defines four transaction isolation levels: <code>READ UNCOMMITTED</code>, <code>READ COMMITTED</code>, <code>REPEATABLE READ</code>, and <code>SERIALIZABLE</code>.</p>
+<p><code>READ UNCOMMITTED</code> allows transactions to see changes made by uncomitted concurrent transactions. This is not possible in SynxDB, so <code>READ UNCOMMITTED</code> is treated the same as <code>READ COMMITTED</code>.</p>
+<p><code>READ COMMITTED</code>, the default isolation level in SynxDB, guarantees that a statement can only see rows committed before it began. The same statement run twice in a transaction can produce different results if another concurrent transaction commits after the statement is run the first time.</p>
+<p>The <code>REPEATABLE READ</code> isolation level guarantees that a transaction can only see rows committed before it began. <code>REPEATABLE READ</code> is the strictest transaction isolation level SynxDB supports. Applications that use the <code>REPEATABLE READ</code> isolation level must be prepared to retry transactions due to serialization failures.</p>
+<p>The <code>SERIALIZABLE</code> transaction isolation level guarantees that running multiple concurrent transactions produces the same effects as running the same transactions one at a time. If you specify <code>SERIALIZABLE</code>, SynxDB falls back to <code>REPEATABLE READ</code>.</p>
+<p>Specifying <code>DEFERRABLE</code> has no effect in SynxDB, but the syntax is supported for compatibility with PostgreSQL. A transaction can only be deferred if it is <code>READ ONLY</code> and <code>SERIALIZABLE</code>, and SynxDB does not support <code>SERIALIAZABLE</code> transactions.</p>
 <h2 id="notes"><a class="header" href="#notes"><a id="section5"></a>Notes</a></h2>
 <p><a href="START_TRANSACTION.html">START TRANSACTION</a> has the same functionality as <code>BEGIN</code>.</p>
 <p>Use <a href="COMMIT.html">COMMIT</a> or <a href="ROLLBACK.html">ROLLBACK</a> to terminate a transaction block.</p>

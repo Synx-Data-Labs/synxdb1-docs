@@ -169,52 +169,52 @@ pg_config --gp_version
 <p>The <code>pg_config</code> utility prints configuration parameters of the currently installed version of SynxDB. It is intended, for example, to be used by software packages that want to interface to SynxDB to facilitate finding the required header files and libraries. Note that information printed out by <code>pg_config</code> is for the SynxDB master only.</p>
 <p>If more than one option is given, the information is printed in that order, one item per line. If no options are given, all available information is printed, with labels.</p>
 <h2 id="options"><a class="header" href="#options"><a id="section4"></a>Options</a></h2>
-<p>–bindir
-:   Print the location of user executables. Use this, for example, to find the <code>psql</code> program. This is normally also the location where the <code>pg_config</code> program resides.</p>
-<p>–docdir
-:   Print the location of documentation files.</p>
-<p>–includedir
-:   Print the location of C header files of the client interfaces.</p>
-<p>–pkgincludedir
-:   Print the location of other C header files.</p>
-<p>–includedir-server
-:   Print the location of C header files for server programming.</p>
-<p>–libdir
-:   Print the location of object code libraries.</p>
-<p>–pkglibdir
-:   Print the location of dynamically loadable modules, or where the server would search for them. (Other architecture-dependent data files may also be installed in this directory.)</p>
-<p>–localedir
-:   Print the location of locale support files.</p>
-<p>–mandir
-:   Print the location of manual pages.</p>
-<p>–sharedir
-:   Print the location of architecture-independent support files.</p>
-<p>–sysconfdir
-:   Print the location of system-wide configuration files.</p>
-<p>–pgxs
-:   Print the location of extension makefiles.</p>
-<p>–configure
-:   Print the options that were given to the configure script when SynxDB was configured for building.</p>
-<p>–cc
-:   Print the value of the CC variable that was used for building SynxDB. This shows the C compiler used.</p>
-<p>–cppflags
-:   Print the value of the <code>CPPFLAGS</code> variable that was used for building SynxDB. This shows C compiler switches needed at preprocessing time.</p>
-<p>–cflags
-:   Print the value of the <code>CFLAGS</code> variable that was used for building SynxDB. This shows C compiler switches.</p>
-<p>–cflags_sl
-:   Print the value of the <code>CFLAGS_SL</code> variable that was used for building SynxDB. This shows extra C compiler switches used for building shared libraries.</p>
-<p>–ldflags
-:   Print the value of the <code>LDFLAGS</code> variable that was used for building SynxDB. This shows linker switches.</p>
-<p>–ldflags_ex
-:   Print the value of the <code>LDFLAGS_EX</code> variable that was used for building SynxDB. This shows linker switches that were used for building executables only.</p>
-<p>–ldflags_sl
-:   Print the value of the <code>LDFLAGS_SL</code> variable that was used for building SynxDB. This shows linker switches used for building shared libraries only.</p>
-<p>–libs
-:   Print the value of the <code>LIBS</code> variable that was used for building SynxDB. This normally contains <code>-l</code> switches for external libraries linked into SynxDB.</p>
-<p>–version
-:   Print the version of PostgreSQL backend server.</p>
-<p>–gp_version
-:   Print the version of SynxDB.</p>
+<h3 id="bindir"><a class="header" href="#bindir">–bindir</a></h3>
+<p>Print the location of user executables. Use this, for example, to find the <code>psql</code> program. This is normally also the location where the <code>pg_config</code> program resides.</p>
+<h3 id="docdir"><a class="header" href="#docdir">–docdir</a></h3>
+<p>Print the location of documentation files.</p>
+<h3 id="includedir"><a class="header" href="#includedir">–includedir</a></h3>
+<p>Print the location of C header files of the client interfaces.</p>
+<h3 id="pkgincludedir"><a class="header" href="#pkgincludedir">–pkgincludedir</a></h3>
+<p>Print the location of other C header files.</p>
+<h3 id="includedir-server"><a class="header" href="#includedir-server">–includedir-server</a></h3>
+<p>Print the location of C header files for server programming.</p>
+<h3 id="libdir"><a class="header" href="#libdir">–libdir</a></h3>
+<p>Print the location of object code libraries.</p>
+<h3 id="pkglibdir"><a class="header" href="#pkglibdir">–pkglibdir</a></h3>
+<p>Print the location of dynamically loadable modules, or where the server would search for them. (Other architecture-dependent data files may also be installed in this directory.)</p>
+<h3 id="localedir"><a class="header" href="#localedir">–localedir</a></h3>
+<p>Print the location of locale support files.</p>
+<h3 id="mandir"><a class="header" href="#mandir">–mandir</a></h3>
+<p>Print the location of manual pages.</p>
+<h3 id="sharedir"><a class="header" href="#sharedir">–sharedir</a></h3>
+<p>Print the location of architecture-independent support files.</p>
+<h3 id="sysconfdir"><a class="header" href="#sysconfdir">–sysconfdir</a></h3>
+<p>Print the location of system-wide configuration files.</p>
+<h3 id="pgxs"><a class="header" href="#pgxs">–pgxs</a></h3>
+<p>Print the location of extension makefiles.</p>
+<h3 id="configure"><a class="header" href="#configure">–configure</a></h3>
+<p>Print the options that were given to the configure script when SynxDB was configured for building.</p>
+<h3 id="cc"><a class="header" href="#cc">–cc</a></h3>
+<p>Print the value of the CC variable that was used for building SynxDB. This shows the C compiler used.</p>
+<h3 id="cppflags"><a class="header" href="#cppflags">–cppflags</a></h3>
+<p>Print the value of the <code>CPPFLAGS</code> variable that was used for building SynxDB. This shows C compiler switches needed at preprocessing time.</p>
+<h3 id="cflags"><a class="header" href="#cflags">–cflags</a></h3>
+<p>Print the value of the <code>CFLAGS</code> variable that was used for building SynxDB. This shows C compiler switches.</p>
+<h3 id="cflags_sl"><a class="header" href="#cflags_sl">–cflags_sl</a></h3>
+<p>Print the value of the <code>CFLAGS_SL</code> variable that was used for building SynxDB. This shows extra C compiler switches used for building shared libraries.</p>
+<h3 id="ldflags"><a class="header" href="#ldflags">–ldflags</a></h3>
+<p>Print the value of the <code>LDFLAGS</code> variable that was used for building SynxDB. This shows linker switches.</p>
+<h3 id="ldflags_ex"><a class="header" href="#ldflags_ex">–ldflags_ex</a></h3>
+<p>Print the value of the <code>LDFLAGS_EX</code> variable that was used for building SynxDB. This shows linker switches that were used for building executables only.</p>
+<h3 id="ldflags_sl"><a class="header" href="#ldflags_sl">–ldflags_sl</a></h3>
+<p>Print the value of the <code>LDFLAGS_SL</code> variable that was used for building SynxDB. This shows linker switches used for building shared libraries only.</p>
+<h3 id="libs"><a class="header" href="#libs">–libs</a></h3>
+<p>Print the value of the <code>LIBS</code> variable that was used for building SynxDB. This normally contains <code>-l</code> switches for external libraries linked into SynxDB.</p>
+<h3 id="version"><a class="header" href="#version">–version</a></h3>
+<p>Print the version of PostgreSQL backend server.</p>
+<h3 id="gp_version"><a class="header" href="#gp_version">–gp_version</a></h3>
+<p>Print the version of SynxDB.</p>
 <h2 id="examples"><a class="header" href="#examples"><a id="section5"></a>Examples</a></h2>
 <p>To reproduce the build configuration of the current SynxDB installation, run the following command:</p>
 <pre><code>eval ./configure 'pg_config --configure'

@@ -174,16 +174,17 @@ CREATE SCHEMA IF NOT EXISTS AUTHORIZATION &lt;user_name&gt;
 <p>A schema is essentially a namespace: it contains named objects (tables, data types, functions, and operators) whose names may duplicate those of other objects existing in other schemas. Named objects are accessed either by qualifying their names with the schema name as a prefix, or by setting a search path that includes the desired schema(s). A <code>CREATE</code> command specifying an unqualified object name creates the object in the current schema (the one at the front of the search path, which can be determined with the function <code>current_schema</code>).</p>
 <p>Optionally, <code>CREATE SCHEMA</code> can include subcommands to create objects within the new schema. The subcommands are treated essentially the same as separate commands issued after creating the schema, except that if the <code>AUTHORIZATION</code> clause is used, all the created objects will be owned by that role.</p>
 <h2 id="parameters"><a class="header" href="#parameters"><a id="section4"></a>Parameters</a></h2>
-<p>schema_name
-:   The name of a schema to be created. If this is omitted, the user name is used as the schema name. The name cannot begin with <code>pg_</code>, as such names are reserved for system catalog schemas.</p>
-<p>user_name
-:   The name of the role who will own the schema. If omitted, defaults to the role running the command. Only superusers may create schemas owned by roles other than themselves.</p>
-<p>schema_element
-:   An SQL statement defining an object to be created within the schema. Currently, only <code>CREATE TABLE</code>, <code>CREATE VIEW</code>, <code>CREATE INDEX</code>, <code>CREATE SEQUENCE</code>, <code>CREATE TRIGGER</code> and <code>GRANT</code> are accepted as clauses within <code>CREATE SCHEMA</code>. Other kinds of objects may be created in separate commands after the schema is created.</p>
-<pre><code>&gt; **Note** SynxDB does not support triggers.
-</code></pre>
-<p><code>IF NOT EXISTS</code>
-:   Do nothing (except issuing a notice) if a schema with the same name already exists. schema_element subcommands cannot be included when this option is used.</p>
+<h3 id="schema_name"><a class="header" href="#schema_name">schema_name</a></h3>
+<p>The name of a schema to be created. If this is omitted, the user name is used as the schema name. The name cannot begin with <code>pg_</code>, as such names are reserved for system catalog schemas.</p>
+<h3 id="user_name"><a class="header" href="#user_name">user_name</a></h3>
+<p>The name of the role who will own the schema. If omitted, defaults to the role running the command. Only superusers may create schemas owned by roles other than themselves.</p>
+<h3 id="schema_element"><a class="header" href="#schema_element">schema_element</a></h3>
+<p>An SQL statement defining an object to be created within the schema. Currently, only <code>CREATE TABLE</code>, <code>CREATE VIEW</code>, <code>CREATE INDEX</code>, <code>CREATE SEQUENCE</code>, <code>CREATE TRIGGER</code> and <code>GRANT</code> are accepted as clauses within <code>CREATE SCHEMA</code>. Other kinds of objects may be created in separate commands after the schema is created.</p>
+<blockquote>
+<p><strong>Note</strong> SynxDB does not support triggers.</p>
+</blockquote>
+<h3 id="if-not-exists"><a class="header" href="#if-not-exists"><code>IF NOT EXISTS</code></a></h3>
+<p>Do nothing (except issuing a notice) if a schema with the same name already exists. schema_element subcommands cannot be included when this option is used.</p>
 <h2 id="notes"><a class="header" href="#notes"><a id="section5"></a>Notes</a></h2>
 <p>To create a schema, the invoking user must have the <code>CREATE</code> privilege for the current database or be a superuser.</p>
 <h2 id="examples"><a class="header" href="#examples"><a id="section6"></a>Examples</a></h2>

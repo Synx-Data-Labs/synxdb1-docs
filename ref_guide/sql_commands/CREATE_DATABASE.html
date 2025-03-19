@@ -172,22 +172,22 @@
 <p>The creator becomes the owner of the new database by default. Superusers can create databases owned by other users by using the <code>OWNER</code> clause. They can even create databases owned by users with no special privileges. Non-superusers with <code>CREATEDB</code> privilege can only create databases owned by themselves.</p>
 <p>By default, the new database will be created by cloning the standard system database <code>template1</code>. A different template can be specified by writing <code>TEMPLATE name</code>. In particular, by writing <code>TEMPLATE template0</code>, you can create a clean database containing only the standard objects predefined by SynxDB. This is useful if you wish to avoid copying any installation-local objects that may have been added to <code>template1</code>.</p>
 <h2 id="parameters"><a class="header" href="#parameters"><a id="section4"></a>Parameters</a></h2>
-<p>name
-:   The name of a database to create.</p>
-<p>user_name
-:   The name of the database user who will own the new database, or <code>DEFAULT</code> to use the default owner (the user running the command).</p>
-<p>template
-:   The name of the template from which to create the new database, or <code>DEFAULT</code> to use the default template (template1).</p>
-<p>encoding
-:   Character set encoding to use in the new database. Specify a string constant (such as <code>'SQL_ASCII'</code>), an integer encoding number, or <code>DEFAULT</code> to use the default encoding. For more information, see <a href="../character_sets.html">Character Set Support</a>.</p>
-<p>lc_collate
-:   The collation order (<code>LC_COLLATE</code>) to use in the new database. This affects the sort order applied to strings, e.g. in queries with <code>ORDER BY</code>, as well as the order used in indexes on text columns. The default is to use the collation order of the template database. See the Notes section for additional restrictions.</p>
-<p>lc_ctype
-:   The character classification (<code>LC_CTYPE</code>) to use in the new database. This affects the categorization of characters, e.g. lower, upper and digit. The default is to use the character classification of the template database. See below for additional restrictions.</p>
-<p>tablespace
-:   The name of the tablespace that will be associated with the new database, or <code>DEFAULT</code> to use the template database’s tablespace. This tablespace will be the default tablespace used for objects created in this database.</p>
-<p>connlimit
-:   The maximum number of concurrent connections possible. The default of -1 means there is no limitation.</p>
+<h3 id="name"><a class="header" href="#name">name</a></h3>
+<p>The name of a database to create.</p>
+<h3 id="user_name"><a class="header" href="#user_name">user_name</a></h3>
+<p>The name of the database user who will own the new database, or <code>DEFAULT</code> to use the default owner (the user running the command).</p>
+<h3 id="template"><a class="header" href="#template">template</a></h3>
+<p>The name of the template from which to create the new database, or <code>DEFAULT</code> to use the default template (template1).</p>
+<h3 id="encoding"><a class="header" href="#encoding">encoding</a></h3>
+<p>Character set encoding to use in the new database. Specify a string constant (such as <code>'SQL_ASCII'</code>), an integer encoding number, or <code>DEFAULT</code> to use the default encoding. For more information, see <a href="../character_sets.html">Character Set Support</a>.</p>
+<h3 id="lc_collate"><a class="header" href="#lc_collate">lc_collate</a></h3>
+<p>The collation order (<code>LC_COLLATE</code>) to use in the new database. This affects the sort order applied to strings, e.g. in queries with <code>ORDER BY</code>, as well as the order used in indexes on text columns. The default is to use the collation order of the template database. See the Notes section for additional restrictions.</p>
+<h3 id="lc_ctype"><a class="header" href="#lc_ctype">lc_ctype</a></h3>
+<p>The character classification (<code>LC_CTYPE</code>) to use in the new database. This affects the categorization of characters, e.g. lower, upper and digit. The default is to use the character classification of the template database. See below for additional restrictions.</p>
+<h3 id="tablespace"><a class="header" href="#tablespace">tablespace</a></h3>
+<p>The name of the tablespace that will be associated with the new database, or <code>DEFAULT</code> to use the template database’s tablespace. This tablespace will be the default tablespace used for objects created in this database.</p>
+<h3 id="connlimit"><a class="header" href="#connlimit">connlimit</a></h3>
+<p>The maximum number of concurrent connections possible. The default of -1 means there is no limitation.</p>
 <h2 id="notes"><a class="header" href="#notes"><a id="section5"></a>Notes</a></h2>
 <p><code>CREATE DATABASE</code> cannot be run inside a transaction block.</p>
 <p>When you copy a database by specifying its name as the template, no other sessions can be connected to the template database while it is being copied. New connections to the template database are locked out until <code>CREATE DATABASE</code> completes.</p>

@@ -202,96 +202,96 @@ gpbackup --help
 <p><code>gpbackup</code> can send status email notifications after a back up operation completes. You specify when the utility sends the mail and the email recipients in a configuration file. See <a href="../../admin_guide/managing/backup-gpbackup.html">Configuring Email Notifications</a>.</p>
 <p><strong>Note:</strong> This utility uses secure shell (SSH) connections between systems to perform its tasks. In large SynxDB deployments, cloud deployments, or deployments with a large number of segments per host, this utility may exceed the host’s maximum threshold for unauthenticated connections. Consider updating the SSH <code>MaxStartups</code> and <code>MaxSessions</code> configuration parameters to increase this threshold. For more information about SSH configuration options, refer to the SSH documentation for your Linux distribution.</p>
 <h2 id="options"><a class="header" href="#options"><a id="opts"></a>Options</a></h2>
-<p><strong>–dbname</strong> database_name
-:   Required. Specifies the database to back up.</p>
-<p><strong>–backup-dir</strong> directory
-:   Optional. Copies all required backup files (metadata files and data files) to the specified directory. You must specify directory as an absolute path (not relative). If you do not supply this option, metadata files are created on the SynxDB master host in the $MASTER_DATA_DIRECTORY/backups/YYYYMMDD/YYYYMMDDhhmmss/ directory. Segment hosts create CSV data files in the &lt;seg_dir&gt;/backups/YYYYMMDD/YYYYMMDDhhmmss/ directory. When you specify a custom backup directory, files are copied to these paths in subdirectories of the backup directory.</p>
-<p>:   You cannot combine this option with the option <code>--plugin-config</code>.</p>
-<p><strong>–compression-level</strong> level
-:   Optional. Specifies the compression level (from 1 to 9) used to compress data files. The default is 1. Note that <code>gpbackup</code> uses compression by default.</p>
-<p><strong>–compression-type</strong> type
-:   Optional. Specifies the compression type (<code>gzip</code> or <code>zstd</code>) used to compress data files. The default is <code>gzip</code>.</p>
-<p>:   <strong>Note:</strong> In order to use the <code>zstd</code> compression type, Zstandard (http://facebook.github.io/zstd/) must be installed in a $PATH accessible by the gpadmin user.</p>
-<p><strong>–copy-queue-size</strong> int
-:   Optional. Specifies the number of <code>COPY</code> commands <code>gpbackup</code> should enqueue when backing up using the <code>--single-data-file</code> option. This option optimizes backup performance by reducing the amount of time spent initializing <code>COPY</code> commands. If you do not set this option to 2 or greater, <code>gpbackup</code> enqueues 1 <code>COPY</code> command at a time.</p>
-<p>:   <strong>Note:</strong> This option must be used with the<code>--single-data-file</code> option and cannot be used with the <code>--jobs</code> option.</p>
-<p><strong>–data-only</strong>
-:   Optional. Backs up only the table data into CSV files, but does not backup metadata files needed to recreate the tables and other database objects.</p>
-<p><strong>–debug</strong>
-:   Optional. Displays verbose debug messages during operation.</p>
-<p><strong>–exclude-schema</strong> schema_name
-:   Optional. Specifies a database schema to exclude from the backup. You can specify this option multiple times to exclude multiple schemas. You cannot combine this option with the option <code>--include-schema</code>, <code>--include-schema-file</code>, or a table filtering option such as <code>--include-table</code>.</p>
-<p>:   See <a href="../../admin_guide/managing/backup-gpbackup.html">Filtering the Contents of a Backup or Restore</a> for more information.</p>
-<p>:   See <a href="../../admin_guide/managing/backup-gpbackup.html">Requirements and Limitations</a> for limitations when leaf partitions of a partitioned table are in different schemas from the root partition.</p>
-<p><strong>–exclude-schema-file</strong> file_name
-:   Optional. Specifies a text file containing a list of schemas to exclude from the backup. Each line in the text file must define a single schema. The file must not include trailing lines. If a schema name uses any character other than a lowercase letter, number, or an underscore character, then you must include that name in double quotes. You cannot combine this option with the option <code>--include-schema</code> or <code>--include-schema-file</code>, or a table filtering option such as <code>--include-table</code>.</p>
-<p>:   See <a href="../../admin_guide/managing/backup-gpbackup.html">Filtering the Contents of a Backup or Restore</a> for more information.</p>
-<p>:   See <a href="../../admin_guide/managing/backup-gpbackup.html">Requirements and Limitations</a> for limitations when leaf partitions of a partitioned table are in different schemas from the root partition.</p>
-<p><strong>–exclude-table</strong> schema.table
-:   Optional. Specifies a table to exclude from the backup. The table must be in the format <code>&lt;schema-name&gt;.&lt;table-name&gt;</code>. If a table or schema name uses any character other than a lowercase letter, number, or an underscore character, then you must include that name in double quotes. You can specify this option multiple times. You cannot combine this option with the option <code>--exclude-schema</code>, <code>--exclude-schema-file</code>, or another a table filtering option such as <code>--include-table</code>.</p>
-<p>:   If you specify a leaf partition name, <code>gpbackup</code> ignores the partition names. The leaf partition is not excluded.</p>
-<p>:   See <a href="../../admin_guide/managing/backup-gpbackup.html">Filtering the Contents of a Backup or Restore</a> for more information.</p>
-<p><strong>–exclude-table-file</strong> file_name
-:   Optional. Specifies a text file containing a list of tables to exclude from the backup. Each line in the text file must define a single table using the format <code>&lt;schema-name&gt;.&lt;table-name&gt;</code>. The file must not include trailing lines. If a table or schema name uses any character other than a lowercase letter, number, or an underscore character, then you must include that name in double quotes. You cannot combine this option with the option <code>--exclude-schema</code>, <code>--exclude-schema-file</code>, or another a table filtering option such as <code>--include-table</code>.</p>
-<p>:   If you specify leaf partition names in a file that is used with <code>--exclude-table-file</code>, <code>gpbackup</code> ignores the partition names. The leaf partitions are not excluded.</p>
-<p>:   See <a href="../../admin_guide/managing/backup-gpbackup.html">Filtering the Contents of a Backup or Restore</a> for more information.</p>
-<p><strong>–include-schema</strong> schema_name
-:   Optional. Specifies a database schema to include in the backup. You can specify this option multiple times to include multiple schemas. If you specify this option, any schemas that are not included in subsequent <code>--include-schema</code> options are omitted from the backup set. You cannot combine this option with the options <code>--exclude-schema</code>, <code>--exclude-schema-file</code>, <code>--exclude-schema-file</code>, <code>--include-table</code>, or <code>--include-table-file</code>. See <a href="../../admin_guide/managing/backup-gpbackup.html">Filtering the Contents of a Backup or Restore</a> for more information.</p>
-<p><strong>–include-schema-file</strong> file_name
-:   Optional. Specifies a text file containing a list of schemas to back up. Each line in the text file must define a single schema. The file must not include trailing lines. If a schema name uses any character other than a lowercase letter, number, or an underscore character, then you must include that name in double quotes. See <a href="../../admin_guide/managing/backup-gpbackup.html">Filtering the Contents of a Backup or Restore</a> for more information.</p>
-<p><strong>–include-table</strong> schema.table
-:   Optional. Specifies a table to include in the backup. The table must be in the format <code>&lt;schema-name&gt;.&lt;table-name&gt;</code>. For information on specifying special characters in schema and table names, see <a href="http://docs-lena-gpbackup-globals.cfapps.io/backup-restore/1-18/utility_guide/ref/gpbackup.html#topic1__table_names">Schema and Table Names</a>.</p>
-<p>:   You can specify this option multiple times. You cannot combine this option with a schema filtering option such as <code>--include-schema</code>, or another table filtering option such as <code>--exclude-table-file</code>.</p>
-<p>:   You can also specify the qualified name of a sequence, a view, or a materialized view.</p>
-<p>:   If you specify this option, the utility does not automatically back up dependent objects. You must also explicitly specify dependent objects that are required. For example if you back up a view or a materialized view, you must also back up the tables that the view or materialized view uses. If you back up a table that uses a sequence, you must also back up the sequence.</p>
-<p>:   You can optionally specify a table leaf partition name in place of the table name, to include only specific leaf partitions in a backup with the <code>--leaf-partition-data</code> option. When a leaf partition is backed up, the leaf partition data is backed up along with the metadata for the partitioned table.</p>
-<p>:   See <a href="../../admin_guide/managing/backup-gpbackup.html">Filtering the Contents of a Backup or Restore</a> for more information.</p>
-<p><strong>–include-table-file</strong> file_name
-:   Optional. Specifies a text file containing a list of tables to include in the backup. Each line in the text file must define a single table using the format <code>&lt;schema-name&gt;.&lt;table-name&gt;</code>. The file must not include trailing lines. For information on specifying special characters in schema and table names, see <a href="#table_names">Schema and Table Names</a>.</p>
-<p>:   Any tables not listed in this file are omitted from the backup set. You cannot combine this option with a schema filtering option such as <code>--include-schema</code>, or another table filtering option such as <code>--exclude-table-file</code>.</p>
-<p>:   You can also specify the qualified name of a sequence, a view, or a materialized view.</p>
-<p>:   If you specify this option, the utility does not automatically back up dependent objects. You must also explicitly specify dependent objects that are required. For example if you back up a view or a materialized view, you must also specify the tables that the view or the materialized view uses. If you specify a table that uses a sequence, you must also specify the sequence.</p>
-<p>:   You can optionally specify a table leaf partition name in place of the table name, to include only specific leaf partitions in a backup with the <code>--leaf-partition-data</code> option. When a leaf partition is backed up, the leaf partition data is backed up along with the metadata for the partitioned table.</p>
-<p>:   See <a href="../../admin_guide/managing/backup-gpbackup.html">Filtering the Contents of a Backup or Restore</a> for more information.</p>
-<p><strong>–incremental</strong>
-:   Specify this option to add an incremental backup to an incremental backup set. A backup set is a full backup and one or more incremental backups. The backups in the set must be created with a consistent set of backup options to ensure that the backup set can be used in a restore operation.</p>
-<p>:   By default, <code>gpbackup</code> attempts to find the most recent existing backup with a consistent set of options. If the backup is a full backup, the utility creates a backup set. If the backup is an incremental backup, the utility adds the backup to the existing backup set. The incremental backup is added as the latest backup in the backup set. You can specify <code>--from-timestamp</code> to override the default behavior.</p>
-<p>:   <strong>–from-timestamp</strong> backup-timestamp
-:   Optional. Specifies the timestamp of a backup. The specified backup must have backup options that are consistent with the incremental backup that is being created. If the specified backup is a full backup, the utility creates a backup set. If the specified backup is an incremental backup, the utility adds the incremental backup to the existing backup set.</p>
-<p>:   You must specify <code>--leaf-partition-data</code> with this option. You cannot combine this option with <code>--data-only</code> or <code>--metadata-only</code>.</p>
-<p>:   A backup is not created and the utility returns an error if the backup cannot add the backup to an existing incremental backup set or cannot use the backup to create a backup set.</p>
-<p>:   For information about creating and using incremental backups, see <a href="../../admin_guide/managing/backup-gpbackup-incremental.html">Creating and Using Incremental Backups with gpbackup and gprestore</a>.</p>
-<p><strong>–jobs</strong> int
-:   Optional. Specifies the number of jobs to run in parallel when backing up tables. By default, <code>gpbackup</code> uses 1 job (database connection). Increasing this number can improve the speed of backing up data. When running multiple jobs, each job backs up tables in a separate transaction. For example, if you specify <code>--jobs 2</code>, the utility creates two processes, each process starts a single transaction, and the utility backs up the tables in parallel using the two processes.
+<h3 id="dbname-database_name"><a class="header" href="#dbname-database_name">–dbname &lt;database_name&gt;</a></h3>
+<p>Required. Specifies the database to back up.</p>
+<h3 id="backup-dir"><a class="header" href="#backup-dir">–backup-dir <directory></a></h3>
+<p>Optional. Copies all required backup files (metadata files and data files) to the specified directory. You must specify directory as an absolute path (not relative). If you do not supply this option, metadata files are created on the SynxDB master host in the $MASTER_DATA_DIRECTORY/backups/YYYYMMDD/YYYYMMDDhhmmss/ directory. Segment hosts create CSV data files in the &lt;seg_dir&gt;/backups/YYYYMMDD/YYYYMMDDhhmmss/ directory. When you specify a custom backup directory, files are copied to these paths in subdirectories of the backup directory.</p>
+<p>You cannot combine this option with the option <code>--plugin-config</code>.</p>
+<h3 id="compression-level"><a class="header" href="#compression-level">–compression-level <level></a></h3>
+<p>Optional. Specifies the compression level (from 1 to 9) used to compress data files. The default is 1. Note that <code>gpbackup</code> uses compression by default.</p>
+<h3 id="compression-type"><a class="header" href="#compression-type">–compression-type <type></a></h3>
+<p>Optional. Specifies the compression type (<code>gzip</code> or <code>zstd</code>) used to compress data files. The default is <code>gzip</code>.</p>
+<p><strong>Note:</strong> In order to use the <code>zstd</code> compression type, Zstandard (http://facebook.github.io/zstd/) must be installed in a $PATH accessible by the gpadmin user.</p>
+<h3 id="copy-queue-size"><a class="header" href="#copy-queue-size">–copy-queue-size <int></a></h3>
+<p>Optional. Specifies the number of <code>COPY</code> commands <code>gpbackup</code> should enqueue when backing up using the <code>--single-data-file</code> option. This option optimizes backup performance by reducing the amount of time spent initializing <code>COPY</code> commands. If you do not set this option to 2 or greater, <code>gpbackup</code> enqueues 1 <code>COPY</code> command at a time.</p>
+<p><strong>Note:</strong> This option must be used with the<code>--single-data-file</code> option and cannot be used with the <code>--jobs</code> option.</p>
+<h3 id="data-only"><a class="header" href="#data-only">–data-only</a></h3>
+<p>Optional. Backs up only the table data into CSV files, but does not backup metadata files needed to recreate the tables and other database objects.</p>
+<h3 id="debug"><a class="header" href="#debug">–debug</a></h3>
+<p>Optional. Displays verbose debug messages during operation.</p>
+<h3 id="exclude-schema-schema_name"><a class="header" href="#exclude-schema-schema_name">–exclude-schema &lt;schema_name&gt;</a></h3>
+<p>Optional. Specifies a database schema to exclude from the backup. You can specify this option multiple times to exclude multiple schemas. You cannot combine this option with the option <code>--include-schema</code>, <code>--include-schema-file</code>, or a table filtering option such as <code>--include-table</code>.</p>
+<p>See <a href="../../admin_guide/managing/backup-gpbackup.html">Filtering the Contents of a Backup or Restore</a> for more information.</p>
+<p>See <a href="../../admin_guide/managing/backup-gpbackup.html">Requirements and Limitations</a> for limitations when leaf partitions of a partitioned table are in different schemas from the root partition.</p>
+<h3 id="exclude-schema-file-file_name"><a class="header" href="#exclude-schema-file-file_name">–exclude-schema-file &lt;file_name&gt;</a></h3>
+<p>Optional. Specifies a text file containing a list of schemas to exclude from the backup. Each line in the text file must define a single schema. The file must not include trailing lines. If a schema name uses any character other than a lowercase letter, number, or an underscore character, then you must include that name in double quotes. You cannot combine this option with the option <code>--include-schema</code> or <code>--include-schema-file</code>, or a table filtering option such as <code>--include-table</code>.</p>
+<p>See <a href="../../admin_guide/managing/backup-gpbackup.html">Filtering the Contents of a Backup or Restore</a> for more information.</p>
+<p>See <a href="../../admin_guide/managing/backup-gpbackup.html">Requirements and Limitations</a> for limitations when leaf partitions of a partitioned table are in different schemas from the root partition.</p>
+<h3 id="exclude-table-schematable"><a class="header" href="#exclude-table-schematable">–exclude-table &lt;schema.table&gt;</a></h3>
+<p>Optional. Specifies a table to exclude from the backup. The table must be in the format <code>&lt;schema-name&gt;.&lt;table-name&gt;</code>. If a table or schema name uses any character other than a lowercase letter, number, or an underscore character, then you must include that name in double quotes. You can specify this option multiple times. You cannot combine this option with the option <code>--exclude-schema</code>, <code>--exclude-schema-file</code>, or another a table filtering option such as <code>--include-table</code>.</p>
+<p>If you specify a leaf partition name, <code>gpbackup</code> ignores the partition names. The leaf partition is not excluded.</p>
+<p>See <a href="../../admin_guide/managing/backup-gpbackup.html">Filtering the Contents of a Backup or Restore</a> for more information.</p>
+<h3 id="exclude-table-file-file_name"><a class="header" href="#exclude-table-file-file_name">–exclude-table-file &lt;file_name&gt;</a></h3>
+<p>Optional. Specifies a text file containing a list of tables to exclude from the backup. Each line in the text file must define a single table using the format <code>&lt;schema-name&gt;.&lt;table-name&gt;</code>. The file must not include trailing lines. If a table or schema name uses any character other than a lowercase letter, number, or an underscore character, then you must include that name in double quotes. You cannot combine this option with the option <code>--exclude-schema</code>, <code>--exclude-schema-file</code>, or another a table filtering option such as <code>--include-table</code>.</p>
+<p>If you specify leaf partition names in a file that is used with <code>--exclude-table-file</code>, <code>gpbackup</code> ignores the partition names. The leaf partitions are not excluded.</p>
+<p>See <a href="../../admin_guide/managing/backup-gpbackup.html">Filtering the Contents of a Backup or Restore</a> for more information.</p>
+<h3 id="include-schema-schema_name"><a class="header" href="#include-schema-schema_name">–include-schema &lt;schema_name&gt;</a></h3>
+<p>Optional. Specifies a database schema to include in the backup. You can specify this option multiple times to include multiple schemas. If you specify this option, any schemas that are not included in subsequent <code>--include-schema</code> options are omitted from the backup set. You cannot combine this option with the options <code>--exclude-schema</code>, <code>--exclude-schema-file</code>, <code>--exclude-schema-file</code>, <code>--include-table</code>, or <code>--include-table-file</code>. See <a href="../../admin_guide/managing/backup-gpbackup.html">Filtering the Contents of a Backup or Restore</a> for more information.</p>
+<h3 id="include-schema-file-file_name"><a class="header" href="#include-schema-file-file_name">–include-schema-file &lt;file_name&gt;</a></h3>
+<p>Optional. Specifies a text file containing a list of schemas to back up. Each line in the text file must define a single schema. The file must not include trailing lines. If a schema name uses any character other than a lowercase letter, number, or an underscore character, then you must include that name in double quotes. See <a href="../../admin_guide/managing/backup-gpbackup.html">Filtering the Contents of a Backup or Restore</a> for more information.</p>
+<h3 id="include-table-schematable"><a class="header" href="#include-table-schematable">–include-table &lt;schema.table&gt;</a></h3>
+<p>Optional. Specifies a table to include in the backup. The table must be in the format <code>&lt;schema-name&gt;.&lt;table-name&gt;</code>. For information on specifying special characters in schema and table names, see <a href="http://docs-lena-gpbackup-globals.cfapps.io/backup-restore/1-18/utility_guide/ref/gpbackup.html#topic1__table_names">Schema and Table Names</a>.</p>
+<p>You can specify this option multiple times. You cannot combine this option with a schema filtering option such as <code>--include-schema</code>, or another table filtering option such as <code>--exclude-table-file</code>.</p>
+<p>You can also specify the qualified name of a sequence, a view, or a materialized view.</p>
+<p>If you specify this option, the utility does not automatically back up dependent objects. You must also explicitly specify dependent objects that are required. For example if you back up a view or a materialized view, you must also back up the tables that the view or materialized view uses. If you back up a table that uses a sequence, you must also back up the sequence.</p>
+<p>You can optionally specify a table leaf partition name in place of the table name, to include only specific leaf partitions in a backup with the <code>--leaf-partition-data</code> option. When a leaf partition is backed up, the leaf partition data is backed up along with the metadata for the partitioned table.</p>
+<p>See <a href="../../admin_guide/managing/backup-gpbackup.html">Filtering the Contents of a Backup or Restore</a> for more information.</p>
+<h3 id="include-table-file-file_name"><a class="header" href="#include-table-file-file_name">–include-table-file &lt;file_name&gt;</a></h3>
+<p>Optional. Specifies a text file containing a list of tables to include in the backup. Each line in the text file must define a single table using the format <code>&lt;schema-name&gt;.&lt;table-name&gt;</code>. The file must not include trailing lines. For information on specifying special characters in schema and table names, see <a href="#table_names">Schema and Table Names</a>.</p>
+<p>Any tables not listed in this file are omitted from the backup set. You cannot combine this option with a schema filtering option such as <code>--include-schema</code>, or another table filtering option such as <code>--exclude-table-file</code>.</p>
+<p>You can also specify the qualified name of a sequence, a view, or a materialized view.</p>
+<p>If you specify this option, the utility does not automatically back up dependent objects. You must also explicitly specify dependent objects that are required. For example if you back up a view or a materialized view, you must also specify the tables that the view or the materialized view uses. If you specify a table that uses a sequence, you must also specify the sequence.</p>
+<p>You can optionally specify a table leaf partition name in place of the table name, to include only specific leaf partitions in a backup with the <code>--leaf-partition-data</code> option. When a leaf partition is backed up, the leaf partition data is backed up along with the metadata for the partitioned table.</p>
+<p>See <a href="../../admin_guide/managing/backup-gpbackup.html">Filtering the Contents of a Backup or Restore</a> for more information.</p>
+<h3 id="incremental"><a class="header" href="#incremental">–incremental</a></h3>
+<p>Specify this option to add an incremental backup to an incremental backup set. A backup set is a full backup and one or more incremental backups. The backups in the set must be created with a consistent set of backup options to ensure that the backup set can be used in a restore operation.</p>
+<p>By default, <code>gpbackup</code> attempts to find the most recent existing backup with a consistent set of options. If the backup is a full backup, the utility creates a backup set. If the backup is an incremental backup, the utility adds the backup to the existing backup set. The incremental backup is added as the latest backup in the backup set. You can specify <code>--from-timestamp</code> to override the default behavior.</p>
+<h3 id="from-timestamp"><a class="header" href="#from-timestamp">–from-timestamp <backup-timestamp></a></h3>
+<p>Optional. Specifies the timestamp of a backup. The specified backup must have backup options that are consistent with the incremental backup that is being created. If the specified backup is a full backup, the utility creates a backup set. If the specified backup is an incremental backup, the utility adds the incremental backup to the existing backup set.</p>
+<p>You must specify <code>--leaf-partition-data</code> with this option. You cannot combine this option with <code>--data-only</code> or <code>--metadata-only</code>.</p>
+<p>A backup is not created and the utility returns an error if the backup cannot add the backup to an existing incremental backup set or cannot use the backup to create a backup set.</p>
+<p>For information about creating and using incremental backups, see <a href="../../admin_guide/managing/backup-gpbackup-incremental.html">Creating and Using Incremental Backups with gpbackup and gprestore</a>.</p>
+<h3 id="jobs"><a class="header" href="#jobs">–jobs <int></a></h3>
+<p>Optional. Specifies the number of jobs to run in parallel when backing up tables. By default, <code>gpbackup</code> uses 1 job (database connection). Increasing this number can improve the speed of backing up data. When running multiple jobs, each job backs up tables in a separate transaction. For example, if you specify <code>--jobs 2</code>, the utility creates two processes, each process starts a single transaction, and the utility backs up the tables in parallel using the two processes.
 <br/><br/><strong>Important:</strong> If you specify a value higher than 1, the database must be in a quiescent state at the very beginning while the utility creates the individual connections, initializes their transaction snapshots, and acquires a lock on the tables that are being backed up. If concurrent database operations are being performed on tables that are being backed up during the transaction snapshot initialization and table locking step, consistency between tables that are backed up in different parallel workers cannot be guaranteed.</p>
-<p>:   You cannot use this option in combination with the options <code>--metadata-only</code>, <code>--single-data-file</code>, or <code>--plugin-config</code>.
-:   <strong>Note:</strong> When using the <code>--jobs</code> flag, there is a potential deadlock scenario to generate a <code>WARNING</code> message in the log files. During the metadata portion of the backup, the main worker process gathers Access Share locks on all the tables in the backup set. During the data portion of the backup, based on the value of the <code>--jobs</code> flag, additional workers are created that attempt to take additional Access Share locks on the tables they back up. Between the metadata backup and the data backup, if a third party process (operations like <code>TRUNCATE</code>, <code>DROP</code>, <code>ALTER</code>) attempts to access the same tables and obtain an Exclusive lock, the worker thread identifies the potential deadlock, terminates its process, and hands off the table backup responsibilities to the main worker (that already has an Access Share lock on that particular table). A warning message is logged, similar to: <code>[WARNING]:-Worker 5 could not acquire AccessShareLock for table public.foo. Terminating worker and deferring table to main worker thread.</code></p>
-<p><strong>–leaf-partition-data</strong>
-:   Optional. For partitioned tables, creates one data file per leaf partition instead of one data file for the entire table (the default). Using this option also enables you to specify individual leaf partitions to include in or exclude from a backup, with the <code>--include-table</code>, <code>--include-table-file</code>, <code>--exclude-table</code>, and <code>--exclude-table-file</code> options.</p>
-<p><strong>–metadata-only</strong>
-:   Optional. Creates only the metadata files (DDL) needed to recreate the database objects, but does not back up the actual table data.</p>
-<p><strong>–no-compression</strong>
-:   Optional. Do not compress the table data CSV files.</p>
-<p><strong>–plugin-config</strong> config-file_location
-:   Specify the location of the <code>gpbackup</code> plugin configuration file, a YAML-formatted text file. The file contains configuration information for the plugin application that <code>gpbackup</code> uses during the backup operation.</p>
-<p>:   If you specify the <code>--plugin-config</code> option when you back up a database, you must specify this option with configuration information for a corresponding plugin application when you restore the database from the backup.</p>
-<p>:   You cannot combine this option with the option <code>--backup-dir</code>.</p>
-<p>:   For information about using storage plugin applications, see <a href="../../admin_guide/managing/backup-plugins.html">Using gpbackup Storage Plugins</a>.</p>
-<p><strong>–quiet</strong>
-:   Optional. Suppress all non-warning, non-error log messages.</p>
-<p><strong>–single-data-file</strong>
-:   Optional. Create a single data file on each segment host for all tables backed up on that segment. By default, each <code>gpbackup</code> creates one compressed CSV file for each table that is backed up on the segment.
+<p>You cannot use this option in combination with the options <code>--metadata-only</code>, <code>--single-data-file</code>, or <code>--plugin-config</code>.
+<strong>Note:</strong> When using the <code>--jobs</code> flag, there is a potential deadlock scenario to generate a <code>WARNING</code> message in the log files. During the metadata portion of the backup, the main worker process gathers Access Share locks on all the tables in the backup set. During the data portion of the backup, based on the value of the <code>--jobs</code> flag, additional workers are created that attempt to take additional Access Share locks on the tables they back up. Between the metadata backup and the data backup, if a third party process (operations like <code>TRUNCATE</code>, <code>DROP</code>, <code>ALTER</code>) attempts to access the same tables and obtain an Exclusive lock, the worker thread identifies the potential deadlock, terminates its process, and hands off the table backup responsibilities to the main worker (that already has an Access Share lock on that particular table). A warning message is logged, similar to: <code>[WARNING]:-Worker 5 could not acquire AccessShareLock for table public.foo. Terminating worker and deferring table to main worker thread.</code></p>
+<h3 id="leaf-partition-data"><a class="header" href="#leaf-partition-data">–leaf-partition-data</a></h3>
+<p>Optional. For partitioned tables, creates one data file per leaf partition instead of one data file for the entire table (the default). Using this option also enables you to specify individual leaf partitions to include in or exclude from a backup, with the <code>--include-table</code>, <code>--include-table-file</code>, <code>--exclude-table</code>, and <code>--exclude-table-file</code> options.</p>
+<h3 id="metadata-only"><a class="header" href="#metadata-only">–metadata-only</a></h3>
+<p>Optional. Creates only the metadata files (DDL) needed to recreate the database objects, but does not back up the actual table data.</p>
+<h3 id="no-compression"><a class="header" href="#no-compression">–no-compression</a></h3>
+<p>Optional. Do not compress the table data CSV files.</p>
+<h3 id="plugin-config-config-file_location"><a class="header" href="#plugin-config-config-file_location">–plugin-config &lt;config-file_location&gt;</a></h3>
+<p>Specify the location of the <code>gpbackup</code> plugin configuration file, a YAML-formatted text file. The file contains configuration information for the plugin application that <code>gpbackup</code> uses during the backup operation.</p>
+<p>If you specify the <code>--plugin-config</code> option when you back up a database, you must specify this option with configuration information for a corresponding plugin application when you restore the database from the backup.</p>
+<p>You cannot combine this option with the option <code>--backup-dir</code>.</p>
+<p>For information about using storage plugin applications, see <a href="../../admin_guide/managing/backup-plugins.html">Using gpbackup Storage Plugins</a>.</p>
+<h3 id="quiet"><a class="header" href="#quiet">–quiet</a></h3>
+<p>Optional. Suppress all non-warning, non-error log messages.</p>
+<h3 id="single-data-file"><a class="header" href="#single-data-file">–single-data-file</a></h3>
+<p>Optional. Create a single data file on each segment host for all tables backed up on that segment. By default, each <code>gpbackup</code> creates one compressed CSV file for each table that is backed up on the segment.
 <br/><br/><strong>Note:</strong> If you use the <code>--single-data-file</code> option to combine table backups into a single file per segment, you cannot set the <code>gprestore</code> option <code>--jobs</code> to a value higher than 1 to perform a parallel restore operation.</p>
-<p><strong>–verbose</strong>
-:   Optional. Print verbose log messages.</p>
-<p><strong>–version</strong>
-:   Optional. Print the version number and exit.</p>
-<p><strong>–with-stats</strong>
-:   Optional. Include query plan statistics in the backup set.</p>
-<p><strong>–without-globals</strong>
-:   Optional. Omit the global SynxDB system objects during backup.</p>
-<p>–help
-:   Displays the online help.</p>
+<h3 id="verbose"><a class="header" href="#verbose">–verbose</a></h3>
+<p>Optional. Print verbose log messages.</p>
+<h3 id="version"><a class="header" href="#version">–version</a></h3>
+<p>Optional. Print the version number and exit.</p>
+<h3 id="with-stats"><a class="header" href="#with-stats">–with-stats</a></h3>
+<p>Optional. Include query plan statistics in the backup set.</p>
+<h3 id="without-globals"><a class="header" href="#without-globals">–without-globals</a></h3>
+<p>Optional. Omit the global SynxDB system objects during backup.</p>
+<h3 id="help"><a class="header" href="#help">–help</a></h3>
+<p>Displays the online help.</p>
 <h2 id="return-codes"><a class="header" href="#return-codes"><a id="return_codes"></a>Return Codes</a></h2>
 <p>One of these codes is returned after <code>gpbackup</code> completes.</p>
 <ul>

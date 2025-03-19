@@ -196,25 +196,25 @@ CREATE CAST (&lt;sourcetype&gt; AS &lt;targettype&gt;)
 </blockquote>
 <p>To be able to create a cast, you must own the source or the target data type and have <code>USAGE</code> privilege on the other type. To create a binary-coercible cast, you must be superuser. (This restriction is made because an erroneous binary-coercible cast conversion can easily crash the server.)</p>
 <h2 id="parameters"><a class="header" href="#parameters"><a id="section4"></a>Parameters</a></h2>
-<p>sourcetype
-:   The name of the source data type of the cast.</p>
-<p>targettype
-:   The name of the target data type of the cast.</p>
-<p>funcname(argtype [, …])
-:   The function used to perform the cast. The function name may be schema-qualified. If it is not, SynxDB looks for the function in the schema search path. The function’s result data type must match the target type of the cast.</p>
-<p>:   Cast implementation functions may have one to three arguments. The first argument type must be identical to or binary-coercible from the cast’s source type. The second argument, if present, must be type <code>integer</code>; it receives the type modifier associated with the destination type, or <code>-1</code> if there is none. The third argument, if present, must be type <code>boolean</code>; it receives <code>true</code> if the cast is an explicit cast, <code>false</code> otherwise. The SQL specification demands different behaviors for explicit and implicit casts in some cases. This argument is supplied for functions that must implement such casts. It is not recommended that you design your own data types this way.</p>
-<p>:   The return type of a cast function must be identical to or binary-coercible to the cast’s target type.</p>
-<p>:   Ordinarily a cast must have different source and target data types. However, you are permitted to declare a cast with identical source and target types if it has a cast implementation function that takes more than one argument. This is used to represent type-specific length coercion functions in the system catalogs. The named function is used to coerce a value of the type to the type modifier value given by its second argument.</p>
-<p>:   When a cast has different source and target types and a function that takes more than one argument, the cast converts from one type to another and applies a length coercion in a single step. When no such entry is available, coercion to a type that uses a type modifier involves two steps, one to convert between data types and a second to apply the modifier.</p>
-<p>:   A cast to or from a domain type currently has no effect. Casting to or from a domain uses the casts associated with its underlying type.</p>
-<p>WITHOUT FUNCTION
-:   Indicates that the source type is binary-coercible to the target type, so no function is required to perform the cast.</p>
-<p>WITH INOUT
-:   Indicates that the cast is an I/O conversion cast, performed by invoking the output function of the source data type, and passing the resulting string to the input function of the target data type.</p>
-<p>AS ASSIGNMENT
-:   Indicates that the cast may be invoked implicitly in assignment contexts.</p>
-<p>AS IMPLICIT
-:   Indicates that the cast may be invoked implicitly in any context.</p>
+<h3 id="sourcetype"><a class="header" href="#sourcetype">sourcetype</a></h3>
+<p>The name of the source data type of the cast.</p>
+<h3 id="targettype"><a class="header" href="#targettype">targettype</a></h3>
+<p>The name of the target data type of the cast.</p>
+<h3 id="funcnameargtype--"><a class="header" href="#funcnameargtype--">funcname(argtype [, …])</a></h3>
+<p>The function used to perform the cast. The function name may be schema-qualified. If it is not, SynxDB looks for the function in the schema search path. The function’s result data type must match the target type of the cast.</p>
+<p>Cast implementation functions may have one to three arguments. The first argument type must be identical to or binary-coercible from the cast’s source type. The second argument, if present, must be type <code>integer</code>; it receives the type modifier associated with the destination type, or <code>-1</code> if there is none. The third argument, if present, must be type <code>boolean</code>; it receives <code>true</code> if the cast is an explicit cast, <code>false</code> otherwise. The SQL specification demands different behaviors for explicit and implicit casts in some cases. This argument is supplied for functions that must implement such casts. It is not recommended that you design your own data types this way.</p>
+<p>The return type of a cast function must be identical to or binary-coercible to the cast’s target type.</p>
+<p>Ordinarily a cast must have different source and target data types. However, you are permitted to declare a cast with identical source and target types if it has a cast implementation function that takes more than one argument. This is used to represent type-specific length coercion functions in the system catalogs. The named function is used to coerce a value of the type to the type modifier value given by its second argument.</p>
+<p>When a cast has different source and target types and a function that takes more than one argument, the cast converts from one type to another and applies a length coercion in a single step. When no such entry is available, coercion to a type that uses a type modifier involves two steps, one to convert between data types and a second to apply the modifier.</p>
+<p>A cast to or from a domain type currently has no effect. Casting to or from a domain uses the casts associated with its underlying type.</p>
+<h3 id="without-function"><a class="header" href="#without-function">WITHOUT FUNCTION</a></h3>
+<p>Indicates that the source type is binary-coercible to the target type, so no function is required to perform the cast.</p>
+<h3 id="with-inout"><a class="header" href="#with-inout">WITH INOUT</a></h3>
+<p>Indicates that the cast is an I/O conversion cast, performed by invoking the output function of the source data type, and passing the resulting string to the input function of the target data type.</p>
+<h3 id="as-assignment"><a class="header" href="#as-assignment">AS ASSIGNMENT</a></h3>
+<p>Indicates that the cast may be invoked implicitly in assignment contexts.</p>
+<h3 id="as-implicit"><a class="header" href="#as-implicit">AS IMPLICIT</a></h3>
+<p>Indicates that the cast may be invoked implicitly in any context.</p>
 <h2 id="notes"><a class="header" href="#notes"><a id="section5"></a>Notes</a></h2>
 <p>Note that in this release of SynxDB, user-defined functions used in a user-defined cast must be defined as <code>IMMUTABLE</code>. Any compiled code (shared library files) for custom functions must be placed in the same location on every host in your SynxDB array (master and all segments). This location must also be in the <code>LD_LIBRARY_PATH</code> so that the server can locate the files.</p>
 <p>Remember that if you want to be able to convert types both ways you need to declare casts both ways explicitly.</p>

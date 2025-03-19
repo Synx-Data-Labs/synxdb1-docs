@@ -164,17 +164,17 @@
 <h2 id="description"><a class="header" href="#description"><a id="section3"></a>Description</a></h2>
 <p><code>DROP INDEX</code> drops an existing index from the database system. To run this command you must be the owner of the index.</p>
 <h2 id="parameters"><a class="header" href="#parameters"><a id="section4"></a>Parameters</a></h2>
-<p>CONCURRENTLY
-:   Drop the index without locking out concurrent selects, inserts, updates, and deletes on the index’s table. A normal <code>DROP INDEX</code> acquires an exclusive lock on the table, blocking other accesses until the index drop can be completed. With this option, the command instead waits until conflicting transactions have completed.</p>
-<p>:   There are several caveats to be aware of when using this option. Only one index name can be specified, and the <code>CASCADE</code> option is not supported. (Thus, an index that supports a <code>UNIQUE</code> or <code>PRIMARY KEY</code> constraint cannot be dropped this way.) Also, regular <code>DROP INDEX</code> commands can be performed within a transaction block, but <code>DROP INDEX CONCURRENTLY</code> cannot.</p>
-<p>IF EXISTS
-:   Do not throw an error if the index does not exist. A notice is issued in this case.</p>
-<p>name
-:   The name (optionally schema-qualified) of an existing index.</p>
-<p>CASCADE
-:   Automatically drop objects that depend on the index.</p>
-<p>RESTRICT
-:   Refuse to drop the index if any objects depend on it. This is the default.</p>
+<h3 id="concurrently"><a class="header" href="#concurrently">CONCURRENTLY</a></h3>
+<p>Drop the index without locking out concurrent selects, inserts, updates, and deletes on the index’s table. A normal <code>DROP INDEX</code> acquires an exclusive lock on the table, blocking other accesses until the index drop can be completed. With this option, the command instead waits until conflicting transactions have completed.</p>
+<p>There are several caveats to be aware of when using this option. Only one index name can be specified, and the <code>CASCADE</code> option is not supported. (Thus, an index that supports a <code>UNIQUE</code> or <code>PRIMARY KEY</code> constraint cannot be dropped this way.) Also, regular <code>DROP INDEX</code> commands can be performed within a transaction block, but <code>DROP INDEX CONCURRENTLY</code> cannot.</p>
+<h3 id="if-exists"><a class="header" href="#if-exists">IF EXISTS</a></h3>
+<p>Do not throw an error if the index does not exist. A notice is issued in this case.</p>
+<h3 id="name"><a class="header" href="#name">name</a></h3>
+<p>The name (optionally schema-qualified) of an existing index.</p>
+<h3 id="cascade"><a class="header" href="#cascade">CASCADE</a></h3>
+<p>Automatically drop objects that depend on the index.</p>
+<h3 id="restrict"><a class="header" href="#restrict">RESTRICT</a></h3>
+<p>Refuse to drop the index if any objects depend on it. This is the default.</p>
 <h2 id="examples"><a class="header" href="#examples"><a id="section5"></a>Examples</a></h2>
 <p>Remove the index <code>title_idx</code>:</p>
 <pre><code>DROP INDEX title_idx;

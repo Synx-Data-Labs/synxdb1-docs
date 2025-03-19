@@ -173,14 +173,14 @@ ALTER TABLESPACE &lt;name&gt; RESET ( &lt;tablespace_option&gt; [, ... ] )
 <p><code>ALTER TABLESPACE</code> changes the definition of a tablespace.</p>
 <p>You must own the tablespace to use <code>ALTER TABLESPACE</code>. To alter the owner, you must also be a direct or indirect member of the new owning role. (Note that superusers have these privileges automatically.)</p>
 <h2 id="parameters"><a class="header" href="#parameters"><a id="section4"></a>Parameters</a></h2>
-<p>name
-:   The name of an existing tablespace.</p>
-<p>new_name
-:   The new name of the tablespace. The new name cannot begin with <code>pg_</code> or <code>gp_</code> (reserved for system tablespaces).</p>
-<p>new_owner
-:   The new owner of the tablespace.</p>
-<p>tablespace_option
-:   A tablespace parameter to set or reset. Currently, the only available parameters are seq_page_cost and random_page_cost. Setting either value for a particular tablespace will override the planner’s usual estimate of the cost of reading pages from tables in that tablespace, as established by the configuration parameters of the same name (see <a href="../config_params/guc-list.html#seq_page_cost">seq_page_cost</a>, <a href="../config_params/guc-list.html#random_page_cost">random_page_cost</a>). This may be useful if one tablespace is located on a disk which is faster or slower than the remainder of the I/O subsystem.</p>
+<h3 id="name"><a class="header" href="#name">name</a></h3>
+<p>The name of an existing tablespace.</p>
+<h3 id="new_name"><a class="header" href="#new_name">new_name</a></h3>
+<p>The new name of the tablespace. The new name cannot begin with <code>pg_</code> or <code>gp_</code> (reserved for system tablespaces).</p>
+<h3 id="new_owner"><a class="header" href="#new_owner">new_owner</a></h3>
+<p>The new owner of the tablespace.</p>
+<h3 id="tablespace_option"><a class="header" href="#tablespace_option">tablespace_option</a></h3>
+<p>A tablespace parameter to set or reset. Currently, the only available parameters are seq_page_cost and random_page_cost. Setting either value for a particular tablespace will override the planner’s usual estimate of the cost of reading pages from tables in that tablespace, as established by the configuration parameters of the same name (see <a href="../config_params/guc-list.html#seq_page_cost">seq_page_cost</a>, <a href="../config_params/guc-list.html#random_page_cost">random_page_cost</a>). This may be useful if one tablespace is located on a disk which is faster or slower than the remainder of the I/O subsystem.</p>
 <h2 id="examples"><a class="header" href="#examples"><a id="section5"></a>Examples</a></h2>
 <p>Rename tablespace <code>index_space</code> to <code>fast_raid</code>:</p>
 <pre><code>ALTER TABLESPACE index_space RENAME TO fast_raid;

@@ -179,39 +179,44 @@
 <p>Because <code>CREATE FOREIGN TABLE</code> automatically creates a data type that represents the composite type corresponding to one row of the foreign table, foreign tables cannot have the same name as any existing data type in the same schema.</p>
 <p>To create a foreign table, you must have <code>USAGE</code> privilege on the foreign server, as well as <code>USAGE</code> privilege on all column types used in the table.</p>
 <h2 id="parameters"><a class="header" href="#parameters"><a id="section4"></a>Parameters</a></h2>
-<p>IF NOT EXISTS
-:   Do not throw an error if a relation with the same name already exists. SynxDB issues a notice in this case. Note that there is no guarantee that the existing relation is anything like the one that would have been created.</p>
-<p>table_name
-:   The name (optionally schema-qualified) of the foreign table to create.</p>
-<p>column_name
-:   The name of a column to create in the new foreign table.</p>
-<p>data_type
-:   The data type of the column, including array specifiers.</p>
-<p>NOT NULL
-:   The column is not allowed to contain null values.</p>
-<p>NULL
-:   The column is allowed to contain null values. This is the default.</p>
-<pre><code>This clause is provided only for compatibility with non-standard SQL databases. Its use is discouraged in new applications.
-</code></pre>
-<p>DEFAULT default_expr
-:   The <code>DEFAULT</code> clause assigns a default value for the column whose definition it appears within. The value is any variable-free expression; SynxDB does not allow subqueries and cross-references to other columns in the current table. The data type of the default expression must match the data type of the column.</p>
-<pre><code>SynxDB uses the default expression in any insert operation that does not specify a value for the column. If there is no default for a column, then the default is null.
-</code></pre>
-<p>server_name
-:   The name of an existing server to use for the foreign table. For details on defining a server, see <a href="CREATE_SERVER.html">CREATE SERVER</a>.</p>
-<p>OPTIONS ( option ‘value’ [, … ] )
-:   The options for the new foreign table or one of its columns. While option names must be unique, a table option and a column option may have the same name. The option names and values are foreign-data wrapper-specific. SynxDB validates the options and values using the foreign-data wrapper’s validator_function.</p>
-<p>mpp_execute { ‘master’ | ‘any’ | ‘all segments’ }
-:   A SynxDB-specific option that identifies the host from which the foreign-data wrapper reads or writes data:</p>
-<pre><code>-   `master` \(the default\)—Read or write data from the master host.
--   `any`—Read data from either the master host or any one segment, depending on which path costs less.
--   `all segments`—Read or write data from all segments. To support this option value, the foreign-data wrapper must have a policy that matches the segments to data.
-&lt;br/&gt;&lt;br/&gt;&gt; **Note** SynxDB supports parallel writes to foreign tables only when you set `mpp_execute 'all segments'`.
-
-Support for the foreign table `mpp_execute` option, and the specific modes, is foreign-data wrapper-specific.
-
-The `mpp_execute` option can be specified in multiple commands: `CREATE FOREIGN TABLE`, `CREATE SERVER`, and `CREATE FOREIGN DATA WRAPPER`. The foreign table setting takes precedence over the foreign server setting, followed by the foreign-data wrapper setting.
-</code></pre>
+<h3 id="if-not-exists"><a class="header" href="#if-not-exists">IF NOT EXISTS</a></h3>
+<p>Do not throw an error if a relation with the same name already exists. SynxDB issues a notice in this case. Note that there is no guarantee that the existing relation is anything like the one that would have been created.</p>
+<h3 id="table_name"><a class="header" href="#table_name">table_name</a></h3>
+<p>The name (optionally schema-qualified) of the foreign table to create.</p>
+<h3 id="column_name"><a class="header" href="#column_name">column_name</a></h3>
+<p>The name of a column to create in the new foreign table.</p>
+<h3 id="data_type"><a class="header" href="#data_type">data_type</a></h3>
+<p>The data type of the column, including array specifiers.</p>
+<h3 id="not-null"><a class="header" href="#not-null">NOT NULL</a></h3>
+<p>The column is not allowed to contain null values.</p>
+<h3 id="null"><a class="header" href="#null">NULL</a></h3>
+<p>The column is allowed to contain null values. This is the default.</p>
+<p>This clause is provided only for compatibility with non-standard SQL databases. Its use is discouraged in new applications.</p>
+<h3 id="default-default_expr"><a class="header" href="#default-default_expr">DEFAULT default_expr</a></h3>
+<p>The <code>DEFAULT</code> clause assigns a default value for the column whose definition it appears within. The value is any variable-free expression; SynxDB does not allow subqueries and cross-references to other columns in the current table. The data type of the default expression must match the data type of the column.</p>
+<p>SynxDB uses the default expression in any insert operation that does not specify a value for the column. If there is no default for a column, then the default is null.</p>
+<h3 id="server_name"><a class="header" href="#server_name">server_name</a></h3>
+<p>The name of an existing server to use for the foreign table. For details on defining a server, see <a href="CREATE_SERVER.html">CREATE SERVER</a>.</p>
+<h3 id="options--option-value----"><a class="header" href="#options--option-value----">OPTIONS ( option ‘value’ [, … ] )</a></h3>
+<p>The options for the new foreign table or one of its columns. While option names must be unique, a table option and a column option may have the same name. The option names and values are foreign-data wrapper-specific. SynxDB validates the options and values using the foreign-data wrapper’s validator_function.</p>
+<h3 id="mpp_execute--master--any--all-segments-"><a class="header" href="#mpp_execute--master--any--all-segments-">mpp_execute { ‘master’ | ‘any’ | ‘all segments’ }</a></h3>
+<p>A SynxDB-specific option that identifies the host from which the foreign-data wrapper reads or writes data:</p>
+<ul>
+<li>
+<p><code>master</code> (the default)—Read or write data from the master host.</p>
+</li>
+<li>
+<p><code>any</code>—Read data from either the master host or any one segment, depending on which path costs less.</p>
+</li>
+<li>
+<p><code>all segments</code>—Read or write data from all segments. To support this option value, the foreign-data wrapper must have a policy that matches the segments to data.</p>
+<blockquote>
+<p><strong>Note</strong> SynxDB supports parallel writes to foreign tables only when you set <code>mpp_execute 'all segments'</code>.</p>
+</blockquote>
+</li>
+</ul>
+<p>Support for the foreign table <code>mpp_execute</code> option, and the specific modes, is foreign-data wrapper-specific.</p>
+<p>The <code>mpp_execute</code> option can be specified in multiple commands: <code>CREATE FOREIGN TABLE</code>, <code>CREATE SERVER</code>, and <code>CREATE FOREIGN DATA WRAPPER</code>. The foreign table setting takes precedence over the foreign server setting, followed by the foreign-data wrapper setting.</p>
 <h2 id="notes"><a class="header" href="#notes"><a id="section5"></a>Notes</a></h2>
 <p>The SynxDB Query Optimizer, GPORCA, does not support foreign tables. A query on a foreign table always falls back to the Postgres Planner.</p>
 <h2 id="examples"><a class="header" href="#examples"><a id="section6"></a>Examples</a></h2>

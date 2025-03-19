@@ -171,22 +171,20 @@
 <p><code>CREATE MATERIALIZED VIEW</code> defines a materialized view of a query. The query is run and used to populate the view at the time the command is issued (unless <code>WITH NO DATA</code> is used) and can be refreshed using <code>REFRESH MATERIALIZED VIEW</code>.</p>
 <p><code>CREATE MATERIALIZED VIEW</code> is similar to <code>CREATE TABLE AS</code>, except that it also remembers the query used to initialize the view, so that it can be refreshed later upon demand. To refresh materialized view data, use the <code>REFRESH MATERIALIZED VIEW</code> command. A materialized view has many of the same properties as a table, but there is no support for temporary materialized views or automatic generation of OIDs.</p>
 <h2 id="parameters"><a class="header" href="#parameters"><a id="section4"></a>Parameters</a></h2>
-<p>table_name
-:   The name (optionally schema-qualified) of the materialized view to be created.</p>
-<p>column_name
-:   The name of a column in the materialized view. The column names are assigned based on position. The first column name is assigned to the first column of the query result, and so on. If a column name is not provided, it is taken from the output column names of the query.</p>
-<p>WITH ( storage_parameter [= value] [, … ] )
-:   This clause specifies optional storage parameters for the materialized view. All parameters supported for <code>CREATE TABLE</code> are also supported for <code>CREATE MATERIALIZED VIEW</code> with the exception of OIDS. See <a href="CREATE_TABLE.html">CREATE TABLE</a> for more information.</p>
-<p>TABLESPACE tablespace_name
-:   The tablespace_name is the name of the tablespace in which the new materialized view is to be created. If not specified, server configuration parameter <a href="../config_params/guc-list.html">default_tablespace</a> is consulted.</p>
-<p>query
-:   A <a href="SELECT.html">SELECT</a> or <a href="VALUES.html">VALUES</a> command. This query will run within a security-restricted operation; in particular, calls to functions that themselves create temporary tables will fail.</p>
-<p>WITH [ NO ] DATA
-:   This clause specifies whether or not the materialized view should be populated with data at creation time. <code>WITH DATA</code> is the default, populate the materialized view. For <code>WITH NO DATA</code>, the materialized view is not populated with data, is flagged as unscannable, and cannot be queried until <code>REFRESH MATERIALIZED VIEW</code> is used to populate the materialized view. An error is returned if a query attempts to access an unscannable materialized view.</p>
-<p>DISTRIBUTED BY (column [opclass], [ … ] )
-DISTRIBUTED RANDOMLY
-DISTRIBUTED REPLICATED
-:   Used to declare the SynxDB distribution policy for the materialized view data. For information about a table distribution policy, see <a href="CREATE_TABLE.html">CREATE TABLE</a>.</p>
+<h3 id="table_name"><a class="header" href="#table_name">table_name</a></h3>
+<p>The name (optionally schema-qualified) of the materialized view to be created.</p>
+<h3 id="column_name"><a class="header" href="#column_name">column_name</a></h3>
+<p>The name of a column in the materialized view. The column names are assigned based on position. The first column name is assigned to the first column of the query result, and so on. If a column name is not provided, it is taken from the output column names of the query.</p>
+<h3 id="with--storage_parameter--value----"><a class="header" href="#with--storage_parameter--value----">WITH ( storage_parameter [= value] [, … ] )</a></h3>
+<p>This clause specifies optional storage parameters for the materialized view. All parameters supported for <code>CREATE TABLE</code> are also supported for <code>CREATE MATERIALIZED VIEW</code> with the exception of OIDS. See <a href="CREATE_TABLE.html">CREATE TABLE</a> for more information.</p>
+<h3 id="tablespace-tablespace_name"><a class="header" href="#tablespace-tablespace_name">TABLESPACE tablespace_name</a></h3>
+<p>The tablespace_name is the name of the tablespace in which the new materialized view is to be created. If not specified, server configuration parameter <a href="../config_params/guc-list.html">default_tablespace</a> is consulted.</p>
+<h3 id="query"><a class="header" href="#query">query</a></h3>
+<p>A <a href="SELECT.html">SELECT</a> or <a href="VALUES.html">VALUES</a> command. This query will run within a security-restricted operation; in particular, calls to functions that themselves create temporary tables will fail.</p>
+<h3 id="with--no--data"><a class="header" href="#with--no--data">WITH [ NO ] DATA</a></h3>
+<p>This clause specifies whether or not the materialized view should be populated with data at creation time. <code>WITH DATA</code> is the default, populate the materialized view. For <code>WITH NO DATA</code>, the materialized view is not populated with data, is flagged as unscannable, and cannot be queried until <code>REFRESH MATERIALIZED VIEW</code> is used to populate the materialized view. An error is returned if a query attempts to access an unscannable materialized view.</p>
+<h3 id="distributed-by-column-opclass----distributed-randomlykdistributed-replicated"><a class="header" href="#distributed-by-column-opclass----distributed-randomlykdistributed-replicated">DISTRIBUTED BY (column [opclass], [ … ] )<br/>DISTRIBUTED RANDOMLYK<br/>DISTRIBUTED REPLICATED</a></h3>
+<p>Used to declare the SynxDB distribution policy for the materialized view data. For information about a table distribution policy, see <a href="CREATE_TABLE.html">CREATE TABLE</a>.</p>
 <h2 id="notes"><a class="header" href="#notes"><a id="section5"></a>Notes</a></h2>
 <p>Materialized views are read only. The system will not allow an <code>INSERT</code>, <code>UPDATE</code>, or <code>DELETE</code> on a materialized view. Use <code>REFRESH MATERIALIZED VIEW</code> to update the materialized view data.</p>
 <p>If you want the data to be ordered upon generation, you must use an <code>ORDER BY</code> clause in the materialized view query. However, if a materialized view query contains an <code>ORDER BY</code> or <code>SORT</code> clause, the data is not guaranteed to be ordered or sorted if <code>SELECT</code> is performed on the materialized view.</p>

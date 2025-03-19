@@ -166,46 +166,34 @@
 <p><code>CREATE CONVERSION</code> defines a new conversion between character set encodings. Conversion names may be used in the convert function to specify a particular encoding conversion. Also, conversions that are marked <code>DEFAULT</code> can be used for automatic encoding conversion between client and server. For this purpose, two conversions, from encoding A to B and from encoding B to A, must be defined.</p>
 <p>To create a conversion, you must have <code>EXECUTE</code> privilege on the function and <code>CREATE</code> privilege on the destination schema.</p>
 <h2 id="parameters"><a class="header" href="#parameters"><a id="section4"></a>Parameters</a></h2>
-<p>DEFAULT
-:   Indicates that this conversion is the default for this particular source to destination encoding. There should be only one default encoding in a schema for the encoding pair.</p>
-<p>name
-:   The name of the conversion. The conversion name may be schema-qualified. If it is not, the conversion is defined in the current schema. The conversion name must be unique within a schema.</p>
-<p>source_encoding
-:   The source encoding name.</p>
-<p>dest_encoding
-:   The destination encoding name.</p>
-<p>funcname
-:   The function used to perform the conversion. The function name may be schema-qualified. If it is not, the function will be looked up in the path. The function must have the following signature:</p>
-<p>:   ```
-conv_proc(
-integer,  – source encoding ID
-integer,  – destination encoding ID
-cstring,  – source string (null terminated C string)
-internal, – destination (fill with a null terminated C string)
-integer   – source string length
-) RETURNS void;</p>
-<pre><code>
-## &lt;a id="section5"&gt;&lt;/a&gt;Notes 
-
-Note that in this release of SynxDB, user-defined functions used in a user-defined conversion must be defined as `IMMUTABLE`. Any compiled code \(shared library files\) for custom functions must be placed in the same location on every host in your SynxDB array \(master and all segments\). This location must also be in the `LD_LIBRARY_PATH` so that the server can locate the files.
-
-## &lt;a id="section6"&gt;&lt;/a&gt;Examples 
-
-To create a conversion from encoding `UTF8` to `LATIN1` using `myfunc`:
-
+<h3 id="default"><a class="header" href="#default">DEFAULT</a></h3>
+<p>Indicates that this conversion is the default for this particular source to destination encoding. There should be only one default encoding in a schema for the encoding pair.</p>
+<h3 id="name"><a class="header" href="#name">name</a></h3>
+<p>The name of the conversion. The conversion name may be schema-qualified. If it is not, the conversion is defined in the current schema. The conversion name must be unique within a schema.</p>
+<h3 id="source_encoding"><a class="header" href="#source_encoding">source_encoding</a></h3>
+<p>The source encoding name.</p>
+<h3 id="dest_encoding"><a class="header" href="#dest_encoding">dest_encoding</a></h3>
+<p>The destination encoding name.</p>
+<h3 id="funcname"><a class="header" href="#funcname">funcname</a></h3>
+<p>The function used to perform the conversion. The function name may be schema-qualified. If it is not, the function will be looked up in the path. The function must have the following signature:</p>
+<pre><code>conv_proc(
+    integer,  -- source encoding ID
+    integer,  -- destination encoding ID
+    cstring,  -- source string (null terminated C string)
+    internal, -- destination (fill with a null terminated C string)
+    integer   -- source string length
+) RETURNS void;
 </code></pre>
-<p>CREATE CONVERSION myconv FOR ‘UTF8’ TO ‘LATIN1’ FROM myfunc;</p>
-<pre><code>
-## &lt;a id="section7"&gt;&lt;/a&gt;Compatibility 
-
-There is no `CREATE CONVERSION` statement in the SQL standard, but there is a `CREATE TRANSLATION` statement that is very similar in purpose and syntax.
-
-## &lt;a id="section8"&gt;&lt;/a&gt;See Also 
-
-[ALTER CONVERSION](ALTER_CONVERSION.html), [CREATE FUNCTION](CREATE_FUNCTION.html), [DROP CONVERSION](DROP_CONVERSION.html)
-
-
+<h2 id="notes"><a class="header" href="#notes"><a id="section5"></a>Notes</a></h2>
+<p>Note that in this release of SynxDB, user-defined functions used in a user-defined conversion must be defined as <code>IMMUTABLE</code>. Any compiled code (shared library files) for custom functions must be placed in the same location on every host in your SynxDB array (master and all segments). This location must also be in the <code>LD_LIBRARY_PATH</code> so that the server can locate the files.</p>
+<h2 id="examples"><a class="header" href="#examples"><a id="section6"></a>Examples</a></h2>
+<p>To create a conversion from encoding <code>UTF8</code> to <code>LATIN1</code> using <code>myfunc</code>:</p>
+<pre><code>CREATE CONVERSION myconv FOR 'UTF8' TO 'LATIN1' FROM myfunc;
 </code></pre>
+<h2 id="compatibility"><a class="header" href="#compatibility"><a id="section7"></a>Compatibility</a></h2>
+<p>There is no <code>CREATE CONVERSION</code> statement in the SQL standard, but there is a <code>CREATE TRANSLATION</code> statement that is very similar in purpose and syntax.</p>
+<h2 id="see-also"><a class="header" href="#see-also"><a id="section8"></a>See Also</a></h2>
+<p><a href="ALTER_CONVERSION.html">ALTER CONVERSION</a>, <a href="CREATE_FUNCTION.html">CREATE FUNCTION</a>, <a href="DROP_CONVERSION.html">DROP CONVERSION</a></p>
 
                     </main>
 

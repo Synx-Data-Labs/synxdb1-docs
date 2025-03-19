@@ -170,28 +170,28 @@ dropuser -V | --version
 <p><code>dropuser</code> is a wrapper around the SQL command <code>DROP ROLE</code>.</p>
 <h2 id="options"><a class="header" href="#options"><a id="section4"></a>Options</a></h2>
 <p>role_name
-:   The name of the role to be removed. You will be prompted for a name if not specified on the command line and the <code>-i</code>/<code>--interactive</code> option is used.</p>
-<p>-e | –echo
-:   Echo the commands that <code>dropuser</code> generates and sends to the server.</p>
-<p>-i | –interactive
-:   Prompt for confirmation before actually removing the role, and prompt for the role name if none is specified on the command line.</p>
-<p>–if-exists
-:   Do not throw an error if the user does not exist. A notice is issued in this case.</p>
-<p>-V | –version
-:   Print the <code>dropuser</code> version and exit.</p>
-<p>-? | –help
-:   Show help about <code>dropuser</code> command line arguments, and exit.</p>
+The name of the role to be removed. You will be prompted for a name if not specified on the command line and the <code>-i</code>/<code>--interactive</code> option is used.</p>
+<h3 id="-e--echo"><a class="header" href="#-e--echo">-e | –echo</a></h3>
+<p>Echo the commands that <code>dropuser</code> generates and sends to the server.</p>
+<h3 id="-i--interactive"><a class="header" href="#-i--interactive">-i | –interactive</a></h3>
+<p>Prompt for confirmation before actually removing the role, and prompt for the role name if none is specified on the command line.</p>
+<h3 id="if-exists"><a class="header" href="#if-exists">–if-exists</a></h3>
+<p>Do not throw an error if the user does not exist. A notice is issued in this case.</p>
+<h3 id="-v--version"><a class="header" href="#-v--version">-V | –version</a></h3>
+<p>Print the <code>dropuser</code> version and exit.</p>
+<h3 id="---help"><a class="header" href="#---help">-? | –help</a></h3>
+<p>Show help about <code>dropuser</code> command line arguments, and exit.</p>
 <p><strong>Connection Options</strong></p>
-<p>-h host | –host=host
-:   The host name of the machine on which the SynxDB master database server is running. If not specified, reads from the environment variable <code>PGHOST</code> or defaults to localhost.</p>
-<p>-p port | –port=port
-:   The TCP port on which the SynxDB master database server is listening for connections. If not specified, reads from the environment variable <code>PGPORT</code> or defaults to 5432.</p>
-<p>-U username | –username=username
-:   The database role name to connect as. If not specified, reads from the environment variable <code>PGUSER</code> or defaults to the current system role name.</p>
-<p>-w | –no-password
-:   Never issue a password prompt. If the server requires password authentication and a password is not available by other means such as a <code>.pgpass</code> file, the connection attempt will fail. This option can be useful in batch jobs and scripts where no user is present to enter a password.</p>
-<p>-W | –password
-:   Force a password prompt.</p>
+<h3 id="-h-host--hosthost"><a class="header" href="#-h-host--hosthost">-h host | –host=host</a></h3>
+<p>The host name of the machine on which the SynxDB master database server is running. If not specified, reads from the environment variable <code>PGHOST</code> or defaults to localhost.</p>
+<h3 id="-p-port--portport"><a class="header" href="#-p-port--portport">-p port | –port=port</a></h3>
+<p>The TCP port on which the SynxDB master database server is listening for connections. If not specified, reads from the environment variable <code>PGPORT</code> or defaults to 5432.</p>
+<h3 id="-u-username--usernameusername"><a class="header" href="#-u-username--usernameusername">-U username | –username=username</a></h3>
+<p>The database role name to connect as. If not specified, reads from the environment variable <code>PGUSER</code> or defaults to the current system role name.</p>
+<h3 id="-w--no-password"><a class="header" href="#-w--no-password">-w | –no-password</a></h3>
+<p>Never issue a password prompt. If the server requires password authentication and a password is not available by other means such as a <code>.pgpass</code> file, the connection attempt will fail. This option can be useful in batch jobs and scripts where no user is present to enter a password.</p>
+<h3 id="-w--password"><a class="header" href="#-w--password">-W | –password</a></h3>
+<p>Force a password prompt.</p>
 <h2 id="examples"><a class="header" href="#examples"><a id="section6"></a>Examples</a></h2>
 <p>To remove the role <code>joe</code> using default connection options:</p>
 <pre><code>dropuser joe

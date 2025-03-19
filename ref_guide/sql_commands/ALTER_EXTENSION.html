@@ -201,51 +201,45 @@ and &lt;aggregate_signature&gt; is:
 </code></pre>
 <h2 id="description"><a class="header" href="#description"><a id="section3"></a>Description</a></h2>
 <p><code>ALTER EXTENSION</code> changes the definition of an installed extension. These are the subforms:</p>
-<p>UPDATE
-:   This form updates the extension to a newer version. The extension must supply a suitable update script (or series of scripts) that can modify the currently-installed version into the requested version.</p>
-<p>SET SCHEMA
-:   This form moves the extension member objects into another schema. The extension must be <em>relocatable</em>.</p>
-<p>ADD member_object
-:   This form adds an existing object to the extension. This is useful in extension update scripts. The added object is treated as a member of the extension. The object can only be dropped by dropping the extension.</p>
-<p>DROP member_object
-:   This form removes a member object from the extension. This is mainly useful in extension update scripts. The object is not dropped, only disassociated from the extension.</p>
+<h3 id="update"><a class="header" href="#update">UPDATE</a></h3>
+<p>This form updates the extension to a newer version. The extension must supply a suitable update script (or series of scripts) that can modify the currently-installed version into the requested version.</p>
+<h3 id="set-schema"><a class="header" href="#set-schema">SET SCHEMA</a></h3>
+<p>This form moves the extension member objects into another schema. The extension must be <em>relocatable</em>.</p>
+<h3 id="add-member_object"><a class="header" href="#add-member_object">ADD member_object</a></h3>
+<p>This form adds an existing object to the extension. This is useful in extension update scripts. The added object is treated as a member of the extension. The object can only be dropped by dropping the extension.</p>
+<h3 id="drop-member_object"><a class="header" href="#drop-member_object">DROP member_object</a></h3>
+<p>This form removes a member object from the extension. This is mainly useful in extension update scripts. The object is not dropped, only disassociated from the extension.</p>
 <p>See <a href="https://www.postgresql.org/docs/9.6/extend-extensions.html">Packaging Related Objects into an Extension</a> for more information about these operations.</p>
 <p>You must own the extension to use <code>ALTER EXTENSION</code>. The <code>ADD</code> and <code>DROP</code> forms also require ownership of the object that is being added or dropped.</p>
 <h2 id="parameters"><a class="header" href="#parameters"><a id="section4"></a>Parameters</a></h2>
-<p>name
-:   The name of an installed extension.</p>
-<p>new_version
-:   The new version of the extension. The new_version can be either an identifier or a string literal. If not specified, the command attempts to update to the default version in the extension control file.</p>
-<p>new_schema
-:   The new schema for the extension.</p>
-<p>object_name
-aggregate_name
-function_name
-operator_name
-:   The name of an object to be added to or removed from the extension. Names of tables, aggregates, domains, foreign tables, functions, operators, operator classes, operator families, sequences, text search objects, types, and views can be schema-qualified.</p>
-<p>source_type
-:   The name of the source data type of the cast.</p>
-<p>target_type
-:   The name of the target data type of the cast.</p>
-<p>argmode
-:   The mode of a function or aggregate argument: <code>IN</code>, <code>OUT</code>, <code>INOUT</code>, or <code>VARIADIC</code>. The default is <code>IN</code>.</p>
-<pre><code>The command ignores the `OUT` arguments. Only the input arguments are required to determine the function identity. It is sufficient to list the `IN`, `INOUT`, and `VARIADIC` arguments.
-</code></pre>
-<p>argname
-:   The name of a function or aggregate argument.</p>
-<pre><code>The command ignores argument names, since only the argument data types are required to determine the function identity.
-</code></pre>
-<p>argtype
-:   The data type of a function or aggregate argument.</p>
-<p>left_type
-right_type
-:   The data types of the operator’s arguments (optionally schema-qualified) . Specify <code>NONE</code> for the missing argument of a prefix or postfix operator.</p>
-<p>PROCEDURAL
-:   This is a noise word.</p>
-<p>type_name
-:   The name of the data type of the transform.</p>
-<p>lang_name
-:   The name of the language of the transform.</p>
+<h3 id="name"><a class="header" href="#name">name</a></h3>
+<p>The name of an installed extension.</p>
+<h3 id="new_version"><a class="header" href="#new_version">new_version</a></h3>
+<p>The new version of the extension. The new_version can be either an identifier or a string literal. If not specified, the command attempts to update to the default version in the extension control file.</p>
+<h3 id="new_schema"><a class="header" href="#new_schema">new_schema</a></h3>
+<p>The new schema for the extension.</p>
+<h3 id="object_name-aggregate_name-function_name-operator_name"><a class="header" href="#object_name-aggregate_name-function_name-operator_name">object_name, aggregate_name, function_name, operator_name</a></h3>
+<p>The name of an object to be added to or removed from the extension. Names of tables, aggregates, domains, foreign tables, functions, operators, operator classes, operator families, sequences, text search objects, types, and views can be schema-qualified.</p>
+<h3 id="source_type"><a class="header" href="#source_type">source_type</a></h3>
+<p>The name of the source data type of the cast.</p>
+<h3 id="target_type"><a class="header" href="#target_type">target_type</a></h3>
+<p>The name of the target data type of the cast.</p>
+<h3 id="argmode"><a class="header" href="#argmode">argmode</a></h3>
+<p>The mode of a function or aggregate argument: <code>IN</code>, <code>OUT</code>, <code>INOUT</code>, or <code>VARIADIC</code>. The default is <code>IN</code>.</p>
+<p>The command ignores the <code>OUT</code> arguments. Only the input arguments are required to determine the function identity. It is sufficient to list the <code>IN</code>, <code>INOUT</code>, and <code>VARIADIC</code> arguments.</p>
+<h3 id="argname"><a class="header" href="#argname">argname</a></h3>
+<p>The name of a function or aggregate argument.</p>
+<p>The command ignores argument names, since only the argument data types are required to determine the function identity.</p>
+<h3 id="argtype"><a class="header" href="#argtype">argtype</a></h3>
+<p>The data type of a function or aggregate argument.</p>
+<h3 id="left_type-right_type"><a class="header" href="#left_type-right_type">left_type, right_type</a></h3>
+<p>The data types of the operator’s arguments (optionally schema-qualified) . Specify <code>NONE</code> for the missing argument of a prefix or postfix operator.</p>
+<h3 id="procedural"><a class="header" href="#procedural">PROCEDURAL</a></h3>
+<p>This is a noise word.</p>
+<h3 id="type_name"><a class="header" href="#type_name">type_name</a></h3>
+<p>The name of the data type of the transform.</p>
+<h3 id="lang_name"><a class="header" href="#lang_name">lang_name</a></h3>
+<p>The name of the language of the transform.</p>
 <h2 id="examples"><a class="header" href="#examples"><a id="section5"></a>Examples</a></h2>
 <p>To update the hstore extension to version 2.0:</p>
 <pre><code>ALTER EXTENSION hstore UPDATE TO '2.0';

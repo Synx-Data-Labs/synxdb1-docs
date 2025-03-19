@@ -169,10 +169,10 @@
 <p>Anonymous blocks are standard procedural language blocks. They carry the syntax and obey the rules that apply to the procedural language, including declaration and scope of variables, execution, exception handling, and language usage.</p>
 <p>The compilation and execution of anonymous blocks are combined in one step, while a user-defined function needs to be re-defined before use each time its definition changes.</p>
 <h2 id="parameters"><a class="header" href="#parameters"><a id="section4"></a>Parameters</a></h2>
-<p>code
-:   The procedural language code to be run. This must be specified as a string literal, just as with the <code>CREATE FUNCTION</code> command. Use of a dollar-quoted literal is recommended. Optional keywords have no effect. These procedural languages are supported: PL/pgSQL (<code>plpgsql</code>), PL/Python (<code>plpythonu</code>), and PL/Perl (<code>plperl</code> and <code>plperlu</code>).</p>
-<p>lang_name
-:   The name of the procedural language that the code is written in. The default is <code>plpgsql</code>. The language must be installed on the SynxDB system and registered in the database.</p>
+<h3 id="code"><a class="header" href="#code">code</a></h3>
+<p>The procedural language code to be run. This must be specified as a string literal, just as with the <code>CREATE FUNCTION</code> command. Use of a dollar-quoted literal is recommended. Optional keywords have no effect. These procedural languages are supported: PL/pgSQL (<code>plpgsql</code>), PL/Python (<code>plpythonu</code>), and PL/Perl (<code>plperl</code> and <code>plperlu</code>).</p>
+<h3 id="lang_name"><a class="header" href="#lang_name">lang_name</a></h3>
+<p>The name of the procedural language that the code is written in. The default is <code>plpgsql</code>. The language must be installed on the SynxDB system and registered in the database.</p>
 <h2 id="notes"><a class="header" href="#notes"><a id="section5"></a>Notes</a></h2>
 <p>The PL/pgSQL language is installed on the SynxDB system and is registered in a user created database. The PL/Python and PL/Perl languages are installed by default, but not registered. Other languages are not installed or registered. The system catalog <code>pg_language</code> contains information about the registered languages in a database.</p>
 <p>The user must have <code>USAGE</code> privilege for the procedural language, or must be a superuser if the language is untrusted. This is the same privilege requirement as for creating a function in the language.</p>

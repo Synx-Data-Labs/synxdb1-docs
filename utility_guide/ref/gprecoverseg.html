@@ -201,133 +201,103 @@ gprecoverseg --version
 <p>The new recovery segment host must be pre-installed with the SynxDB software and configured exactly the same as the existing segment hosts. A spare data directory location must exist on all currently configured segment hosts and have enough disk space to accommodate the failed segments.</p>
 <p>The recovery process marks the segment as up again in the SynxDB system catalog, and then initiates the resynchronization process to bring the transactional state of the segment up-to-date with the latest changes. The system is online and available during <code>Not in Sync</code> mode.</p>
 <h2 id="options"><a class="header" href="#options"><a id="section4"></a>Options</a></h2>
-<p>-a (do not prompt)
-:   Do not prompt the user for confirmation.</p>
-<p>-b segment_batch_size
-:   The maximum number of segments per host to operate on in parallel. Valid values are <code>1</code> to <code>128</code>. If not specified, the utility will start recovering up to 64 segments in parallel on each host.</p>
-<p>-B batch_size
-:   The number of hosts to work on in parallel. If not specified, the utility will start working on up to 16 hosts in parallel. Valid values are <code>1</code> to <code>64</code>.</p>
-<p>-d master_data_directory
-:   Optional. The master host data directory. If not specified, the value set for <code>$MASTER_DATA_DIRECTORY</code> will be used.</p>
-<p>-F (full recovery)
-:   Optional. Perform a full copy of the active segment instance in order to recover the failed segment, rather than the
+<h3 id="-a-do-not-prompt"><a class="header" href="#-a-do-not-prompt">-a (do not prompt)</a></h3>
+<p>Do not prompt the user for confirmation.</p>
+<h3 id="-b-segment_batch_size"><a class="header" href="#-b-segment_batch_size">-b segment_batch_size</a></h3>
+<p>The maximum number of segments per host to operate on in parallel. Valid values are <code>1</code> to <code>128</code>. If not specified, the utility will start recovering up to 64 segments in parallel on each host.</p>
+<h3 id="-b-batch_size"><a class="header" href="#-b-batch_size">-B batch_size</a></h3>
+<p>The number of hosts to work on in parallel. If not specified, the utility will start working on up to 16 hosts in parallel. Valid values are <code>1</code> to <code>64</code>.</p>
+<h3 id="-d-master_data_directory"><a class="header" href="#-d-master_data_directory">-d master_data_directory</a></h3>
+<p>Optional. The master host data directory. If not specified, the value set for <code>$MASTER_DATA_DIRECTORY</code> will be used.</p>
+<h3 id="-f-full-recovery"><a class="header" href="#-f-full-recovery">-F (full recovery)</a></h3>
+<p>Optional. Perform a full copy of the active segment instance in order to recover the failed segment, rather than the
 default behavior of copying only the changes that occurred while the segment was down.</p>
-<pre><code>&gt;**Caution** 
-&gt;A full recovery deletes the data directory of the down segment instance before copying the data from the active (current primary) segment instance. Before performing a full recovery, ensure that the segment failure did not cause data corruption and that any host segment disk issues have been fixed.
-
-Also, for a full recovery, the utility does not restore custom files that are stored in the segment instance data directory even if the custom files are also in the active segment instance. You must restore the custom files manually. For example, when using the `gpfdists` protocol (`gpfdist` with SSL encryption) to manage external data, client certificate files are required in the segment instance `$PGDATA/gpfdists` directory. These files are not restored. For information about configuring `gpfdists`, see [Encrypting gpfdist Connections](../../security-guide/topics/Encryption.html).
-
-Use the `-s` option to output a new line once per second for each segment. Alternatively, use the `--no-progress` option to completely deactivate progress reports. To avoid copying the entire contents of the data directory during a full recovery after a previous full recovery failed, use `gprecoverseg`s 
-
-speed up the amount of time full recovery takes, use the `--differential` option to skip recovery of files and directories that have not changed since the last time `gprecoverseg` ran.
+<blockquote>
+<p><strong>Caution</strong> A full recovery deletes the data directory of the down segment instance before copying the data from the active (current primary) segment instance. Before performing a full recovery, ensure that the segment failure did not cause data corruption and that any host segment disk issues have been fixed.</p>
+</blockquote>
+<p>Also, for a full recovery, the utility does not restore custom files that are stored in the segment instance data directory even if the custom files are also in the active segment instance. You must restore the custom files manually. For example, when using the <code>gpfdists</code> protocol (<code>gpfdist</code> with SSL encryption) to manage external data, client certificate files are required in the segment instance <code>$PGDATA/gpfdists</code> directory. These files are not restored. For information about configuring <code>gpfdists</code>, see <a href="../../security-guide/topics/Encryption.html">Encrypting gpfdist Connections</a>.</p>
+<p>Use the <code>-s</code> option to output a new line once per second for each segment. Alternatively, use the <code>--no-progress</code> option to completely deactivate progress reports. To avoid copying the entire contents of the data directory during a full recovery after a previous full recovery failed, use <code>gprecoverseg</code>s</p>
+<p>speed up the amount of time full recovery takes, use the <code>--differential</code> option to skip recovery of files and directories that have not changed since the last time <code>gprecoverseg</code> ran.</p>
+<h3 id="differential-differential-recovery"><a class="header" href="#differential-differential-recovery">–differential (Differential recovery)</a></h3>
+<p>Optional. Perform a differential copy of the active segment instance in order to recover the failed segment. The default is to only copy over the incremental changes that occurred while the segment was down.</p>
+<h3 id="hba-hostnames-boolean"><a class="header" href="#hba-hostnames-boolean">–hba-hostnames boolean</a></h3>
+<p>Optional. Controls whether this utility uses IP addresses or host names in the <code>pg_hba.conf</code> file when updating this file with addresses that can connect to SynxDB. When set to 0 – the default value – this utility uses IP addresses when updating this file. When set to 1, this utility uses host names when updating this file. For consistency, use the same value that was specified for <code>HBA_HOSTNAMES</code> when the SynxDB system was initialized. For information about how SynxDB resolves host names in the <code>pg_hba.conf</code> file, see <a href="../../admin_guide/client_auth.html">Configuring Client Authentication</a>.</p>
+<h3 id="-i-recover_config_file"><a class="header" href="#-i-recover_config_file">-i recover_config_file</a></h3>
+<p>Specifies the name of a file with the details about failed segments to recover.</p>
+<p>Each line in the config file specifies a segment to recover. This line can have one of three formats. In the event of in-place (incremental) recovery, enter one group of pipe-delimited fields in the line. For example:</p>
+<pre><code>failedAddress|failedPort|failedDataDirectory
 </code></pre>
-<p>–differential (Differential recovery)
-:   Optional. Perform a differential copy of the active segment instance in order to recover the failed segment. The default is to only copy over the incremental changes that occurred while the segment was down.</p>
-<p>–hba-hostnames boolean
-:   Optional. Controls whether this utility uses IP addresses or host names in the <code>pg_hba.conf</code> file when updating this file with addresses that can connect to SynxDB. When set to 0 – the default value – this utility uses IP addresses when updating this file. When set to 1, this utility uses host names when updating this file. For consistency, use the same value that was specified for <code>HBA_HOSTNAMES</code> when the SynxDB system was initialized. For information about how SynxDB resolves host names in the <code>pg_hba.conf</code> file, see <a href="../../admin_guide/client_auth.html">Configuring Client Authentication</a>.</p>
-<p>-i recover_config_file
-:   Specifies the name of a file with the details about failed segments to recover.</p>
-<pre><code>Each line in the config file specifies a segment to recover. This line can have one of three formats. In the event of in-place \(incremental\) recovery, enter one group of pipe-delimited fields in the line. For example:
-
-```
-failedAddress|failedPort|failedDataDirectory
-```
-
-or 
-
-``` 
-failedHostname|failedAddress|failedPort|failedDataDirectory
-```
-
-For recovery to a new location, enter two groups of fields separated by a space in the line. The required space is indicated by &lt;SPACE\&gt;. Do not add additional spaces.
-
-```
-failedAddress|failedPort|failedDataDirectory&lt;SPACE&gt;newAddress|newPort|newDataDirectory
-```
-
-or
-
-```
-failedHostname|failedAddress|failedPort|failedDataDirectory&lt;SPACE&gt;newHostname|newAddress|newPort|newDataDirectory
-```
-
-To do mix recovery, include a field with values I/D/F/i/d/f on each line. Default is incremental recovery if recovery_type field is not provided.
-
-```
-recoveryType|failedAddress|failedPort|failedDataDirectory
-```
-
-recoveryType field supports below values:
-    I/i for incremental recovery
-    D/d for differential recovery
-    F/f for full recovery
-
-
-&gt; **Note** Lines beginning with `#` are treated as comments and ignored.
-
-**Examples**
-
-**In-place \(incremental\) recovery of a single mirror**
-
-```
-sdw1-1|50001|/data1/mirror/gpseg16
-```
-
-**Recovery of a single mirror to a new host**
-
-```
-sdw1-1|50001|/data1/mirror/gpseg16&lt;SPACE&gt;sdw4-1|50001|/data1/recover1/gpseg16
-```
-
-In-place recovery of down mirrors with recovery type:
-
-```
-sdw1-1|50001|/data1/mirror/gpseg1   // Does incremental recovery (By default)
+<p>or</p>
+<pre><code>failedHostname|failedAddress|failedPort|failedDataDirectory
+</code></pre>
+<p>For recovery to a new location, enter two groups of fields separated by a space in the line. The required space is indicated by &lt;SPACE&gt;. Do not add additional spaces.</p>
+<pre><code>failedAddress|failedPort|failedDataDirectory&lt;SPACE&gt;newAddress|newPort|newDataDirectory
+</code></pre>
+<p>or</p>
+<pre><code>failedHostname|failedAddress|failedPort|failedDataDirectory&lt;SPACE&gt;newHostname|newAddress|newPort|newDataDirectory
+</code></pre>
+<p>To do mix recovery, include a field with values I/D/F/i/d/f on each line. Default is incremental recovery if recovery_type field is not provided.</p>
+<pre><code>recoveryType|failedAddress|failedPort|failedDataDirectory
+</code></pre>
+<p>recoveryType field supports below values:
+I/i for incremental recovery
+D/d for differential recovery
+F/f for full recovery</p>
+<blockquote>
+<p><strong>Note</strong> Lines beginning with <code>#</code> are treated as comments and ignored.</p>
+</blockquote>
+<p><strong>Examples</strong></p>
+<p><strong>In-place (incremental) recovery of a single mirror</strong></p>
+<pre><code>sdw1-1|50001|/data1/mirror/gpseg16
+</code></pre>
+<p><strong>Recovery of a single mirror to a new host</strong></p>
+<pre><code>sdw1-1|50001|/data1/mirror/gpseg16&lt;SPACE&gt;sdw4-1|50001|/data1/recover1/gpseg16
+</code></pre>
+<p>In-place recovery of down mirrors with recovery type:</p>
+<pre><code>sdw1-1|50001|/data1/mirror/gpseg1   // Does incremental recovery (By default)
 I|sdw1-1|50001|/data1/mirror/gpseg1   // Does incremental recovery
 i|sdw1-1|50001|/data1/mirror/gpseg1   // Does incremental recovery
 D|sdw2-1|50002|/data1/mirror/gpseg2   // Does Differential recovery
 d|sdw2-1|50002|/data1/mirror/gpseg2   // Does Differential recovery
 F|sdw3-1|50003|/data1/mirror/gpseg3   // Does Full recovery
 f|sdw3-1|50003|/data1/mirror/gpseg3   // Does Full recovery
-```
-
-**Obtaining a Sample File**
-
-You can use the `-o` option to output a sample recovery configuration file to use as a starting point. The output file lists the currently invalid segments and their default recovery location. This file format can be used with the `-i` option for in-place \(incremental\) recovery.
 </code></pre>
-<p>-l logfile_directory
-:   The directory to write the log file. Defaults to <code>~/gpAdminLogs</code>.</p>
-<p>-o output_recover_config_file
-:   Specifies a file name and location to output a sample recovery configuration file. This file can be edited to supply alternate recovery locations if needed. The following example outputs the default recovery configuration file:</p>
-<pre><code>```
-$ gprecoverseg -o /home/gpadmin/recover_config_file
-```
+<p><strong>Obtaining a Sample File</strong></p>
+<p>You can use the <code>-o</code> option to output a sample recovery configuration file to use as a starting point. The output file lists the currently invalid segments and their default recovery location. This file format can be used with the <code>-i</code> option for in-place (incremental) recovery.</p>
+<h3 id="-l-logfile_directory"><a class="header" href="#-l-logfile_directory">-l logfile_directory</a></h3>
+<p>The directory to write the log file. Defaults to <code>~/gpAdminLogs</code>.</p>
+<h3 id="-o-output_recover_config_file"><a class="header" href="#-o-output_recover_config_file">-o output_recover_config_file</a></h3>
+<p>Specifies a file name and location to output a sample recovery configuration file. This file can be edited to supply alternate recovery locations if needed. The following example outputs the default recovery configuration file:</p>
+<pre><code>$ gprecoverseg -o /home/gpadmin/recover_config_file
 </code></pre>
-<p>-p new_recover_host[,…]
-:   Specifies a new host outside of the currently configured SynxDB array on which to recover invalid segments.</p>
-<p>:   The new host must have the SynxDB software installed and configured, and have the same hardware and OS configuration as the current segment hosts (same OS version, locales, <code>gpadmin</code> user account, data directory locations created, ssh keys exchanged, number of network interfaces, network interface naming convention, and so on). Specifically, the SynxDB binaries must be installed, the new host must be able to connect password-less with all segments including the SynxDB master, and any other SynxDB specific OS configuration parameters must be applied.</p>
-<p>:   &gt; <strong>Note</strong> In the case of multiple failed segment hosts, you can specify the hosts to recover with a comma-separated list. However, it is strongly recommended to recover one host at a time. If you must recover more than one host at a time, then it is critical to ensure that a double fault scenario does not occur, in which both the segment primary and corresponding mirror are offline.</p>
-<p>-q (no screen output)
-:   Run in quiet mode. Command output is not displayed on the screen, but is still written to the log file.</p>
-<p>-r (rebalance segments)
-:   After a segment recovery, segment instances may not be returned to the preferred role that they were given at system initialization time. This can leave the system in a potentially unbalanced state, as some segment hosts may have more active segments than is optimal for top system performance. This option rebalances primary and mirror segments by returning them to their preferred roles. All segments must be valid and resynchronized before running <code>gprecoverseg -r</code>. If there are any in progress queries, they will be cancelled and rolled back.</p>
-<p>–replay-lag
-:   Replay lag(in GBs) allowed on mirror when rebalancing the segments. If the replay_lag (flush_lsn-replay_lsn) is more than the value provided with this option then rebalance will be aborted.</p>
-<p>-s (sequential progress)
-:   Show <code>pg_basebackup</code> or <code>pg_rewind</code> progress sequentially instead of in-place. Useful when writing to a file, or if a tty does not support escape sequences. The default is to show progress in-place.</p>
-<p>–no-progress
-:   Suppresses progress reports from the <code>pg_basebackup</code>, <code>pg_rewind</code>, or <code>rsync</code> utility. The default is to display progress.</p>
-<p>–differential
-:   Optional. During a full recovery, copy from the primary segment to the mirror segment only the files and directories that changed since the segment failed. You may use the <code>--differential</code> option for in-place full recovery only. See <a href="../../admin_guide/highavail/topics/g-recovering-from-segment-failures.html">Recovery Scenarios</a> for more information on in-place recovery versus recovery to a different host.</p>
-<pre><code>&gt;**Note**
-&gt;The `--differential` option cannot be combined with any of the following `gprecoverseg` options: `-i`, `-o`, `-F`, or `-p`.
-</code></pre>
-<p>-v | –verbose
-:   Sets logging output to verbose.</p>
-<p>–version
-:   Displays the version of this utility.</p>
-<p>-? | -h | –help
-:   Displays the online help.</p>
+<h3 id="-p-new_recover_host"><a class="header" href="#-p-new_recover_host">-p new_recover_host[,…]</a></h3>
+<p>Specifies a new host outside of the currently configured SynxDB array on which to recover invalid segments.</p>
+<p>The new host must have the SynxDB software installed and configured, and have the same hardware and OS configuration as the current segment hosts (same OS version, locales, <code>gpadmin</code> user account, data directory locations created, ssh keys exchanged, number of network interfaces, network interface naming convention, and so on). Specifically, the SynxDB binaries must be installed, the new host must be able to connect password-less with all segments including the SynxDB master, and any other SynxDB specific OS configuration parameters must be applied.</p>
+<blockquote>
+<p><strong>Note</strong> In the case of multiple failed segment hosts, you can specify the hosts to recover with a comma-separated list. However, it is strongly recommended to recover one host at a time. If you must recover more than one host at a time, then it is critical to ensure that a double fault scenario does not occur, in which both the segment primary and corresponding mirror are offline.</p>
+</blockquote>
+<h3 id="-q-no-screen-output"><a class="header" href="#-q-no-screen-output">-q (no screen output)</a></h3>
+<p>Run in quiet mode. Command output is not displayed on the screen, but is still written to the log file.</p>
+<h3 id="-r-rebalance-segments"><a class="header" href="#-r-rebalance-segments">-r (rebalance segments)</a></h3>
+<p>After a segment recovery, segment instances may not be returned to the preferred role that they were given at system initialization time. This can leave the system in a potentially unbalanced state, as some segment hosts may have more active segments than is optimal for top system performance. This option rebalances primary and mirror segments by returning them to their preferred roles. All segments must be valid and resynchronized before running <code>gprecoverseg -r</code>. If there are any in progress queries, they will be cancelled and rolled back.</p>
+<h3 id="replay-lag"><a class="header" href="#replay-lag">–replay-lag</a></h3>
+<p>Replay lag(in GBs) allowed on mirror when rebalancing the segments. If the replay_lag (flush_lsn-replay_lsn) is more than the value provided with this option then rebalance will be aborted.</p>
+<h3 id="-s-sequential-progress"><a class="header" href="#-s-sequential-progress">-s (sequential progress)</a></h3>
+<p>Show <code>pg_basebackup</code> or <code>pg_rewind</code> progress sequentially instead of in-place. Useful when writing to a file, or if a tty does not support escape sequences. The default is to show progress in-place.</p>
+<h3 id="no-progress"><a class="header" href="#no-progress">–no-progress</a></h3>
+<p>Suppresses progress reports from the <code>pg_basebackup</code>, <code>pg_rewind</code>, or <code>rsync</code> utility. The default is to display progress.</p>
+<h3 id="differential"><a class="header" href="#differential">–differential</a></h3>
+<p>Optional. During a full recovery, copy from the primary segment to the mirror segment only the files and directories that changed since the segment failed. You may use the <code>--differential</code> option for in-place full recovery only. See <a href="../../admin_guide/highavail/topics/g-recovering-from-segment-failures.html">Recovery Scenarios</a> for more information on in-place recovery versus recovery to a different host.</p>
+<blockquote>
+<p><strong>Note</strong>
+The <code>--differential</code> option cannot be combined with any of the following <code>gprecoverseg</code> options: <code>-i</code>, <code>-o</code>, <code>-F</code>, or <code>-p</code>.</p>
+</blockquote>
+<h3 id="-v--verbose"><a class="header" href="#-v--verbose">-v | –verbose</a></h3>
+<p>Sets logging output to verbose.</p>
+<h3 id="version"><a class="header" href="#version">–version</a></h3>
+<p>Displays the version of this utility.</p>
+<h3 id="----h--help"><a class="header" href="#----h--help">-? | -h | –help</a></h3>
+<p>Displays the online help.</p>
 <h2 id="examples"><a class="header" href="#examples"><a id="section5"></a>Examples</a></h2>
 <p><strong>Example 1: Recover Failed Segments in Place</strong></p>
 <p>Recover any failed segment instances in place:</p>

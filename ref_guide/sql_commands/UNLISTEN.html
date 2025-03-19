@@ -165,12 +165,10 @@
 <p><code>UNLISTEN</code> is used to remove an existing registration for <code>NOTIFY</code> events. <code>UNLISTEN</code> cancels any existing registration of the current SynxDB session as a listener on the notification channel named channel. The special wildcard <code>*</code> cancels all listener registrations for the current session.</p>
 <p><a href="NOTIFY.html">NOTIFY</a> contains a more extensive discussion of the use of <code>LISTEN</code> and <code>NOTIFY</code>.</p>
 <h2 id="parameters"><a class="header" href="#parameters"><a id="section4"></a>Parameters</a></h2>
-<p>channel
-:   The name of a notification channel (any identifier).</p>
-<ul>
-<li></li>
-</ul>
-<p>:   All current listen registrations for this session are cleared.</p>
+<h3 id="channel"><a class="header" href="#channel">channel</a></h3>
+<p>The name of a notification channel (any identifier).</p>
+<h3 id=""><a class="header" href="#">*</a></h3>
+<p>All current listen registrations for this session are cleared.</p>
 <h2 id="notes"><a class="header" href="#notes"><a id="section4a"></a>Notes</a></h2>
 <p>You can unlisten something you were not listening for; no warning or error will appear.</p>
 <p>At the end of each session, <code>UNLISTEN *</code> is automatically executed.</p>

@@ -179,13 +179,12 @@ SELECT [ALL | DISTINCT [ON ( &lt;expression&gt; [, ...] )]]
 <p><code>SELECT INTO</code> creates a new table and fills it with data computed by a query. The data is not returned to the client, as it is with a normal <code>SELECT</code>. The new table’s columns have the names and data types associated with the output columns of the <code>SELECT</code>.</p>
 <h2 id="parameters"><a class="header" href="#parameters"><a id="section4"></a>Parameters</a></h2>
 <p>The majority of parameters for <code>SELECT INTO</code> are the same as <a href="SELECT.html">SELECT</a>.</p>
-<p>TEMPORARY
-TEMP
-:   If specified, the table is created as a temporary table.</p>
-<p>UNLOGGED
-:   If specified, the table is created as an unlogged table. Data written to unlogged tables is not written to the write-ahead (WAL) log, which makes them considerably faster than ordinary tables. However, the contents of an unlogged table are not replicated to mirror segment instances. Also an unlogged table is not crash-safe. After a segment instance crash or unclean shutdown, the data for the unlogged table on that segment is truncated. Any indexes created on an unlogged table are automatically unlogged as well.</p>
-<p>new_table
-:   The name (optionally schema-qualified) of the table to be created.</p>
+<h3 id="temporarytemp"><a class="header" href="#temporarytemp">TEMPORARY<br/>TEMP</a></h3>
+<p>If specified, the table is created as a temporary table.</p>
+<h3 id="unlogged"><a class="header" href="#unlogged">UNLOGGED</a></h3>
+<p>If specified, the table is created as an unlogged table. Data written to unlogged tables is not written to the write-ahead (WAL) log, which makes them considerably faster than ordinary tables. However, the contents of an unlogged table are not replicated to mirror segment instances. Also an unlogged table is not crash-safe. After a segment instance crash or unclean shutdown, the data for the unlogged table on that segment is truncated. Any indexes created on an unlogged table are automatically unlogged as well.</p>
+<h3 id="new_table"><a class="header" href="#new_table">new_table</a></h3>
+<p>The name (optionally schema-qualified) of the table to be created.</p>
 <h2 id="examples"><a class="header" href="#examples"><a id="section5"></a>Examples</a></h2>
 <p>Create a new table <code>films_recent</code> consisting of only recent entries from the table <code>films</code>:</p>
 <pre><code>SELECT * INTO films_recent FROM films WHERE date_prod &gt;= 

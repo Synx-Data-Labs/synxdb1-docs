@@ -183,44 +183,47 @@ gppkg --version
 <li>MADlib</li>
 </ul>
 <h2 id="options"><a class="header" href="#options"><a id="section4"></a>Options</a></h2>
-<p>-a (do not prompt)
-:   Do not prompt the user for confirmation.</p>
-<p>-c | –clean
-:   Reconciles the package state of the cluster to match the state of the master host. Running this option after a failed or partial install/uninstall ensures that the package installation state is consistent across the cluster.</p>
-<p>-d master_data_directory
-:   The master data directory. If not specified, the value set for <code>$MASTER_DATA_DIRECTORY</code> will be used.</p>
-<p>-i package | –install=package
-:   Installs the given package. This includes any pre/post installation steps and installation of any dependencies.</p>
-<p>–migrate GPHOME_old GPHOME_new
-:   Migrates packages from a separate <code>$GPHOME</code>. Carries over packages from one version of SynxDB to another.</p>
-<p>:   For example: <code>gppkg --migrate /usr/local/greenplum-db-&lt;old-version&gt; /usr/local/synxdb-&lt;new-version&gt;</code></p>
-<p>:   &gt; <strong>Note</strong> In general, it is best to avoid using the <code>--migrate</code> option, and packages should be reinstalled, not migrated. See <a href="../../install_guide/upgrading.html#topic17">Upgrading from 6.x to a Newer 6.x Release</a>.</p>
-<p>:   When migrating packages, these requirements must be met.</p>
-<pre><code>-   At least the master instance of the destination SynxDB must be started \(the instance installed in GPHOME\_new\). Before running the `gppkg` command start the SynxDB master with the command `gpstart -m`.
--   Run the `gppkg` utility from the GPHOME\_new installation. The migration destination installation directory.
-</code></pre>
-<p>-q | –query query_option
-:   Provides information specified by <code>query_option</code> about the installed packages. Only one <code>query_option</code> can be specified at a time. The following table lists the possible values for query_option. <code>&lt;package_file&gt;</code> is the name of a package.</p>
-<pre><code>|query\_option|Returns|
-|-------------|-------|
-|`&lt;package_file&gt;`|Whether the specified package is installed.|
-|`--info &lt;package_file&gt;`|The name, version, and other information about the specified package.|
-|`--list &lt;package_file&gt;`|The file contents of the specified package.|
-|`--all`|List of all installed packages.|
-</code></pre>
-<p>-r name-version | –remove=name-version
-:   Removes the specified package.</p>
-<p>-u package | –update=package
-:   Updates the given package.</p>
+<h3 id="-a-do-not-prompt"><a class="header" href="#-a-do-not-prompt">-a (do not prompt)</a></h3>
+<p>Do not prompt the user for confirmation.</p>
+<h3 id="-c--clean"><a class="header" href="#-c--clean">-c | –clean</a></h3>
+<p>Reconciles the package state of the cluster to match the state of the master host. Running this option after a failed or partial install/uninstall ensures that the package installation state is consistent across the cluster.</p>
+<h3 id="-d-master_data_directory"><a class="header" href="#-d-master_data_directory">-d master_data_directory</a></h3>
+<p>The master data directory. If not specified, the value set for <code>$MASTER_DATA_DIRECTORY</code> will be used.</p>
+<h3 id="-i-package--installpackage"><a class="header" href="#-i-package--installpackage">-i package | –install=package</a></h3>
+<p>Installs the given package. This includes any pre/post installation steps and installation of any dependencies.</p>
+<h3 id="migrate-gphome_old-gphome_new"><a class="header" href="#migrate-gphome_old-gphome_new">–migrate GPHOME_old GPHOME_new</a></h3>
+<p>Migrates packages from a separate <code>$GPHOME</code>. Carries over packages from one version of SynxDB to another.</p>
+<p>For example: <code>gppkg --migrate /usr/local/greenplum-db-&lt;old-version&gt; /usr/local/synxdb-&lt;new-version&gt;</code></p>
+<blockquote>
+<p><strong>Note</strong> In general, it is best to avoid using the <code>--migrate</code> option, and packages should be reinstalled, not migrated. See <a href="../../install_guide/upgrading.html#topic17">Upgrading from 6.x to a Newer 6.x Release</a>.</p>
+</blockquote>
+<p>When migrating packages, these requirements must be met.</p>
+<ul>
+<li>At least the master instance of the destination SynxDB must be started (the instance installed in GPHOME_new). Before running the <code>gppkg</code> command start the SynxDB master with the command <code>gpstart -m</code>.</li>
+<li>Run the <code>gppkg</code> utility from the GPHOME_new installation. The migration destination installation directory.</li>
+</ul>
+<h3 id="-q--query-query_option"><a class="header" href="#-q--query-query_option">-q | –query query_option</a></h3>
+<p>Provides information specified by <code>query_option</code> about the installed packages. Only one <code>query_option</code> can be specified at a time. The following table lists the possible values for query_option. <code>&lt;package_file&gt;</code> is the name of a package.</p>
+<div class="table-wrapper"><table><thead><tr><th>query_option</th><th>Returns</th></tr></thead><tbody>
+<tr><td><code>&lt;package_file&gt;</code></td><td>Whether the specified package is installed.</td></tr>
+<tr><td><code>--info &lt;package_file&gt;</code></td><td>The name, version, and other information about the specified package.</td></tr>
+<tr><td><code>--list &lt;package_file&gt;</code></td><td>The file contents of the specified package.</td></tr>
+<tr><td><code>--all</code></td><td>List of all installed packages.</td></tr>
+</tbody></table>
+</div>
+<h3 id="-r-name-version--removename-version"><a class="header" href="#-r-name-version--removename-version">-r name-version | –remove=name-version</a></h3>
+<p>Removes the specified package.</p>
+<h3 id="-u-package--updatepackage"><a class="header" href="#-u-package--updatepackage">-u package | –update=package</a></h3>
+<p>Updates the given package.</p>
 <blockquote>
 <p><strong>Caution</strong> The process of updating a package includes removing all previous versions of the system objects related to the package. For example, previous versions of shared libraries are removed. After the update process, a database function will fail when it is called if the function references a package file that has been removed.</p>
 </blockquote>
-<p>:   –version (show utility version)
-:   Displays the version of this utility.</p>
-<p>-v | –verbose
-:   Sets the logging level to verbose.</p>
-<p>-? | -h | –help
-:   Displays the online help.</p>
+<h3 id="version-show-utility-version"><a class="header" href="#version-show-utility-version">–version (show utility version)</a></h3>
+<p>Displays the version of this utility.</p>
+<h3 id="-v--verbose"><a class="header" href="#-v--verbose">-v | –verbose</a></h3>
+<p>Sets the logging level to verbose.</p>
+<h3 id="----h--help"><a class="header" href="#----h--help">-? | -h | –help</a></h3>
+<p>Displays the online help.</p>
 
                     </main>
 

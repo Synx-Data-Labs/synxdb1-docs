@@ -201,65 +201,53 @@ SELECT foo();
 <p><strong>Functions And Replicated Tables</strong></p>
 <p>A user-defined function that runs only <code>SELECT</code> commands on replicated tables can run on segments. Replicated tables, created with the <code>DISTRIBUTED REPLICATED</code> clause, store all of their rows on every segment. It is safe for a function to read them on the segments, but updates to replicated tables must run on the master instance.</p>
 <h2 id="parameters"><a class="header" href="#parameters"><a id="section5"></a>Parameters</a></h2>
-<p>name
-:   The name (optionally schema-qualified) of the function to create.</p>
-<p>argmode
-:   The mode of an argument: either <code>IN</code>, <code>OUT</code>, <code>INOUT</code>, or <code>VARIADIC</code>. If omitted, the default is <code>IN</code>. Only <code>OUT</code> arguments can follow an argument declared as <code>VARIADIC</code>. Also, <code>OUT</code> and <code>INOUT</code> arguments cannot be used together with the <code>RETURNS TABLE</code> notation.</p>
-<p>argname
-:   The name of an argument. Some languages (currently only SQL and PL/pgSQL) let you use the name in the function body. For other languages the name of an input argument is just extra documentation, so far as the function itself is concerned; but you can use input argument names when calling a function to improve readability. In any case, the name of an output argument is significant, since it defines the column name in the result row type. (If you omit the name for an output argument, the system will choose a default column name.)</p>
-<p>argtype
-:   The data type(s) of the function’s arguments (optionally schema-qualified), if any. The argument types may be base, composite, or domain types, or may reference the type of a table column.</p>
-<p>:   Depending on the implementation language it may also be allowed to specify pseudotypes such as <code>cstring</code>. Pseudotypes indicate that the actual argument type is either incompletely specified, or outside the set of ordinary SQL data types.</p>
-<p>:   The type of a column is referenced by writing <code>tablename.columnname%TYPE</code>. Using this feature can sometimes help make a function independent of changes to the definition of a table.</p>
-<p>default_expr
-:   An expression to be used as the default value if the parameter is not specified. The expression must be coercible to the argument type of the parameter. Only <code>IN</code> and <code>INOUT</code> parameters can have a default value. Each input parameter in the argument list that follows a parameter with a default value must have a default value as well.</p>
-<p>rettype
-:   The return data type (optionally schema-qualified). The return type can be a base, composite, or domain type, or may reference the type of a table column. Depending on the implementation language it may also be allowed to specify pseudotypes such as <code>cstring</code>. If the function is not supposed to return a value, specify <code>void</code> as the return type.</p>
-<p>:   When there are <code>OUT</code> or <code>INOUT</code> parameters, the <code>RETURNS</code> clause may be omitted. If present, it must agree with the result type implied by the output parameters: <code>RECORD</code> if there are multiple output parameters, or the same type as the single output parameter.</p>
-<p>:   The <code>SETOF</code> modifier indicates that the function will return a set of items, rather than a single item.</p>
-<p>:   The type of a column is referenced by writing <code>tablename.columnname%TYPE</code>.</p>
-<p>column_name
-:   The name of an output column in the <code>RETURNS TABLE</code> syntax. This is effectively another way of declaring a named <code>OUT</code> parameter, except that <code>RETURNS TABLE</code> also implies <code>RETURNS SETOF</code>.</p>
-<p>column_type
-:   The data type of an output column in the <code>RETURNS TABLE</code> syntax.</p>
-<p>langname
-:   The name of the language that the function is implemented in. May be <code>SQL</code>, <code>C</code>, <code>internal</code>, or the name of a user-defined procedural language. See <a href="CREATE_LANGUAGE.html">CREATE LANGUAGE</a> for the procedural languages supported in SynxDB. For backward compatibility, the name may be enclosed by single quotes.</p>
-<p>WINDOW
-:   <code>WINDOW</code> indicates that the function is a window function rather than a plain function. This is currently only useful for functions written in C. The <code>WINDOW</code> attribute cannot be changed when replacing an existing function definition.</p>
-<p>IMMUTABLE
-STABLE
-VOLATILE
-LEAKPROOF
-:   These attributes inform the query optimizer about the behavior of the function. At most one choice may be specified. If none of these appear, <code>VOLATILE</code> is the default assumption. Since SynxDB currently has limited use of <code>VOLATILE</code> functions, if a function is truly <code>IMMUTABLE</code>, you must declare it as so to be able to use it without restrictions.</p>
-<p>:   <code>IMMUTABLE</code> indicates that the function cannot modify the database and always returns the same result when given the same argument values. It does not do database lookups or otherwise use information not directly present in its argument list. If this option is given, any call of the function with all-constant arguments can be immediately replaced with the function value.</p>
-<p>:   <code>STABLE</code> indicates that the function cannot modify the database, and that within a single table scan it will consistently return the same result for the same argument values, but that its result could change across SQL statements. This is the appropriate selection for functions whose results depend on database lookups, parameter values (such as the current time zone), and so on. Also note that the current_timestamp family of functions qualify as stable, since their values do not change within a transaction.</p>
-<p>:   <code>VOLATILE</code> indicates that the function value can change even within a single table scan, so no optimizations can be made. Relatively few database functions are volatile in this sense; some examples are <code>random()</code>, <code>timeofday()</code>. But note that any function that has side-effects must be classified volatile, even if its result is quite predictable, to prevent calls from being optimized away; an example is <code>setval()</code>.</p>
-<p>:   <code>LEAKPROOF</code> indicates that the function has no side effects. It reveals no information about its arguments other than by its return value. For example, a function that throws an error message for some argument values but not others, or that includes the argument values in any error message, is not leakproof. The query planner may push leakproof functions (but not others) into views created with the <code>security_barrier</code> option. See <a href="CREATE_VIEW.html">CREATE VIEW</a> and <a href="CREATE_RULE.html">CREATE RULE</a>. This option can only be set by the superuser.</p>
-<p>CALLED ON NULL INPUT
-RETURNS NULL ON NULL INPUT
-STRICT
-:   <code>CALLED ON NULL INPUT</code> (the default) indicates that the function will be called normally when some of its arguments are null. It is then the function author’s responsibility to check for null values if necessary and respond appropriately. <code>RETURNS NULL ON NULL INPUT</code> or <code>STRICT</code> indicates that the function always returns null whenever any of its arguments are null. If this parameter is specified, the function is not run when there are null arguments; instead a null result is assumed automatically.</p>
-<p>NO SQL
-CONTAINS SQL
-READS SQL DATA
-MODIFIES SQL
-:   These attributes inform the query optimizer about whether or not the function contains SQL statements and whether, if it does, those statements read and/or write data.</p>
-<p>:   <code>NO SQL</code> indicates that the function does not contain SQL statements.</p>
-<p>:   <code>CONTAINS SQL</code> indicates that the function contains SQL statements, none of which either read or write data.</p>
-<p>:   <code>READS SQL DATA</code> indicates that the function contains SQL statements that read data but none that modify data.</p>
-<p>:   <code>MODIFIES SQL</code> indicates that the function contains statements that may write data.</p>
-<p>[EXTERNAL] SECURITY INVOKER
-[EXTERNAL] SECURITY DEFINER
-:   <code>SECURITY INVOKER</code> (the default) indicates that the function is to be run with the privileges of the user that calls it. <code>SECURITY DEFINER</code> specifies that the function is to be run with the privileges of the user that created it. The key word <code>EXTERNAL</code> is allowed for SQL conformance, but it is optional since, unlike in SQL, this feature applies to all functions not just external ones.</p>
-<p>EXECUTE ON ANY
-EXECUTE ON MASTER
-EXECUTE ON ALL SEGMENTS
-EXECUTE ON INITPLAN
-:   The <code>EXECUTE ON</code> attributes specify where (master or segment instance) a function runs when it is invoked during the query execution process.</p>
-<p>:   <code>EXECUTE ON ANY</code> (the default) indicates that the function can be run on the master, or any segment instance, and it returns the same result regardless of where it is run. SynxDB determines where the function runs.</p>
-<p>:   <code>EXECUTE ON MASTER</code> indicates that the function must run only on the master instance.</p>
-<p>:   <code>EXECUTE ON ALL SEGMENTS</code> indicates that the function must run on all primary segment instances, but not the master, for each invocation. The overall result of the function is the <code>UNION ALL</code> of the results from all segment instances.</p>
-<p>:   <code>EXECUTE ON INITPLAN</code> indicates that the function contains an SQL command that dispatches queries to the segment instances and requires special processing on the master instance by SynxDB when possible.</p>
+<h3 id="name"><a class="header" href="#name">name</a></h3>
+<p>The name (optionally schema-qualified) of the function to create.</p>
+<h3 id="argmode"><a class="header" href="#argmode">argmode</a></h3>
+<p>The mode of an argument: either <code>IN</code>, <code>OUT</code>, <code>INOUT</code>, or <code>VARIADIC</code>. If omitted, the default is <code>IN</code>. Only <code>OUT</code> arguments can follow an argument declared as <code>VARIADIC</code>. Also, <code>OUT</code> and <code>INOUT</code> arguments cannot be used together with the <code>RETURNS TABLE</code> notation.</p>
+<h3 id="argname"><a class="header" href="#argname">argname</a></h3>
+<p>The name of an argument. Some languages (currently only SQL and PL/pgSQL) let you use the name in the function body. For other languages the name of an input argument is just extra documentation, so far as the function itself is concerned; but you can use input argument names when calling a function to improve readability. In any case, the name of an output argument is significant, since it defines the column name in the result row type. (If you omit the name for an output argument, the system will choose a default column name.)</p>
+<h3 id="argtype"><a class="header" href="#argtype">argtype</a></h3>
+<p>The data type(s) of the function’s arguments (optionally schema-qualified), if any. The argument types may be base, composite, or domain types, or may reference the type of a table column.</p>
+<p>Depending on the implementation language it may also be allowed to specify pseudotypes such as <code>cstring</code>. Pseudotypes indicate that the actual argument type is either incompletely specified, or outside the set of ordinary SQL data types.</p>
+<p>The type of a column is referenced by writing <code>tablename.columnname%TYPE</code>. Using this feature can sometimes help make a function independent of changes to the definition of a table.</p>
+<h3 id="default_expr"><a class="header" href="#default_expr">default_expr</a></h3>
+<p>An expression to be used as the default value if the parameter is not specified. The expression must be coercible to the argument type of the parameter. Only <code>IN</code> and <code>INOUT</code> parameters can have a default value. Each input parameter in the argument list that follows a parameter with a default value must have a default value as well.</p>
+<h3 id="rettype"><a class="header" href="#rettype">rettype</a></h3>
+<p>The return data type (optionally schema-qualified). The return type can be a base, composite, or domain type, or may reference the type of a table column. Depending on the implementation language it may also be allowed to specify pseudotypes such as <code>cstring</code>. If the function is not supposed to return a value, specify <code>void</code> as the return type.</p>
+<p>When there are <code>OUT</code> or <code>INOUT</code> parameters, the <code>RETURNS</code> clause may be omitted. If present, it must agree with the result type implied by the output parameters: <code>RECORD</code> if there are multiple output parameters, or the same type as the single output parameter.</p>
+<p>The <code>SETOF</code> modifier indicates that the function will return a set of items, rather than a single item.</p>
+<p>The type of a column is referenced by writing <code>tablename.columnname%TYPE</code>.</p>
+<h3 id="column_name"><a class="header" href="#column_name">column_name</a></h3>
+<p>The name of an output column in the <code>RETURNS TABLE</code> syntax. This is effectively another way of declaring a named <code>OUT</code> parameter, except that <code>RETURNS TABLE</code> also implies <code>RETURNS SETOF</code>.</p>
+<h3 id="column_type"><a class="header" href="#column_type">column_type</a></h3>
+<p>The data type of an output column in the <code>RETURNS TABLE</code> syntax.</p>
+<h3 id="langname"><a class="header" href="#langname">langname</a></h3>
+<p>The name of the language that the function is implemented in. May be <code>SQL</code>, <code>C</code>, <code>internal</code>, or the name of a user-defined procedural language. See <a href="CREATE_LANGUAGE.html">CREATE LANGUAGE</a> for the procedural languages supported in SynxDB. For backward compatibility, the name may be enclosed by single quotes.</p>
+<h3 id="window"><a class="header" href="#window">WINDOW</a></h3>
+<p><code>WINDOW</code> indicates that the function is a window function rather than a plain function. This is currently only useful for functions written in C. The <code>WINDOW</code> attribute cannot be changed when replacing an existing function definition.</p>
+<h3 id="immutablestablevolatileleakproof"><a class="header" href="#immutablestablevolatileleakproof">IMMUTABLE<br/>STABLE<br/>VOLATILE<br/>LEAKPROOF</a></h3>
+<p>These attributes inform the query optimizer about the behavior of the function. At most one choice may be specified. If none of these appear, <code>VOLATILE</code> is the default assumption. Since SynxDB currently has limited use of <code>VOLATILE</code> functions, if a function is truly <code>IMMUTABLE</code>, you must declare it as so to be able to use it without restrictions.</p>
+<p><code>IMMUTABLE</code> indicates that the function cannot modify the database and always returns the same result when given the same argument values. It does not do database lookups or otherwise use information not directly present in its argument list. If this option is given, any call of the function with all-constant arguments can be immediately replaced with the function value.</p>
+<p><code>STABLE</code> indicates that the function cannot modify the database, and that within a single table scan it will consistently return the same result for the same argument values, but that its result could change across SQL statements. This is the appropriate selection for functions whose results depend on database lookups, parameter values (such as the current time zone), and so on. Also note that the current_timestamp family of functions qualify as stable, since their values do not change within a transaction.</p>
+<p><code>VOLATILE</code> indicates that the function value can change even within a single table scan, so no optimizations can be made. Relatively few database functions are volatile in this sense; some examples are <code>random()</code>, <code>timeofday()</code>. But note that any function that has side-effects must be classified volatile, even if its result is quite predictable, to prevent calls from being optimized away; an example is <code>setval()</code>.</p>
+<p><code>LEAKPROOF</code> indicates that the function has no side effects. It reveals no information about its arguments other than by its return value. For example, a function that throws an error message for some argument values but not others, or that includes the argument values in any error message, is not leakproof. The query planner may push leakproof functions (but not others) into views created with the <code>security_barrier</code> option. See <a href="CREATE_VIEW.html">CREATE VIEW</a> and <a href="CREATE_RULE.html">CREATE RULE</a>. This option can only be set by the superuser.</p>
+<h3 id="called-on-null-inputreturns-null-on-null-inputstrict"><a class="header" href="#called-on-null-inputreturns-null-on-null-inputstrict">CALLED ON NULL INPUT<br/>RETURNS NULL ON NULL INPUT<br/>STRICT</a></h3>
+<p><code>CALLED ON NULL INPUT</code> (the default) indicates that the function will be called normally when some of its arguments are null. It is then the function author’s responsibility to check for null values if necessary and respond appropriately. <code>RETURNS NULL ON NULL INPUT</code> or <code>STRICT</code> indicates that the function always returns null whenever any of its arguments are null. If this parameter is specified, the function is not run when there are null arguments; instead a null result is assumed automatically.</p>
+<h3 id="no-sqlcontains-sqlreads-sql-datamodifies-sql"><a class="header" href="#no-sqlcontains-sqlreads-sql-datamodifies-sql">NO SQL<br/>CONTAINS SQL<br/>READS SQL DATA<br/>MODIFIES SQL</a></h3>
+<p>These attributes inform the query optimizer about whether or not the function contains SQL statements and whether, if it does, those statements read and/or write data.</p>
+<p><code>NO SQL</code> indicates that the function does not contain SQL statements.</p>
+<p><code>CONTAINS SQL</code> indicates that the function contains SQL statements, none of which either read or write data.</p>
+<p><code>READS SQL DATA</code> indicates that the function contains SQL statements that read data but none that modify data.</p>
+<p><code>MODIFIES SQL</code> indicates that the function contains statements that may write data.</p>
+<h3 id="external-security-invokerexternal-security-definer"><a class="header" href="#external-security-invokerexternal-security-definer">[EXTERNAL] SECURITY INVOKER<br/>[EXTERNAL] SECURITY DEFINER</a></h3>
+<p><code>SECURITY INVOKER</code> (the default) indicates that the function is to be run with the privileges of the user that calls it. <code>SECURITY DEFINER</code> specifies that the function is to be run with the privileges of the user that created it. The key word <code>EXTERNAL</code> is allowed for SQL conformance, but it is optional since, unlike in SQL, this feature applies to all functions not just external ones.</p>
+<h3 id="execute-on-anyexecute-on-masterexecute-on-all-segmentsexecute-on-initplan"><a class="header" href="#execute-on-anyexecute-on-masterexecute-on-all-segmentsexecute-on-initplan">EXECUTE ON ANY<br/>EXECUTE ON MASTER<br/>EXECUTE ON ALL SEGMENTS<br/>EXECUTE ON INITPLAN</a></h3>
+<p>The <code>EXECUTE ON</code> attributes specify where (master or segment instance) a function runs when it is invoked during the query execution process.</p>
+<p><code>EXECUTE ON ANY</code> (the default) indicates that the function can be run on the master, or any segment instance, and it returns the same result regardless of where it is run. SynxDB determines where the function runs.</p>
+<p><code>EXECUTE ON MASTER</code> indicates that the function must run only on the master instance.</p>
+<p><code>EXECUTE ON ALL SEGMENTS</code> indicates that the function must run on all primary segment instances, but not the master, for each invocation. The overall result of the function is the <code>UNION ALL</code> of the results from all segment instances.</p>
+<p><code>EXECUTE ON INITPLAN</code> indicates that the function contains an SQL command that dispatches queries to the segment instances and requires special processing on the master instance by SynxDB when possible.</p>
 <pre><code>&gt; **Note** `EXECUTE ON INITPLAN` is only supported in functions that are used in the `FROM` clause of a `CREATE TABLE AS` or `INSERT` command such as the `get_data()` function in these commands.
 
 ```
@@ -277,18 +265,17 @@ WITH tbl_a AS (SELECT * FROM get_data() )
    SELECT * FROM tbl_b;
 ```
 </code></pre>
-<p>:   For information about using <code>EXECUTE ON</code> attributes, see <a href="#section6">Notes</a>.</p>
-<p>COST execution_cost
-:   A positive number identifying the estimated execution cost for the function, in <a href="https://www.postgresql.org/docs/9.4/runtime-config-query.html#GUC-CPU-OPERATOR-COST">cpu_operator_cost</a> units. If the function returns a set, execution_cost identifies the cost per returned row. If the cost is not specified, C-language and internal functions default to 1 unit, while functions in other languages default to 100 units. The planner tries to evaluate the function less often when you specify larger execution_cost values.</p>
-<p>configuration_parameter
-value
-:   The <code>SET</code> clause applies a value to a session configuration parameter when the function is entered. The configuration parameter is restored to its prior value when the function exits. <code>SET FROM CURRENT</code> saves the value of the parameter that is current when <code>CREATE FUNCTION</code> is run as the value to be applied when the function is entered.</p>
-<p>definition
-:   A string constant defining the function; the meaning depends on the language. It may be an internal function name, the path to an object file, an SQL command, or text in a procedural language.</p>
-<p>obj_file, link_symbol
-:   This form of the <code>AS</code> clause is used for dynamically loadable C language functions when the function name in the C language source code is not the same as the name of the SQL function. The string obj_file is the name of the file containing the dynamically loadable object, and link_symbol is the name of the function in the C language source code. If the link symbol is omitted, it is assumed to be the same as the name of the SQL function being defined. The C names of all functions must be different, so you must give overloaded SQL functions different C names (for example, use the argument types as part of the C names). It is recommended to locate shared libraries either relative to <code>$libdir</code> (which is located at <code>$GPHOME/lib</code>) or through the dynamic library path (set by the <code>dynamic_library_path</code> server configuration parameter). This simplifies version upgrades if the new installation is at a different location.</p>
-<p>describe_function
-:   The name of a callback function to run when a query that calls this function is parsed. The callback function returns a tuple descriptor that indicates the result type.</p>
+<p>For information about using <code>EXECUTE ON</code> attributes, see <a href="#section6">Notes</a>.</p>
+<h3 id="cost-execution_cost"><a class="header" href="#cost-execution_cost">COST execution_cost</a></h3>
+<p>A positive number identifying the estimated execution cost for the function, in <a href="https://www.postgresql.org/docs/9.4/runtime-config-query.html#GUC-CPU-OPERATOR-COST">cpu_operator_cost</a> units. If the function returns a set, execution_cost identifies the cost per returned row. If the cost is not specified, C-language and internal functions default to 1 unit, while functions in other languages default to 100 units. The planner tries to evaluate the function less often when you specify larger execution_cost values.</p>
+<h3 id="configuration_parameter-value"><a class="header" href="#configuration_parameter-value">configuration_parameter value</a></h3>
+<p>The <code>SET</code> clause applies a value to a session configuration parameter when the function is entered. The configuration parameter is restored to its prior value when the function exits. <code>SET FROM CURRENT</code> saves the value of the parameter that is current when <code>CREATE FUNCTION</code> is run as the value to be applied when the function is entered.</p>
+<h3 id="definition"><a class="header" href="#definition">definition</a></h3>
+<p>A string constant defining the function; the meaning depends on the language. It may be an internal function name, the path to an object file, an SQL command, or text in a procedural language.</p>
+<h3 id="obj_file-link_symbol"><a class="header" href="#obj_file-link_symbol">obj_file, link_symbol</a></h3>
+<p>This form of the <code>AS</code> clause is used for dynamically loadable C language functions when the function name in the C language source code is not the same as the name of the SQL function. The string obj_file is the name of the file containing the dynamically loadable object, and link_symbol is the name of the function in the C language source code. If the link symbol is omitted, it is assumed to be the same as the name of the SQL function being defined. The C names of all functions must be different, so you must give overloaded SQL functions different C names (for example, use the argument types as part of the C names). It is recommended to locate shared libraries either relative to <code>$libdir</code> (which is located at <code>$GPHOME/lib</code>) or through the dynamic library path (set by the <code>dynamic_library_path</code> server configuration parameter). This simplifies version upgrades if the new installation is at a different location.</p>
+<h3 id="describe_function"><a class="header" href="#describe_function">describe_function</a></h3>
+<p>The name of a callback function to run when a query that calls this function is parsed. The callback function returns a tuple descriptor that indicates the result type.</p>
 <h2 id="notes"><a class="header" href="#notes"><a id="section6"></a>Notes</a></h2>
 <p>Any compiled code (shared library files) for custom functions must be placed in the same location on every host in your SynxDB array (master and all segments). This location must also be in the <code>LD_LIBRARY_PATH</code> so that the server can locate the files. It is recommended to locate shared libraries either relative to <code>$libdir</code> (which is located at <code>$GPHOME/lib</code>) or through the dynamic library path (set by the <code>dynamic_library_path</code> server configuration parameter) on all master segment instances in the SynxDB array.</p>
 <p>The full SQL type syntax is allowed for input arguments and return value. However, some details of the type specification (such as the precision field for type numeric) are the responsibility of the underlying function implementation and are not recognized or enforced by the <code>CREATE FUNCTION</code> command.</p>

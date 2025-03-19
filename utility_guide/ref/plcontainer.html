@@ -188,63 +188,60 @@
   runtime-verify
 </code></pre>
 <h2 id="plcontainer-commands-and-options"><a class="header" href="#plcontainer-commands-and-options"><a id="cmds"></a>plcontainer Commands and Options</a></h2>
-<p>image-add location
-:   Install a Docker image on the SynxDB hosts. Specify either the location of the Docker image file on the host or the URL to the Docker image. These are the supported location options:</p>
-<pre><code>-   \{**-f** \| **--file**\} image\_file Specify the file system location of the Docker image tar archive file on the local host. This example specifies an image file in the `gpadmin` user's home directory: `/home/gpadmin/test_image.tar.gz`
--   \{**-u** \| **--URL**\} image\_URL Specify the URL of the Docker repository and image. This example URL points to a local Docker repository `192.168.0.1:5000/images/mytest_plc_r:devel`
+<h3 id="image-add-location"><a class="header" href="#image-add-location">image-add location</a></h3>
+<p>Install a Docker image on the SynxDB hosts. Specify either the location of the Docker image file on the host or the URL to the Docker image. These are the supported location options:</p>
+<ul>
+<li>{<strong>-f</strong> | <strong>–file</strong>} image_file Specify the file system location of the Docker image tar archive file on the local host. This example specifies an image file in the <code>gpadmin</code> user’s home directory: <code>/home/gpadmin/test_image.tar.gz</code></li>
+<li>{<strong>-u</strong> | <strong>–URL</strong>} image_URL Specify the URL of the Docker repository and image. This example URL points to a local Docker repository <code>192.168.0.1:5000/images/mytest_plc_r:devel</code></li>
+</ul>
+<p>By default, the <code>image-add</code> command copies the image to each SynxDB segment and standby master host, and installs the image. When you specify an image_file and provide the [<strong>-ulc</strong> | <strong>–use_local_copy</strong>] option, <code>plcontainer</code> installs the image only on the host on which you run the command.</p>
+<p>After installing the Docker image, use the <code>runtime-add</code> command to configure PL/Container to use the Docker image.</p>
+<h3 id="image-delete--i--image-image_name"><a class="header" href="#image-delete--i--image-image_name">image-delete {<strong>-i</strong> | <strong>–image</strong>} image_name</a></h3>
+<p>Remove an installed Docker image from all SynxDB hosts. Specify the full Docker image name including the tag for example <code>synxdata/plcontainer_python_shared:1.0.0</code></p>
+<h3 id="image-list"><a class="header" href="#image-list">image-list</a></h3>
+<p>List the Docker images installed on the host. The command list only the images on the local host, not remote hosts. The command lists all installed Docker images, including images installed with Docker commands.</p>
+<h3 id="runtime-add-options"><a class="header" href="#runtime-add-options">runtime-add options</a></h3>
+<p>Add configuration information to the PL/Container configuration file on all SynxDB hosts. If the specified runtime_id exists, the utility returns an error and the configuration information is not added.</p>
+<p>These are the supported options:</p>
+<h4 id="-i--image-docker-image"><a class="header" href="#-i--image-docker-image">{<strong>-i</strong> | <strong>–image</strong>} docker-image</a></h4>
+<p>Required. Specify the full Docker image name, including the tag, that is installed on the SynxDB hosts. For example <code>synxdata/plcontainer_python:1.0.0</code>.</p>
+<p>The utility returns a warning if the specified Docker image is not installed.</p>
+<p>The <code>plcontainer image-list</code> command displays installed image information including the name and tag (the Repository and Tag columns).</p>
+<h4 id="-l--language-python--python3--r"><a class="header" href="#-l--language-python--python3--r">{<strong>-l</strong> | <strong>–language</strong>} python | python3 | r</a></h4>
+<p>Required. Specify the PL/Container language type, supported values are <code>python</code> (PL/Python using Python 2), <code>python3</code> (PL/Python using Python 3) and <code>r</code> (PL/R). When adding configuration information for a new runtime, the utility adds a startup command to the configuration based on the language you specify.</p>
+<p>Startup command for the Python 2 language.</p>
+<pre><code>/clientdir/pyclient.sh
 </code></pre>
-<p>:   By default, the <code>image-add</code> command copies the image to each SynxDB segment and standby master host, and installs the image. When you specify an image_file and provide the [<strong>-ulc</strong> | <strong>–use_local_copy</strong>] option, <code>plcontainer</code> installs the image only on the host on which you run the command.</p>
-<p>:   After installing the Docker image, use the <code>runtime-add</code> command to configure PL/Container to use the Docker image.</p>
-<p>image-delete {<strong>-i</strong> | <strong>–image</strong>} image_name
-:   Remove an installed Docker image from all SynxDB hosts. Specify the full Docker image name including the tag for example <code>synxdata/plcontainer_python_shared:1.0.0</code></p>
-<p>image-list
-:   List the Docker images installed on the host. The command list only the images on the local host, not remote hosts. The command lists all installed Docker images, including images installed with Docker commands.</p>
-<p>runtime-add options
-:   Add configuration information to the PL/Container configuration file on all SynxDB hosts. If the specified runtime_id exists, the utility returns an error and the configuration information is not added.</p>
-<p>:   These are the supported options:</p>
-<p>:   {<strong>-i</strong> | <strong>–image</strong>} docker-image
-:   Required. Specify the full Docker image name, including the tag, that is installed on the SynxDB hosts. For example <code>synxdata/plcontainer_python:1.0.0</code>.</p>
-<p>:   The utility returns a warning if the specified Docker image is not installed.</p>
-<p>:   The <code>plcontainer image-list</code> command displays installed image information including the name and tag (the Repository and Tag columns).</p>
-<p>{<strong>-l</strong> | <strong>–language</strong>} python | python3 | r
-:   Required. Specify the PL/Container language type, supported values are <code>python</code> (PL/Python using Python 2), <code>python3</code> (PL/Python using Python 3) and <code>r</code> (PL/R). When adding configuration information for a new runtime, the utility adds a startup command to the configuration based on the language you specify.</p>
-<p>:   Startup command for the Python 2 language.</p>
-<pre><code>```
-/clientdir/pyclient.sh
-```
+<p>Startup command for the Python 3 language.</p>
+<pre><code>/clientdir/pyclient3.sh
 </code></pre>
-<p>:   Startup command for the Python 3 language.</p>
-<pre><code>```
-/clientdir/pyclient3.sh
-```
+<p>Startup command for the R language.</p>
+<pre><code>/clientdir/rclient.sh
 </code></pre>
-<p>:   Startup command for the R language.</p>
-<pre><code>```
-/clientdir/rclient.sh
-```
-</code></pre>
-<p>{<strong>-r</strong> | <strong>–runtime</strong>} runtime_id
-:   Required. Add the runtime ID. When adding a <code>runtime</code> element in the PL/Container configuration file, this is the value of the <code>id</code> element in the PL/Container configuration file. Maximum length is 63 Bytes.</p>
-<p>:   You specify the name in the SynxDB UDF on the <code># container</code> line.</p>
-<p>{<strong>-s</strong> | <strong>–setting</strong>} param=value
-:   Optional. Specify a setting to add to the runtime configuration information. You can specify this option multiple times. The setting applies to the runtime configuration specified by the runtime_id. The parameter is the XML attribute of the <code>settings</code> element in the PL/Container configuration file. These are valid parameters.</p>
-<pre><code>-   `cpu_share` - Set the CPU limit for each container in the runtime configuration. The default value is 1024. The value is a relative weighting of CPU usage compared to other containers.
--   `memory_mb` - Set the memory limit for each container in the runtime configuration. The default value is 1024. The value is an integer that specifies the amount of memory in MB.
--   `resource_group_id` - Assign the specified resource group to the runtime configuration. The resource group limits the total CPU and memory resource usage for all containers that share this runtime configuration. You must specify the `groupid` of the resource group. For information about managing PL/Container resources, see [About PL/Container Resource Management](#topic_resmgmt).
--   `roles` - Specify the SynxDB roles that are allowed to run a container for the runtime configuration. You can specify a single role name or comma separated lists of role names. The default is no restriction.
--   `use_container_logging` - Enable or deactivate Docker logging for the container. The value is either `yes` \(activate logging\) or `no` \(deactivate logging, the default\).
-&lt;br/&gt;&lt;br/&gt;The SynxDB server configuration parameter [log\_min\_messages](../../ref_guide/config_params/guc-list.html) controls the log level. The default log level is `warning`. For information about PL/Container log information, see [Notes](#plc_notes).
-</code></pre>
-<p>{<strong>-v</strong> | <strong>–volume</strong>} shared-volume
-:   Optional. Specify a Docker volume to bind mount. You can specify this option multiple times to define multiple volumes.</p>
-<p>:   The format for a shared volume: <code>host-dir:container-dir:[rw|ro]</code>. The information is stored as attributes in the <code>shared_directory</code> element of the <code>runtime</code> element in the PL/Container configuration file.</p>
-<pre><code>-   host-dir - absolute path to a directory on the host system. The SynxDB administrator user \(gpadmin\) must have appropriate access to the directory.
--   container-dir - absolute path to a directory in the Docker container.
--   `[rw|ro]` - read-write or read-only access to the host directory from the container.
-</code></pre>
-<p>:   When adding configuration information for a new runtime, the utility adds this read-only shared volume information.</p>
-<p>:   <code>&lt;greenplum-home&gt;/bin/plcontainer_clients:/clientdir:ro</code></p>
-<p>:   If needed, you can specify other shared directories. The utility returns an error if the specified container-dir is the same as the one that is added by the utility, or if you specify multiple shared volumes with the same container-dir.</p>
+<h4 id="-r--runtime-runtime_id"><a class="header" href="#-r--runtime-runtime_id">{<strong>-r</strong> | <strong>–runtime</strong>} runtime_id</a></h4>
+<p>Required. Add the runtime ID. When adding a <code>runtime</code> element in the PL/Container configuration file, this is the value of the <code>id</code> element in the PL/Container configuration file. Maximum length is 63 Bytes.</p>
+<p>You specify the name in the SynxDB UDF on the <code># container</code> line.</p>
+<h4 id="-s--setting-paramvalue"><a class="header" href="#-s--setting-paramvalue">{<strong>-s</strong> | <strong>–setting</strong>} param=value</a></h4>
+<p>Optional. Specify a setting to add to the runtime configuration information. You can specify this option multiple times. The setting applies to the runtime configuration specified by the runtime_id. The parameter is the XML attribute of the <code>settings</code> element in the PL/Container configuration file. These are valid parameters.</p>
+<ul>
+<li><code>cpu_share</code> - Set the CPU limit for each container in the runtime configuration. The default value is 1024. The value is a relative weighting of CPU usage compared to other containers.</li>
+<li><code>memory_mb</code> - Set the memory limit for each container in the runtime configuration. The default value is 1024. The value is an integer that specifies the amount of memory in MB.</li>
+<li><code>resource_group_id</code> - Assign the specified resource group to the runtime configuration. The resource group limits the total CPU and memory resource usage for all containers that share this runtime configuration. You must specify the <code>groupid</code> of the resource group. For information about managing PL/Container resources, see <a href="#topic_resmgmt">About PL/Container Resource Management</a>.</li>
+<li><code>roles</code> - Specify the SynxDB roles that are allowed to run a container for the runtime configuration. You can specify a single role name or comma separated lists of role names. The default is no restriction.</li>
+<li><code>use_container_logging</code> - Enable or deactivate Docker logging for the container. The value is either <code>yes</code> (activate logging) or <code>no</code> (deactivate logging, the default).
+<br/><br/>The SynxDB server configuration parameter <a href="../../ref_guide/config_params/guc-list.html">log_min_messages</a> controls the log level. The default log level is <code>warning</code>. For information about PL/Container log information, see <a href="#plc_notes">Notes</a>.</li>
+</ul>
+<h4 id="-v--volume-shared-volume"><a class="header" href="#-v--volume-shared-volume">{<strong>-v</strong> | <strong>–volume</strong>} shared-volume</a></h4>
+<p>Optional. Specify a Docker volume to bind mount. You can specify this option multiple times to define multiple volumes.</p>
+<p>The format for a shared volume: <code>host-dir:container-dir:[rw|ro]</code>. The information is stored as attributes in the <code>shared_directory</code> element of the <code>runtime</code> element in the PL/Container configuration file.</p>
+<ul>
+<li>host-dir - absolute path to a directory on the host system. The SynxDB administrator user (gpadmin) must have appropriate access to the directory.</li>
+<li>container-dir - absolute path to a directory in the Docker container.</li>
+<li><code>[rw|ro]</code> - read-write or read-only access to the host directory from the container.</li>
+</ul>
+<p>When adding configuration information for a new runtime, the utility adds this read-only shared volume information.</p>
+<p><code>&lt;greenplum-home&gt;/bin/plcontainer_clients:/clientdir:ro</code></p>
+<p>If needed, you can specify other shared directories. The utility returns an error if the specified container-dir is the same as the one that is added by the utility, or if you specify multiple shared volumes with the same container-dir.</p>
 <blockquote>
 <p><strong>Caution</strong> Allowing read-write access to a host directory requires special considerations.</p>
 <ul>
@@ -252,28 +249,26 @@
 <li>When running PL/Container user-defined functions, multiple concurrent Docker containers that are running on a host could change data in the host directory. Ensure that the functions support multiple concurrent access to the data in the host directory.</li>
 </ul>
 </blockquote>
-<p>runtime-backup {<strong>-f</strong> | <strong>–file</strong>} config_file
-:   Copies the PL/Container configuration file to the specified file on the local host.</p>
-<p>runtime-delete {<strong>-r</strong> | <strong>–runtime</strong>} runtime_id
-:   Removes runtime configuration information in the PL/Container configuration file on all SynxDB instances. The utility returns a message if the specified runtime_id does not exist in the file.</p>
-<p>runtime-edit [{<strong>-e</strong> | <strong>–editor</strong>} editor]
-:   Edit the XML file <code>plcontainer_configuration.xml</code> with the specified editor. The default editor is <code>vi</code>.</p>
-<pre><code>Saving the file updates the configuration file on all SynxDB hosts. If errors exist in the updated file, the utility returns an error and does not update the file.
-</code></pre>
-<p>runtime-replace options
-:   Replaces runtime configuration information in the PL/Container configuration file on all SynxDB instances. If the runtime_id does not exist, the information is added to the configuration file. The utility adds a startup command and shared directory to the configuration.</p>
-<pre><code>See `runtime-add` for command options and information added to the configuration.
-</code></pre>
-<p>runtime-restore {<strong>-f</strong> | <strong>–file</strong>} config_file
-:   Replaces information in the PL/Container configuration file <code>plcontainer_configuration.xml</code> on all SynxDB instances with the information from the specified file on the local host.</p>
-<p>runtime-show [{<strong>-r</strong> | <strong>–runtime</strong>} runtime_id]
-:   Displays formatted PL/Container runtime configuration information. If a runtime_id is not specified, the configuration for all runtime IDs are displayed.</p>
-<p>runtime-verify
-:   Checks the PL/Container configuration information on the SynxDB instances with the configuration information on the master. If the utility finds inconsistencies, you are prompted to replace the remote copy with the local copy. The utility also performs XML validation.</p>
-<p><strong>-h</strong> | <strong>–help</strong>
-:   Display help text. If specified without a command, displays help for all <code>plcontainer</code> commands. If specified with a command, displays help for the command.</p>
-<p><strong>–verbose</strong>
-:   Enable verbose logging for the command.</p>
+<h3 id="runtime-backup--f--file-config_file"><a class="header" href="#runtime-backup--f--file-config_file">runtime-backup {<strong>-f</strong> | <strong>–file</strong>} config_file</a></h3>
+<p>Copies the PL/Container configuration file to the specified file on the local host.</p>
+<h3 id="runtime-delete--r--runtime-runtime_id"><a class="header" href="#runtime-delete--r--runtime-runtime_id">runtime-delete {<strong>-r</strong> | <strong>–runtime</strong>} runtime_id</a></h3>
+<p>Removes runtime configuration information in the PL/Container configuration file on all SynxDB instances. The utility returns a message if the specified runtime_id does not exist in the file.</p>
+<h3 id="runtime-edit--e--editor-editor"><a class="header" href="#runtime-edit--e--editor-editor">runtime-edit [{<strong>-e</strong> | <strong>–editor</strong>} editor]</a></h3>
+<p>Edit the XML file <code>plcontainer_configuration.xml</code> with the specified editor. The default editor is <code>vi</code>.</p>
+<p>Saving the file updates the configuration file on all SynxDB hosts. If errors exist in the updated file, the utility returns an error and does not update the file.</p>
+<h3 id="runtime-replace-options"><a class="header" href="#runtime-replace-options">runtime-replace options</a></h3>
+<p>Replaces runtime configuration information in the PL/Container configuration file on all SynxDB instances. If the runtime_id does not exist, the information is added to the configuration file. The utility adds a startup command and shared directory to the configuration.</p>
+<p>See <code>runtime-add</code> for command options and information added to the configuration.</p>
+<h3 id="runtime-restore--f--file-config_file"><a class="header" href="#runtime-restore--f--file-config_file">runtime-restore {<strong>-f</strong> | <strong>–file</strong>} config_file</a></h3>
+<p>Replaces information in the PL/Container configuration file <code>plcontainer_configuration.xml</code> on all SynxDB instances with the information from the specified file on the local host.</p>
+<h3 id="runtime-show--r--runtime-runtime_id"><a class="header" href="#runtime-show--r--runtime-runtime_id">runtime-show [{<strong>-r</strong> | <strong>–runtime</strong>} runtime_id]</a></h3>
+<p>Displays formatted PL/Container runtime configuration information. If a runtime_id is not specified, the configuration for all runtime IDs are displayed.</p>
+<h3 id="runtime-verify"><a class="header" href="#runtime-verify">runtime-verify</a></h3>
+<p>Checks the PL/Container configuration information on the SynxDB instances with the configuration information on the master. If the utility finds inconsistencies, you are prompted to replace the remote copy with the local copy. The utility also performs XML validation.</p>
+<h3 id="-h--help"><a class="header" href="#-h--help"><strong>-h</strong> | <strong>–help</strong></a></h3>
+<p>Display help text. If specified without a command, displays help for all <code>plcontainer</code> commands. If specified with a command, displays help for the command.</p>
+<h3 id="verbose"><a class="header" href="#verbose"><strong>–verbose</strong></a></h3>
+<p>Enable verbose logging for the command.</p>
 <h2 id="examples"><a class="header" href="#examples"><a id="exs"></a>Examples</a></h2>
 <p>These are examples of common commands to manage PL/Container:</p>
 <ul>

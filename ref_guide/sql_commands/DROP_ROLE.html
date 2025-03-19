@@ -166,10 +166,10 @@
 <p>A role cannot be removed if it is still referenced in any database; an error will be raised if so. Before dropping the role, you must drop all the objects it owns (or reassign their ownership) and revoke any privileges the role has been granted on other objects. The <a href="REASSIGN_OWNED.html">REASSIGN OWNED</a> and <a href="DROP_OWNED.html">DROP OWNED</a> commands can be useful for this purpose.</p>
 <p>However, it is not necessary to remove role memberships involving the role; <code>DROP ROLE</code> automatically revokes any memberships of the target role in other roles, and of other roles in the target role. The other roles are not dropped nor otherwise affected.</p>
 <h2 id="parameters"><a class="header" href="#parameters"><a id="section4"></a>Parameters</a></h2>
-<p>IF EXISTS
-:   Do not throw an error if the role does not exist. A notice is issued in this case.</p>
-<p>name
-:   The name of the role to remove.</p>
+<h3 id="if-exists"><a class="header" href="#if-exists">IF EXISTS</a></h3>
+<p>Do not throw an error if the role does not exist. A notice is issued in this case.</p>
+<h3 id="name"><a class="header" href="#name">name</a></h3>
+<p>The name of the role to remove.</p>
 <h2 id="examples"><a class="header" href="#examples"><a id="section5"></a>Examples</a></h2>
 <p>Remove the roles named <code>sally</code> and <code>bob</code>:</p>
 <pre><code>DROP ROLE sally, bob;

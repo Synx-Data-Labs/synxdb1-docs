@@ -167,12 +167,12 @@
 <p><code>ALTER USER MAPPING</code> changes the definition of a user mapping for a foreign server.</p>
 <p>The owner of a foreign server can alter user mappings for that server for any user. Also, a user granted <code>USAGE</code> privilege on the server can alter a user mapping for their own user name.</p>
 <h2 id="parameters"><a class="header" href="#parameters"><a id="section4"></a>Parameters</a></h2>
-<p>username
-:   User name of the mapping. <code>CURRENT_USER</code> and <code>USER</code> match the name of the current user. <code>PUBLIC</code> is used to match all present and future user names in the system.</p>
-<p>servername
-:   Server name of the user mapping.</p>
-<p>OPTIONS ( [ ADD | SET | DROP ] option [‘value’] [, … ] )
-:   Change options for the user mapping. The new options override any previously specified options. <code>ADD</code>, <code>SET</code>, and <code>DROP</code> specify the action to perform. If no operation is explicitly specified, the default operation is <code>ADD</code>. Option names must be unique. SynxDB validates names and values using the server’s foreign-data wrapper.</p>
+<h3 id="username"><a class="header" href="#username">username</a></h3>
+<p>User name of the mapping. <code>CURRENT_USER</code> and <code>USER</code> match the name of the current user. <code>PUBLIC</code> is used to match all present and future user names in the system.</p>
+<h3 id="servername"><a class="header" href="#servername">servername</a></h3>
+<p>Server name of the user mapping.</p>
+<h3 id="options---add--set--drop--option-value----"><a class="header" href="#options---add--set--drop--option-value----">OPTIONS ( [ ADD | SET | DROP ] option [‘value’] [, … ] )</a></h3>
+<p>Change options for the user mapping. The new options override any previously specified options. <code>ADD</code>, <code>SET</code>, and <code>DROP</code> specify the action to perform. If no operation is explicitly specified, the default operation is <code>ADD</code>. Option names must be unique. SynxDB validates names and values using the server’s foreign-data wrapper.</p>
 <h2 id="examples"><a class="header" href="#examples"><a id="section6"></a>Examples</a></h2>
 <p>Change the password for user mapping <code>bob</code>, server <code>foo</code>:</p>
 <pre><code>ALTER USER MAPPING FOR bob SERVER foo OPTIONS (SET password 'public');

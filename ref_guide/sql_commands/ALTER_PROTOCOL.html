@@ -168,12 +168,12 @@ ALTER PROTOCOL &lt;name&gt; OWNER TO &lt;newowner&gt;
 <p>You must own the protocol to use <code>ALTER PROTOCOL</code>. To alter the owner, you must also be a direct or indirect member of the new owning role, and that role must have <code>CREATE</code> privilege on schema of the conversion.</p>
 <p>These restrictions are in place to ensure that altering the owner only makes changes that could by made by dropping and recreating the protocol. Note that a superuser can alter ownership of any protocol.</p>
 <h2 id="parameters"><a class="header" href="#parameters"><a id="section4"></a>Parameters</a></h2>
-<p>name
-:   The name (optionally schema-qualified) of an existing protocol.</p>
-<p>newname
-:   The new name of the protocol.</p>
-<p>newowner
-:   The new owner of the protocol.</p>
+<h3 id="name"><a class="header" href="#name">name</a></h3>
+<p>The name (optionally schema-qualified) of an existing protocol.</p>
+<h3 id="newname"><a class="header" href="#newname">newname</a></h3>
+<p>The new name of the protocol.</p>
+<h3 id="newowner"><a class="header" href="#newowner">newowner</a></h3>
+<p>The new owner of the protocol.</p>
 <h2 id="examples"><a class="header" href="#examples"><a id="section5"></a>Examples</a></h2>
 <p>To rename the conversion <code>GPDBauth</code> to <code>GPDB_authentication</code>:</p>
 <pre><code>ALTER PROTOCOL GPDBauth RENAME TO GPDB_authentication;
