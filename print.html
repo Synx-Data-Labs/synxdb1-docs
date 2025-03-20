@@ -3287,7 +3287,6 @@ $ gpstop -r
 <li class="li"><a class="xref" href="install_guide/../ref_guide/modules/postgresql-hll.html">postgresql-hll</a></li>
 <li class="li"><a class="xref" href="install_guide/../ref_guide/modules/sslinfo.html">sslinfo</a></li>
 <li class="li"><a class="xref" href="install_guide/../ref_guide/modules/tablefunc.html">tablefunc</a></li>
-<li class="li"><a class="xref" href="install_guide/../ref_guide/modules/timestamp9.html">timestamp9</a></li>
 <li class="li"><a class="xref" href="install_guide/../ref_guide/modules/uuid-ossp.html">uuid-ossp</a></li>
 </ul>
 </td>
@@ -15239,7 +15238,6 @@ Statement statistics:
 <p>You must register the extension before you install MADlib 2.x.</p>
 <h2 id="installing-madlib"><a class="header" href="#installing-madlib"><a id="topic3"></a>Installing MADlib</a></h2>
 <p>To install MADlib on SynxDB, you first install a compatible SynxDB MADlib package and then install the MADlib function libraries on all databases that will use MADlib.</p>
-<p>The <a href="analytics/../utility_guide/ref/gppkg.html">gppkg</a> utility installs SynxDB extensions, along with any dependencies, on all hosts across a cluster. It also automatically installs extensions on new hosts in the case of system expansion segment recovery.</p>
 <p>If you have GPUs installed on some or across all hosts in the cluster, then the segments residing on those hosts can benefit from GPU acceleration. GPUs and deep learning libraries such as Keras, TensorFlow, cudNN, and CUDA are managed separately from MADlib. For more information see the <a href="https://cwiki.apache.org/confluence/display/MADLIB/Deep+Learning">MADlib wiki instructions for deep learning</a> and the <a href="http://madlib.apache.org/docs/latest/group__grp__dl.html">MADlib user documentation for deep learning</a> .</p>
 <h3 id="installing-the-synxdb-madlib-package"><a class="header" href="#installing-the-synxdb-madlib-package"><a id="topic4"></a>Installing the SynxDB MADlib Package</a></h3>
 <p>Before you install the MADlib package, make sure that your SynxDB is running, you have sourced <code>synxdb_path.sh</code>, and that the <code>$MASTER_DATA_DIRECTORY</code> and <code>$GPHOME</code> environment variables are set.</p>
@@ -18555,7 +18553,7 @@ $$;
 </code></pre>
 <h2 id="installing-python-modules"><a class="header" href="#installing-python-modules"><a id="topic10"></a>Installing Python Modules</a></h2>
 <p>When you install a Python module for development with PL/Python, the SynxDB Python environment must have the module added to it across all segment hosts and mirror hosts in the cluster. When expanding SynxDB, you must add the Python modules to the new segment hosts.</p>
-<p>SynxDB provides a collection of data science-related Python modules that you can use to easily develop PL/Python functions in SynxDB. The modules are provided as two <code>.gppkg</code> format files that can be installed into a SynxDB cluster using the <code>gppkg</code> utility, with one package supporting development with Python 2.7 and the other supporting development with Python 3.9. See <a href="analytics//../install_guide/install_python_dsmod.html">Python Data Science Module Packages</a> for installation instructions and descriptions of the provided modules.</p>
+<p>SynxDB provides a collection of data science-related Python modules that you can use to easily develop PL/Python functions in SynxDB. The modules are provided as two <code>.kg</code> format files that can be installed into a SynxDB cluster using the <code>gppkg</code> utility, with one package supporting development with Python 2.7 and the other supporting development with Python 3.9. See <a href="analytics//../install_guide/install_python_dsmod.html">Python Data Science Module Packages</a> for installation instructions and descriptions of the provided modules.</p>
 <p>To develop with modules that are not part of th Python Data Science Module packages, you can use SynxDB utilities such as <code>gpssh</code> and <code>gpscp</code> to run commands or copy files to all hosts in the SynxDB cluster. These sections describe how to use those utilities to install and use additional Python modules:</p>
 <ul>
 <li><a href="analytics/pl_python.html#about_python_env">Verifying the Python Environment</a></li>
@@ -32215,7 +32213,6 @@ gpstop -u
 <li><code>gpbackup</code></li>
 <li><code>gpcheckcat</code></li>
 <li><code>gpconfig</code></li>
-<li><code>gppkg</code></li>
 <li><code>gprestore</code></li>
 </ul>
 <blockquote>
@@ -50920,7 +50917,6 @@ SELECT sum(myvalue) FROM mymatrix;
 <p><code>contrib</code> modules are typically packaged as extensions. You register a module in a database using the <a href="ref_guide/modules/../sql_commands/CREATE_EXTENSION.html">CREATE EXTENSION</a> command. You remove a module from a database with <a href="ref_guide/modules/../sql_commands/DROP_EXTENSION.html">DROP EXTENSION</a>.</p>
 <p>The following SynxDB and PostgreSQL <code>contrib</code> modules are installed; refer to the linked module documentation for usage instructions.</p>
 <ul>
-<li><a href="ref_guide/modules/adv_passwd_check.html">advanced_password_check</a> Provides password quality checking and policy definition for SynxDB.</li>
 <li><a href="ref_guide/modules/auto-explain.html">auto_explain</a> Provides a means for logging execution plans of slow statements automatically.</li>
 <li><a href="ref_guide/modules/btree_gin.html">btree_gin</a> - Provides sample generalized inverted index (GIN) operator classes that implement B-tree equivalent behavior for certain data types.</li>
 <li><a href="ref_guide/modules/citext.html">citext</a> - Provides a case-insensitive, multibyte-aware text data type.</li>
@@ -50941,169 +50937,18 @@ SELECT sum(myvalue) FROM mymatrix;
 <li><a href="ref_guide/modules/ltree.html">ltree</a> - Provides data types for representing labels of data stored in a hierarchical tree-like structure.</li>
 <li><a href="ref_guide/modules/orafce_ref.html">orafce</a> - Provides SynxDB-specific Oracle SQL compatibility functions.</li>
 <li><a href="ref_guide/modules/pageinspect.html">pageinspect</a> - Provides functions for low level inspection of the contents of database pages; available to superusers only.</li>
-<li><a href="ref_guide/modules/pg_cron.html">pg_cron</a> -  Provides a cron-based job scheduler that runs inside the database.</li>
 <li><a href="ref_guide/modules/pg_trgm.html">pg_trgm</a> - Provides functions and operators for determining the similarity of alphanumeric text based on trigram matching. The module also provides index operator classes that support fast searching for similar strings.</li>
 <li><a href="ref_guide/modules/pgcrypto.html">pgcrypto</a> - Provides cryptographic functions for SynxDB.</li>
 <li><a href="ref_guide/modules/postgres_fdw.html">postgres_fdw</a> - Provides a foreign data wrapper (FDW) for accessing data stored in an external PostgreSQL or SynxDB database.</li>
 <li><a href="ref_guide/modules/postgresql-hll.html">postgresql-hll</a> - Provides HyperLogLog data types for PostgreSQL and SynxDB.</li>
 <li><a href="ref_guide/modules/sslinfo.html">sslinfo</a> - Provides information about the SSL certificate that the current client provided when connecting to SynxDB.</li>
 <li><a href="ref_guide/modules/tablefunc.html">tablefunc</a> - Provides various functions that return tables (multiple rows).</li>
-<li><a href="ref_guide/modules/timestamp9.html">timestamp9</a> - Provides an efficient nanosecond-precision timestamp data type for SynxDB.</li>
 <li><a href="ref_guide/modules/uuid-ossp.html">uuid-ossp</a> - Provides functions to generate universally unique identifiers (UUIDs).</li>
 </ul>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="advanced_password_check"><a class="header" href="#advanced_password_check">advanced_password_check</a></h1>
-<p>The <code>advanced_password_check</code> module allows you to strengthen password policies for SynxDB. It is based on the <code>passwordcheck_extra</code> module, which enhances the PostgreSQL <code>passwordcheck</code> module to support user-defined policies to strengthen <code>passwordcheck</code>’s minimum password requirements.</p>
-<h2 id="loading-the-module"><a class="header" href="#loading-the-module"><a id="topic_reg"></a>Loading the Module</a></h2>
-<p>The <code>advanced_password_check</code> module provides no SQL-accessible functions. To use it, enable the extension as a preloaded library and restart SynxDB:</p>
-<p>First, check if there are any preloaded shared libraries by running the following command:</p>
-<pre><code>gpconfig -s shared_preload_libraries
-</code></pre>
-<p>Use the output of the above command to enable the <code>advanced_password_check</code> module, along any other shared libraries, and restart SynxDB:</p>
-<pre><code>gpconfig -c shared_preload_libraries -v '&lt;other_libraries&gt;,advanced_password_check'
-gpstop -ar 
-</code></pre>
-<p>Finally, install the extension in your database:</p>
-<pre><code>CREATE EXTENSION advanced_password_check;
-</code></pre>
-<h2 id="using-the-advanced_password_check-module"><a class="header" href="#using-the-advanced_password_check-module"><a id="topic_using"></a>Using the advanced_password_check Module</a></h2>
-<p><code>advanced_password_check</code> is a SynxDB module that you can enable and configure to check password strings against one or more user-defined policies. You can configure policies that:</p>
-<ul>
-<li>Set a minimum password string length.</li>
-<li>Set a maximum password string length.</li>
-<li>Set a maximum password age before the password expires.</li>
-<li>Set rules for reusing an old password: the number of days or the number of previous passwords before a user can reuse a password.</li>
-<li>Set the maximum number of failed login attempts before a user is locked, and the number of minutes the user remains locked.</li>
-<li>Define a custom list of special characters.</li>
-<li>Define rules for special character, upper/lower case character, and number inclusion in the password string.</li>
-<li>Use UDFs to manage an exception list for each feature so certain users can bypass the current restrictions.</li>
-</ul>
-<p>The <code>advanced_password_check</code> module defines server configuration parameters that you set to configure password setting policies. These parameters include:</p>
-<div class="table-wrapper"><table><thead><tr><th>Parameter Name</th><th>Type</th><th>Default Value</th><th>Description</th></tr></thead><tbody>
-<tr><td>minimum_length</td><td>int</td><td>8</td><td>The minimum allowable length of a SynxDB password.</td></tr>
-<tr><td>maximum_length</td><td>int</td><td>15</td><td>The maximum allowable length of a SynxDB password.</td></tr>
-<tr><td>special_chars</td><td>string</td><td>!@#$%^&amp;*()_+{}|&lt;&gt;?=</td><td>The set of characters that SynxDB considers to be special characters in a password.</td></tr>
-<tr><td>restrict_upper</td><td>bool</td><td>true</td><td>Specifies whether or not the password string must contain at least one upper case character.</td></tr>
-<tr><td>restrict_lower</td><td>bool</td><td>true</td><td>Specifies whether or not the password string must contain at least one lower case character.</td></tr>
-<tr><td>restrict_numbers</td><td>bool</td><td>true</td><td>Specifies whether or not the password string must contain at least one number.</td></tr>
-<tr><td>restrict_special</td><td>bool</td><td>true</td><td>Specifies whether or not the password string must contain at least one special character.</td></tr>
-<tr><td>password_login_attempts</td><td>int</td><td>0</td><td>The number of consecutive failed login attempts before a user is locked. If set to 0, this feature is disabled.</td></tr>
-<tr><td>password_max_age</td><td>int</td><td>0</td><td>The maximum number of days before the password expires. If set to 0, the password does not expire.</td></tr>
-<tr><td>password_reuse_days</td><td>int</td><td>0</td><td>The number of days before a user can reuse a password. If set to 0, the user can reuse any password.</td></tr>
-<tr><td>password_reuse_history</td><td>int</td><td>0</td><td>The number of previous passwords a user cannot reuse. If set to 0, the user can reuse any password.</td></tr>
-<tr><td>lockout_duration</td><td>int</td><td>0</td><td>The number of minutes a user is locked after reaching password_login_attempts. If set to 0, the user is locked indefinitely.</td></tr>
-</tbody></table>
-</div>
-<p>After you define your password policies, you run the <code>gpconfig</code> command for each configuration parameter that you must set. When you run the command, you must qualify the parameter with the module name. For example, to configure SynxDB to remove any requirements for a lower case letter in the password string, you run the following command:</p>
-<pre><code>gpconfig -c advanced_password_check.restrict_lower -v false
-</code></pre>
-<p>After you set or change module configuration in this manner, you must reload the SynxDB configuration:</p>
-<pre><code>gpstop -u
-</code></pre>
-<p>The <code>advanced_password_check</code> module provides the following user-defined functions (UDF). Specify all function arguments as single-quoted strings.</p>
-<div class="table-wrapper"><table><thead><tr><th>Function Signature</th><th>Arguments</th><th>Description</th></tr></thead><tbody>
-<tr><td><code>manage_exception_list(action, role_name, exception_type)</code></td><td>- <code>action</code> can be <code>add</code>, <code>remove</code>, or <code>show</code>. <br>- <code>role_name</code><br>- <code>exception_type</code> can be <code>password_max_age</code>, <code>password_reuse_days</code>, <code>password_reuse_history</code>, or <code>password_login_attempts</code>.</td><td>Adds, removes, and shows roles in the exception list for a policy.</td></tr>
-<tr><td><code>unblock_account(role_name)</code></td><td><code>role_name</code></td><td>Unblocks a role</td></tr>
-<tr><td><code>status()</code></td><td></td><td>Lists active password policies.</td></tr>
-</tbody></table>
-</div>
-<p>Use the <code>manage_exception_list()</code> function to manage the exception list for a password policy. SynxDB does not enforce the rules set for the policy for any users specified in the exception list.
-The function takes three arguments: the action to take, the role name and the name of the exception. The value of <code>action</code> can be <code>add</code>, <code>remove</code>, or <code>show</code>. The value of <code>exception_type</code> can be <code>password_max_age</code>, <code>password_reuse_days</code>, <code>password_reuse_history</code>, <code>password_login_attempts</code>, or an empty string to represent all of the available exception types. When the action is <code>show</code>, you may specify <code>role_name</code> as an empty string to include all roles.</p>
-<p>For example, to add the role <code>user1</code> to the exception list for <code>password_max_age</code>, so the role does not have a password expiration date:</p>
-<pre><code>SELECT advanced_password_check.manage_exception_list('add', 'user1', 'password_max_age');
-
-role_id | role_name | exception_type 
----------+-----------+---------------- 
-(0 rows) 
-</code></pre>
-<p>The following example checks all exception lists for all roles:</p>
-<pre><code>SELECT * FROM advanced_password_check.manage_exception_list('show','', ''); 
-
-role_id | role_name |     exception_type 
----------+-----------+------------------------- 
-1826266 | user1     | password_max_age 
-1826267 | user2     | password_reuse_history 
-1826266 | user1     | password_reuse_days 
-1826266 | user1     | password_login_attempts 
-(4 rows) 
-</code></pre>
-<p>Use the <code>unblock_account_role()</code> function to manually unblock a user that reached the limit set by the configuration parameter <code>password_login_attempts</code>. For example:</p>
-<pre><code>SELECT * FROM advanced_password_check.unblock_account('user1'); 
-
-unblock_account 
------------------ 
-(1 row) 
-</code></pre>
-<p>Use the <code>status()</code> function to view the values of all active password policies. For example:</p>
-<pre><code>SELECT * FROM advanced_password_check.status(); 
-
-           guc           |        value 
--------------------------+--------------------- 
-special_chars           | !@#$%^&amp;*()_+{}|&lt;&gt;?= 
-restrict_lower          | t 
-restrict_upper          | t 
-restrict_numbers        | t 
-restrict_special        | t 
-minimum_length          | 8 
-maximum_length          | 15 
-password_max_age        | 192 
-password_reuse_days     | 0 
-password_reuse_history  | 0 
-password_login_attempts | 0 
-lockout_duration        | 0 
-(12 rows) 
-</code></pre>
-<blockquote>
-<p><strong>Note</strong> The password history information is stored in the SynxDB master host only. In the event of a primary master failure, if you activate the standby master host, the <code>advanced_password_check</code> module  will not be able to access the password history information, and it will affect any server configuration parameters or UDFs that involve password history information. For example, a role may reuse a password even if the <code>password_reuse_history</code> is set, as there is no information about previous passwords. If you switch back to the original master host, unless there is data corruption, the password history information will be accessible again.</p>
-</blockquote>
-<h2 id="example-12"><a class="header" href="#example-12"><a id="topic_example"></a>Example</a></h2>
-<p>Suppose that you have defined the following password policies:</p>
-<ul>
-<li>The password must contain a minimum of 10 characters and a maximum of 18.</li>
-<li>The password must contain a mixture of upper case and lower case characters.</li>
-<li>The password must contain at least one of the default special characters.</li>
-<li>The are no requirements that the password contain a number.</li>
-<li>The password must not be the same as the current password.</li>
-<li>The password must expire after three months.</li>
-<li>The user must be blocked during an hour after the third of three unsuccessful login attempts.</li>
-</ul>
-<p>You would run the following commands to configure SynxDB to enforce these policies:</p>
-<pre><code>gpconfig -c advanced_password_check.minimum_length -v 10
-gpconfig -c advanced_password_check.maximum_length -v 18
-gpconfig -c advanced_password_check.restrict_numbers -v false
-gpconfig -c advanced_password_check.password_reuse_history -v 1
-gpconfig -c advanced_password_check.password_max_age -v 90
-gpconfig -c advanced_password_check.password_login_attempts -v 3
-gpconfig -c advanced_password_check.lockout_duration -v 60
-gpadmin@gpmaster$ gpstop -u
-</code></pre>
-<p>After loading the new configuration, passwords that the SynxDB superuser sets must now follow the policies, and SynxDB returns an error for every policy that is not met. Note that SynxDB checks the password string against all of the policies, and concatenates together the messages for any errors that it encounters. For example (line breaks added for better viewability):</p>
-<pre><code># testdb=# CREATE role r1 PASSWORD '12345678901112';
-ERROR:  Incorrect password format: lower-case character missing, upper-case character
-missing, special character missing (needs to be one listed in "&lt;list-of-special-chars&gt;")
-</code></pre>
-<h2 id="upgrading-the-module"><a class="header" href="#upgrading-the-module"><a id="topic_upgrade"></a>Upgrading the Module</a></h2>
-<p>You may upgrade the module from a previous version by following the steps below.</p>
-<ol>
-<li>
-<p>Check your existing version of the module by running <code>\dx</code> from your database.</p>
-</li>
-<li>
-<p>Verify that <code>advanced_password_check</code> is listed as one of the preloaded shared libraries by running the following command:</p>
-<pre><code>gpconfig -s shared_preload_libraries
-</code></pre>
-</li>
-<li>
-<p>Update the extension from your database prompt. The following example upgrades to version 1.2:</p>
-<pre><code>ALTER EXTENSION advanced_password_check UPDATE TO ‘1.2’;
-</code></pre>
-</li>
-</ol>
-<h2 id="additional-module-documentation"><a class="header" href="#additional-module-documentation"><a id="topic_info"></a>Additional Module Documentation</a></h2>
-<p>Refer to the <a href="https://www.postgresql.org/docs/9.4/passwordcheck.html">passwordcheck</a> PostgreSQL documentation for more information about this module.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="auto_explain"><a class="header" href="#auto_explain">auto_explain</a></h1>
 <p>The <code>auto_explain</code> module provides a means for logging execution plans of slow statements automatically, without having to run <code>EXPLAIN</code> by hand.</p>
 <p>The SynxDB <code>auto_explain</code> module was runs only on the SynxDB master segment host. It is otherwise equivalent in functionality to the PostgreSQL <code>auto_explain</code> module.</p>
-<h2 id="loading-the-module-1"><a class="header" href="#loading-the-module-1"><a id="topic_reg"></a>Loading the Module</a></h2>
+<h2 id="loading-the-module"><a class="header" href="#loading-the-module"><a id="topic_reg"></a>Loading the Module</a></h2>
 <p>The <code>auto_explain</code> module provides no SQL-accessible functions. To use it, simply load it into the server. You can load it into an individual session by entering this command as a superuser:</p>
 <pre><code>LOAD 'auto_explain';
 </code></pre>
@@ -51267,7 +51112,7 @@ testdb=# GRANT EXECUTE ON FUNCTION dblink_connect_no_auth(text, text) TO test_us
 <pre><code>testdb=# SELECT dblink_connect('greenplum_con_sales', 'dbname=sales host=gpmaster user=gpadmin sslmode=require');
 </code></pre>
 <p>Refer to <a href="ref_guide/modules/../../security-guide/topics/Authenticate.html#ssl_postgresql">SSL Client Authentication</a> for information about configuring SynxDB to use SSL.</p>
-<h2 id="additional-module-documentation-1"><a class="header" href="#additional-module-documentation-1"><a id="topic_info"></a>Additional Module Documentation</a></h2>
+<h2 id="additional-module-documentation"><a class="header" href="#additional-module-documentation"><a id="topic_info"></a>Additional Module Documentation</a></h2>
 <p>Refer to the <a href="https://www.postgresql.org/docs/9.4/dblink.html">dblink</a> PostgreSQL documentation for detailed information about the individual functions in this module.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="diskquota"><a class="header" href="#diskquota">diskquota</a></h1>
 <p>The diskquota module allows SynxDB administrators to limit the amount of disk space used by schemas, roles, or tablespaces in a database.</p>
@@ -51814,7 +51659,7 @@ SELECT gp_array_agg(a ORDER BY b NULLS FIRST) FROM table1;
  {3,2,1,4,7}
 (1 row)
 </code></pre>
-<h2 id="additional-module-documentation-2"><a class="header" href="#additional-module-documentation-2"><a id="topic_info"></a>Additional Module Documentation</a></h2>
+<h2 id="additional-module-documentation-1"><a class="header" href="#additional-module-documentation-1"><a id="topic_info"></a>Additional Module Documentation</a></h2>
 <p>Refer to <a href="https://www.postgresql.org/docs/9.4/functions-aggregate.html">Aggregate Functions</a> in the PostgreSQL documentation for more information about aggregates.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="gp_check_functions"><a class="header" href="#gp_check_functions">gp_check_functions</a></h1>
 <p>The <code>gp_check_functions</code> module implements views that identify missing and orphaned relation files. The module also exposes a user-defined function that you can use to move orphaned files.</p>
@@ -52144,7 +51989,7 @@ testdb=&gt; SELECT * from gp_segment_endpoints;
 <li>Parallel retrieve cursors do not support the <code>FETCH</code> and <code>MOVE</code> cursor operations.</li>
 <li>Parallel retrieve cursors are not supported in SPI; you cannot declare a parallel retrieve cursor in a PL/pgSQL function.</li>
 </ul>
-<h2 id="example-13"><a class="header" href="#example-13"><a id="topic_examples"></a>Example</a></h2>
+<h2 id="example-12"><a class="header" href="#example-12"><a id="topic_examples"></a>Example</a></h2>
 <p>Create a parallel retrieve cursor and use it to pull query results from a SynxDB cluster:</p>
 <ol>
 <li>
@@ -52233,7 +52078,7 @@ END;
 <pre><code>CREATE EXTENSION gp_percentile_agg;
 </code></pre>
 <p>Refer to <a href="ref_guide/modules/../../install_guide/install_modules.html">Installing Additional Supplied Modules</a> for more information.</p>
-<h2 id="upgrading-the-module-1"><a class="header" href="#upgrading-the-module-1"><a id="topic_upgrade"></a>Upgrading the Module</a></h2>
+<h2 id="upgrading-the-module"><a class="header" href="#upgrading-the-module"><a id="topic_upgrade"></a>Upgrading the Module</a></h2>
 <p>To upgrade, drop and recreate the <code>gp_percentile_agg</code> extension in each database in which you are using the module:</p>
 <pre><code>DROP EXTENSION gp_percentile_agg;
 CREATE EXTENSION gp_percentile_agg;
@@ -52243,7 +52088,7 @@ CREATE EXTENSION gp_percentile_agg;
 <pre><code class="language-sql">SET optimizer_enable_orderedagg = on;
 </code></pre>
 <p>When the extension is registered, <code>optimizer_enable_orderedagg</code> is enabled, and you invoke the <code>percentile_cont()</code>, <code>percentile_disc()</code>, or <code>median()</code> functions, GPORCA generates the more performant query plan.</p>
-<h2 id="additional-module-documentation-3"><a class="header" href="#additional-module-documentation-3"><a id="topic_info"></a>Additional Module Documentation</a></h2>
+<h2 id="additional-module-documentation-2"><a class="header" href="#additional-module-documentation-2"><a id="topic_info"></a>Additional Module Documentation</a></h2>
 <p>Refer to <a href="https://www.postgresql.org/docs/9.4/functions-aggregate.html#FUNCTIONS-ORDEREDSET-TABLE">Ordered-Set Aggregate Functions</a> in the PostgreSQL documentation for more information about using ordered-set aggregates.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="gp_pitr"><a class="header" href="#gp_pitr">gp_pitr</a></h1>
 <p>The <code>gp_pitr</code> module supports implementing Point-in-Time Recovery for SynxDB 2. In service of this it creates a new view – <code>gp_stat_archiver</code> – as well as two user-defined functions that are called internally.</p>
@@ -52257,7 +52102,7 @@ CREATE EXTENSION gp_percentile_agg;
 <p>The <code>gp_sparse_vector</code> module is a SynxDB extension.</p>
 <h2 id="installing-and-registering-the-module-10"><a class="header" href="#installing-and-registering-the-module-10"><a id="topic_reg"></a>Installing and Registering the Module</a></h2>
 <p>The <code>gp_sparse_vector</code> module is installed when you install SynxDB. Before you can use any of the functions defined in the module, you must register the <code>gp_sparse_vector</code> extension in each database where you want to use the functions. Refer to <a href="ref_guide/modules/../../install_guide/install_modules.html">Installing Additional Supplied Modules</a> for more information.</p>
-<h2 id="upgrading-the-module-2"><a class="header" href="#upgrading-the-module-2"><a id="topic_upgrade"></a>Upgrading the Module</a></h2>
+<h2 id="upgrading-the-module-1"><a class="header" href="#upgrading-the-module-1"><a id="topic_upgrade"></a>Upgrading the Module</a></h2>
 <p>You must upgrade the <code>gp_sparse_vector</code> module to obtain bug fixes.</p>
 <blockquote>
 <p><strong>Note</strong> <code>gp_sparse_vector</code> functions and objects are installed in the schema named <code>sparse_vector</code>. Upgrading the module requires that you update any scripts that reference the module’s objects. You must also adjust how you reference these objects in a client session. <strong>If you have not done this already, you will need to</strong> either add the <code>sparse_vector</code> schema to a <code>search_path</code>, or alternatively you can choose to prepend <code>sparse_vector.</code> to all non-<code>CAST</code> <code>gp_sparse_vector</code> function or object name references.</p>
@@ -52312,10 +52157,10 @@ SELECT vec_count_nonzero( a )::float8[] FROM listvecs;
  {1,2,3}
 (1 row)
 </code></pre>
-<h2 id="additional-module-documentation-4"><a class="header" href="#additional-module-documentation-4"><a id="topic_info"></a>Additional Module Documentation</a></h2>
+<h2 id="additional-module-documentation-3"><a class="header" href="#additional-module-documentation-3"><a id="topic_info"></a>Additional Module Documentation</a></h2>
 <p>Refer to the <code>gp_sparse_vector</code> READMEs in the <a href="https://github.com/apache/cloudberry/blob/main/gpcontrib/gp_sparse_vector/README">SynxDB github repository</a> for additional information about this module.</p>
 <p>Apache MADlib includes an extended implementation of sparse vectors. See the <a href="http://madlib.apache.org/docs/latest/group__grp__svec.html">MADlib Documentation</a> for a description of this MADlib module.</p>
-<h2 id="example-14"><a class="header" href="#example-14"><a id="topic_examples"></a>Example</a></h2>
+<h2 id="example-13"><a class="header" href="#example-13"><a id="topic_examples"></a>Example</a></h2>
 <p>A text classification example that describes a dictionary and some documents follows. You will create SynxDB tables representing a dictionary and some documents. You then perform document classification using vector arithmetic on word counts and proportions of dictionary words in each document.</p>
 <p>Suppose that you have a dictionary composed of words in a text array. Create a table to store the dictionary data and insert some data (words) into the table. For example:</p>
 <pre><code>CREATE TABLE features (dictionary text[][]) DISTRIBUTED RANDOMLY;
@@ -52572,7 +52417,7 @@ CREATE USER MAPPING FOR greenplum_fdw_user2 SERVER gpc1_testdb
 </ul>
 <h2 id="compatibility-163"><a class="header" href="#compatibility-163"><a id="topic_compat"></a>Compatibility</a></h2>
 <p>You can use <code>greenplum_fdw</code> to access other remote SynxDB clusters .</p>
-<h2 id="example-15"><a class="header" href="#example-15"><a id="topic_examples"></a>Example</a></h2>
+<h2 id="example-14"><a class="header" href="#example-14"><a id="topic_examples"></a>Example</a></h2>
 <p>In this example, you query data residing in a database named <code>rdb</code> on the remote 16-segment SynxDB cluster whose master is running on host <code>gpc2_master</code>, port <code>5432</code>:</p>
 <ol>
 <li>
@@ -52751,7 +52596,7 @@ SELECT DECODE(date1, '2001-11-11', '2001-01-01') FROM TEST;
 <li>The functions in the Oracle Compatibility Functions <code>dbms_pipe</code> package run only on the SynxDB master host.</li>
 <li>The upgrade scripts in the Orafce project do not work with SynxDB.</li>
 </ul>
-<h2 id="additional-module-documentation-5"><a class="header" href="#additional-module-documentation-5"><a id="topic_info"></a>Additional Module Documentation</a></h2>
+<h2 id="additional-module-documentation-4"><a class="header" href="#additional-module-documentation-4"><a id="topic_info"></a>Additional Module Documentation</a></h2>
 <p>Refer to the <a href="https://github.com/orafce/orafce/blob/master/README.asciidoc">README</a> and <a href="https://github.com/orafce/orafce/tree/master/doc/orafce_documentation">SynxDB orafce documentation</a> for detailed information about the individual functions and supporting objects provided in this module.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="pageinspect"><a class="header" href="#pageinspect">pageinspect</a></h1>
 <p>The <code>pageinspect</code> module provides functions for low level inspection of the contents of database pages. <code>pageinspect</code> is available only to SynxDB superusers.</p>
@@ -52761,7 +52606,7 @@ SELECT DECODE(date1, '2001-11-11', '2001-01-01') FROM TEST;
 <pre><code>CREATE EXTENSION pageinspect;
 </code></pre>
 <p>Refer to <a href="ref_guide/modules/../../install_guide/install_modules.html">Installing Additional Supplied Modules</a> for more information.</p>
-<h2 id="upgrading-the-module-3"><a class="header" href="#upgrading-the-module-3"><a id="topic_upgrade"></a>Upgrading the Module</a></h2>
+<h2 id="upgrading-the-module-2"><a class="header" href="#upgrading-the-module-2"><a id="topic_upgrade"></a>Upgrading the Module</a></h2>
 <p>If you are currently using <code>pageinspect</code> in your SynxDB installation and you want to access newly-released module functionality, you must update the <code>pageinspect</code> extension in every database in which it is currently registered:</p>
 <pre><code>ALTER EXTENSION pageinspect UPDATE;
 </code></pre>
@@ -52827,83 +52672,19 @@ SELECT DECODE(date1, '2001-11-11', '2001-01-01') FROM TEST;
  2        | t          | 00 00 00 00 00 00 03 f1 
 (3 rows)
 </code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="pg_cron"><a class="header" href="#pg_cron">pg_cron</a></h1>
-<p>The <code>pg_cron</code> module is a cron-based job scheduler that runs inside the database.</p>
-<h2 id="installing-and-registering-the-module-19"><a class="header" href="#installing-and-registering-the-module-19"><a id="topic_reg"></a>Installing and Registering the Module</a></h2>
-<p>The <code>pg_cron</code> module is installed when you install SynxDB. Before you can use it, you must perform the following steps:</p>
-<p>You can only install the <code>pg_cron</code> module in one database per SynxDB cluster. First, set the database where you want <code>pg_cron</code> to create its metadata tables, by default it uses the <code>postgres</code> database. In order to change it, run the following command and restart SynxDB:</p>
-<pre><code>gpconfig -c cron.database_name -v 'db_name' --skipvalidation
-</code></pre>
-<p>Enable the extension as a preloaded library. First, check if there are any preloaded shared libraries by running the <code>gpconfig</code> command. The following example shows that the <code>auto_explain</code> libraries are already enabled for the cluster:</p>
-<pre><code>gpconfig -s shared_preload_libraries
-Values on all segments are consistent
-GUC              : shared_preload_libraries
-Coordinator value: auto_explain
-Segment     value: auto_explain
-</code></pre>
-<p>Use the output of the above command to enable the <code>pg_cron</code> module, along any other shared libraries, and restart SynxDB:</p>
-<pre><code>gpconfig -c shared_preload_libraries -v 'auto_explain,pg_cron'
-gpstop -ar 
-</code></pre>
-<p>Register the <code>pg_cron</code> extension in the desired database. You can only install <code>pg_cron</code> in one database per cluster.</p>
-<pre><code>CREATE EXTENSION pg_cron;
-</code></pre>
-<p>Optionally, grant usage to specific users:</p>
-<pre><code>GRANT USAGE ON SCHEMA cron TO user1;
-</code></pre>
-<p>Refer to <a href="ref_guide/modules/../../install_guide/install_modules.html">Installing Additional Supplied Modules</a> for more information.</p>
-<h2 id="upgrading-the-module-4"><a class="header" href="#upgrading-the-module-4"><a id="topic_upgrading"></a>Upgrading the Module</a></h2>
-<p>The <code>pg_cron</code> module is installed when you install or upgrade SynxDB. A previous version of the extension will continue to work in existing databases after you upgrade SynxDB. To upgrade to the most recent version of the extension, you must:</p>
-<pre><code>ALTER EXTENSION pg_cron UPDATE TO '1.6.2';
-</code></pre>
-<h2 id="using-the-pg_cron-module"><a class="header" href="#using-the-pg_cron-module"><a id="topic_using"></a>Using the pg_cron Module</a></h2>
-<p>Use the user-defined functions (UDFs) under the <code>cron</code> schema to schedule cron jobs in your default database. For example, configure a job that deletes old database data every Saturday at 3:30am (GMT):</p>
-<pre><code>SELECT cron.schedule('30 3 * * 6', $$DELETE FROM events WHERE event_time &lt; now() - interval '1 week'$$);
- schedule
-----------
-       42
-</code></pre>
-<p>Optionally, you may update the database column for the job that you just created so that it runs in another database within your SynxDB cluster. Run the following command as a user with the superuser role:</p>
-<pre><code>UPDATE cron.job SET database = 'database1' WHERE jobid = 106;
-SELECT cron.reload_job();
-</code></pre>
-<p>You may use the UDF <code>cron.schedule_in_database()</code> to schedule jobs in multiple databases. Below are the function arguments:</p>
-<pre><code>cron.schedule_in_database(job_name text,
-schedule text,
-command text,
-database text,
-username text default null,
-active boolean default 'true')
-</code></pre>
-<p>For example, run <code>VACUUM</code> every Sunday at 4:00am (GMT) in a database other than the one <code>pg_cron</code> is installed on:</p>
-<pre><code>SELECT cron.schedule_in_database('weekly-vacuum', '0 4 * * 0', 'VACUUM', 'some_other_database');
- schedule
-----------
-       44
-</code></pre>
-<blockquote>
-<p><strong>Important</strong> Since the <code>TRIGGER</code> statement is not supported in SynxDB, if a user runs an <code>UPDATE</code> or <code>INSERT</code> statement, or manually deletes any of the cron jobs instead of using the UDFs in the <code>cron</code> schema, you must run the following UDF to update the <code>pg_cron</code> cache:</p>
-<pre><code>SELECT cron.reload_job();
-</code></pre>
-</blockquote>
-<blockquote>
-<p><strong>Note</strong> The server configuration parameter <code>cron.use_background_workers</code> is not supported on SynxDB 2.</p>
-</blockquote>
-<h2 id="module-documentation-9"><a class="header" href="#module-documentation-9"><a id="topic_docs"></a>Module Documentation</a></h2>
-<p>Refer to the <a href="https://github.com/citusdata/pg_cron/tree/main">pg_cron github documentation</a> for more information about using the module.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="pg_trgm"><a class="header" href="#pg_trgm">pg_trgm</a></h1>
 <p>The <code>pg_trgm</code> module provides functions and operators for determining the similarity of alphanumeric text based on trigram matching. The module also provides index operator classes that support fast searching for similar strings.</p>
 <p>The SynxDB <code>pg_trgm</code> module is equivalent to the PostgreSQL <code>pg_trgm</code> module. There are no SynxDB or MPP-specific considerations for the module.</p>
-<h2 id="installing-and-registering-the-module-20"><a class="header" href="#installing-and-registering-the-module-20"><a id="topic_reg"></a>Installing and Registering the Module</a></h2>
+<h2 id="installing-and-registering-the-module-19"><a class="header" href="#installing-and-registering-the-module-19"><a id="topic_reg"></a>Installing and Registering the Module</a></h2>
 <p>The <code>pg_trgm</code> module is installed when you install SynxDB. Before you can use any of the functions defined in the module, you must register the <code>pg_trgm</code> extension in each database in which you want to use the functions:</p>
 <pre><code>CREATE EXTENSION pg_trgm;
 </code></pre>
 <p>Refer to <a href="ref_guide/modules/../../install_guide/install_modules.html">Installing Additional Supplied Modules</a> for more information.</p>
-<h2 id="module-documentation-10"><a class="header" href="#module-documentation-10"><a id="topic_info"></a>Module Documentation</a></h2>
+<h2 id="module-documentation-9"><a class="header" href="#module-documentation-9"><a id="topic_info"></a>Module Documentation</a></h2>
 <p>See <a href="https://www.postgresql.org/docs/9.4/pgtrgm.html">pg_trgm</a> in the PostgreSQL documentation for detailed information about the individual functions in this module.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="pgaudit"><a class="header" href="#pgaudit">pgaudit</a></h1>
 <p>The PostgreSQL Audit Extension, or <code>pgaudit</code>, provides detailed session and object audit logging via the standard logging facility provided by PostgreSQL. The goal of PostgreSQL Audit is to provide the tools needed to produce audit logs required to pass certain government, financial, or ISO certification audits.</p>
-<h2 id="installing-and-registering-the-module-21"><a class="header" href="#installing-and-registering-the-module-21"><a id="topic_reg"></a>Installing and Registering the Module</a></h2>
+<h2 id="installing-and-registering-the-module-20"><a class="header" href="#installing-and-registering-the-module-20"><a id="topic_reg"></a>Installing and Registering the Module</a></h2>
 <p>The <code>pgaudit</code> module is installed when you install SynxDB. To use it, enable the extension as a preloaded library and restart SynxDB.</p>
 <p>First, check if there are any preloaded shared libraries by running the following command:</p>
 <pre><code>gpconfig -s shared_preload_libraries
@@ -52912,14 +52693,14 @@ active boolean default 'true')
 <pre><code>gpconfig -c shared_preload_libraries -v '&lt;other_libraries&gt;,pgaudit'
 gpstop -ar 
 </code></pre>
-<h2 id="module-documentation-11"><a class="header" href="#module-documentation-11"><a id="topic_info"></a>Module Documentation</a></h2>
+<h2 id="module-documentation-10"><a class="header" href="#module-documentation-10"><a id="topic_info"></a>Module Documentation</a></h2>
 <p>Refer to the <a href="https://github.com/pgaudit/pgaudit/blob/master/README.md">pgaudit github documentation</a> for detailed information about using the module.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="pgcrypto"><a class="header" href="#pgcrypto">pgcrypto</a></h1>
 <p>SynxDB is installed with an optional module of encryption/decryption functions called <code>pgcrypto</code>. The <code>pgcrypto</code> functions allow database administrators to store certain columns of data in encrypted form. This adds an extra layer of protection for sensitive data, as data stored in SynxDB in encrypted form cannot be read by anyone who does not have the encryption key, nor can it be read directly from the disks.</p>
 <blockquote>
 <p><strong>Note</strong> The <code>pgcrypto</code> functions run inside the database server, which means that all the data and passwords move between <code>pgcrypto</code> and the client application in clear-text. For optimal security, consider also using SSL connections between the client and the SynxDB master server.</p>
 </blockquote>
-<h2 id="installing-and-registering-the-module-22"><a class="header" href="#installing-and-registering-the-module-22"><a id="topic_reg"></a>Installing and Registering the Module</a></h2>
+<h2 id="installing-and-registering-the-module-21"><a class="header" href="#installing-and-registering-the-module-21"><a id="topic_reg"></a>Installing and Registering the Module</a></h2>
 <p>The <code>pgcrypto</code> module is installed when you install SynxDB. Before you can use any of the functions defined in the module, you must register the <code>pgcrypto</code> extension in each database in which you want to use the functions. Refer to <a href="ref_guide/modules/../../install_guide/install_modules.html">Installing Additional Supplied Modules</a> for more information.</p>
 <h2 id="configuring-fips-encryption"><a class="header" href="#configuring-fips-encryption"><a id="configuring-fips-encryption"></a>Configuring FIPS Encryption</a></h2>
 <p>The <code>pgcrypto</code> extension provides a module-specific configuration parameter, <code>pgcrypto.fips</code>. This parameter configures SynxDB support for a limited set of FIPS encryption functionality (<em>Federal Information Processing Standard</em> (FIPS) 140-2). For information about FIPS, see <a href="https://www.nist.gov/itl/popular-links/federal-information-processing-standards-fips">https://www.nist.gov/itl/popular-links/federal-information-processing-standards-fips</a>. The default setting is <code>off</code>, FIPS encryption is not enabled.</p>
@@ -52987,7 +52768,7 @@ gpstop -ar
 </code></pre>
 </li>
 </ol>
-<h2 id="additional-module-documentation-6"><a class="header" href="#additional-module-documentation-6"><a id="topic_info"></a>Additional Module Documentation</a></h2>
+<h2 id="additional-module-documentation-5"><a class="header" href="#additional-module-documentation-5"><a id="topic_info"></a>Additional Module Documentation</a></h2>
 <p>Refer to <a href="https://www.postgresql.org/docs/9.4/pgcrypto.html">pgcrypto</a> in the PostgreSQL documentation for more information about the individual functions in this module.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="postgres_fdw"><a class="header" href="#postgres_fdw">postgres_fdw</a></h1>
 <p>The <code>postgres_fdw</code> module is a foreign data wrapper (FDW) that you can use to access data stored in a remote PostgreSQL or SynxDB database.</p>
@@ -52995,7 +52776,7 @@ gpstop -ar
 <blockquote>
 <p><strong>Note</strong> There are some restrictions and limitations when you use this foreign data wrapper module to access SynxDB, described below.</p>
 </blockquote>
-<h2 id="installing-and-registering-the-module-23"><a class="header" href="#installing-and-registering-the-module-23"><a id="topic_reg"></a>Installing and Registering the Module</a></h2>
+<h2 id="installing-and-registering-the-module-22"><a class="header" href="#installing-and-registering-the-module-22"><a id="topic_reg"></a>Installing and Registering the Module</a></h2>
 <p>The <code>postgres_fdw</code> module is installed when you install SynxDB. Before you can use the foreign data wrapper, you must register the <code>postgres_fdw</code> extension in each database in which you want to use the foreign data wrapper. Refer to <a href="ref_guide/modules/../../install_guide/install_modules.html">Installing Additional Supplied Modules</a> for more information.</p>
 <h2 id="synxdb-limitations-1"><a class="header" href="#synxdb-limitations-1"><a id="topic_gp_limit"></a>SynxDB Limitations</a></h2>
 <p>When you use the foreign data wrapper to access SynxDB, <code>postgres_fdw</code> has the following limitations:</p>
@@ -53013,455 +52794,43 @@ SELECT * FROM ft1, t1 WHERE t1.ctid = '(0,2)';
 <p><code>UPDATE</code> or <code>DELETE</code> operations on a foreign table that references a SynxDB table are not guaranteed to work correctly.</p>
 </li>
 </ul>
-<h2 id="additional-module-documentation-7"><a class="header" href="#additional-module-documentation-7"><a id="topic_info"></a>Additional Module Documentation</a></h2>
+<h2 id="additional-module-documentation-6"><a class="header" href="#additional-module-documentation-6"><a id="topic_info"></a>Additional Module Documentation</a></h2>
 <p>Refer to the <a href="https://www.postgresql.org/docs/9.4/postgres-fdw.html">postgres_fdw</a> PostgreSQL documentation for detailed information about this module.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="postgresql-hll"><a class="header" href="#postgresql-hll">postgresql-hll</a></h1>
 <p>The <code>postgresql-hll</code> module provides native HyperLogLog data types and relation functions, operators, and aggregates.</p>
 <p>The SynxDB <code>postgresql-hll</code> module is equivalent to version 2.16 of the <code>postgresql-hll</code> used with PostgreSQL. There are no SynxDB or MPP-specific considerations for the module.</p>
-<h2 id="installing-and-registering-the-module-24"><a class="header" href="#installing-and-registering-the-module-24"><a id="topic_reg"></a>Installing and Registering the Module</a></h2>
+<h2 id="installing-and-registering-the-module-23"><a class="header" href="#installing-and-registering-the-module-23"><a id="topic_reg"></a>Installing and Registering the Module</a></h2>
 <p>The <code>postgresql-hll</code> module is installed when you install SynxDB. Before you can use the data types defined in the module, you must register the <code>hll</code> extension in each database in which you want to use the types:</p>
 <pre><code>CREATE EXTENSION hll;
 </code></pre>
 <p>Refer to <a href="ref_guide/modules/../../install_guide/install_modules.html">Installing Additional Supplied Modules</a> for more information.</p>
-<h2 id="module-documentation-12"><a class="header" href="#module-documentation-12"><a id="topic_info"></a>Module Documentation</a></h2>
+<h2 id="module-documentation-11"><a class="header" href="#module-documentation-11"><a id="topic_info"></a>Module Documentation</a></h2>
 <p>Refer to the <a href="https://github.com/citusdata/postgresql-hll">postgresql-hll github documentation</a> for detailed information about using the module.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="sslinfo"><a class="header" href="#sslinfo">sslinfo</a></h1>
 <p>The <code>sslinfo</code> module provides information about the SSL certificate that the current client provided when connecting to SynxDB. Most functions in this module return NULL if the current connection does not use SSL.</p>
 <p>The SynxDB <code>sslinfo</code> module is equivalent to the PostgreSQL <code>sslinfo</code> module. There are no SynxDB or MPP-specific considerations for the module.</p>
-<h2 id="installing-and-registering-the-module-25"><a class="header" href="#installing-and-registering-the-module-25"><a id="topic_reg"></a>Installing and Registering the Module</a></h2>
+<h2 id="installing-and-registering-the-module-24"><a class="header" href="#installing-and-registering-the-module-24"><a id="topic_reg"></a>Installing and Registering the Module</a></h2>
 <p>The <code>sslinfo</code> module is installed when you install SynxDB. Before you can use any of the functions defined in the module, you must register the <code>sslinfo</code> extension in each database in which you want to use the functions. Refer to <a href="ref_guide/modules/../../install_guide/install_modules.html">Installing Additional Supplied Modules</a> for more information.</p>
-<h2 id="module-documentation-13"><a class="header" href="#module-documentation-13"><a id="topic_info"></a>Module Documentation</a></h2>
+<h2 id="module-documentation-12"><a class="header" href="#module-documentation-12"><a id="topic_info"></a>Module Documentation</a></h2>
 <p>See <a href="https://www.postgresql.org/docs/9.4/sslinfo.html">sslinfo</a> in the PostgreSQL documentation for detailed information about the individual functions in this module.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="tablefunc"><a class="header" href="#tablefunc">tablefunc</a></h1>
 <p>The <code>tablefunc</code> module provides various functions that return tables (that is, multiple rows).</p>
 <p>The SynxDB <code>tablefunc</code> module is equivalent to the PostgreSQL <code>tablefunc</code> module. There are no SynxDB or MPP-specific considerations for the module.</p>
-<h2 id="installing-and-registering-the-module-26"><a class="header" href="#installing-and-registering-the-module-26"><a id="topic_reg"></a>Installing and Registering the Module</a></h2>
+<h2 id="installing-and-registering-the-module-25"><a class="header" href="#installing-and-registering-the-module-25"><a id="topic_reg"></a>Installing and Registering the Module</a></h2>
 <p>The <code>tablefunc</code> module is installed when you install SynxDB. Before you can use any of the functions defined in the module, you must register the <code>tablefunc</code> extension in each database in which you want to use the functions:</p>
 <pre><code>CREATE EXTENSION tablefunc;
 </code></pre>
-<h2 id="module-documentation-14"><a class="header" href="#module-documentation-14"><a id="topic_info"></a>Module Documentation</a></h2>
+<h2 id="module-documentation-13"><a class="header" href="#module-documentation-13"><a id="topic_info"></a>Module Documentation</a></h2>
 <p>See <a href="https://www.postgresql.org/docs/9.4/tablefunc.html">tablefunc</a> in the PostgreSQL documentation for detailed information about the individual functions in this module.</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="timestamp9"><a class="header" href="#timestamp9">timestamp9</a></h1>
-<p>The <code>timestamp9</code> module provides an efficient, nanosecond-precision timestamp data type and related functions and operators.</p>
-<p>The SynxDB <code>timestamp9</code> module is based on version 1.2.0 of the <a href="https://github.com/fvannee/timestamp9"><code>timestamp9</code> module</a> used with PostgreSQL.</p>
-<h2 id="installing-and-registering-the-module-27"><a class="header" href="#installing-and-registering-the-module-27"><a id="topic_reg"></a>Installing and Registering the Module</a></h2>
-<p>The <code>timestamp9</code> module is installed when you install SynxDB. Before you can use the data type defined in the module, you must register the <code>timestamp9</code> extension in each database in which you want to use the type:</p>
-<pre><code>CREATE EXTENSION timestamp9;
-</code></pre>
-<p>Refer to <a href="ref_guide/modules/../../install_guide/install_modules.html">Installing Additional Supplied Modules</a> for more information.</p>
-<h2 id="supported-data-types"><a class="header" href="#supported-data-types">Supported Data Types</a></h2>
-<p>The SynxDB <code>timestamp9</code> extension supports three kinds of datatatypes: <code>TIMESTAMP9</code>, <code>TIMESTAMP9_LTZ</code> and <code>TIMESTAMP9_NTZ</code>. (The <code>TIMESTAMP9_LTZ</code> data type is an alias for <code>TIMESTAMP9</code> data type.)</p>
-<p>The following table summarizes key information about the <code>timestamp9</code> data types:</p>
-<p>|Data Type|Storage Size|Description|Max Value|Min Value|Resolution|
-|––––|—––|––|———–|———|———|–––––|
-|<code>TIMESTAMP9</code>|8 bytes|Like TIMESTAMP9_LTZ. Timestamp with local time zone. |2261-12-31 23:59:59.999999999 +0000 |1700-01-01 00:00:00.000000000 +0000 | 1 nanosecond |
-|<code>TIMESTAMP9_LTZ</code>|8 bytes|Timestamp with local time zone. |2261-12-31 23:59:59.999999999 +0000 |1700-01-01 00:00:00.000000000 +0000 | 1 nanosecond |
-|<code>TIMESTAMP9_NTZ</code>|8 bytes|Timestamp without time zone. |2261-12-31 23:59:59.999999999 +0000 |1700-01-01 00:00:00.000000000 +0000 | 1 nanosecond|</p>
-<h3 id="more-about-timestamp9"><a class="header" href="#more-about-timestamp9">More about <code>TIMESTAMP9</code></a></h3>
-<p>The <code>TIMESTAMP9</code> data type is identical to the <code>TIMESTAMP9_LTZ</code> data type. Please see the next section for details.</p>
-<h3 id="more-about-timestamp9_ltz"><a class="header" href="#more-about-timestamp9_ltz">More about <code>TIMESTAMP9_LTZ</code></a></h3>
-<p><code>LTZ</code> is an abbreviation for “Local Time Zone.” SynxDB stores <code>TIMESTAMP9_LTZ</code> internally in UTC (Universal Coordinated Time, traditionally known as Greenwich Mean Time or GMT) time. An input value that has an explicit time zone specified is converted to UTC using the appropriate offset for that time zone.</p>
-<p>If no time zone is specified in the input string, then it is presumed to be in the time zone indicated by the system’s <code>TIMEZONE</code> server configuration parameter and is converted to UTC using the offset for the time zone.</p>
-<p>See <a href="ref_guide/modules/timestamp9.html#timestamp9_ltz-examples">TIMESTAMP9_LTZ Examples</a> for examples using this data type.</p>
-<h3 id="more-about-tiimestamp9_ntz"><a class="header" href="#more-about-tiimestamp9_ntz">More about <code>TIIMESTAMP9_NTZ</code></a></h3>
-<p><code>NTZ</code> is an abbreviation of ‘No Time Zone.’ SynxDB stores UTC time internally without considering any time zone information. If a time zone is embedded in the timestamp string, SynxDB will simply ignore it.</p>
-<p>See <a href="ref_guide/modules/timestamp9.html#timestamp9_ntz-examples">TIMESTAMP9_NTZ Examples</a> for examples using this data type.</p>
-<h2 id="supported-type-conversions"><a class="header" href="#supported-type-conversions">Supported Type Conversions</a></h2>
-<p>The following table summarizes the <code>timestamp9</code> module’s supported type conversions.</p>
-<div class="table-wrapper"><table><thead><tr><th>From</th><th>To</th><th>Description</th></tr></thead><tbody>
-<tr><td><code>BIGINT</code></td><td><code>TIMESTAMP9_LTZ</code></td><td>SynxDB treats the <code>BIGINT</code> value as the number of nanoseconds started from ‘1970-01-01 00:00:00 +0000’.</td></tr>
-<tr><td><code>DATE</code></td><td><code>TIMESTAMP9_LTZ</code></td><td>SynxDB treats the <code>DATE</code> value as in the current session time zone. This behavior is identical to converting from from <code>DATE</code> to <code>TIMESTAMPTZ</code>.</td></tr>
-<tr><td><code>TIMESTAMP WITHOUT TIME ZONE/TIMESTAMP</code></td><td><code>TIMESTAMP9_LTZ</code></td><td>SynxDB treats the <code>TIMESTAMP</code> value as in the current session time zone.  This behavior is identical to converting from <code>TIMESTAMP</code> to <code>TIMESTAMPTZ</code>.</td></tr>
-<tr><td><code>TIMESTAMP WITH TIME ZONE/TIMESTAMPTZ</code></td><td><code>TIMESTAMP9_LTZ</code></td><td>For this conversion, SynxDB only extends the fractional part to nanosecond precision.</td></tr>
-<tr><td><code>TIMESTAMP9_LTZ</code></td><td><code>BIGINT</code></td><td>The result of this conversion is the nanoseconds since ‘1970-01-01 00:00:00.000000000 +0000’ to the given <code>TIMESTAMP9_LTZ</code> value.  If the given <code>TIMESTAMP9_LTZ</code> value is before ‘1970-01-01 00:00:00.000000000 +0000’, the result is negative.</td></tr>
-<tr><td><code>TIMESTAMP9_LTZ</code></td><td><code>DATE</code></td><td>The result of this conversion depends on the date of the given <code>TIMESTAMP9_LTZ</code> value in the time zone of the current session. The behavior is like doing conversion from <code>TIMESTAMPTZ</code> to <code>DATE</code>.</td></tr>
-<tr><td><code>TIMESTAMP9_LTZ</code></td><td><code>TIMESTAMP WITHOUT TIME ZONE/TIMESTAMP</code></td><td>The result of this conversion is a timestamp without time zone.  The resulting timestamp’s value is determined by the value of <code>TIMESTAMP9_LTZ</code> in the current session time zone.  Note that the fractional part of <code>TIMESTAMP</code> type has 6 digits, while <code>TIMESTAMP9_LTZ</code> has 9 digits in its fractional part. When converting <code>TIMESTAMP9_LTZ</code> to <code>TIMESTAMP</code>, the fractional part is truncated instead of being rounded off.</td></tr>
-<tr><td><code>TIMESTAMP9_LTZ</code></td><td><code>TIMESTAMP WITH TIME ZONE/TIMESTAMP</code></td><td>When performing this conversion, SynxDB truncates the fractional part to only 6 digits.</td></tr>
-<tr><td><code>BIGINT</code></td><td><code>TIMESTAMP9_NTZ</code></td><td>When performing this conversion, SynxDB treats the BIGINT value as the number of nanoseconds started from ‘1970-01-01 00:00:00’.</td></tr>
-<tr><td><code>DATE</code></td><td><code>TIMESTAMP9_NTZ</code></td><td>When performing this conversion, the resulting timestamp is ‘00:00:00.000000000’ on the given date.</td></tr>
-<tr><td><code>TIMESTAMP WITHOUT TIME ZONE/TIMESTAMP</code></td><td><code>TIMESTAMP9_NTZ</code></td><td>When peforming this conversion, SynxDB only extends the fractional part to nanosecond precision.</td></tr>
-<tr><td><code>TIMESTAMP WITH TIME ZONE/TIMESTAMP</code></td><td><code>TIMESTAMP9_NTZ</code></td><td>The resulting timestamp’s value is determined by the value of <code>TIMESTAMPTZ</code> in the current session time zone.</td></tr>
-<tr><td><code>TIMESTAMP9_NTZ</code></td><td><code>BIGINT</code></td><td>The result of this conversion is the nanoseconds since ‘1970-01-01 00:00:00.000000000’ to the given <code>TIMESTAMP9_NTZ</code> value.  If the given <code>TIMESTAMP9_NTZ</code> value is before ‘1970-01-01 00:00:00.000000000’, the result is negative.</td></tr>
-<tr><td><code>TIMESTAMP9_NTZ</code></td><td><code>DATE</code></td><td>When performing this conversion, SynxDB truncatest the time portion and preserves the date portion.</td></tr>
-<tr><td><code>TIMESTAMP9_NTZ</code></td><td><code>TIMESTAMP WITHOUT TIME ZONE/TIMESTAMP</code></td><td>When performing this conversion, SynxDB truncates only the fractional part to 6 digits.</td></tr>
-<tr><td><code>TIMESTAMP9_NTZ</code></td><td><code>TIMESTAMP WITH TIME ZONE/TIMESTAMP</code></td><td>When performing this conversion, SynxDB only truncates the fractional part to 6 digits and add the time zone of the current session.</td></tr>
-<tr><td><code>TIMESTAMP9_LTZ</code></td><td><code>TIMESTAMP9_NTZ</code></td><td>The resulting <code>TIMESTAMP9_NTZ</code> value is determined by the value of <code>TIMESTAMP9_LTZ</code> in the current session’s time zone.</td></tr>
-<tr><td><code>TIMESTAMP9_NTZ</code></td><td><code>TIMESTAMP9_LTZ</code></td><td>When performing this conversion, SynxDB adds the timezone of the current sesion.</td></tr>
-</tbody></table>
-</div>
-<h3 id="type-conversion-examples"><a class="header" href="#type-conversion-examples">Type Conversion Examples</a></h3>
-<h4 id="convert-bigint-to-timestamp9_ltz"><a class="header" href="#convert-bigint-to-timestamp9_ltz"><a id="conversion_1"></a>Convert <code>BIGINT</code> to <code>TIMESTAMP9_LTZ</code></a></h4>
-<pre><code>=# SHOW TIMEZONE; 
-
-   TimeZone 
--------------- 
-Asia/Shanghai 
-(1 row) 
-	
-=# SELECT 0::BIGINT::TIMESTAMP9_LTZ; 
-
-           timestamp9_ltz 
------------------------------------- 
-1970-01-01 08:00:00.000000000 +0800 
-(1 row) 
-</code></pre>
-<h4 id="convert-date-to-timestamp9_ltz"><a class="header" href="#convert-date-to-timestamp9_ltz"><a id="conversion_2"></a>Convert <code>DATE</code> to <code>TIMESTAMP9_LTZ</code></a></h4>
-<pre><code>=# SHOW TIMEZONE; 
-
-   TimeZone 
--------------- 
-Asia/Shanghai 
-(1 row) 
-
- =# SELECT '2023-01-01'::DATE::TIMESTAMP9_LTZ; 
-
-           timestamp9_ltz 
-------------------------------------- 
-2023-01-01 00:00:00.000000000 +0800 
-(1 row) 
-
-=# SELECT '2023-01-01'::DATE::TIMESTAMPTZ; 
-
-      timestamptz 
------------------------- 
-2023-01-01 00:00:00+08 
-(1 row) 
-</code></pre>
-<h4 id="convert-timestamp-without-time-zonetimestamp-to-timestamp9_ltz"><a class="header" href="#convert-timestamp-without-time-zonetimestamp-to-timestamp9_ltz"><a id="conversion_3"></a>Convert <code>TIMESTAMP WITHOUT TIME ZONE/TIMESTAMP</code> to <code>TIMESTAMP9_LTZ</code></a></h4>
-<pre><code>=# SHOW TIMEZONE; 
-
-   TimeZone 
---------------- 
-Asia/Shanghai 
-(1 row) 
-
-Time: 0.411 ms 
-=# SELECT '2023-01-01 00:00:00'::TIMESTAMP::TIMESTAMP9_LTZ; 
-
-           timestamp9_ltz 
-------------------------------------- 
-2023-01-01 00:00:00.000000000 +0800 
-(1 row) 
-
-Time: 0.691 ms 
-=# SELECT '2023-01-01 00:00:00'::TIMESTAMP::TIMESTAMPTZ; 
-
-      timestamptz 
------------------------- 
-2023-01-01 00:00:00+08 
-(1 row) 
-</code></pre>
-<h4 id="convert-timestamp-with-time-zonetimestamp-to-timestamp9_ltz"><a class="header" href="#convert-timestamp-with-time-zonetimestamp-to-timestamp9_ltz"><a id="conversion_4"></a>Convert <code>TIMESTAMP WITH TIME ZONE/TIMESTAMP</code> to <code>TIMESTAMP9_LTZ</code></a></h4>
-<pre><code>=# SELECT '2023-01-01 00:00:00.123456'::TIMESTAMPTZ::TIMESTAMP9_LTZ; 
-
-           timestamp9_ltz 
-------------------------------------- 
-2023-01-01 00:00:00.123456000 +0800 
-(1 row) 
-</code></pre>
-<h4 id="convert-timestamp9_ltz-to-bigint"><a class="header" href="#convert-timestamp9_ltz-to-bigint"><a id="conversion_5"></a>Convert <code>TIMESTAMP9_LTZ</code> to <code>BIGINT</code></a></h4>
-<pre><code>=# SELECT '2023-01-01 00:00:00.123456 Asia/Shanghai'::TIMESTAMP9_LTZ::BIGINT; 
-
-        int8 
---------------------- 
-1672502400123456000 
-(1 row) 
-
-=# SELECT '1969-01-01 00:00:00.123456 Asia/Shanghai'::TIMESTAMP9_LTZ::BIGINT; 
-
-        int8 
--------------------- 
--31564799876544000 
-(1 row) 
-</code></pre>
-<h4 id="convert-timestamp9_ltz-to-date"><a class="header" href="#convert-timestamp9_ltz-to-date"><a id="conversion_6"></a>Convert <code>TIMESTAMP9_LTZ</code> to <code>DATE</code></a></h4>
-<pre><code>=# SET TIMEZONE TO 'Asia/Shanghai'; 
-SET 
-=# SELECT '2023-01-02 02:59:59 Asia/Shanghai'::TIMESTAMPTZ::DATE; 
-    date 
------------- 
-2023-01-02 
-(1 row) 
-
-=# SET TIMEZONE TO 'UTC+0'; 
-SET 
-=# SELECT '2023-01-02 02:59:59 Asia/Shanghai'::TIMESTAMPTZ::DATE; 
-    date 
------------- 
-2023-01-01 
-(1 row) 
-</code></pre>
-<h4 id="convert-timestamp9_ltz-to-timestamp-without-time-zonetimestamp"><a class="header" href="#convert-timestamp9_ltz-to-timestamp-without-time-zonetimestamp"><a id="conversion_7"></a>Convert <code>TIMESTAMP9_LTZ</code> to <code>TIMESTAMP WITHOUT TIME ZONE/TIMESTAMP</code></a></h4>
-<p><strong>Example 1</strong></p>
-<pre><code>=# SET TIMEZONE TO 'Asia/Shanghai'; 
-SET 
-=# SELECT '2023-01-02 02:59:59 Asia/Shanghai'::TIMESTAMP9_LTZ::TIMESTAMP; 
-
-      timestamp 
---------------------- 
-2023-01-02 02:59:59 
-(1 row) 
-
-=# SET TIMEZONE TO 'UTC+0'; 
-
-SET 
-=# SELECT '2023-01-02 02:59:59 Asia/Shanghai'::TIMESTAMP9_LTZ::TIMESTAMP; 
-
-      timestamp 
---------------------- 
-2023-01-01 18:59:59 
-(1 row) 
-</code></pre>
-<p><strong>Example 2 – Truncation of the fractional part</strong></p>
-<pre><code>=# SET TIMEZONE TO 'Asia/Shanghai'; 
-SET 
-=# SELECT '2023-01-02 02:59:59.123456789 Asia/Shanghai'::TIMESTAMP9_LTZ::TIMESTAMP; 
-
-         timestamp 
----------------------------- 
-2023-01-02 02:59:59.123456 
-(1 row) 
-</code></pre>
-<h4 id="convert-timestamp9_ltz-to-timestamp-with-time-zonetimestamp"><a class="header" href="#convert-timestamp9_ltz-to-timestamp-with-time-zonetimestamp"><a id="conversion_8"></a>Convert <code>TIMESTAMP9_LTZ</code> to <code>TIMESTAMP WITH TIME ZONE/TIMESTAMP</code></a></h4>
-<pre><code>=# SET TIMEZONE TO 'Asia/Shanghai'; 
-=# SELECT '2023-01-02 02:59:59.123456789 Asia/Shanghai'::TIMESTAMP9_LTZ::TIMESTAMPTZ; 
-          timestamptz 
-------------------------------- 
-2023-01-02 02:59:59.123456+08 
-(1 row) 
-</code></pre>
-<h4 id="convert-bigint-to-timestamp9_ntz"><a class="header" href="#convert-bigint-to-timestamp9_ntz"><a id="conversion_9"></a>Convert <code>BIGINT</code> to <code>TIMESTAMP9_NTZ</code></a></h4>
-<pre><code>=# SELECT 0::BIGINT::TIMESTAMP9_NTZ; 
-        timestamp9_ntz 
-------------------------------- 
-
-1970-01-01 00:00:00.000000000 
-(1 row) 
-</code></pre>
-<h4 id="convert-date-to-timestamp9_ntz"><a class="header" href="#convert-date-to-timestamp9_ntz"><a id="conversion_10"></a>Convert <code>DATE</code> to <code>TIMESTAMP9_NTZ</code></a></h4>
-<pre><code>=# SELECT '2023-01-01'::DATE::TIMESTAMP9_NTZ; 
-        timestamp9_ntz 
-------------------------------- 
-2023-01-01 00:00:00.000000000 
-(1 row) 
-</code></pre>
-<h4 id="convert-timestamp-without-time-zonetimestamp-to-timestamp9_ntz"><a class="header" href="#convert-timestamp-without-time-zonetimestamp-to-timestamp9_ntz"><a id="conversion_11"></a>Convert <code>TIMESTAMP WITHOUT TIME ZONE/TIMESTAMP</code> to <code>TIMESTAMP9_NTZ</code></a></h4>
-<pre><code>=# SELECT '2023-01-01 00:00:00.123456'::TIMESTAMP::TIMESTAMP9_NTZ; 
-        timestamp9_ntz 
-
------------------------------- 
-2023-01-01 00:00:00.123456000 
-(1 row) 
-</code></pre>
-<h4 id="convert-timestamp-with-time-zonetimestamp-to-timestamp9_ntz"><a class="header" href="#convert-timestamp-with-time-zonetimestamp-to-timestamp9_ntz"><a id="conversion_12"></a>Convert <code>TIMESTAMP WITH TIME ZONE/TIMESTAMP</code> to <code>TIMESTAMP9_NTZ</code></a></h4>
-<pre><code>=# SET TIMEZONE TO 'Asia/Shanghai'; 
-SET 
-=# SELECT '2023-01-01 00:00:00.123456 Asia/Shanghai'::TIMESTAMPTZ::TIMESTAMP9_NTZ; 
-        timestamp9_ntz 
-------------------------------- 
-2023-01-01 00:00:00.123456000 
-(1 row) 
-
-=# SET TIMEZONE TO 'UTC+0'; 
-SET 
-=# SELECT '2023-01-01 00:00:00.123456 Asia/Shanghai'::TIMESTAMPTZ::TIMESTAMP9_NTZ; 
-        timestamp9_ntz 
-------------------------------- 
-2022-12-31 16:00:00.123456000 
-(1 row) 
-</code></pre>
-<h4 id="convert-timestamp9_ntz-to-bigint"><a class="header" href="#convert-timestamp9_ntz-to-bigint"><a id="conversion_13"></a>Convert <code>TIMESTAMP9_NTZ</code> to <code>BIGINT</code></a></h4>
-<pre><code>=# SELECT '2023-01-01 00:00:00.123456'::TIMESTAMP9_NTZ::BIGINT; 
-        int8 
---------------------- 
-1672531200123456000 
-(1 row) 
-
-=# SELECT '1969-01-01 00:00:00.123456'::TIMESTAMP9_NTZ::BIGINT; 
-        int8 
--------------------- 
--31535999876544000 
-(1 row) 
-</code></pre>
-<h4 id="convert-timestamp9_ntz-to-date"><a class="header" href="#convert-timestamp9_ntz-to-date"><a id="conversion_14"></a>Convert <code>TIMESTAMP9_NTZ</code> to <code>DATE</code></a></h4>
-<pre><code>=# SELECT '2023-01-01 00:00:00.123456'::TIMESTAMP9_NTZ::DATE; 
-    date 
------------- 
-2023-01-01 
-(1 row) 
-</code></pre>
-<h4 id="convert-timestamp9_ntz-to-timestamp-without-time-zonetimestamp"><a class="header" href="#convert-timestamp9_ntz-to-timestamp-without-time-zonetimestamp"><a id="conversion_15"></a>Convert <code>TIMESTAMP9_NTZ</code> to <code>TIMESTAMP WITHOUT TIME ZONE/TIMESTAMP</code></a></h4>
-<pre><code>=# SELECT '2023-01-01 00:00:00.123456789'::TIMESTAMP9_NTZ::TIMESTAMP; 
-         timestamp 
----------------------------- 
-2023-01-01 00:00:00.123456 
-(1 row) 
-</code></pre>
-<h4 id="convert-timestamp9_ntz-to-timestamp-with-time-zonetimestamp"><a class="header" href="#convert-timestamp9_ntz-to-timestamp-with-time-zonetimestamp"><a id="conversion_16"></a>Convert <code>TIMESTAMP9_NTZ</code> to <code>TIMESTAMP WITH TIME ZONE/TIMESTAMP</code></a></h4>
-<pre><code>=# SET TIMEZONE TO 'Asia/Shanghai'; 
-SET 
-=# SELECT '2023-01-01 23:00:00.123456789'::TIMESTAMP9_NTZ::TIMESTAMPTZ; 
-          timestamptz 
-------------------------------- 
-2023-01-01 23:00:00.123456+08 
-(1 row) 
-
-Time: 0.793 ms 
-=# SET TIMEZONE TO 'UTC+0'; 
-SET 
-=# SELECT '2023-01-01 23:00:00.123456789'::TIMESTAMP9_NTZ::TIMESTAMPTZ; 
-          timestamptz 
-------------------------------- 
-2023-01-01 23:00:00.123456+00 
-(1 row) 
-</code></pre>
-<h4 id="convert-timestamp9_ltz-to-timestamp9_ntz"><a class="header" href="#convert-timestamp9_ltz-to-timestamp9_ntz"><a id="conversion_17"></a>Convert <code>TIMESTAMP9_LTZ</code> to <code>TIMESTAMP9_NTZ</code></a></h4>
-<pre><code>=# SET TIMEZONE TO 'Asia/Shanghai'; 
-SET 
-=# SELECT '2023-01-01 23:00:00.123456789 Asia/Shanghai'::TIMESTAMP9_LTZ::TIMESTAMP9_NTZ; 
-        timestamp9_ntz 
-------------------------------- 
-2023-01-01 23:00:00.123456789 
-(1 row) 
-
-=# SET TIMEZONE TO 'UTC+0'; 
-SET 
-=# SELECT '2023-01-01 23:00:00.123456789 Asia/Shanghai'::TIMESTAMP9_LTZ::TIMESTAMP9_NTZ; 
-        timestamp9_ntz 
-------------------------------- 
-2023-01-01 15:00:00.123456789 
-(1 row) 
-</code></pre>
-<h4 id="convert-timestamp9_ntz-to-timestamp9_ltz"><a class="header" href="#convert-timestamp9_ntz-to-timestamp9_ltz"><a id="conversion_18"></a>Convert <code>TIMESTAMP9_NTZ</code> to <code>TIMESTAMP9_LTZ</code></a></h4>
-<pre><code>=# SET TIMEZONE TO 'Asia/Shanghai'; 
-SET 
-=# SELECT '2023-01-01 23:00:00.123456789'::TIMESTAMP9_NTZ::TIMESTAMP9_LTZ; 
-           timestamp9_ltz 
-------------------------------------- 
-2023-01-01 23:00:00.123456789 +0800 
-(1 row) 
-
-=# SET TIMEZONE TO 'UTC+0'; 
-SET 
-=# SELECT '2023-01-01 23:00:00.123456789'::TIMESTAMP9_NTZ::TIMESTAMP9_LTZ; 
-           timestamp9_ltz 
-------------------------------------- 
-2023-01-01 23:00:00.123456789 +0000 
-(1 row) 
-</code></pre>
-<h2 id="the-timezone-configuration-parameter-and-timestamp9"><a class="header" href="#the-timezone-configuration-parameter-and-timestamp9"><a id="topic_gp"></a>The TimeZone Configuration Parameter and <code>timestamp9</code></a></h2>
-<p>You can set the <a href="ref_guide/modules/../config_params/guc-list.html#TimeZone">TimeZone</a> server configuration parameter to specify the time zone that SynxDB uses when it prints a <code>timestamp9</code> timestamp. When you set this parameter, SynxDB displays the timestamp value in that time zone. For example:</p>
-<pre><code class="language-sql">testdb=# SELECT now()::timestamp9;
-                 now
--------------------------------------
- 2022-08-24 18:08:01.729360000 +0800
-(1 row)
-
-testdb=# SET timezone TO 'UTC+2';
-SET
-testdb=# SELECT now()::timestamp9;
-                 now
--------------------------------------
- 2022-08-24 08:08:12.995542000 -0200
-(1 row)
-</code></pre>
-<h2 id="support-for-datetime-functions"><a class="header" href="#support-for-datetime-functions"><a id="topic_gucs"></a>Support For Date/Time Functions</a></h2>
-<p>The <code>timestamp9</code> module defines two server configuration parameters that you set to enable date/time functions defined in the <code>pg_catalog</code> schema on <code>timestamp</code> types. Visit the <a href="https://www.postgresql.org/docs/12/functions-datetime.html#:~:text=Table%C2%A09.31.%C2%A0Date/Time%20Functions">PostgreSQL Documentation</a> for a list of the supported date/time functions. The parameters are:</p>
-<ul>
-<li><code>timestamp9.enable_implicit_cast_timestamp9_ltz_to_timestamptz</code>: when enabled, casting a <code>timestamp9_ltz</code> value to <code>timestamp with time zone</code> becomes implicit.</li>
-<li><code>timestamp9.enable_implicit_cast_timestamp9_ntz_to_timestamp</code>: when enabled, casting a <code>timestamp9_ntz</code> value to <code>timestamp without time zone</code> becomes implicit.</li>
-</ul>
-<p>The default value for both configuration parameters is <code>off</code>. For example, if you try use the <code>date</code> function with <code>timestamp9</code> and <code>timestamp9.enable_implicit_cast_timestamp9_ltz_to_timestamptz</code> is set to <code>off</code>:</p>
-<pre><code>postgres=# SELECT date('2022-01-01'::timestamp9_ltz); 
-ERROR:  implicitly cast timestamp9_ltz to timestamptz is not allowed 
-HINT:  either set 'timestamp9.enable_implicit_cast_timestamp9_ltz_to_timestamptz' to 'on' or do it explicitly 
-</code></pre>
-<p>Enable the configuration parameter in order to use the <code>date</code> function:</p>
-<pre><code>postgres=# SET timestamp9.enable_implicit_cast_timestamp9_ltz_to_timestamptz TO 'ON'; 
-SET 
-postgres=# SELECT date('2022-01-01'::timestamp9_ltz); 
-    date 
------------- 
- 01-01-2022 
-(1 row) 
-</code></pre>
-<p>Note that enabling these configuration parameters will also result in multiple casting paths from <code>timestamp9</code> types and built-in <code>timestamp</code> types. You may encounter error messages such as:</p>
-<pre><code>postgres=# select '2019-09-19'::timestamp9_ltz &lt;= '2019-09-20'::timestamptz; 
-ERROR:  operator is not unique: timestamp9_ltz &lt;= timestamp with time zone 
-LINE 1: select '2019-09-19'::timestamp9_ltz &lt;= '2019-09-20'::timesta... 
-HINT:  Could not choose a best candidate operator. You might need to add explicit type casts. 
-</code></pre>
-<p>In this situation, cast the type explicitly:</p>
-<pre><code>postgres=# select '2019-09-19'::timestamp9_ntz &lt;= '2019-09-20'::timestamptz::timestamp9_ntz; 
-?column? 
----------- 
- t 
-(1 row) 
-</code></pre>
-<p>Alternatively, cast the <code>timestamp9_ntz</code> value to the <code>timestamptz</code> value:</p>
-<pre><code>postgres=# select '2019-09-19'::timestamp9_ntz::timestamptz &lt;= '2019-09-20'::timestamptz; 
-?column? 
----------- 
- t 
-(1 row) 
-</code></pre>
-<h2 id="examples-153"><a class="header" href="#examples-153"><a id="examples"></a>Examples</a></h2>
-<h3 id="timestamp9_ltz-examples"><a class="header" href="#timestamp9_ltz-examples"><code>TIMESTAMP9_LTZ</code> Examples</a></h3>
-<h4 id="valid-input-for-timestamp9_ltz"><a class="header" href="#valid-input-for-timestamp9_ltz">Valid input for <code>TIMESTAMP9_LTZ</code></a></h4>
-<p>Valid input for the <code>TIMESTAMP9_LTZ</code> consists of the concatenation of a date and a time, followed by an optional time zone. Users can specify the fractional part of second up to 9 digits (in nanosecond precision).</p>
-<pre><code>The current system’s TIMEZONE parameter is ‘Asia/Shanghai’ 
-
-SELECT '2023-02-20 00:00:00.123456789 +0200'::TIMESTAMP9_LTZ; 
-
-           timestamp9_ltz 
-
-------------------------------------- 
-2023-02-20 06:00:00.123456789 +0800 
-(1 row) 
-
- If the input string doesn’t have explicit time zone information, the timestamp is presumed to be in the time zone indicated by the system’s TIMEZONE parameter. 
-
-SELECT '2023-02-20 00:00:00.123456789'::TIMESTAMP9_LTZ; 
-
-           timestamp9_ltz 
-------------------------------------- 
-2023-02-20 00:00:00.123456789 +0800 
-(1 row) 
-</code></pre>
-<p>TIMESTAMP9_LTZ also accepts numbers as valid input. It’s interpreted as the number of nanoseconds since the UTC time ‘1970-01-01 00:00:00.000000000’.</p>
-<pre><code>SELECT '123456789'::TIMESTAMP9_LTZ; 
-
-           timestamp9_ltz 
-------------------------------------- 
-1970-01-01 08:00:00.123456789 +0800 
-(1 row) 
-</code></pre>
-<h3 id="timestamp9_ntz-examples"><a class="header" href="#timestamp9_ntz-examples"><code>TIMESTAMP9_NTZ</code> Examples</a></h3>
-<h4 id="valid-input-for-timestamp9_ntz"><a class="header" href="#valid-input-for-timestamp9_ntz">Valid input for <code>TIMESTAMP9_NTZ</code></a></h4>
-<p>As with <code>TIMESTAMP9_LTZ</code>, valid input for the <code>TIMESTAMP9_NTZ</code> data type consists of the concatenation of a date and a time, followed by an optional time zone. Users can specify the fractional part of second up to 9 digits (in nanosecond precision). The difference is that, if the user specifies time zone in the input string, <code>TIMESTAMP9_NTZ</code> will ignore it and store the remaining timestamp as UTC time without applying any time zone offset.</p>
-<p>The current system’s TIMEZONE parameter is ‘Asia/Shanghai’</p>
-<pre><code>=# SELECT '2023-02-20 00:00:00.123456789 +0200'::TIMESTAMP9_NTZ;
-        timestamp9_ntz
--------------------------------
-2023-02-20 00:00:00.123456789
-(1 row)
-=# SELECT '2023-02-20 00:00:00.123456789'::TIMESTAMP9_NTZ;
-        timestamp9_ntz
--------------------------------
-2023-02-20 00:00:00.123456789
-(1 row)
-</code></pre>
-<h2 id="limitations-1"><a class="header" href="#limitations-1"><a id="topic_limit"></a>Limitations</a></h2>
-<p>The <code>timestamp9</code> data type does not support arithmetic calculations with nanoseconds.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="uuid-ossp"><a class="header" href="#uuid-ossp">uuid-ossp</a></h1>
 <p>The <code>uuid-ossp</code> module provides functions to generate universally unique identifiers (UUIDs) using one of several standard algorithms. The module also includes functions to produce certain special UUID constants.</p>
 <p>The SynxDB <code>uuid-ossp</code> module is equivalent to the PostgreSQL <code>uuid-ossp</code> module. There are no SynxDB or MPP-specific considerations for the module.</p>
-<h2 id="installing-and-registering-the-module-28"><a class="header" href="#installing-and-registering-the-module-28"><a id="topic_reg"></a>Installing and Registering the Module</a></h2>
+<h2 id="installing-and-registering-the-module-26"><a class="header" href="#installing-and-registering-the-module-26"><a id="topic_reg"></a>Installing and Registering the Module</a></h2>
 <p>The <code>uuid-ossp</code> module is installed when you install SynxDB. Before you can use any of the functions defined in the module, you must register the <code>uuid-ossp</code> extension in each database in which you want to use the functions:</p>
 <pre><code>CREATE EXTENSION "uuid-ossp";
 </code></pre>
 <p>Refer to <a href="ref_guide/modules/../../install_guide/install_modules.html">Installing Additional Supplied Modules</a> for more information.</p>
-<h2 id="module-documentation-15"><a class="header" href="#module-documentation-15"><a id="topic_info"></a>Module Documentation</a></h2>
+<h2 id="module-documentation-14"><a class="header" href="#module-documentation-14"><a id="topic_info"></a>Module Documentation</a></h2>
 <p>See the PostgreSQL <a href="https://www.postgresql.org/docs/9.4/uuid-ossp.html">uuid-ossp</a> documentation for detailed information about this module.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="character-set-support-1"><a class="header" href="#character-set-support-1">Character Set Support</a></h1>
 <p>The character set support in SynxDB allows you to store text in a variety of character sets, including single-byte character sets such as the ISO 8859 series and multiple-byte character sets such as EUC (Extended Unix Code), UTF-8, and Mule internal code. All supported character sets can be used transparently by clients, but a few are not supported for use within the server (that is, as a server-side encoding)<sup>1</sup>. The default character set is selected while initializing your SynxDB array using <code>gpinitsystem</code>. It can be overridden when you create a database, so you can have multiple databases each with a different character set.</p>
@@ -56705,7 +56074,6 @@ Additional programs available in the SynxDB installation.</li>
 <li><a href="utility_guide/ref/gpstart.html">gpstart</a></li>
 <li><a href="utility_guide/ref/gpstate.html">gpstate</a></li>
 <li><a href="utility_guide/ref/gpstop.html">gpstop</a></li>
-<li><a href="utility_guide/ref/gpv.html">gpv</a></li>
 <li><a href="utility_guide/ref/pg_config.html">pg_config</a></li>
 <li><a href="utility_guide/ref/pg_dump.html">pg_dump</a></li>
 <li><a href="utility_guide/ref/pg_dumpall.html">pg_dumpall</a></li>
@@ -56814,7 +56182,7 @@ analyzedb { -? | -h | --help }
 <p>If specified, sets the logging level to verbose to write additional information the log file and to the command line during command execution. The information includes a list of all the tables to be analyzed (including child leaf partitions of partitioned tables). Output also includes the duration of each <code>ANALYZE</code> operation.</p>
 <h3 id="version"><a class="header" href="#version">–version</a></h3>
 <p>Displays the version of this utility.</p>
-<h2 id="examples-154"><a class="header" href="#examples-154"><a id="exs"></a>Examples</a></h2>
+<h2 id="examples-153"><a class="header" href="#examples-153"><a id="exs"></a>Examples</a></h2>
 <p>An example that collects statistics only on a set of table columns. In the database <code>mytest</code>, collect statistics on the columns <code>shipdate</code> and <code>receiptdate</code> in the table <code>public.orders</code>:</p>
 <pre><code>analyzedb -d mytest -t public.orders -i shipdate,receiptdate
 </code></pre>
@@ -56899,7 +56267,7 @@ Specifies the name of the database to be clustered. If this is not specified, th
 <p>Force a password prompt.</p>
 <h3 id="maintenance-dbdbname"><a class="header" href="#maintenance-dbdbname">–maintenance-db=dbname</a></h3>
 <p>Specifies the name of the database to connect to discover what other databases should be clustered. If not specified, the <code>postgres</code> database will be used, and if that does not exist, <code>template1</code> will be used.</p>
-<h2 id="examples-155"><a class="header" href="#examples-155"><a id="section6"></a>Examples</a></h2>
+<h2 id="examples-154"><a class="header" href="#examples-154"><a id="section6"></a>Examples</a></h2>
 <p>To cluster the database <code>test</code>:</p>
 <pre><code>clusterdb test
 </code></pre>
@@ -56960,7 +56328,7 @@ A comment to be associated with the newly created database. Descriptions contain
 <p>Force a password prompt.</p>
 <h3 id="maintenance-dbdbname-1"><a class="header" href="#maintenance-dbdbname-1">–maintenance-db=dbname</a></h3>
 <p>Specifies the name of the database to connect to when creating the new database. If not specified, the <code>postgres</code> database will be used; if that does not exist (or if it is the name of the new database being created), <code>template1</code> will be used.</p>
-<h2 id="examples-156"><a class="header" href="#examples-156"><a id="section6"></a>Examples</a></h2>
+<h2 id="examples-155"><a class="header" href="#examples-155"><a id="section6"></a>Examples</a></h2>
 <p>To create the database <code>test</code> using the default options:</p>
 <pre><code>createdb test
 </code></pre>
@@ -57036,7 +56404,7 @@ The name of the role to be created. This name must be different from all existin
 <p>Never issue a password prompt. If the server requires password authentication and a password is not available by other means such as a <code>.pgpass</code> file, the connection attempt will fail. This option can be useful in batch jobs and scripts where no user is present to enter a password.</p>
 <h3 id="-w--password-2"><a class="header" href="#-w--password-2">-W | –password</a></h3>
 <p>Force a password prompt.</p>
-<h2 id="examples-157"><a class="header" href="#examples-157"><a id="section6"></a>Examples</a></h2>
+<h2 id="examples-156"><a class="header" href="#examples-156"><a id="section6"></a>Examples</a></h2>
 <p>To create a role <code>joe</code> on the default database server:</p>
 <pre><code>$ createuser joe
 </code></pre>
@@ -57102,7 +56470,7 @@ The name of the database to be removed.</p>
 <p>Force a password prompt.</p>
 <h3 id="maintenance-dbdbname-2"><a class="header" href="#maintenance-dbdbname-2">–maintenance-db=dbname</a></h3>
 <p>Specifies the name of the database to connect to in order to drop the target database. If not specified, the <code>postgres</code> database will be used; if that does not exist (or if it is the name of the database being dropped), <code>template1</code> will be used.</p>
-<h2 id="examples-158"><a class="header" href="#examples-158"><a id="section6"></a>Examples</a></h2>
+<h2 id="examples-157"><a class="header" href="#examples-157"><a id="section6"></a>Examples</a></h2>
 <p>To destroy the database named <code>demo</code> using default connection parameters:</p>
 <pre><code>dropdb demo
 </code></pre>
@@ -57151,7 +56519,7 @@ The name of the role to be removed. You will be prompted for a name if not speci
 <p>Never issue a password prompt. If the server requires password authentication and a password is not available by other means such as a <code>.pgpass</code> file, the connection attempt will fail. This option can be useful in batch jobs and scripts where no user is present to enter a password.</p>
 <h3 id="-w--password-4"><a class="header" href="#-w--password-4">-W | –password</a></h3>
 <p>Force a password prompt.</p>
-<h2 id="examples-159"><a class="header" href="#examples-159"><a id="section6"></a>Examples</a></h2>
+<h2 id="examples-158"><a class="header" href="#examples-158"><a id="section6"></a>Examples</a></h2>
 <p>To remove the role <code>joe</code> using default connection options:</p>
 <pre><code>dropuser joe
 DROP ROLE
@@ -57214,7 +56582,7 @@ Before running <code>gpactivatestandby</code>, be sure to run <code>gpstate -f</
 <p>Displays the version, status, last updated date, and check sum of this utility.</p>
 <h3 id="----h--help-help"><a class="header" href="#----h--help-help">-? | -h | –help (help)</a></h3>
 <p>Displays the online help.</p>
-<h2 id="example-16"><a class="header" href="#example-16"><a id="section5"></a>Example</a></h2>
+<h2 id="example-15"><a class="header" href="#example-15"><a id="section5"></a>Example</a></h2>
 <p>Activate the standby master host and make it the active master instance for a SynxDB system (run from backup master host you are activating):</p>
 <pre><code>gpactivatestandby -d /gpdata
 </code></pre>
@@ -57329,7 +56697,7 @@ Enter mirror segment data directory location 2 of 2 &gt; /gpdb/m2
        1 | m    | 50000 | gp6m     | gp6m-2
 (5 rows) 
 </code></pre>
-<h2 id="examples-160"><a class="header" href="#examples-160"><a id="section5"></a>Examples</a></h2>
+<h2 id="examples-159"><a class="header" href="#examples-159"><a id="section5"></a>Examples</a></h2>
 <p>Add mirroring to an existing SynxDB system using the same set of hosts as your primary data. Calculate the mirror database ports by adding 100 to the current primary segment port numbers:</p>
 <pre><code>$ gpaddmirrors -p 100
 </code></pre>
@@ -57511,7 +56879,7 @@ gpbackup --dbname test --include-table public."foo'bar"
 <pre><code>my#1schema.my_$42_Table
 my#1schema.my_$590_Table
 </code></pre>
-<h2 id="examples-161"><a class="header" href="#examples-161"><a id="examples"></a>Examples</a></h2>
+<h2 id="examples-160"><a class="header" href="#examples-160"><a id="examples"></a>Examples</a></h2>
 <p>Backup all schemas and tables in the “demo” database, including global SynxDB system objects statistics:</p>
 <pre><code>$ gpbackup --dbname demo
 </code></pre>
@@ -57748,7 +57116,7 @@ sdw3-1
 <p>Displays the version of this utility.</p>
 <h3 id="--help-1"><a class="header" href="#--help-1">-? (help)</a></h3>
 <p>Displays the online help.</p>
-<h2 id="examples-162"><a class="header" href="#examples-162"><a id="section5"></a>Examples</a></h2>
+<h2 id="examples-161"><a class="header" href="#examples-161"><a id="section5"></a>Examples</a></h2>
 <p>Run the disk I/O and memory bandwidth tests on all the hosts in the file host_file using the test directory of /data1 and /data2:</p>
 <pre><code>$ gpcheckperf -f hostfile_gpcheckperf -d /data1 -d /data2 -r ds
 </code></pre>
@@ -57831,7 +57199,7 @@ gpconfig --help
 <p>Sets logging output to debug level.</p>
 <h3 id="----h--help"><a class="header" href="#----h--help">-? | -h | –help</a></h3>
 <p>Displays the online help.</p>
-<h2 id="examples-163"><a class="header" href="#examples-163"><a id="section5"></a>Examples</a></h2>
+<h2 id="examples-162"><a class="header" href="#examples-162"><a id="section5"></a>Examples</a></h2>
 <p>Set the <code>max_connections</code> setting to 100 on all segments and 10 on the master:</p>
 <pre><code>gpconfig -c max_connections -v 100 -m 10
 </code></pre>
@@ -57964,7 +57332,7 @@ dynamic_library_path='$libdir'
 <p>Transfers compressed data instead of uncompressed/plain data (default: false).</p>
 <h3 id="--data-port-range"><a class="header" href="#--data-port-range"><code>--data-port-range</code></a></h3>
 <p>Port range for data transfer during migration (format: start-end) (default: 1024-65535).</p>
-<h2 id="examples-164"><a class="header" href="#examples-164">Examples</a></h2>
+<h2 id="examples-163"><a class="header" href="#examples-163">Examples</a></h2>
 <p>This command copies all user created databases in a source system to a destination system with the <code>--full</code> option.</p>
 <pre><code>cbcopy --source-host mytest --source-port 1234 --source-user gpuser \
     --dest-host demohost --dest-port 1234 --dest-user gpuser \
@@ -58041,7 +57409,7 @@ gpdeletesystem -v
 <p>Displays the online help.</p>
 <h3 id="-v-show-utility-version-1"><a class="header" href="#-v-show-utility-version-1">-v (show utility version)</a></h3>
 <p>Displays the version, status, last updated date, and check sum of this utility.</p>
-<h2 id="examples-165"><a class="header" href="#examples-165"><a id="section5"></a>Examples</a></h2>
+<h2 id="examples-164"><a class="header" href="#examples-164"><a id="section5"></a>Examples</a></h2>
 <p>Delete a SynxDB system:</p>
 <pre><code>gpdeletesystem -d /gpdata/gp-1
 </code></pre>
@@ -58167,7 +57535,7 @@ gp6s2-s1|gp6s2-s1|50000|/data/mirror1/gpseg2|9|2|m
 gp6s2-s1|gp6s2-s1|40000|/data/data1/gpseg3|7|3|p
 gp6s1-s2|gp6s1-s2|50001|/data/mirror1/gpseg3|8|3|m
 </code></pre>
-<h2 id="examples-166"><a class="header" href="#examples-166"><a id="section6"></a>Examples</a></h2>
+<h2 id="examples-165"><a class="header" href="#examples-165"><a id="section6"></a>Examples</a></h2>
 <p>Run <code>gpexpand</code> with an input file to initialize new segments and create the expansion schema in the postgres database:</p>
 <pre><code>$ gpexpand -i input_file
 </code></pre>
@@ -58284,7 +57652,7 @@ This option is not available on Windows platforms.</p>
 <pre><code>export GPFDIST_WATCHDOG_TIMER=300
 </code></pre>
 <p>When you enable compression, <code>gpfdist</code> transmits a larger amount of data while maintaining low network usage. Note that compression can be time-intensive, and may potentially reduce transmission speeds. When you utilize multi-threaded execution, the overall time required for compression may decrease, which facilitates faster data transmission while maintaining low network occupancy and high speed.</p>
-<h2 id="examples-167"><a class="header" href="#examples-167"><a id="section6"></a>Examples</a></h2>
+<h2 id="examples-166"><a class="header" href="#examples-166"><a id="section6"></a>Examples</a></h2>
 <p>To serve files from a specified directory using port 8081 (and start <code>gpfdist</code> in the background):</p>
 <pre><code>gpfdist -d /var/load_files -p 8081 &amp;
 </code></pre>
@@ -58359,7 +57727,7 @@ gpinitstandby -?
 <p>Displays the version, status, last updated date, and checksum of this utility.</p>
 <h3 id="--help-5"><a class="header" href="#--help-5">-? (help)</a></h3>
 <p>Displays the online help.</p>
-<h2 id="examples-168"><a class="header" href="#examples-168"><a id="section5"></a>Examples</a></h2>
+<h2 id="examples-167"><a class="header" href="#examples-167"><a id="section5"></a>Examples</a></h2>
 <p>Add a standby master instance to your SynxDB system and start the synchronization process:</p>
 <pre><code>gpinitstandby -s host09
 </code></pre>
@@ -58570,7 +57938,7 @@ sdw1~sdw1~50001~/gpdata/mirror2/gpseg3~9~3
 </ul>
 <p>When initializing the SynxDB system, <code>gpinitsystem</code> uses the initialization information to populate the <a href="utility_guide/ref/../../ref_guide/system_catalogs/gp_segment_configuration.html">gp_segment_configuration</a> catalog table and adds hosts to the <code>pg_hba.conf</code> file. By default, the host IP address is added to the file. Specify the <code>gpinitsystem</code> configuration file parameter <a href="utility_guide/ref/gpinitsystem.html#hba_hostnames">HBA_HOSTNAMES</a>=1 to add hostnames to the file.</p>
 <p>SynxDB uses the <code>address</code> value of the <code>gp_segment_configuration</code> catalog table when looking up host systems for SynxDB interconnect (internal) communication between the master and segment instances and between segment instances, and for other internal communication.</p>
-<h2 id="examples-169"><a class="header" href="#examples-169"><a id="section6"></a>Examples</a></h2>
+<h2 id="examples-168"><a class="header" href="#examples-168"><a id="section6"></a>Examples</a></h2>
 <p>Initialize a SynxDB system by supplying a cluster configuration file and a segment host address file, and set up a spread mirroring (<code>--mirror-mode=spread</code>) configuration:</p>
 <pre><code>$ gpinitsystem -c gpinitsystem_config -h hostfile_gpinitsystem --mirror-mode=spread
 </code></pre>
@@ -58913,7 +58281,7 @@ OUTPUT:
 - TABLE: public.'"MyTable"'
 </code></pre>
 <p>If the YAML control file contains the <code>ERROR_TABLE</code> element that was available in SynxDB 4.3.x, <code>gpload</code> logs a warning stating that <code>ERROR_TABLE</code> is not supported, and load errors are handled as if the <code>LOG_ERRORS</code> and <code>REUSE_TABLE</code> elements were set to <code>true</code>. Rows with formatting errors are logged internally when running in single row error isolation mode.</p>
-<h2 id="examples-170"><a class="header" href="#examples-170"><a id="section10"></a>Examples</a></h2>
+<h2 id="examples-169"><a class="header" href="#examples-169"><a id="section10"></a>Examples</a></h2>
 <p>Run a load job as defined in <code>my_load.yml</code>:</p>
 <pre><code>gpload -f my_load.yml
 </code></pre>
@@ -59023,7 +58391,7 @@ The name of the input log file(s) to search through. If an input file is not sup
 <p>Displays the online help.</p>
 <h3 id="version-7"><a class="header" href="#version-7">–version</a></h3>
 <p>Displays the version of this utility.</p>
-<h2 id="examples-171"><a class="header" href="#examples-171"><a id="section9"></a>Examples</a></h2>
+<h2 id="examples-170"><a class="header" href="#examples-170"><a id="section9"></a>Examples</a></h2>
 <p>Display the last three error messages in the master log file:</p>
 <pre><code>gplogfilter -t -n 3
 </code></pre>
@@ -59094,7 +58462,7 @@ gpmapreduce -h | --help
 <p>The database role name to connect as. If not specified, reads from the environment variable <code>PGUSER</code> or defaults to the current system user name.</p>
 <h3 id="-w--password-5"><a class="header" href="#-w--password-5">-W | –password</a></h3>
 <p>Force a password prompt.</p>
-<h2 id="examples-172"><a class="header" href="#examples-172"><a id="section7"></a>Examples</a></h2>
+<h2 id="examples-171"><a class="header" href="#examples-171"><a id="section7"></a>Examples</a></h2>
 <p>Run a MapReduce job as defined in <code>my_mrjob.yaml</code> and connect to the database <code>mydatabase</code>:</p>
 <pre><code>gpmapreduce -f my_mrjob.yaml mydatabase
 </code></pre>
@@ -59359,7 +58727,7 @@ gpmemreport -h | --help
 <p>Displays the version of this utility.</p>
 <h3 id="-h--help"><a class="header" href="#-h--help">-h | –help</a></h3>
 <p>Displays the online help.</p>
-<h2 id="examples-173"><a class="header" href="#examples-173"><a id="section5"></a>Examples</a></h2>
+<h2 id="examples-172"><a class="header" href="#examples-172"><a id="section5"></a>Examples</a></h2>
 <p><strong>Example 1: Extract all the files generated by <code>gpmemwatcher</code> for the SynxDB master</strong></p>
 <p>Locate the output <code>.gz</code> file from <code>gpmemwatcher</code> and run <code>gpmemreport</code> against it:</p>
 <pre><code>$ gpmemreport mdw.ps.out.gz
@@ -59421,7 +58789,7 @@ sdw4:/home/gpadmin/gpmemwatcher_dir/working
 <p>Displays the version of this utility.</p>
 <h3 id="-h--help-1"><a class="header" href="#-h--help-1">-h | –help</a></h3>
 <p>Displays the online help.</p>
-<h2 id="examples-174"><a class="header" href="#examples-174"><a id="section5"></a>Examples</a></h2>
+<h2 id="examples-173"><a class="header" href="#examples-173"><a id="section5"></a>Examples</a></h2>
 <p><strong>Example 1: Start the utility specifying the list of hosts from which to collect the information</strong></p>
 <p>Create the file <code>/home/gpadmin/hostmap.txt</code> that contains the following:</p>
 <pre><code>mdw:/home/gpadmin/gpmemwatcher_dir/working
@@ -59486,7 +58854,7 @@ gpmovemirrors --version
 <p>Displays the version of this utility.</p>
 <h3 id="--help-6"><a class="header" href="#--help-6">-? (help)</a></h3>
 <p>Displays the online help.</p>
-<h2 id="examples-175"><a class="header" href="#examples-175"><a id="section5"></a>Examples</a></h2>
+<h2 id="examples-174"><a class="header" href="#examples-174"><a id="section5"></a>Examples</a></h2>
 <p>Moves mirrors from an existing SynxDB system to a different set of hosts:</p>
 <pre><code>$ gpmovemirrors -i move_config_file
 </code></pre>
@@ -59706,7 +59074,7 @@ The <code>--differential</code> option cannot be combined with any of the follow
 <p>Displays the version of this utility.</p>
 <h3 id="----h--help-3"><a class="header" href="#----h--help-3">-? | -h | –help</a></h3>
 <p>Displays the online help.</p>
-<h2 id="examples-176"><a class="header" href="#examples-176"><a id="section5"></a>Examples</a></h2>
+<h2 id="examples-175"><a class="header" href="#examples-175"><a id="section5"></a>Examples</a></h2>
 <p><strong>Example 1: Recover Failed Segments in Place</strong></p>
 <p>Recover any failed segment instances in place:</p>
 <pre><code>$ gprecoverseg
@@ -59771,7 +59139,7 @@ test.lineitem: group, assy, whse
 <p>Displays the version of this utility.</p>
 <h3 id="--help-7"><a class="header" href="#--help-7">-? (help)</a></h3>
 <p>Displays the online help.</p>
-<h2 id="example-17"><a class="header" href="#example-17"><a id="section6"></a>Example</a></h2>
+<h2 id="example-16"><a class="header" href="#example-16"><a id="section6"></a>Example</a></h2>
 <p>This example command reloads the tables in the database <code>mytest</code> that are listed in the file <code>data-tables.txt</code>.</p>
 <pre><code>gpreload -d mytest --table-file data-tables.txt
 </code></pre>
@@ -59937,7 +59305,7 @@ gprestore --help
 <li><strong>1</strong> – Restore completed with non-fatal errors. See log file for more information.</li>
 <li><strong>2</strong> – Restore failed with a fatal error. See log file for more information.</li>
 </ul>
-<h2 id="examples-177"><a class="header" href="#examples-177"><a id="examples"></a>Examples</a></h2>
+<h2 id="examples-176"><a class="header" href="#examples-176"><a id="examples"></a>Examples</a></h2>
 <p>Create the demo database and restore all schemas and tables in the backup set for the indicated timestamp:</p>
 <pre><code>$ dropdb demo
 $ gprestore --timestamp 20171103152558 --create-db
@@ -60005,7 +59373,7 @@ Required. The path where you want the file(s) to be copied on the named hosts. I
 <p>Displays the online help.</p>
 <h3 id="version-13"><a class="header" href="#version-13">–version</a></h3>
 <p>Displays the version of this utility.</p>
-<h2 id="examples-178"><a class="header" href="#examples-178"><a id="section5"></a>Examples</a></h2>
+<h2 id="examples-177"><a class="header" href="#examples-177"><a id="section5"></a>Examples</a></h2>
 <p>Copy the file named <code>installer.tar</code> to <code>/</code> on all the hosts in the file <code>hostfile_gpssh</code>.</p>
 <pre><code>gpscp -f hostfile_gpssh installer.tar =:/
 </code></pre>
@@ -60073,7 +59441,7 @@ A decimal number greater than 0 (zero) that is the multiplier for the timeout th
 A non-negative integer that specifies the maximum number of times that <code>gpssh</code> attempts to connect to a remote SynxDB host. The default is 3. If the value is 0, <code>gpssh</code> returns an error if the initial connection attempt fails. Increasing the number of attempts also increases the time between retry attempts. This parameter cannot be configured with a command-line option.</p>
 <p>The <code>-t</code> option also affects the time between retry attempts.</p>
 <p>Increasing this value can compensate for slow network performance or segment host performance issues such as heavy CPU or I/O load. However, when a connection cannot be established, an increased value also increases the delay when an error is returned.</p>
-<h2 id="examples-179"><a class="header" href="#examples-179"><a id="section5"></a>Examples</a></h2>
+<h2 id="examples-178"><a class="header" href="#examples-178"><a id="section5"></a>Examples</a></h2>
 <p>Start an interactive group SSH session with all hosts listed in the file <code>hostfile_gpssh</code>:</p>
 <pre><code>$ gpssh -f hostfile_gpssh
 </code></pre>
@@ -60139,7 +59507,7 @@ gpssh-exkeys --version
 <p>When doing a system expansion, this is the name and location of a file containing all configured host names and host addresses (interface names) for each new segment host you are adding to your SynxDB system, one name per line without blank lines or extra spaces. Hosts specified in this file cannot be specified in the host file used with <code>-e</code>.</p>
 <h3 id="--help-10"><a class="header" href="#--help-10">-? (help)</a></h3>
 <p>Displays the online help.</p>
-<h2 id="examples-180"><a class="header" href="#examples-180"><a id="section5"></a>Examples</a></h2>
+<h2 id="examples-179"><a class="header" href="#examples-179"><a id="section5"></a>Examples</a></h2>
 <p>Exchange SSH keys between all host names and addresses listed in the file <code>hostfile_exkeys</code>:</p>
 <pre><code>$ gpssh-exkeys -f hostfile_exkeys
 </code></pre>
@@ -60242,7 +59610,7 @@ Continue only if you are certain that the standby is not acting as the master.
 <p>Displays the online help.</p>
 <h3 id="version-16"><a class="header" href="#version-16">–version</a></h3>
 <p>Displays the version of this utility.</p>
-<h2 id="examples-181"><a class="header" href="#examples-181"><a id="section5"></a>Examples</a></h2>
+<h2 id="examples-180"><a class="header" href="#examples-180"><a id="section5"></a>Examples</a></h2>
 <p>Start a SynxDB system:</p>
 <pre><code>gpstart
 </code></pre>
@@ -60399,7 +59767,7 @@ gpstate -? | -h | --help
 <tr><td>Replay Location</td><td>standby xlog record replay location</td></tr>
 </tbody></table>
 </div>
-<h2 id="examples-182"><a class="header" href="#examples-182"><a id="section6"></a>Examples</a></h2>
+<h2 id="examples-181"><a class="header" href="#examples-181"><a id="section6"></a>Examples</a></h2>
 <p>Show detailed status information of a SynxDB system:</p>
 <pre><code>gpstate -s
 </code></pre>
@@ -60486,7 +59854,7 @@ gpstop -? | -h | --help
 <p>Displays the online help.</p>
 <h3 id="version-17"><a class="header" href="#version-17">–version</a></h3>
 <p>Displays the version of this utility.</p>
-<h2 id="examples-183"><a class="header" href="#examples-183"><a id="section5"></a>Examples</a></h2>
+<h2 id="examples-182"><a class="header" href="#examples-182"><a id="section5"></a>Examples</a></h2>
 <p>Stop a SynxDB system in smart mode:</p>
 <pre><code>gpstop
 </code></pre>
@@ -60504,248 +59872,19 @@ gpstop -? | -h | --help
 </code></pre>
 <h2 id="see-also-194"><a class="header" href="#see-also-194"><a id="section6"></a>See Also</a></h2>
 <p><a href="utility_guide/ref/gpstart.html">gpstart</a></p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="gpv"><a class="header" href="#gpv">gpv</a></h1>
-<p>Configures, deploys, and manages SynxDB clusters on top of a virtual platform such as VMware vSphere.</p>
-<h2 id="synopsis-211"><a class="header" href="#synopsis-211"><a id="section2"></a>Synopsis</a></h2>
-<pre><code>gpv base &lt;base_options&gt;
-gpv config &lt;config_options&gt;
-gpv greenplum &lt;greenplum_options&gt;
-gpv version
-gpv -h | --help
-</code></pre>
-<h2 id="description-216"><a class="header" href="#description-216"><a id="section3"></a>Description</a></h2>
-<p>The <code>gpv</code> utility automates the deployment of a SynxDB cluster on top of virtual platforms such as vSphere. You use <code>gpv</code> to specify a SynxDB cluster’s configuration; automate the deployment of a base virtual machine, clone the base virtual machine to create a cluster, and initialize a SynxDB on the set of virtual machines.</p>
-<h2 id="options-35"><a class="header" href="#options-35"><a id="section4"></a>Options</a></h2>
-<p><a href="utility_guide/ref/gpv-base.html">gpv base</a>
-The base virtual machine commands.</p>
-<p><a href="utility_guide/ref/gpv-config.html">gpv config</a>
-The commands to manage the configuration of the SynxDB deployment.</p>
-<p><a href="utility_guide/ref/gpv-greenplum.html">gpv greenplum</a>
-The SynxDB initialization and validation commands.</p>
-<p>version
-Print the version information for the <code>gpv</code> utility.</p>
-<h3 id="-h-help"><a class="header" href="#-h-help">-h, –help</a></h3>
-<p>Display the online help.</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="gpv-base"><a class="header" href="#gpv-base">gpv base</a></h1>
-<p>Manage the base virtual machine for a deployment of SynxDB on vSphere.</p>
-<h2 id="synopsis-212"><a class="header" href="#synopsis-212"><a id="section2"></a>Synopsis</a></h2>
-<pre><code>gpv base deploy
-gpv base import [ -f &lt;file_name&gt; | --ova=&lt;file_name&gt; ] [ -t &lt;template_name&gt; | --template=&lt;template_name&gt; ]
-</code></pre>
-<h2 id="description-217"><a class="header" href="#description-217"><a id="section3"></a>Description</a></h2>
-<p>The <code>gpv base</code> command allows you to import and deploy the base virtual machine for your SynxDB cluster on VMware vSphere.</p>
-<h2 id="sub-commands"><a class="header" href="#sub-commands"><a id="opts"></a>Sub-commands</a></h2>
-<p>The available sub-commands for <code>gpv base</code> are <code>deploy</code> and <code>import</code>.</p>
-<h3 id="deploy"><a class="header" href="#deploy"><a id="deploy"></a>deploy</a></h3>
-<p>Configure the imported base virtual machine for SynxDB deployment. The <code>gpv base deploy</code> command performs the following operations in the base virtual machine:</p>
-<ul>
-<li>Copies and installs SynxDB and SynxDB Virtual Service packages.</li>
-<li>Configures the OS using the SynxDB Virtual Service.</li>
-<li>Changes secrets for the <code>root</code> and <code>gpadmin</code> roles.</li>
-<li>Validates that the base virtual machine is configured correctly.</li>
-</ul>
-<h3 id="import"><a class="header" href="#import"><a id="import"></a>import</a></h3>
-<p>Import an existing virtual machine template or an OVA file as a new base virtual machine. The <code>gpv base import</code> command creates a new base virtual machine from your own virtual machine template (certified to follow all the existing policies), or from an OVA file, such as the SynxDB Virtual Machine base template.</p>
-<p>Options:</p>
-<h3 id="-f-ovafile_name"><a class="header" href="#-f-ovafile_name">-f, –ova=file_name</a></h3>
-<p>Specify a local OVA file name.</p>
-<h3 id="-t-templatetemplate_name"><a class="header" href="#-t-templatetemplate_name">-t, –template=template_name</a></h3>
-<p>Specify an existing virtual machine template <code>template_name</code>.</p>
-<h4 id="examples-184"><a class="header" href="#examples-184"><a id="examples"></a>Examples</a></h4>
-<p>Import an existing virtual machine template:</p>
-<pre><code>gpv base import -t my-company-template
-</code></pre>
-<p>Import a local OVA:</p>
-<pre><code>gpv base import -f /path/to/pre-built.ova
-</code></pre>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="gpv-config"><a class="header" href="#gpv-config">gpv config</a></h1>
-<p>Manage the configuration of a SynxDB on vSphere cluster.</p>
-<h2 id="synopsis-213"><a class="header" href="#synopsis-213"><a id="section2"></a>Synopsis</a></h2>
-<pre><code>gpv config init [&lt;file_name&gt;]
-gpv config list
-gpv config set &lt;options&gt;
-</code></pre>
-<h2 id="description-218"><a class="header" href="#description-218"><a id="section3"></a>Description</a></h2>
-<p>The <code>gpv config</code> command allows you to configure a SynxDB cluster on VMware vSphere, import an external configuration, and list the current configuration.</p>
-<h2 id="required-inputs"><a class="header" href="#required-inputs"><a id="info"></a>Required Inputs</a></h2>
-<p>The following table lists all the information you require in order to configure the a base virtual machine template using the <code>gpv</code> utility. Be sure you have this information available before you start with the configuration.</p>
-<div class="table-wrapper"><table><thead><tr><th>Configuration</th><th>Description</th></tr></thead><tbody>
-<tr><td><strong>vSphere</strong></td><td><strong>Configuration parameters for vSphere</strong></td></tr>
-<tr><td>vSphere admin username</td><td>An administrator account with enough permissions to deploy the SynxDB cluster</td></tr>
-<tr><td>vSphere admin password</td><td>The password for the administrator account</td></tr>
-<tr><td>vCenter address</td><td>The FQDN or IP address of the vCenter (do not include <code>https://</code>)</td></tr>
-<tr><td>Datacenter name</td><td>The virtual data center name</td></tr>
-<tr><td>Compute cluster name</td><td>The virtual compute cluster name</td></tr>
-<tr><td>Storage type</td><td>The storage provider type (<code>powerflex</code> or <code>vsan</code>)</td></tr>
-<tr><td>Storage name</td><td>The datastore name for this deployment</td></tr>
-<tr><td>Storage policy</td><td>The storage policy name</td></tr>
-<tr><td>vSphere distributed switch MTU size</td><td>The Maximum Transmission Unit (MTU) configured for the vSphere distributed switch*</td></tr>
-<tr><td><strong>Database</strong></td><td><strong>Configuration parameters for SynxDB</strong></td></tr>
-<tr><td>Deployment type</td><td>SynxDB deployment type (<code>mirrored</code> or <code>mirrorless</code>)</td></tr>
-<tr><td>SynxDB database cluster prefix</td><td>Prefix to prepend to the resource pool and virtual machine names. Default is <code>gpv</code></td></tr>
-<tr><td><strong>Base-vm</strong></td><td><strong>Configuration parameters for the base virtual machine</strong></td></tr>
-<tr><td>Base VM network type</td><td>Available options are <code>dhcp</code> or <code>static</code> IP for the <strong>base virtual machine only</strong>. <br/> - For <code>dhcp</code>, the DHCP server assigns the network settings <br/> - For <code>static</code> IP, you must specify the virtual machine IP, the gateway IP, and the netmask</td></tr>
-<tr><td>Base VM IP</td><td>The IP to use if the network type is <code>static</code></td></tr>
-<tr><td>Base VM gateway IP</td><td>The gateway to use if the network type is <code>static</code></td></tr>
-<tr><td>Base VM netmask</td><td>The Netmask to use if the network type is <code>static</code></td></tr>
-<tr><td><strong>gp-virtual-external</strong></td><td><strong>Configuration parameters for the routable network</strong></td></tr>
-<tr><td>gp-virtual-external CIDR</td><td>The Classless Inter-Domain Routing (CIDR) of the routable network connected to the <code>mdw</code> and <code>smdw</code> virtual machines to provide the SynxDB database service to the user clients</td></tr>
-<tr><td>gp-virtual-external available IPs</td><td>The space separated IP addresses used for <code>mdw</code> and <code>smdw</code>. The second IP (for <code>smdw</code>) is only required for <code>mirrored</code> deployment.</td></tr>
-<tr><td>gp-virtual-external DNS servers</td><td>Space separated IP addresses of the DNS servers on the routable network</td></tr>
-<tr><td>gp-virtual-external NTP servers</td><td>Space separated addresses of the NTP servers</td></tr>
-<tr><td>gp-virtual-external gateway IP</td><td>The gateway IP address</td></tr>
-<tr><td><strong>gp-virtual-internal</strong></td><td><strong>Configuration parameters for the SynxDB internal network</strong></td></tr>
-<tr><td>gp-virtual-internal CIDR</td><td>The internal network The Classless Inter-Domain Routing (CIDR) for the interconnect communications between SynxDB virtual machines</td></tr>
-<tr><td><strong>gp-virtual-etl-bar</strong></td><td><strong>Configuration parameters for the ETL-BAR network</strong></td></tr>
-<tr><td>gp-virtual-etl-bar CIDR</td><td>The network The Classless Inter-Domain Routing (CIDR) for Extraction Transformation Load (<code>etl</code>) and/or Backup and Restore (<code>bar</code>) network. Usually this network is not routable to the database user clients, but routable to the backup or staging servers. This network allows access to all segments within the SynxDB cluster to ensure maximum throughput for heavy data movement workloads.</td></tr>
-<tr><td><strong>Virtual machine options</strong></td><td><strong>Configuration parameters for the virtual machines</strong></td></tr>
-<tr><td>base-VM-name</td><td>The name of the base virtual machine, provisioned in the next section</td></tr>
-<tr><td>boot password for the root user</td><td>The password for the <code>root</code> user on the base virtual machine</td></tr>
-<tr><td>boot password for the gpadmin user</td><td>The password for the <code>gpadmin</code> user on the base virtual machine. The <code>gpadmin</code> user is required for the SynxDB cluster initialization and management.</td></tr>
-<tr><td>Number of primary segment VMs</td><td>The number of virtual machines for the primary segments. For <code>mirrored</code>, use <code>number of primary segments * 2 + 2</code>. For <code>mirrorless</code>, use <code>number of primary segments + 1</code>.</td></tr>
-</tbody></table>
-</div>
-<p>*SynxDB performs best with jumbo frames. The recommended MTU is 9000 if the vSphere distributed switch supports it. If it is less than 9000, you must adjust the server configuration parameter <a href="utility_guide/ref/../../ref_guide/config_params/guc-list.html#gp_max_packet_size">gp_max_packet_size</a> manually. See <a href="utility_guide/ref/../../install_guide/prep_os.html#networking">Configuring Your Systems</a> for more information about MTU.</p>
-<h2 id="sub-commands-1"><a class="header" href="#sub-commands-1"><a id="opts"></a>Sub-commands</a></h2>
-<p>The available sub-commands for <code>gpv config</code> are <code>init</code>, <code>list</code>, and <code>set</code>.</p>
-<h3 id="init"><a class="header" href="#init"><a id="init"></a>init</a></h3>
-<p>Initialize a configuration interactively or import an external configuration from a file. The <code>gpv config init</code> command creates the configuration for deploying a SynxDB cluster. You may speficy the configuration parameters entering each value interactively, or from an existing configuration yaml file, <code>file_name</code>.</p>
-<pre><code>gpv config init [&lt;file_name&gt;]
-</code></pre>
-<h4 id="examples-185"><a class="header" href="#examples-185"><a id="ex_init"></a>Examples</a></h4>
-<p>Start a new configuration from scratch:</p>
-<pre><code>gpv config init
-</code></pre>
-<p>Import an existing configuration from a file:</p>
-<pre><code>gpv config init /tmp/config.yaml
-</code></pre>
-<h3 id="list"><a class="header" href="#list"><a id="list"></a>list</a></h3>
-<p>List the current configuration settings. The <code>gpv config list</code> command displays the current configuration for deploying SynxDB on vSphere.</p>
-<h3 id="set-2"><a class="header" href="#set-2"><a id="set"></a>set</a></h3>
-<p>Set an individual configuration setting.</p>
-<pre><code>gpv config set database &lt;setting&gt;
-gpv config set network base-vm &lt;setting&gt;
-gpv config set network gp-virtual-etl-bar &lt;setting&gt;
-gpv config set network gp-virtual-external &lt;setting&gt;
-gpv config set network gp-virtual-internal &lt;setting&gt;
-gpv config set vm &lt;setting&gt;
-gpv config set vsphere &lt;setting&gt;
-</code></pre>
-<p>The available options for <code>gpv config set</code> are:</p>
-<h4 id="database-3"><a class="header" href="#database-3"><a id="database"></a>database</a></h4>
-<p>Configure the settings for the SynxDB.</p>
-<pre><code>gpv config set database &lt;setting&gt;
-</code></pre>
-<p>Where <code>setting</code> can be one of the following:</p>
-<p>deployment-type &lt;type_name&gt;
-Specifies whether the SynxDB deployment uses mirror segments or not. Valid values of <code>&lt;type_name&gt;</code> include <code>mirrored</code> and <code>mirrorless</code>. For example: <code>gpv config set database deployment-type mirrored</code>.</p>
-<p>prefix &lt;prefix_name&gt;
-Specifies a label which serves as a prefix for the names of the resource pool and the virtual machines in the SynxDB cluster. For example, <code>gpv config set database prefix gpdb</code> prepends <code>gpdb</code> to virtual machines and resource pool names.</p>
-<h4 id="network-base-vm"><a class="header" href="#network-base-vm"><a id="network-base"></a>network base-vm</a></h4>
-<p>Configure the network settings for the base virtual machine</p>
-<pre><code>gpv config set network base-vm &lt;setting&gt;
-</code></pre>
-<p>Where <code>setting</code> can be one of the following:</p>
-<ul>
-<li><code>gateway-ip &lt;IP&gt;</code>: Set the gateway IP address for the base virtual machine when <code>network-type</code> is set to <code>static</code>. For example: <code>gpv config set network base-vm gateway-ip 10.0.0.1</code></li>
-<li><code>ip &lt;IP&gt;</code>: Set the static IP address for the base virtual machine when <code>network-type</code> is set to <code>static</code>. For example: <code>gpv config set network base-vm ip 10.0.0.5</code>.</li>
-<li><code>netmask &lt;NETMASK&gt;</code>: Set the netmask for the base virtual machine when network-type is set to <code>static</code>. For example: <code>gpv config set network base-vm netmask 255.255.255.0</code>.</li>
-<li><code>network-type &lt;TYPE&gt;</code>: Set the network type for base virtual machine. The possible values are <code>static</code> and <code>dhcp</code>. For example: <code>gpv config set network base-vm network-type dhcp</code>.</li>
-</ul>
-<h4 id="network-gp-virtual-etl-bar"><a class="header" href="#network-gp-virtual-etl-bar"><a id="network-etl"></a>network gp-virtual-etl-bar</a></h4>
-<p>Configure the network settings for the ETL, backup and restore traffic.</p>
-<pre><code>gpv config set network gp-virtual-etl-bar cidr &lt;CIDR&gt;
-</code></pre>
-<p>Set the Classless Inter-Domain Routing (CIDR) for the <code>gp-virtual-etl-bar</code> network. For example: <code>gpv config set network gp-virtual-etl-bar cidr 192.168.2.1/24</code>.</p>
-<h4 id="network-gp-virtual-external"><a class="header" href="#network-gp-virtual-external"><a id="network-external"></a>network gp-virtual-external</a></h4>
-<p>Configure the network settings for the routable network for SynxDB clients.</p>
-<pre><code>gpv config set network gp-virtual-external &lt;setting&gt;
-</code></pre>
-<p>Where <code>setting</code> can be one of the following:</p>
-<ul>
-<li><code>cidr &lt;CIDR&gt;</code>: Set the CIDR for the <code>gp-virtual-external</code> network. For example: <code>gpv config set network gp-virtual-external cidr 10.0.1.1/24</code>.</li>
-<li><code>dns-servers &lt;DNS server1&gt; &lt;DNS server 2&gt;</code>: Set the DNS servers of the <code>gp-virtual-external</code> network. For example: <code>gpv config set network gp-virtual-external dns-servers 8.8.8.8 8.8.4.4</code>.</li>
-<li><code>gateway-ip &lt;IP&gt;</code>: Set the gateway IP of the <code>gp-virtual-external</code> network. For example: <code>gpv config set network gp-virtual-external gateway-ip 10.0.1.1</code>.</li>
-<li><code>ips &lt;IP1&gt; &lt;IP2&gt;</code>: Set the static IPs of the <code>gp-virtual-external</code> network. If the SynxDB deployment type is <code>mirrorless</code>, you only need one IP address. If the SynxDB deployment type is <code>mirrored</code>, you need two IP addresses. For example: <code>gpv config set network gp-virtual-external ips 10.0.1.2 10.0.1.3</code>.</li>
-<li><code>ntp-servers &lt;NTP server1&gt; &lt;NTP server2&gt;</code>: Set the NTP servers of the <code>gp-virtual-external</code> network. For example: <code>gpv config set network gp-virtual-external ntp-servers time.example1.com time.example2.com</code>.</li>
-</ul>
-<h4 id="network-gp-virtual-internal"><a class="header" href="#network-gp-virtual-internal"><a id="network-internal"></a>network gp-virtual-internal</a></h4>
-<p>Configure the network settings for the internal communications network among SynxDB virtual machines.</p>
-<pre><code>gpv config set network gp-virtual-internal cidr &lt;CIDR&gt;
-</code></pre>
-<p>Set the CIDR to be used by the <code>gp-virtual-internal</code> network. For example: <code>gpv config set network gp-virtual-internal cidr 192.168.2.1/24</code>.</p>
-<h4 id="vm"><a class="header" href="#vm"><a id="vm"></a>vm</a></h4>
-<p>Configure individual settings for all virtual machines in the cluster.</p>
-<pre><code>gpv config set vm &lt;setting&gt;
-</code></pre>
-<p>Where <code>setting</code> can be one of the following:</p>
-<p>base-name &lt;base_VM_name&gt;
-Set the name of the base virtual machine to use during configuring and deploying SynxDB on vSphere.</p>
-<p>gpadmin-password
-Set the guest operating system password for <code>gpadmin</code> user. The utility prompts you to enter a password when you enter this command.</p>
-<p>primary-segment-vm-count &lt;number_of_segment_vms&gt;
-Set the number of virtual machines to house primary segments. For example: <code>gpv config set vm primary-segment-vm-count 64</code>.</p>
-<p>root-password
-Set the guest operating system password for <code>root</code> user. The utility prompts you to enter a password when you enter this command.</p>
-<h4 id="vsphere"><a class="header" href="#vsphere"><a id="vsphere"></a>vsphere</a></h4>
-<p>Configure the settings for vSphere.</p>
-<pre><code>gpv config set vsphere &lt;setting&gt;
-</code></pre>
-<p>Where <code>setting</code> can be one of the following:</p>
-<p>admin-password
-Set the password for the vCenter administrator. The utility prompts you to enter a password when you enter this command.</p>
-<p>admin-username &lt;user_name&gt;
-Set the username of the vCenter administrator.</p>
-<p>compute-cluster-name &lt;compute_cluster_name&gt;
-Set the name of the compute cluster to use.</p>
-<p>datacenter-name &lt;datacenter_name&gt;
-Set the name of the datacenter to use.</p>
-<p>storage-name &lt;storage_name&gt;
-Set the name of the vSphere datastore or datastore cluster. Specify the name of the storage layer to use within vCenter. For vSAN, specify the datastore name; for Dell PowerFlex, specify the datastore cluster name.</p>
-<p>storage-policy &lt;storage_policy&gt;
-Set the virtual machine storage policy for the storage layer, if applicable. This setting is required for vSAN only. When specifying the policy, ensure that it is surrounded by quotation marks if the policy’s name contains whitespace. For example: <code>gpv config set vsphere storage-policy "this policy contains spaces"</code>.</p>
-<p>storage-type &lt;storage_type&gt;
-Set the type of storage layer to use. Possible values are <code>powerflex</code> and <code>vsan</code>.</p>
-<p>vcenter-address &lt;vcenter_address&gt;
-Set the address of the target vCenter. Do not include the protocol prefix in the address (http://, https://). For example: <code>gpv config set vsphere vcenter-address gp.vcenter.example.com</code>.</p>
-<p>vsphere-distributed-switch-mtu &lt;mtu_size&gt;
-Specify the Maximum Transfer Unit (MTU) for the vSphere distributed switch, in bytes. Valid values range from 1500 to 9000.</p>
-<div style="break-before: page; page-break-before: always;"></div><h1 id="gpv-greenplum"><a class="header" href="#gpv-greenplum">gpv greenplum</a></h1>
-<p>Manage the deployment of a SynxDB on vSphere cluster.</p>
-<h2 id="synopsis-214"><a class="header" href="#synopsis-214"><a id="section2"></a>Synopsis</a></h2>
-<pre><code>gpv greenplum deploy
-gpv greenplum list
-gpv greenplum validate
-</code></pre>
-<h2 id="description-219"><a class="header" href="#description-219"><a id="section3"></a>Description</a></h2>
-<p>The <code>gpv greenplum</code> sub-command allows you to deploy a SynxDB cluster on VMware vSphere, list the connection string to the database, and validate any deployed SynxDB cluster.</p>
-<h2 id="sub-commands-2"><a class="header" href="#sub-commands-2"><a id="opts"></a>Sub-commands</a></h2>
-<p>The available sub-commands for <code>gpv config</code> are <code>deploy</code>, <code>list</code>, and <code>validate</code>.</p>
-<h3 id="deploy-1"><a class="header" href="#deploy-1"><a id="deploy"></a>deploy</a></h3>
-<p>Deploy SynxDB based on your configuration. The <code>gpv greenplum deploy</code> command provisions and powers on all the virtual machines, initializes the SynxDB cluster, and enables and starts the SynxDB Virtual Service that manages high availability.</p>
-<pre><code>gpv greenplum deploy
-</code></pre>
-<h3 id="list-1"><a class="header" href="#list-1"><a id="list"></a>list</a></h3>
-<p>Display an endpoints to connect to SynxDB. The current available option is the PostgreSQL connection Uniform Resource Identifier (URI).</p>
-<pre><code>gpv greenplum list
-</code></pre>
-<h3 id="validate"><a class="header" href="#validate"><a id="validate"></a>validate</a></h3>
-<p>Confirm that the SynxDB cluster deployment is successful.</p>
-<pre><code>gpv greenplum validate
-</code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="pg_config"><a class="header" href="#pg_config">pg_config</a></h1>
 <p>Retrieves information about the installed version of SynxDB.</p>
-<h2 id="synopsis-215"><a class="header" href="#synopsis-215"><a id="section2"></a>Synopsis</a></h2>
+<h2 id="synopsis-211"><a class="header" href="#synopsis-211"><a id="section2"></a>Synopsis</a></h2>
 <pre><code class="language-{#client_util_synopsis}">pg_config [&lt;option&gt; ...]
 
 pg_config -? | --help
 
 pg_config --gp_version
 </code></pre>
-<h2 id="description-220"><a class="header" href="#description-220"><a id="section3"></a>Description</a></h2>
+<h2 id="description-216"><a class="header" href="#description-216"><a id="section3"></a>Description</a></h2>
 <p>The <code>pg_config</code> utility prints configuration parameters of the currently installed version of SynxDB. It is intended, for example, to be used by software packages that want to interface to SynxDB to facilitate finding the required header files and libraries. Note that information printed out by <code>pg_config</code> is for the SynxDB master only.</p>
 <p>If more than one option is given, the information is printed in that order, one item per line. If no options are given, all available information is printed, with labels.</p>
-<h2 id="options-36"><a class="header" href="#options-36"><a id="section4"></a>Options</a></h2>
+<h2 id="options-35"><a class="header" href="#options-35"><a id="section4"></a>Options</a></h2>
 <h3 id="bindir"><a class="header" href="#bindir">–bindir</a></h3>
 <p>Print the location of user executables. Use this, for example, to find the <code>psql</code> program. This is normally also the location where the <code>pg_config</code> program resides.</p>
 <h3 id="docdir"><a class="header" href="#docdir">–docdir</a></h3>
@@ -60792,21 +59931,21 @@ pg_config --gp_version
 <p>Print the version of PostgreSQL backend server.</p>
 <h3 id="gp_version"><a class="header" href="#gp_version">–gp_version</a></h3>
 <p>Print the version of SynxDB.</p>
-<h2 id="examples-186"><a class="header" href="#examples-186"><a id="section5"></a>Examples</a></h2>
+<h2 id="examples-183"><a class="header" href="#examples-183"><a id="section5"></a>Examples</a></h2>
 <p>To reproduce the build configuration of the current SynxDB installation, run the following command:</p>
 <pre><code>eval ./configure 'pg_config --configure'
 </code></pre>
 <p>The output of <code>pg_config --configure</code> contains shell quotation marks so arguments with spaces are represented correctly. Therefore, using <code>eval</code> is required for proper results.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="pg_dump"><a class="header" href="#pg_dump">pg_dump</a></h1>
 <p>Extracts a database into a single script file or other archive file.</p>
-<h2 id="synopsis-216"><a class="header" href="#synopsis-216"><a id="section2"></a>Synopsis</a></h2>
+<h2 id="synopsis-212"><a class="header" href="#synopsis-212"><a id="section2"></a>Synopsis</a></h2>
 <pre><code class="language-{#client_util_synopsis}">pg_dump [&lt;connection-option&gt; ...] [&lt;dump_option&gt; ...] [&lt;dbname&gt;]
 
 pg_dump -? | --help
 
 pg_dump -V | --version
 </code></pre>
-<h2 id="description-221"><a class="header" href="#description-221"><a id="section3"></a>Description</a></h2>
+<h2 id="description-217"><a class="header" href="#description-217"><a id="section3"></a>Description</a></h2>
 <p><code>pg_dump</code> is a standard PostgreSQL utility for backing up a database, and is also supported in SynxDB. It creates a single (non-parallel) dump file. For routine backups of SynxDB, it is better to use the SynxDB backup utility, <a href="utility_guide/ref/gpbackup.html">gpbackup</a>, for the best performance.</p>
 <p>Use <code>pg_dump</code> if you are migrating your data to another database vendor’s system, or to another SynxDB system with a different segment configuration (for example, if the system you are migrating to has greater or fewer segment instances). To restore, you must use the corresponding <a href="utility_guide/ref/pg_restore.html">pg_restore</a> utility (if the dump file is in archive format), or you can use a client program such as <a href="utility_guide/ref/psql.html">psql</a> (if the dump file is in plain text format).</p>
 <p>Since <code>pg_dump</code> is compatible with regular PostgreSQL, it can be used to migrate data into SynxDB. The <code>pg_dump</code> utility in SynxDB is very similar to the PostgreSQL <code>pg_dump</code> utility, with the following exceptions and limitations:</p>
@@ -60816,7 +59955,7 @@ pg_dump -V | --version
 </ul>
 <p><code>pg_dump</code> makes consistent backups even if the database is being used concurrently. <code>pg_dump</code> does not block other users accessing the database (readers or writers).</p>
 <p>When used with one of the archive file formats and combined with <code>pg_restore</code>, <code>pg_dump</code> provides a flexible archival and transfer mechanism. <code>pg_dump</code> can be used to backup an entire database, then <code>pg_restore</code>can be used to examine the archive and/or select which parts of the database are to be restored. The most flexible output file formats are the custom format (<code>-Fc</code>) and the directory format (<code>-Fd</code>). They allow for selection and reordering of all archived items, support parallel restoration, and are compressed by default. The directory format is the only format that supports parallel dumps.</p>
-<h2 id="options-37"><a class="header" href="#options-37"><a id="section4"></a>Options</a></h2>
+<h2 id="options-36"><a class="header" href="#options-36"><a id="section4"></a>Options</a></h2>
 <p>dbname
 Specifies the name of the database to be dumped. If this is not specified, the environment variable <code>PGDATABASE</code> is used. If that is not set, the user name specified for the connection is used.</p>
 <p><strong>Dump Options</strong></p>
@@ -60971,7 +60110,7 @@ Specifies the name of the database to be dumped. If this is not specified, the e
 <p>The dump file produced by <code>pg_dump</code> does not contain the statistics used by the optimizer to make query planning decisions. Therefore, it is wise to run <code>ANALYZE</code> after restoring from a dump file to ensure optimal performance.</p>
 <p>The database activity of <code>pg_dump</code> is normally collected by the statistics collector. If this is undesirable, you can set parameter <code>track_counts</code> to false via <code>PGOPTIONS</code> or the <code>ALTER USER</code> command.</p>
 <p>Because <code>pg_dump</code> may be used to transfer data to newer versions of SynxDB, the output of <code>pg_dump</code> can be expected to load into SynxDB versions newer than <code>pg_dump</code>’s version. <code>pg_dump</code> can also dump from SynxDB versions older than its own version. However, <code>pg_dump</code> cannot dump from SynxDB versions newer than its own major version; it will refuse to even try, rather than risk making an invalid dump. Also, it is not guaranteed that <code>pg_dump</code>’s output can be loaded into a server of an older major version — not even if the dump was taken from a server of that version. Loading a dump file into an older server may require manual editing of the dump file to remove syntax not understood by the older server. Use of the <code>--quote-all-identifiers</code> option is recommended in cross-version cases, as it can prevent problems arising from varying reserved-word lists in different SynxDB versions.</p>
-<h2 id="examples-187"><a class="header" href="#examples-187"><a id="section8"></a>Examples</a></h2>
+<h2 id="examples-184"><a class="header" href="#examples-184"><a id="section8"></a>Examples</a></h2>
 <p>Dump a database called <code>mydb</code> into a SQL-script file:</p>
 <pre><code>pg_dump mydb &gt; db.sql
 </code></pre>
@@ -61003,20 +60142,20 @@ Specifies the name of the database to be dumped. If this is not specified, the e
 <p><a href="utility_guide/ref/pg_dumpall.html">pg_dumpall</a>, <a href="utility_guide/ref/pg_restore.html">pg_restore</a>, <a href="utility_guide/ref/psql.html">psql</a></p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="pg_dumpall"><a class="header" href="#pg_dumpall">pg_dumpall</a></h1>
 <p>Extracts all databases in a SynxDB system to a single script file or other archive file.</p>
-<h2 id="synopsis-217"><a class="header" href="#synopsis-217"><a id="section2"></a>Synopsis</a></h2>
+<h2 id="synopsis-213"><a class="header" href="#synopsis-213"><a id="section2"></a>Synopsis</a></h2>
 <pre><code class="language-{#client_util_synopsis}">pg_dumpall [&lt;connection-option&gt; ...] [&lt;dump_option&gt; ...]
 
 pg_dumpall -? | --help
 
 pg_dumpall -V | --version
 </code></pre>
-<h2 id="description-222"><a class="header" href="#description-222"><a id="section3"></a>Description</a></h2>
+<h2 id="description-218"><a class="header" href="#description-218"><a id="section3"></a>Description</a></h2>
 <p><code>pg_dumpall</code> is a standard PostgreSQL utility for backing up all databases in a SynxDB (or PostgreSQL) instance, and is also supported in SynxDB. It creates a single (non-parallel) dump file. For routine backups of SynxDB it is better to use the SynxDB backup utility, <a href="utility_guide/ref/gpbackup.html">gpbackup</a>, for the best performance.</p>
 <p><code>pg_dumpall</code> creates a single script file that contains SQL commands that can be used as input to <a href="utility_guide/ref/psql.html">psql</a> to restore the databases. It does this by calling <a href="utility_guide/ref/pg_dump.html">pg_dump</a> for each database. <code>pg_dumpall</code> also dumps global objects that are common to all databases. (<code>pg_dump</code> does not save these objects.) This currently includes information about database users and groups, and access permissions that apply to databases as a whole.</p>
 <p>Since <code>pg_dumpall</code> reads tables from all databases you will most likely have to connect as a database superuser in order to produce a complete dump. Also you will need superuser privileges to run the saved script in order to be allowed to add users and groups, and to create databases.</p>
 <p>The SQL script will be written to the standard output. Use the <code>[-f | --file]</code> option or shell operators to redirect it into a file.</p>
 <p><code>pg_dumpall</code> needs to connect several times to the SynxDB master server (once per database). If you use password authentication it is likely to ask for a password each time. It is convenient to have a <code>~/.pgpass</code> file in such cases.</p>
-<h2 id="options-38"><a class="header" href="#options-38"><a id="section4"></a>Options</a></h2>
+<h2 id="options-37"><a class="header" href="#options-37"><a id="section4"></a>Options</a></h2>
 <p><strong>Dump Options</strong></p>
 <h3 id="-a--data-only-1"><a class="header" href="#-a--data-only-1">-a | –data-only</a></h3>
 <p>Dump only the data, not the schema (data definitions). This option is only meaningful for the plain-text format. For the archive formats, you may specify the option when you call <a href="utility_guide/ref/pg_restore.html">pg_restore</a>.</p>
@@ -61104,7 +60243,7 @@ pg_dumpall -V | --version
 <p>Since <code>pg_dumpall</code> calls <a href="utility_guide/ref/pg_dump.html">pg_dump</a> internally, some diagnostic messages will refer to <code>pg_dump</code>.</p>
 <p>Once restored, it is wise to run <code>ANALYZE</code> on each database so the query planner has useful statistics. You can also run <code>vacuumdb -a -z</code> to vacuum and analyze all databases.</p>
 <p><code>pg_dumpall</code> requires all needed tablespace directories to exist before the restore; otherwise, database creation will fail for databases in non-default locations.</p>
-<h2 id="examples-188"><a class="header" href="#examples-188"><a id="section8"></a>Examples</a></h2>
+<h2 id="examples-185"><a class="header" href="#examples-185"><a id="section8"></a>Examples</a></h2>
 <p>To dump all databases:</p>
 <pre><code>pg_dumpall &gt; db.out
 </code></pre>
@@ -61118,18 +60257,18 @@ pg_dumpall -V | --version
 <p><a href="utility_guide/ref/pg_dump.html">pg_dump</a></p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="pg_restore"><a class="header" href="#pg_restore">pg_restore</a></h1>
 <p>Restores a database from an archive file created by <code>pg_dump</code>.</p>
-<h2 id="synopsis-218"><a class="header" href="#synopsis-218"><a id="section2"></a>Synopsis</a></h2>
+<h2 id="synopsis-214"><a class="header" href="#synopsis-214"><a id="section2"></a>Synopsis</a></h2>
 <pre><code class="language-{#client_util_synopsis}">pg_restore [&lt;connection-option&gt; ...] [&lt;restore_option&gt; ...] &lt;filename&gt;
 
 pg_restore -? | --help
 
 pg_restore -V | --version
 </code></pre>
-<h2 id="description-223"><a class="header" href="#description-223"><a id="section3"></a>Description</a></h2>
+<h2 id="description-219"><a class="header" href="#description-219"><a id="section3"></a>Description</a></h2>
 <p><code>pg_restore</code> is a utility for restoring a database from an archive created by <a href="utility_guide/ref/pg_dump.html">pg_dump</a> in one of the non-plain-text formats. It will issue the commands necessary to reconstruct the database to the state it was in at the time it was saved. The archive files also allow <code>pg_restore</code> to be selective about what is restored, or even to reorder the items prior to being restored.</p>
 <p><code>pg_restore</code> can operate in two modes. If a database name is specified, the archive is restored directly into the database. Otherwise, a script containing the SQL commands necessary to rebuild the database is created and written to a file or standard output. The script output is equivalent to the plain text output format of <code>pg_dump</code>. Some of the options controlling the output are therefore analogous to <code>pg_dump</code> options.</p>
 <p><code>pg_restore</code> cannot restore information that is not present in the archive file. For instance, if the archive was made using the “dump data as <code>INSERT</code> commands” option, <code>pg_restore</code> will not be able to load the data using <code>COPY</code> statements.</p>
-<h2 id="options-39"><a class="header" href="#options-39"><a id="section4"></a>Options</a></h2>
+<h2 id="options-38"><a class="header" href="#options-38"><a id="section4"></a>Options</a></h2>
 <h3 id="filename-2"><a class="header" href="#filename-2">filename</a></h3>
 <p>Specifies the location of the archive file (or directory, for a directory-format archive) to be restored. If not specified, the standard input is used.</p>
 <h3 id="-a--data-only-2"><a class="header" href="#-a--data-only-2">-a | –data-only</a></h3>
@@ -61228,7 +60367,7 @@ pg_restore -V | --version
 <p>When restoring data to a pre-existing table and the option <code>--disable-triggers</code> is used, <code>pg_restore</code> emits commands to deactivate triggers on user tables before inserting the data, then emits commands to re-enable them after the data has been inserted. If the restore is stopped in the middle, the system catalogs may be left in the wrong state.</p>
 <p>See also the <code>pg_dump</code> documentation for details on limitations of <code>pg_dump</code>.</p>
 <p>Once restored, it is wise to run <code>ANALYZE</code> on each restored table so the query planner has useful statistics.</p>
-<h2 id="examples-189"><a class="header" href="#examples-189"><a id="section7"></a>Examples</a></h2>
+<h2 id="examples-186"><a class="header" href="#examples-186"><a id="section7"></a>Examples</a></h2>
 <p>Assume we have dumped a database called <code>mydb</code> into a custom-format dump file:</p>
 <pre><code>pg_dump -Fc mydb &gt; db.dump
 </code></pre>
@@ -61277,7 +60416,7 @@ pg_restore -d newdb db.dump
 <p><a href="utility_guide/ref/pg_dump.html">pg_dump</a></p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="pgbouncer"><a class="header" href="#pgbouncer">pgbouncer</a></h1>
 <p>Manages database connection pools.</p>
-<h2 id="synopsis-219"><a class="header" href="#synopsis-219"><a id="syn"></a>Synopsis</a></h2>
+<h2 id="synopsis-215"><a class="header" href="#synopsis-215"><a id="syn"></a>Synopsis</a></h2>
 <pre><code>pgbouncer [OPTION ...] &lt;pgbouncer.ini&gt;
 
   OPTION
@@ -61289,7 +60428,7 @@ pg_restore -d newdb db.dump
 
 pgbouncer [ -V | --version ] | [ -h | --help ]
 </code></pre>
-<h2 id="description-224"><a class="header" href="#description-224"><a id="desc"></a>Description</a></h2>
+<h2 id="description-220"><a class="header" href="#description-220"><a id="desc"></a>Description</a></h2>
 <p>PgBouncer is a light-weight connection pool manager for SynxDB and PostgreSQL databases. PgBouncer maintains a pool of connections for each database user and database combination. PgBouncer either creates a new database connection for the client or reuses an existing pooled connection for the same user and database. When the client disconnects, PgBouncer returns the connection to the pool for re-use.</p>
 <p>PgBouncer supports the standard connection interface shared by PostgreSQL and SynxDB. The SynxDB client application (for example, <code>psql</code>) should connect to the host and port on which PgBouncer is running rather than directly to the SynxDB master host and port.</p>
 <p>You configure PgBouncer and its access to SynxDB via a configuration file. You provide the configuration file name, usually <code>&lt;pgbouncer.ini&gt;</code>, when you run the <code>pgbouncer</code> command. This file provides location information for SynxDB databases. The <code>pgbouncer.ini</code> file also specifies process, connection pool, authorized users, and authentication configuration for PgBouncer, among other configuration options.</p>
@@ -61297,7 +60436,7 @@ pgbouncer [ -V | --version ] | [ -h | --help ]
 <p>The <code>pgbouncer</code> process is owned by the operating system user that starts the process. You can optionally specify a different user name under which to start <code>pgbouncer</code>.</p>
 <p>PgBouncer includes a <code>psql</code>-like administration console. Authorized users can connect to a virtual database to monitor and manage PgBouncer. You can manage a PgBouncer daemon process via the admin console. You can also use the console to update and reload the PgBouncer configuration at runtime without stopping and restarting the process.</p>
 <p>For additional information about PgBouncer, refer to the <a href="https://pgbouncer.github.io/faq.html">PgBouncer FAQ</a>.</p>
-<h2 id="options-40"><a class="header" href="#options-40"><a id="opt"></a>Options</a></h2>
+<h2 id="options-39"><a class="header" href="#options-39"><a id="opt"></a>Options</a></h2>
 <h3 id="-d--daemon"><a class="header" href="#-d--daemon">-d | –daemon</a></h3>
 <p>Run PgBouncer as a daemon (a background process). The default start-up mode is to run as a foreground process.</p>
 <p>In daemon mode, setting <code>pidfile</code> as well as <code>logfile</code> or <code>syslog</code> is required. No log messages will be written to <code>stderr</code> after going into the background.</p>
@@ -61322,7 +60461,7 @@ pgbouncer [ -V | --version ] | [ -h | --help ]
 <p><a href="utility_guide/ref/pgbouncer-ini.html">pgbouncer.ini</a>, <a href="utility_guide/ref/pgbouncer-admin.html">pgbouncer-admin</a></p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="pgbouncerini"><a class="header" href="#pgbouncerini">pgbouncer.ini</a></h1>
 <p>PgBouncer configuration file.</p>
-<h2 id="synopsis-220"><a class="header" href="#synopsis-220"><a id="syn"></a>Synopsis</a></h2>
+<h2 id="synopsis-216"><a class="header" href="#synopsis-216"><a id="syn"></a>Synopsis</a></h2>
 <pre><code>[databases]
 db = ...
 
@@ -61332,7 +60471,7 @@ db = ...
 [users]
 ...
 </code></pre>
-<h2 id="description-225"><a class="header" href="#description-225"><a id="desc"></a>Description</a></h2>
+<h2 id="description-221"><a class="header" href="#description-221"><a id="desc"></a>Description</a></h2>
 <p>You specify PgBouncer configuration parameters and identify user-specific configuration parameters in a configuration file.</p>
 <p>The PgBouncer configuration file (typically named <code>pgbouncer.ini</code>) is specified in <code>.ini</code> format. Files in <code>.ini</code> format are composed of sections, parameters, and values. Section names are enclosed in square brackets, for example, <code>[&lt;section_name&gt;]</code>. Parameters and values are specified in <code>key=value</code> format. Lines beginning with a semicolon (<code>;</code>) or pound sign (<code>#</code>) are considered comment lines and are ignored.</p>
 <p>The PgBouncer configuration file can contain <code>%include</code> directives, which specify another file to read and process. This enables you to split the configuration file into separate parts. For example:</p>
@@ -61793,15 +60932,15 @@ GRANT EXECUTE ON FUNCTION pgbouncer.user_lookup(text) TO pgbouncer;
 <p><a href="utility_guide/ref/pgbouncer.html">pgbouncer</a>, <a href="utility_guide/ref/pgbouncer-admin.html">pgbouncer-admin</a>, <a href="https://pgbouncer.github.io/config.html">PgBouncer Configuration Page</a></p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="pgbouncer-admin"><a class="header" href="#pgbouncer-admin">pgbouncer-admin</a></h1>
 <p>PgBouncer Administration Console.</p>
-<h2 id="synopsis-221"><a class="header" href="#synopsis-221"><a id="syn"></a>Synopsis</a></h2>
+<h2 id="synopsis-217"><a class="header" href="#synopsis-217"><a id="syn"></a>Synopsis</a></h2>
 <pre><code>psql -p &lt;port&gt; pgbouncer
 </code></pre>
-<h2 id="description-226"><a class="header" href="#description-226"><a id="desc"></a>Description</a></h2>
+<h2 id="description-222"><a class="header" href="#description-222"><a id="desc"></a>Description</a></h2>
 <p>The PgBouncer Administration Console is available via <code>psql</code>. Connect to the PgBouncer <code>&lt;port&gt;</code> and the virtual database named <code>pgbouncer</code> to log in to the console.</p>
 <p>Users listed in the <code>pgbouncer.ini</code> configuration parameters <code>admin_users</code> and <code>stats_users</code> have privileges to log in to the PgBouncer Administration Console. When <code>auth_type=any</code>, then any user is allowed in as a stats_user.</p>
 <p>Additionally, the user name <code>pgbouncer</code> is allowed to log in without password when the login comes via the Unix socket and the client has same Unix user UID as the running process.</p>
 <p>You can control connections between PgBouncer and SynxDB from the console. You can also set PgBouncer configuration parameters.</p>
-<h2 id="options-41"><a class="header" href="#options-41"><a id="opt"></a>Options</a></h2>
+<h2 id="options-40"><a class="header" href="#options-40"><a id="opt"></a>Options</a></h2>
 <h3 id="-p-port-4"><a class="header" href="#-p-port-4">-p &lt;port&gt;</a></h3>
 <p>The PgBouncer port number.</p>
 <h2 id="command-syntax"><a class="header" href="#command-syntax"><a id="topic_bk3_3jc_dt"></a>Command Syntax</a></h2>
@@ -62180,7 +61319,7 @@ kernel notification method that it uses.
 <p>Display help text. If specified without a command, displays help for all <code>plcontainer</code> commands. If specified with a command, displays help for the command.</p>
 <h3 id="verbose-8"><a class="header" href="#verbose-8"><strong>–verbose</strong></a></h3>
 <p>Enable verbose logging for the command.</p>
-<h2 id="examples-190"><a class="header" href="#examples-190"><a id="exs"></a>Examples</a></h2>
+<h2 id="examples-187"><a class="header" href="#examples-187"><a id="exs"></a>Examples</a></h2>
 <p>These are examples of common commands to manage PL/Container:</p>
 <ul>
 <li>
@@ -62369,12 +61508,12 @@ kernel notification method that it uses.
 <p>The command runs a PL/Container function that updates the session configuration on the master and segment instances.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="psql"><a class="header" href="#psql">psql</a></h1>
 <p>Interactive command-line interface for SynxDB</p>
-<h2 id="synopsis-222"><a class="header" href="#synopsis-222"><a id="section2"></a>Synopsis</a></h2>
+<h2 id="synopsis-218"><a class="header" href="#synopsis-218"><a id="section2"></a>Synopsis</a></h2>
 <pre><code class="language-{#client_util_synopsis}">psql [&lt;option&gt; ...] [&lt;dbname&gt; [&lt;username&gt;]]
 </code></pre>
-<h2 id="description-227"><a class="header" href="#description-227"><a id="section3"></a>Description</a></h2>
+<h2 id="description-223"><a class="header" href="#description-223"><a id="section3"></a>Description</a></h2>
 <p><code>psql</code> is a terminal-based front-end to SynxDB. It enables you to type in queries interactively, issue them to SynxDB, and see the query results. Alternatively, input can be from a file. In addition, it provides a number of meta-commands and various shell-like features to facilitate writing scripts and automating a wide variety of tasks.</p>
-<h2 id="options-42"><a class="header" href="#options-42"><a id="section4"></a>Options</a></h2>
+<h2 id="options-41"><a class="header" href="#options-41"><a id="section4"></a>Options</a></h2>
 <h3 id="-a--echo-all"><a class="header" href="#-a--echo-all">-a | –echo-all</a></h3>
 <p>Print all nonempty input lines to standard output as they are read. (This does not apply to lines read interactively.) This is equivalent to setting the variable ECHO to <code>all</code>.</p>
 <h3 id="-a--no-align"><a class="header" href="#-a--no-align">-A | –no-align</a></h3>
@@ -62948,7 +62087,7 @@ PSQL_EDITOR_LINENUMBER_ARG='--line '
 </code></pre>
 <p><code>1252</code> is a character encoding of the Latin alphabet, used by Microsoft Windows for English and some other Western languages. If you are using Cygwin, you can put this command in <code>/etc/profile</code>.</p>
 <p>Set the console font to Lucida Console, because the raster font does not work with the ANSI code page.</p>
-<h2 id="examples-191"><a class="header" href="#examples-191"><a id="section21"></a>Examples</a></h2>
+<h2 id="examples-188"><a class="header" href="#examples-188"><a id="section21"></a>Examples</a></h2>
 <p>Start <code>psql</code> in interactive mode:</p>
 <pre><code>psql -p 54321 -U sally mydatabase
 </code></pre>
@@ -62973,7 +62112,7 @@ Distributed by: (first)
 </code></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="reindexdb"><a class="header" href="#reindexdb">reindexdb</a></h1>
 <p>Rebuilds indexes in a database.</p>
-<h2 id="synopsis-223"><a class="header" href="#synopsis-223"><a id="section2"></a>Synopsis</a></h2>
+<h2 id="synopsis-219"><a class="header" href="#synopsis-219"><a id="section2"></a>Synopsis</a></h2>
 <pre><code class="language-{#client_util_synopsis}">reindexdb [&lt;connection-option&gt; ...] [--table | -t &lt;table&gt; ] 
         [--index | -i &lt;index&gt; ] [&lt;dbname&gt;]
 
@@ -62985,10 +62124,10 @@ reindexdb -? | --help
 
 reindexdb -V | --version
 </code></pre>
-<h2 id="description-228"><a class="header" href="#description-228"><a id="section3"></a>Description</a></h2>
+<h2 id="description-224"><a class="header" href="#description-224"><a id="section3"></a>Description</a></h2>
 <p><code>reindexdb</code> is a utility for rebuilding indexes in SynxDB.</p>
 <p><code>reindexdb</code> is a wrapper around the SQL command <code>REINDEX</code>. There is no effective difference between reindexing databases via this utility and via other methods for accessing the server.</p>
-<h2 id="options-43"><a class="header" href="#options-43"><a id="section4"></a>Options</a></h2>
+<h2 id="options-42"><a class="header" href="#options-42"><a id="section4"></a>Options</a></h2>
 <h3 id="-a--all-1"><a class="header" href="#-a--all-1">-a | –all</a></h3>
 <p>Reindex all databases.</p>
 <p>[-d] dbname | [–dbname=]dbname
@@ -63023,7 +62162,7 @@ Specifies the name of the database to be reindexed. If this is not specified and
 <h2 id="notes-104"><a class="header" href="#notes-104"><a id="section6"></a>Notes</a></h2>
 <p><code>reindexdb</code> causes locking of system catalog tables, which could affect currently running queries. To avoid disrupting ongoing business operations, schedule the <code>reindexb</code> operation during a period of low activity.</p>
 <p><code>reindexdb</code> might need to connect several times to the master server, asking for a password each time. It is convenient to have a <code>~/.pgpass</code> file in such cases.</p>
-<h2 id="examples-192"><a class="header" href="#examples-192"><a id="section7"></a>Examples</a></h2>
+<h2 id="examples-189"><a class="header" href="#examples-189"><a id="section7"></a>Examples</a></h2>
 <p>To reindex the database <code>mydb</code>:</p>
 <pre><code>reindexdb mydb
 </code></pre>
@@ -63034,7 +62173,7 @@ Specifies the name of the database to be reindexed. If this is not specified and
 <p><a href="utility_guide/ref/../../ref_guide/sql_commands/REINDEX.html">REINDEX</a></p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="vacuumdb"><a class="header" href="#vacuumdb">vacuumdb</a></h1>
 <p>Garbage-collects and analyzes a database.</p>
-<h2 id="synopsis-224"><a class="header" href="#synopsis-224"><a id="section2"></a>Synopsis</a></h2>
+<h2 id="synopsis-220"><a class="header" href="#synopsis-220"><a id="section2"></a>Synopsis</a></h2>
 <pre><code class="language-{#client_util_synopsis}">vacuumdb [&lt;connection-option&gt;...] [--full | -f] [--freeze | -F] [--verbose | -v]
     [--analyze | -z] [--analyze-only | -Z] [--table | -t &lt;table&gt; [( &lt;column&gt; [,...] )] ] [&lt;dbname&gt;]
 
@@ -63046,10 +62185,10 @@ vacuumdb -? | --help
 
 vacuumdb -V | --version
 </code></pre>
-<h2 id="description-229"><a class="header" href="#description-229"><a id="section3"></a>Description</a></h2>
+<h2 id="description-225"><a class="header" href="#description-225"><a id="section3"></a>Description</a></h2>
 <p><code>vacuumdb</code> is a utility for cleaning a SynxDB database. <code>vacuumdb</code> will also generate internal statistics used by the SynxDB query optimizer.</p>
 <p><code>vacuumdb</code> is a wrapper around the SQL command <code>VACUUM</code>. There is no effective difference between vacuuming databases via this utility and via other methods for accessing the server.</p>
-<h2 id="options-44"><a class="header" href="#options-44"><a id="section4"></a>Options</a></h2>
+<h2 id="options-43"><a class="header" href="#options-43"><a id="section4"></a>Options</a></h2>
 <h3 id="-a--all-2"><a class="header" href="#-a--all-2">-a | –all</a></h3>
 <p>Vacuums all databases.</p>
 <p>[-d] dbname | [–dbname=]dbname
@@ -63092,7 +62231,7 @@ The name of the database to vacuum. If this is not specified and <code>-a</code>
 <p>Specifies the name of the database to connect to discover what other databases should be vacuumed. If not specified, the <code>postgres</code> database will be used, and if that does not exist, <code>template1</code> will be used.</p>
 <h2 id="notes-105"><a class="header" href="#notes-105"><a id="section6"></a>Notes</a></h2>
 <p><code>vacuumdb</code> might need to connect several times to the master server, asking for a password each time. It is convenient to have a <code>~/.pgpass</code> file in such cases.</p>
-<h2 id="examples-193"><a class="header" href="#examples-193"><a id="section7"></a>Examples</a></h2>
+<h2 id="examples-190"><a class="header" href="#examples-190"><a id="section7"></a>Examples</a></h2>
 <p>To clean the database <code>test</code>:</p>
 <pre><code>vacuumdb test
 </code></pre>
@@ -65631,7 +64770,7 @@ testdb=# SELECT * FROM pg_stat_last_operation WHERE objid='trial'::regclass::oid
 <tr><td>paramvalue</td><td>The value of the parameter.</td></tr>
 </tbody></table>
 </div>
-<h4 id="example-18"><a class="header" href="#example-18"><a id="ie192970"></a>Example:</a></h4>
+<h4 id="example-17"><a class="header" href="#example-17"><a id="ie192970"></a>Example:</a></h4>
 <pre><code>SELECT * FROM gp_param_setting('max_connections');
 </code></pre>
 <h3 id="gp_param_settings_seg_value_diffs"><a class="header" href="#gp_param_settings_seg_value_diffs"><a id="topic23"></a>gp_param_settings_seg_value_diffs</a></h3>
@@ -69668,7 +68807,7 @@ in_desc = GppcAnyTableGetTupleDesc(intbl);
 
 ntuple = GppcAnyTableGetNextTuple(intbl);
 </code></pre>
-<h3 id="limitations-2"><a class="header" href="#limitations-2"><a id="topic_limits"></a>Limitations</a></h3>
+<h3 id="limitations-1"><a class="header" href="#limitations-1"><a id="topic_limits"></a>Limitations</a></h3>
 <p>The GPPC API does not support the following operators with SynxDB version 5.0.x:</p>
 <ul>
 <li>integer || integer</li>
