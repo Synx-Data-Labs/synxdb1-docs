@@ -159,16 +159,6 @@
                         <h1 id="gp_parallel_retrieve_cursor"><a class="header" href="#gp_parallel_retrieve_cursor">gp_parallel_retrieve_cursor</a></h1>
 <p>The <code>gp_parallel_retrieve_cursor</code> module is an enhanced cursor implementation that you can use to create a special kind of cursor on the SynxDB master node, and retrieve query results, on demand and in parallel, directly from the SynxDB segments. SynxDB refers to such a cursor as a <em>parallel retrieve cursor</em>.</p>
 <p>The <code>gp_parallel_retrieve_cursor</code> module is a SynxDB-specific cursor implementation loosely based on the PostgreSQL cursor.</p>
-<p>This topic includes the following sections:</p>
-<ul>
-<li><a href="#topic_reg">Installing and Registering the Module</a></li>
-<li><a href="#topic_about">About the gp_parallel_retrieve_cursor Module</a></li>
-<li><a href="#topic_using">Using the gp_parallel_retrieve_cursor Module</a></li>
-<li><a href="#topic_cfg">Limiting the Number of Concurrently Open Cursors</a></li>
-<li><a href="#topic_limits">Known Issues and Limitations</a></li>
-<li><a href="#topic_addtldocs">Additional Module Documentation</a></li>
-<li><a href="#topic_examples">Example</a></li>
-</ul>
 <h2 id="installing-and-registering-the-module"><a class="header" href="#installing-and-registering-the-module"><a id="topic_reg"></a>Installing and Registering the Module</a></h2>
 <p>The <code>gp_parallel_retrieve_cursor</code> module is installed when you install SynxDB. Before you can use any of the functions or views defined in the module, you must register the <code>gp_parallel_retrieve_cursor</code> extension in each database where you want to use the functionality:</p>
 <pre><code>CREATE EXTENSION gp_parallel_retrieve_cursor;
@@ -178,9 +168,9 @@
 <p>You use a cursor to retrieve a smaller number of rows at a time from a larger query. When you declare a parallel retrieve cursor, the SynxDB Query Dispatcher (QD) dispatches the query plan to each Query Executor (QE), and creates an <em>endpoint</em> on each QE before it executes the query. An endpoint is a query result source for a parallel retrieve cursor on a specific QE. Instead of returning the query result to the QD, an endpoint retains the query result for retrieval via a different process: a direct connection to the endpoint. You open a special retrieve mode connection, called a <em>retrieve session</em>, and use the new <code>RETRIEVE</code> SQL command to retrieve query results from each parallel retrieve cursor endpoint. You can retrieve from parallel retrieve cursor endpoints on demand and in parallel.</p>
 <p>The <code>gp_parallel_retrieve_cursor</code> module provides the following functions and views that you can use to examine and manage parallel retrieve cursors and endpoints:</p>
 <div class="table-wrapper"><table><thead><tr><th>Function, View Name</th><th>Description</th></tr></thead><tbody>
-<tr><td>gp_get_endpoints()<br/><br/><a href="../system_catalogs/gp_endpoints.html#topic1">gp_endpoints</a></td><td>List the endpoints associated with all active parallel retrieve cursors declared by the current user in the current database. When the SynxDB superuser invokes this function, it returns a list of all endpoints for all parallel retrieve cursors declared by all users in the current database.</td></tr>
-<tr><td>gp_get_session_endpoints()<br/><br/><a href="../system_catalogs/gp_session_endpoints.html#topic1">gp_session_endpoints</a></td><td>List the endpoints associated with all parallel retrieve cursors declared in the current session for the current user.</td></tr>
-<tr><td>gp_get_segment_endpoints()<br/><br/><a href="../system_catalogs/gp_segment_endpoints.html#topic1">gp_segment_endpoints</a></td><td>List the endpoints created in the QE for all active parallel retrieve cursors declared by the current user. When the SynxDB superuser accesses this view, it returns a list of all endpoints on the QE created for all parallel retrieve cursors declared by all users.</td></tr>
+<tr><td>gp_get_endpoints()<br/><br/><a href="../system_catalogs/gp_endpoints.html">gp_endpoints</a></td><td>List the endpoints associated with all active parallel retrieve cursors declared by the current user in the current database. When the SynxDB superuser invokes this function, it returns a list of all endpoints for all parallel retrieve cursors declared by all users in the current database.</td></tr>
+<tr><td>gp_get_session_endpoints()<br/><br/><a href="../system_catalogs/gp_session_endpoints.html">gp_session_endpoints</a></td><td>List the endpoints associated with all parallel retrieve cursors declared in the current session for the current user.</td></tr>
+<tr><td>gp_get_segment_endpoints()<br/><br/><a href="../system_catalogs/gp_segment_endpoints.html">gp_segment_endpoints</a></td><td>List the endpoints created in the QE for all active parallel retrieve cursors declared by the current user. When the SynxDB superuser accesses this view, it returns a list of all endpoints on the QE created for all parallel retrieve cursors declared by all users.</td></tr>
 <tr><td>gp_wait_parallel_retrieve_cursor(cursorname text, timeout_sec int4 )</td><td>Return cursor status or block and wait for results to be retrieved from all endpoints associated with the specified parallel retrieve cursor.</td></tr>
 </tbody></table>
 </div>
@@ -200,7 +190,7 @@
 </ol>
 <p>In addition to the above, you may optionally choose to open a utility-mode connection to an endpoint to <a href="#utility_endpoints">List segment-specific retrieve session information</a>.</p>
 <h3 id="declaring-a-parallel-retrieve-cursor"><a class="header" href="#declaring-a-parallel-retrieve-cursor"><a id="declare_cursor"></a>Declaring a Parallel Retrieve Cursor</a></h3>
-<p>You <a href="../sql_commands/DECLARE.html#topic1">DECLARE</a> a cursor to retrieve a smaller number of rows at a time from a larger query. When you declare a parallel retrieve cursor, you can retrieve the query results directly from the SynxDB segments.</p>
+<p>You <a href="../sql_commands/DECLARE.html">DECLARE</a> a cursor to retrieve a smaller number of rows at a time from a larger query. When you declare a parallel retrieve cursor, you can retrieve the query results directly from the SynxDB segments.</p>
 <p>The syntax for declaring a parallel retrieve cursor is similar to that of declaring a regular cursor; you must additionally include the <code>PARALLEL RETRIEVE</code> keywords in the command. You can declare a parallel retrieve cursor only within a transaction, and the cursor name that you specify when you declare the cursor must be unique within the transaction.</p>
 <p>For example, the following commands begin a transaction and declare a parallel retrieve cursor named <code>prc1</code> to retrieve the results from a specific query:</p>
 <pre><code>BEGIN;
@@ -246,7 +236,7 @@ SELECT * FROM gp_endpoints;
 <tr><td>endpointname</td><td>The endpoint identifier; you provide this identifier to the <code>RETRIEVE</code> command.</td></tr>
 </tbody></table>
 </div>
-<p>Refer to the <a href="../system_catalogs/gp_endpoints.html#topic1">gp_endpoints</a> view reference page for more information about the endpoint attributes returned by these commands.</p>
+<p>Refer to the <a href="../system_catalogs/gp_endpoints.html">gp_endpoints</a> view reference page for more information about the endpoint attributes returned by these commands.</p>
 <p>You can similarly invoke the <code>gp_get_session_endpoints()</code> function or examine the <code>gp_session_endpoints</code> view to list the endpoints created for the parallel retrieve cursors declared in the current session and by the current user.</p>
 <h3 id="opening-a-retrieve-session"><a class="header" href="#opening-a-retrieve-session"><a id="open_retrieve_conn"></a>Opening a Retrieve Session</a></h3>
 <p>After you declare a parallel retrieve cursor, you can open a retrieve session to each endpoint. Only a single retrieve session may be open to an endpoint at any given time.</p>
@@ -269,7 +259,7 @@ SELECT * FROM gp_endpoints;
 </code></pre>
 <p>To distinguish a retrieve session from other sessions running on a segment host, SynxDB includes the <code>[retrieve]</code> tag on the <code>ps</code> command output display for the process.</p>
 <h3 id="retrieving-data-from-the-endpoint"><a class="header" href="#retrieving-data-from-the-endpoint"><a id="retrieve_data"></a>Retrieving Data From the Endpoint</a></h3>
-<p>Once you establish a retrieve session, you retrieve the tuples associated with a query result on that endpoint using the <a href="../sql_commands/RETRIEVE.html#topic1">RETRIEVE</a> command.</p>
+<p>Once you establish a retrieve session, you retrieve the tuples associated with a query result on that endpoint using the <a href="../sql_commands/RETRIEVE.html">RETRIEVE</a> command.</p>
 <p>You can specify a (positive) number of rows to retrieve, or <code>ALL</code> rows:</p>
 <pre><code>RETRIEVE 7 FROM ENDPOINT prc10000003300000003;
 RETRIEVE ALL FROM ENDPOINT prc10000003300000003;
@@ -352,7 +342,7 @@ testdb=&gt; SELECT * from gp_segment_endpoints;
 <tr><td>cursorname</td><td>The name of the parallel retrieve cursor.</td></tr>
 </tbody></table>
 </div>
-<p>Refer to the <a href="../system_catalogs/gp_segment_endpoints.html#topic1">gp_segment_endpoints</a> view reference page for more information about the endpoint attributes returned by these commands.</p>
+<p>Refer to the <a href="../system_catalogs/gp_segment_endpoints.html">gp_segment_endpoints</a> view reference page for more information about the endpoint attributes returned by these commands.</p>
 <h2 id="limiting-the-number-of-concurrently-open-cursors"><a class="header" href="#limiting-the-number-of-concurrently-open-cursors"><a id="topic_cfg"></a>Limiting the Number of Concurrently Open Cursors</a></h2>
 <p>By default, SynxDB does not limit the number of parallel retrieve cursors that are active in the cluster (up to the maximum value of 1024). The SynxDB superuser can set the <a href="../config_params/guc-list.html#gp_max_parallel_cursors">gp_max_parallel_cursors</a> server configuration parameter to limit the number of open cursors.</p>
 <h2 id="known-issues-and-limitations"><a class="header" href="#known-issues-and-limitations"><a id="topic_limits"></a>Known Issues and Limitations</a></h2>

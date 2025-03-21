@@ -274,7 +274,7 @@ IGNORE EXTERNAL PARTITIONS
 <h3 id="newline"><a class="header" href="#newline">NEWLINE</a></h3>
 <p>Specifies the newline used in your data files — <code>LF</code> (Line feed, 0x0A), <code>CR</code> (Carriage return, 0x0D), or <code>CRLF</code> (Carriage return plus line feed, 0x0D 0x0A). If not specified, a SynxDB segment will detect the newline type by looking at the first row of data it receives and using the first newline type encountered.</p>
 <h3 id="csv"><a class="header" href="#csv">CSV</a></h3>
-<p>Selects Comma Separated Value (CSV) mode. See <a href="#section9">CSV Format</a>.</p>
+<p>Selects Comma Separated Value (CSV) mode. See <a href="#csv_format">CSV Format</a>.</p>
 <h3 id="fill-missing-fields"><a class="header" href="#fill-missing-fields">FILL MISSING FIELDS</a></h3>
 <p>In <code>COPY FROM</code> more for both <code>TEXT</code> and <code>CSV</code>, specifying <code>FILL MISSING FIELDS</code> will set missing trailing field values to <code>NULL</code> (instead of reporting an error) when a row of data has missing data fields at the end of a line or row. Blank rows, fields with a <code>NOT NULL</code> constraint, and trailing delimiters on a line will still report an error.</p>
 <h3 id="log-errors"><a class="header" href="#log-errors">LOG ERRORS</a></h3>
@@ -317,7 +317,7 @@ IGNORE EXTERNAL PARTITIONS
 <p>Use the built-in SQL function <code>gp_read_error_log('table\_name')</code>. It requires <code>SELECT</code> privilege on table_name. This example displays the error log information for data loaded into table <code>ext_expenses</code> with a <code>COPY</code> command:</p>
 <pre><code>SELECT * from gp_read_error_log('ext_expenses');
 </code></pre>
-<p>For information about the error log format, see <a href="../../admin_guide/load/topics/g-viewing-bad-rows-in-the-error-table-or-error-log.html#topic58">Viewing Bad Rows in the Error Log</a> in the <em>SynxDB Administrator Guide</em>.</p>
+<p>For information about the error log format, see <a href="../../admin_guide/load/topics/g-viewing-bad-rows-in-the-error-table-or-error-log.html">Viewing Bad Rows in the Error Log</a> in the <em>SynxDB Administrator Guide</em>.</p>
 <p>The function returns <code>FALSE</code> if table_name does not exist.</p>
 </li>
 <li>
@@ -360,7 +360,8 @@ IGNORE EXTERNAL PARTITIONS
 </code></pre>
 <p>Notice how the pipe character that is part of the data has been escaped using the asterisk character (*). Also notice that we do not need to escape the backslash since we are using an alternative escape character.</p>
 <p>The following characters must be preceded by the escape character if they appear as part of a column value: the escape character itself, newline, carriage return, and the current delimiter character. You can specify a different escape character using the <code>ESCAPE AS</code> clause.</p>
-<p><strong>CSV Format</strong></p>
+<p><a id="csv_format"></a>
+<strong>CSV Format</strong></p>
 <p>This format option is used for importing and exporting the Comma Separated Value (CSV) file format used by many other programs, such as spreadsheets. Instead of the escaping rules used by SynxDB standard text format, it produces and recognizes the common CSV escaping mechanism.</p>
 <p>The values in each record are separated by the <code>DELIMITER</code> character. If the value contains the delimiter character, the <code>QUOTE</code> character, the <code>ESCAPE</code> character (which is double quote by default), the <code>NULL</code> string, a carriage return, or line feed character, then the whole value is prefixed and suffixed by the <code>QUOTE</code> character. You can also use <code>FORCE_QUOTE</code> to force quotes when outputting non-<code>NULL</code> values in specific columns.</p>
 <p>The CSV format has no standard way to distinguish a <code>NULL</code> value from an empty string. SynxDB <code>COPY</code> handles this by quoting. A <code>NULL</code> is output as the <code>NULL</code> parameter string and is not quoted, while a non-<code>NULL</code> value matching the <code>NULL</code> string is quoted. For example, with the default settings, a <code>NULL</code> is written as an unquoted empty string, while an empty string data value is written with double quotes (<code>""</code>). Reading values follows similar rules. You can use <code>FORCE_NOT_NULL</code> to prevent <code>NULL</code> input comparisons for specific columns. You can also use <code>FORCE_NULL</code> to convert quoted null string data values to <code>NULL</code>.</p>

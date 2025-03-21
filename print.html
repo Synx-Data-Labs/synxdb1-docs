@@ -398,7 +398,7 @@ done
 </ul>
 <h2 id="disclaimer--attribution"><a class="header" href="#disclaimer--attribution">Disclaimer &amp; Attribution</a></h2>
 <p>SynxDB is derived from the last open-source version of Greenplum, originally developed by Pivotal Software, Inc., and maintained under Broadcom Inc.’s stewardship. Greenplum® is a registered trademark of Broadcom Inc. Synx Data Labs, Inc. and SynxDB are not affiliated with, endorsed by, or sponsored by Broadcom Inc. References to Greenplum are provided for comparative, interoperability, and attribution purposes in compliance with open-source licensing requirements.</p>
-<p>For more information, visit the official SynxDB website at <a href="https://synxdatalabs.com">https://synxdatalabs.com</a>.</p>
+<p>For more information, visit the official SynxDB website at <a href="https://synxdata.com">https://synxdata.com</a>.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="drop-in-replacement-guide-for-greenplum-6"><a class="header" href="#drop-in-replacement-guide-for-greenplum-6">Drop-In Replacement Guide for Greenplum 6</a></h1>
 <p>SynxDB 2 provides feature parity with the last open source release of Greenplum 6. If you used open source Greenplum 6 or proprietary Greenplum 6 without gpcc or QuickLZ compression, you can install SynxDB 2 alongside your existing Greenplum installation and dynamically switch between each environment to validate performance and functionality. If you wish to migrate to SynxDB 2 but currently use the proprietary features of Greenplum 6, follow the pre-migration guide to prepare your existing Greenplum deployment for migration to SynxDB 2.</p>
 <ul>
@@ -636,7 +636,6 @@ An overview of statistics gathered by the ANALYZE command in SynxDB.</li>
 <li><a href="admin_guide/intro/arch_overview.html#arch_segments">About the SynxDB Segments</a></li>
 <li><a href="admin_guide/intro/arch_overview.html#arch_interconnect">About the SynxDB Interconnect</a></li>
 <li><a href="admin_guide/intro/arch_overview.html#topic13">About ETL Hosts for Data Loading</a></li>
-<li><a href="admin_guide/intro/arch_overview.html#topic_e5t_whm_kbb">About SynxDB Performance Monitoring</a></li>
 </ul>
 <h2 id="about-the-synxdb-master"><a class="header" href="#about-the-synxdb-master"><a id="arch_master"></a>About the SynxDB Master</a></h2>
 <p>The SynxDB master is the entry to the SynxDB system, accepting client connections and SQL queries, and distributing work to the segment instances.</p>
@@ -655,7 +654,7 @@ An overview of statistics gathered by the ANALYZE command in SynxDB.</li>
 <p>A server that runs a segment instance is called a <em>segment host</em>. A segment host typically runs from two to eight SynxDB segments, depending on the CPU cores, RAM, storage, network interfaces, and workloads. Segment hosts are expected to be identically configured. The key to obtaining the best performance from SynxDB is to distribute data and workloads <em>evenly</em> across a large number of equally capable segments so that all segments begin working on a task simultaneously and complete their work at the same time.</p>
 <h3 id="segment-redundancy"><a class="header" href="#segment-redundancy"><a id="topic5"></a>Segment Redundancy</a></h3>
 <p>When you deploy your SynxDB system, you have the option to configure <em>mirror</em> segments. Mirror segments allow database queries to fail over to a backup segment if the primary segment becomes unavailable. Mirroring is a requirement for production SynxDB systems.</p>
-<p>A mirror segment must always reside on a different host than its primary segment. Mirror segments can be arranged across the hosts in the system in one of two standard configurations, or in a custom configuration you design. The default configuration, called <em>group</em> mirroring, places the mirror segments for all primary segments on one other host. Another option, called <em>spread</em> mirroring, spreads mirrors for each host’s primary segments over the remaining hosts. Spread mirroring requires that there be more hosts in the system than there are primary segments on the host. On hosts with multiple network interfaces, the primary and mirror segments are distributed equally among the interfaces. <a href="admin_guide/intro/arch_overview.html#jg163134">Figure 2</a> shows how table data is distributed across the segments when the default group mirroring option is configured.</p>
+<p>A mirror segment must always reside on a different host than its primary segment. Mirror segments can be arranged across the hosts in the system in one of two standard configurations, or in a custom configuration you design. The default configuration, called <em>group</em> mirroring, places the mirror segments for all primary segments on one other host. Another option, called <em>spread</em> mirroring, spreads mirrors for each host’s primary segments over the remaining hosts. Spread mirroring requires that there be more hosts in the system than there are primary segments on the host. On hosts with multiple network interfaces, the primary and mirror segments are distributed equally among the interfaces. This figure shows how table data is distributed across the segments when the default group mirroring option is configured:</p>
 <p><img src="admin_guide/intro/../graphics/group-mirroring.png" alt="Data Mirroring in SynxDB" title="Data Mirroring in SynxDB" /></p>
 <h4 id="segment-failover-and-recovery"><a class="header" href="#segment-failover-and-recovery"><a id="topic6"></a>Segment Failover and Recovery</a></h4>
 <p>When mirroring is enabled in a SynxDB system, the system automatically fails over to the mirror copy if a primary copy becomes unavailable. A SynxDB system can remain operational if a segment instance or host goes down only if all portions of data are available on the remaining active segments.</p>
@@ -1259,7 +1258,7 @@ A sample Ansible playbook to install a SynxDB software release onto the hosts th
 <p>SynxDB 2 runs on EL9-compatible, EL8-compatible, or EL7-compatible operating systems. This includes the following platforms:</p>
 <ul>
 <li>Red Hat Enterprise Linux 64-bit 9.x</li>
-<li>Red Hat Enterprise Linux 64-bit 8.7 or later. See the following <a href="install_guide/platform-requirements-overview.html#rhel-issues">Note</a>)</li>
+<li>Red Hat Enterprise Linux 64-bit 8.7 or later. See the following <a href="install_guide/platform-requirements-overview.html#rhel-issues">Note</a>.</li>
 <li>Rocky Linux 9.x</li>
 <li>Rocky Linux 8.7 or later</li>
 <li>Oracle Linux 64-bit 9, using the Red Hat Compatible Kernel (RHCK)</li>
@@ -1267,9 +1266,9 @@ A sample Ansible playbook to install a SynxDB software release onto the hosts th
 <li>AlmaLinux 9</li>
 <li>AlmaLinux 8</li>
 <li>CentOS 64-bit 7.x</li>
-<li>Red Hat Enterprise Linux 64-bit 7.x
-<a name="rhel-issues"></a></li>
+<li>Red Hat Enterprise Linux 64-bit 7.x</li>
 </ul>
+<p><a id="rhel-issues"></a></p>
 <blockquote>
 <p><strong>Note</strong> If you use endpoint security software on your SynxDB hosts, it may affect database performance and stability. See <a href="install_guide/../security-guide/topics/preface.html#endpoint_security">About Endpoint Security Sofware</a> for more information.</p>
 </blockquote>
@@ -1405,7 +1404,7 @@ A sample Ansible playbook to install a SynxDB software release onto the hosts th
 <tr class="row">
 <td class="entry nocellnorowborder" style="vertical-align:top;" headers="d78288e683 "><a class="xref" href="install_guide/../analytics/madlib.html">MADlib Machine Learning</a></td>
 <td class="entry nocellnorowborder" style="vertical-align:top;" headers="d78288e686 ">2.1, 2.0, 1.21, 1.20, 1.19, 1.18, 1.17, 1.16</td>
-<td class="entry cell-norowborder" style="vertical-align:top;" headers="d78288e689 ">Support matrix at <a class="xref" href="https://cwiki.apache.org/confluence/display/MADLIB/FAQ#FAQ-Q1-2WhatdatabaseplatformsdoesMADlibsupportandwhatistheupgradematrix?" target="_blank">MADlib FAQ</a>.</td>
+<td class="entry cell-norowborder" style="vertical-align:top;" headers="d78288e689 ">Support matrix at <a class="xref" href="https://cwiki.apache.org/confluence/display/MADLIB/FAQ" target="_blank">MADlib FAQ</a>.</td>
 </tr>
 <tr class="row">
 <td class="entry row-nocellborder" style="vertical-align:top;" headers="d78288e683 "><a class="xref" href="install_guide/../analytics/postGIS.html">PostGIS Spatial and Geographic Objects</a></td>
@@ -3921,7 +3920,7 @@ WHERE
   collname NOT IN ('C', 'POSIX');
 </code></pre>
 <h4 id="perform-the-upgrade"><a class="header" href="#perform-the-upgrade"><a id="upgrade"></a>Perform the Upgrade</a></h4>
-<p>Stop the SynxDB cluster and use the Leapp utility to run the in-place upgrade for your operating system. Visit the <a href="https://access.redhat.com/articles/4263361">Redhat Documentation</a> and the <a href="https://docs.oracle.com/en/operating-systems/oracle-linux/8/leapp/#Oracle-Linux-8">Oracle Documentation</a> (use <a href="https://docs.oracle.com/en/operating-systems/oracle-linux/9/leapp/#Oracle-Linux-9">this link</a> for version 9) for more information on how to use the utility.</p>
+<p>Stop the SynxDB cluster and use the Leapp utility to run the in-place upgrade for your operating system. Visit the <a href="https://access.redhat.com/articles/4263361">Redhat Documentation</a> and the <a href="https://docs.oracle.com/en/operating-systems/oracle-linux/8/leapp/">Oracle Documentation</a> (use <a href="https://docs.oracle.com/en/operating-systems/oracle-linux/9/leapp/">this link</a> for version 9) for more information on how to use th utility.</p>
 <p>Once the upgrade is complete, address any <a href="install_guide/migrate-linux.html#os_config">Operating System Configuration Differences</a>, and start the SynxDB cluster.</p>
 <h4 id="fix-the-impacted-data"><a class="header" href="#fix-the-impacted-data"><a id="fix"></a>Fix the Impacted Data</a></h4>
 <h5 id="indexes"><a class="header" href="#indexes"><a id="indexes"></a>Indexes</a></h5>
@@ -5582,7 +5581,7 @@ username | decrypted_ssn
 </ul>
 <p>The Open Web Application Security Project (OWASP) provides a very comprehensive <a href="https://www.owasp.org/index.php/Cryptographic_Storage_Cheat_Sheet">guide to securing encryption keys</a>.</p>
 <p><a id="fnsrc"></a>
-<sup><a href="security-guide/topics/Encryption.html#fnsrc_1">1</a></sup> SHA2 algorithms were added to OpenSSL in version 0.9.8. For older versions, pgcrypto will use built-in code.<br/><sup><a href="security-guide/topics/Encryption.html#fnsrc_2">2</a></sup> Any digest algorithm OpenSSL supports is automatically picked up. This is not possible with ciphers, which need to be supported explicitly.<br/><sup><a href="security-guide/topics/Encryption.html#fnsrc_3">3</a></sup> AES is included in OpenSSL since version 0.9.7. For older versions, pgcrypto will use built-in code.</p>
+<sup>[1]</sup> SHA2 algorithms were added to OpenSSL in version 0.9.8. For older versions, pgcrypto will use built-in code.<br/><sup>[2]</sup> Any digest algorithm OpenSSL supports is automatically picked up. This is not possible with ciphers, which need to be supported explicitly.<br/><sup>[3]</sup> AES is included in OpenSSL since version 0.9.7. For older versions, pgcrypto will use built-in code.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="security-best-practices"><a class="header" href="#security-best-practices">Security Best Practices</a></h1>
 <p>Describes basic security best practices that you should follow to ensure the highest level of system security. </p>
 <p>In the default SynxDB security configuration:</p>
@@ -6747,7 +6746,7 @@ PARTITION BY LIST (gender)
 </blockquote>
 <p>For more information about default partitions, see <a href="admin_guide/ddl/ddl-partition.html#topic80">Adding a Default Partition</a>.</p>
 <h3 id="defining-multi-level-partitions"><a class="header" href="#defining-multi-level-partitions"><a id="topic70"></a>Defining Multi-level Partitions</a></h3>
-<p>You can create a multi-level partition design with subpartitions of partitions. Using a <em>subpartition template</em> ensures that every partition has the same subpartition design, including partitions that you add later. For example, the following SQL creates the two-level partition design shown in <a href="admin_guide/ddl/ddl-partition.html#im207241">Figure 1</a>:</p>
+<p>You can create a multi-level partition design with subpartitions of partitions. Using a <em>subpartition template</em> ensures that every partition has the same subpartition design, including partitions that you add later. For example, the following SQL creates a two-level partition design:</p>
 <pre><code>CREATE TABLE sales (trans_id int, date date, amount 
 decimal(9,2), region text) 
 DISTRIBUTED BY (trans_id)
@@ -6868,7 +6867,7 @@ GRANT SELECT ON sales TO guest;
 <p>Best practice for loading data into partitioned tables is to create an intermediate staging table, load it, and then exchange it into your partition design. See <a href="admin_guide/ddl/ddl-partition.html#topic83">Exchanging a Partition</a>.</p>
 <h2 id="verifying-your-partition-strategy"><a class="header" href="#verifying-your-partition-strategy"><a id="topic74"></a>Verifying Your Partition Strategy</a></h2>
 <p>When a table is partitioned based on the query predicate, you can use <code>EXPLAIN</code> to verify that the query optimizer scans only the relevant data to examine the query plan.</p>
-<p>For example, suppose a <em>sales</em> table is date-range partitioned by month and subpartitioned by region as shown in <a href="admin_guide/ddl/ddl-partition.html#im207241">Figure 1</a>. For the following query:</p>
+<p>For example, suppose a <em>sales</em> table is date-range partitioned by month and subpartitioned by region.</p>
 <pre><code>EXPLAIN SELECT * FROM sales WHERE date='01-07-12' AND 
 region='usa';
 
@@ -7916,7 +7915,7 @@ FORMAT 'CSV' (HEADER);
 <p>The <code>s3</code> protocol is used in a URL that specifies the location of an Amazon S3 bucket and a prefix to use for reading or writing files in the bucket.</p>
 <p>Amazon Simple Storage Service (Amazon S3) provides secure, durable, highly-scalable object storage. For information about Amazon S3, see <a href="https://aws.amazon.com/s3/">Amazon S3</a>.</p>
 <p>You can define read-only external tables that use existing data files in the S3 bucket for table data, or writable external tables that store the data from INSERT operations to files in the S3 bucket. SynxDB uses the S3 URL and prefix specified in the protocol URL either to select one or more files for a read-only table, or to define the location and filename format to use when uploading S3 files for <code>INSERT</code> operations to writable tables.</p>
-<p>The <code>s3</code> protocol also supports <a href="https://www.dell.com/en-us/dt/learn/data-storage/ecs.htm">Dell Elastic Cloud Storage</a> (ECS), an Amazon S3 compatible service.</p>
+<p>The <code>s3</code> protocol also supports <a href="https://www.dell.com/en-us/lp/learn/data-storage/ecs.htm">Dell Elastic Cloud Storage</a> (ECS), an Amazon S3 compatible service.</p>
 <blockquote>
 <p><strong>Note</strong> The <code>pxf</code> protocol can access data in S3 and other object store systems such as Azure, Google Cloud Storage, and Minio. The <code>pxf</code> protocol can also access data in external Hadoop systems (HDFS, Hive, HBase), and SQL databases. See <a href="admin_guide/external/g-pxf-protocol.html">pxf:// Protocol</a>.</p>
 </blockquote>
@@ -8037,7 +8036,7 @@ s3://s3-us-west-2.amazonaws.com/test1/abcdefff
 </ul>
 <p>Wildcard characters are not supported in an S3_prefix; however, the S3 prefix functions as if a wildcard character immediately followed the prefix itself.</p>
 <p>All of the files selected by the S3 URL (S3_endpoint/bucket_name/S3_prefix) are used as the source for the external table, so they must have the same format. Each file must also contain complete data rows. A data row cannot be split between files.</p>
-<p>For information about the Amazon S3 endpoints see <a href="http://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region">http://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region</a>. For information about S3 buckets and folders, see the Amazon S3 documentation <a href="https://aws.amazon.com/documentation/s3/">https://aws.amazon.com/documentation/s3/</a>. For information about the S3 file prefix, see the Amazon S3 documentation <a href="http://docs.aws.amazon.com/AmazonS3/latest/dev/ListingKeysHierarchy.html">Listing Keys Hierarchically Using a Prefix and Delimiter</a>.</p>
+<p>For information about the Amazon S3 endpoints see <a href="http://docs.aws.amazon.com/general/latest/gr/rande.html">http://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region</a>. For information about S3 buckets and folders, see the Amazon S3 documentation <a href="https://aws.amazon.com/documentation/s3/">https://aws.amazon.com/documentation/s3/</a>. For information about the S3 file prefix, see the Amazon S3 documentation <a href="http://docs.aws.amazon.com/AmazonS3/latest/dev/ListingKeysHierarchy.html">Listing Keys Hierarchically Using a Prefix and Delimiter</a>.</p>
 <p>You use the <code>config</code> or <code>config_server</code> parameter to specify the location of the required <code>s3</code> protocol configuration file that contains AWS connection credentials and communication parameters as described in <a href="admin_guide/external/g-s3-protocol.html#s3_config_param">About Specifying the Configuration File Location</a>.</p>
 <p>Use the <code>section</code> parameter to specify the name of the configuration file section from which the <code>s3</code> protocol reads configuration parameters. The default <code>section</code> is named <code>default</code>. When you specify the section name in the configuration file, enclose it in brackets (for example, <code>[default]</code>).</p>
 <h2 id="about-reading-and-writing-s3-data-files"><a class="header" href="#about-reading-and-writing-s3-data-files"><a id="section_c2f_zvs_3x"></a>About Reading and Writing S3 Data Files</a></h2>
@@ -8187,7 +8186,7 @@ chunksize = 67108864
 </li>
 <li>
 <p>AWS signature version 4 signing process is supported.</p>
-<p>For information about the S3 endpoints supported by each signing process, see <a href="http://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region">http://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region</a>.</p>
+<p>For information about the S3 endpoints supported by each signing process, see <a href="http://docs.aws.amazon.com/general/latest/gr/rande.html">http://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region</a>.</p>
 </li>
 <li>
 <p>Only a single URL and optional configuration file location and region parameters is supported in the <code>LOCATION</code> clause of the <code>CREATE EXTERNAL TABLE</code> command.</p>
@@ -8895,7 +8894,7 @@ DATA = base_fdw--1.0.sql
 <pre><code>$ gpfdist -d /var/load_files -p 8081 -l /home/`gpadmin`/log &amp;
 
 </code></pre>
-<p>For multiple gpfdist instances on the same ETL host (see <a href="admin_guide/external/g-using-the-synxdb-parallel-file-server-gpfdist.html#du165872">Figure 1</a>), use a different base directory and port for each instance. For example:</p>
+<p>For multiple gpfdist instances on the same ETL host, use a different base directory and port for each instance. For example:</p>
 <pre><code>$ gpfdist -d /var/load_files1 -p 8081 -l /home/`gpadmin`/log1 &amp;
 $ gpfdist -d /var/load_files2 -p 8082 -l /home/`gpadmin`/log2 &amp;
 
@@ -11070,9 +11069,9 @@ FROM generate_series(1,10) AS s(i);
 <h4 id="limitations-of-aggregate-expressions"><a class="header" href="#limitations-of-aggregate-expressions"><a id="topic12"></a>Limitations of Aggregate Expressions</a></h4>
 <p>The following are current limitations of the aggregate expressions:</p>
 <ul>
-<li>SynxDB does not support the following keywords: <code>ALL</code>, <code>DISTINCT</code>, and <code>OVER</code>. See <a href="admin_guide/query/topics/functions-operators.html#in2073121">Table 5</a> for more details.</li>
+<li>SynxDB does not support the following keywords: <code>ALL</code>, <code>DISTINCT</code>, and <code>OVER</code>. See <a href="admin_guide/query/topics/functions-operators.html">Using Functions and Operators</a> for more details.</li>
 <li>An aggregate expression can appear only in the result list or <code>HAVING</code> clause of a <code>SELECT</code> command. It is forbidden in other clauses, such as <code>WHERE</code>, because those clauses are logically evaluated before the results of aggregates form. This restriction applies to the query level to which the aggregate belongs.</li>
-<li>When an aggregate expression appears in a subquery, the aggregate is normally evaluated over the rows of the subquery. If the aggregate’s arguments (and filter_clause if any) contain only outer-level variables, the aggregate belongs to the nearest such outer level and evaluates over the rows of that query. The aggregate expression as a whole is then an outer reference for the subquery in which it appears, and the aggregate expression acts as a constant over any one evaluation of that subquery. The restriction about appearing only in the result list or <code>HAVING</code> clause applies with respect to the query level at which the aggregate appears. See <a href="admin_guide/query/topics/defining-queries.html#topic15">Scalar Subqueries</a> and <a href="admin_guide/query/topics/functions-operators.html#in204913">Table 3</a>.</li>
+<li>When an aggregate expression appears in a subquery, the aggregate is normally evaluated over the rows of the subquery. If the aggregate’s arguments (and filter_clause if any) contain only outer-level variables, the aggregate belongs to the nearest such outer level and evaluates over the rows of that query. The aggregate expression as a whole is then an outer reference for the subquery in which it appears, and the aggregate expression acts as a constant over any one evaluation of that subquery. The restriction about appearing only in the result list or <code>HAVING</code> clause applies with respect to the query level at which the aggregate appears. See <a href="admin_guide/query/topics/defining-queries.html#topic15">Scalar Subqueries</a> and <a href="admin_guide/query/topics/functions-operators.html">Using Functions and Operators</a>.</li>
 <li>SynxDB does not support specifying an aggregate function as an argument to another aggregate function.</li>
 <li>SynxDB does not support specifying a window function as an argument to an aggregate function.</li>
 </ul>
@@ -11083,7 +11082,7 @@ FROM generate_series(1,10) AS s(i);
 <p>The syntax of a window expression is:</p>
 <pre><code>window_function ( [expression [, ...]] ) [ FILTER ( WHERE filter_clause ) ] OVER ( window_specification )
 </code></pre>
-<p>Where <em><code>window_function</code></em> is one of the functions listed in <a href="admin_guide/query/topics/functions-operators.html#in164369">Table 4</a> or a user-defined window function, <em><code>expression</code></em> is any value expression that does not contain a window expression, and <em><code>window_specification</code></em> is:</p>
+<p>Where <em><code>window_function</code></em> is one of the functions listed in <a href="admin_guide/query/topics/functions-operators.html">Using Functions and Operators</a> or a user-defined window function, <em><code>expression</code></em> is any value expression that does not contain a window expression, and <em><code>window_specification</code></em> is:</p>
 <pre><code>[window_name]
 [PARTITION BY expression [, ...]]
 [[ORDER BY expression [ASC | DESC | USING operator] [NULLS {FIRST | LAST}] [, ...]
@@ -12332,7 +12331,7 @@ SELECT '"foo"'::jsonb ? 'foo';
 </ul>
 <h3 id="gin-indexes-on-jsonb-data"><a class="header" href="#gin-indexes-on-jsonb-data"><a id="topic_yjx_dq2_rfb"></a>GIN Indexes on jsonb Data</a></h3>
 <p>GIN indexes can be used to efficiently search for keys or key/value pairs occurring within a large number of <code>jsonb</code> documents (datums). Two GIN operator classes are provided, offering different performance and flexibility trade-offs.</p>
-<p>The default GIN operator class for jsonb supports queries with the <code>@&gt;</code>, <code>?</code>, <code>?&amp;</code> and <code>?|</code> operators. (For details of the semantics that these operators implement, see the table <a href="admin_guide/query/topics/json-data.html#table_dcb_y3w_mq">Table 3</a>.) An example of creating an index with this operator class is:</p>
+<p>The default GIN operator class for jsonb supports queries with the <code>@&gt;</code>, <code>?</code>, <code>?&amp;</code> and <code>?|</code> operators. (For details of the semantics that these operators implement, see the <a href="admin_guide/query/topics/json-data.html#topic_o5y_14w_2z">operator table</a>.) An example of creating an index with this operator class is:</p>
 <pre><code>CREATE INDEX idxgin ON api USING gin (jdoc);
 </code></pre>
 <p>The non-default GIN operator class <code>jsonb_path_ops</code> supports indexing the <code>@&gt;</code> operator only. An example of creating an index with this operator class is:</p>
@@ -12761,7 +12760,7 @@ Array with n elements &gt; array with n - 1 elements
                 <td class="entry" headers="topic_z5d_snw_2z__table_wfc_y3w_mb__entry__2"><code class="ph codeph">anyelement</code>
                 </td>
                 <td class="entry" headers="topic_z5d_snw_2z__table_wfc_y3w_mb__entry__3">Expands the object in <code class="ph codeph">from_json</code> to a row whose columns match
-                  the record type defined by base. See <a class="xref" href="admin_guide/query/topics/json-data.html#topic_z5d_snw_2z__json_proc_1">Note 1</a>.</td>
+                  the record type defined by base. See <a class="xref" href="admin_guide/query/topics/json-data.html#tablenotes">Note 1</a>.</td>
                 <td class="entry" headers="topic_z5d_snw_2z__table_wfc_y3w_mb__entry__4"><code class="ph codeph">select * from json_populate_record(null::myrowtype,
                     '{"a":1,"b":2}')</code>
                 </td>
@@ -12779,7 +12778,7 @@ Array with n elements &gt; array with n - 1 elements
                 <td class="entry" headers="topic_z5d_snw_2z__table_wfc_y3w_mb__entry__2"><code class="ph codeph">setof anyelement</code>
                 </td>
                 <td class="entry" headers="topic_z5d_snw_2z__table_wfc_y3w_mb__entry__3">Expands the outermost array of objects in <code class="ph codeph">from_json</code> to a set
-                  of rows whose columns match the record type defined by base. See <a class="xref" href="admin_guide/query/topics/json-data.html#topic_z5d_snw_2z__json_proc_1">Note 1</a>.</td>
+                  of rows whose columns match the record type defined by base. See <a class="xref" href="admin_guide/query/topics/json-data.html#tablenotes">Note 1</a>.</td>
                 <td class="entry" headers="topic_z5d_snw_2z__table_wfc_y3w_mb__entry__4"><code class="ph codeph">select * from json_populate_recordset(null::myrowtype,
                     '[{"a":1,"b":2},{"a":3,"b":4}]')</code>
                 </td>
@@ -12837,7 +12836,7 @@ Array with n elements &gt; array with n - 1 elements
                 <td class="entry" headers="topic_z5d_snw_2z__table_wfc_y3w_mb__entry__3">Returns the type of the outermost JSON value as a text string. Possible types
                   are <code class="ph codeph">object</code>, <code class="ph codeph">array</code>, <code class="ph codeph">string</code>,
                     <code class="ph codeph">number</code>, <code class="ph codeph">boolean</code>, and <code class="ph codeph">null</code>.
-                  See <a class="xref" href="admin_guide/query/topics/json-data.html#topic_z5d_snw_2z__json_proc_2">Note
+                  See <a class="xref" href="admin_guide/query/topics/json-data.html#tablenotes">Note
                   2</a>.</td>
                 <td class="entry" headers="topic_z5d_snw_2z__table_wfc_y3w_mb__entry__4"><code class="ph codeph">json_typeof('-123.4')</code>
                 </td>
@@ -12850,7 +12849,7 @@ Array with n elements &gt; array with n - 1 elements
                   </p></td>
                 <td class="entry" headers="topic_z5d_snw_2z__table_wfc_y3w_mb__entry__2"><code class="ph codeph">record</code>
                 </td>
-                <td class="entry" headers="topic_z5d_snw_2z__table_wfc_y3w_mb__entry__3">Builds an arbitrary record from a JSON object. See <a class="xref" href="admin_guide/query/topics/json-data.html#topic_z5d_snw_2z__json_proc_1">Note 1</a>. <p class="p">As with all
+                <td class="entry" headers="topic_z5d_snw_2z__table_wfc_y3w_mb__entry__3">Builds an arbitrary record from a JSON object. See <a class="xref" href="admin_guide/query/topics/json-data.html#tablenotes">Note 1</a>. <p class="p">As with all
                     functions returning record, the caller must explicitly define the structure of
                     the record with an <code class="ph codeph">AS</code> clause.</p></td>
                 <td class="entry" headers="topic_z5d_snw_2z__table_wfc_y3w_mb__entry__4"><code class="ph codeph">select * from json_to_record('{"a":1,"b":[1,2,3],"c":"bar"}') as x(a
@@ -12869,7 +12868,7 @@ Array with n elements &gt; array with n - 1 elements
                   </p></td>
                 <td class="entry" headers="topic_z5d_snw_2z__table_wfc_y3w_mb__entry__2"><code class="ph codeph">setof record</code>
                 </td>
-                <td class="entry" headers="topic_z5d_snw_2z__table_wfc_y3w_mb__entry__3">Builds an arbitrary set of records from a JSON array of objects See <a class="xref" href="admin_guide/query/topics/json-data.html#topic_z5d_snw_2z__json_proc_1">Note 1</a>. <p class="p">As with all
+                <td class="entry" headers="topic_z5d_snw_2z__table_wfc_y3w_mb__entry__3">Builds an arbitrary set of records from a JSON array of objects See <a class="xref" href="admin_guide/query/topics/json-data.html#tablenotes">Note 1</a>. <p class="p">As with all
                     functions returning record, the caller must explicitly define the structure of
                     the record with an <code class="ph codeph">AS</code> clause.</p></td>
                 <td class="entry" headers="topic_z5d_snw_2z__table_wfc_y3w_mb__entry__4"><code class="ph codeph">select * from
@@ -12885,6 +12884,7 @@ Array with n elements &gt; array with n - 1 elements
                 </td>
               </tr>
             </tbody></table>
+<p><a id="tablenotes"></a></p>
 <blockquote>
 <p><strong>Note</strong> The examples for the functions <code>json_populate_record()</code>, <code>json_populate_recordset()</code>, <code>json_to_record()</code> and <code>json_to_recordset()</code> use constants. However, the typical use would be to reference a table in the <code>FROM</code> clause and use one of its <code>json</code> or <code>jsonb</code> columns as an argument to the function. The extracted key values can then be referenced in other parts of the query. For example the value can be referenced in <code>WHERE</code> clauses and target lists. Extracting multiple values in this way can improve performance over extracting them separately with per-key operators.</p>
 </blockquote>
@@ -15204,7 +15204,7 @@ Statement statistics:
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="machine-learning-and-deep-learning-using-madlib"><a class="header" href="#machine-learning-and-deep-learning-using-madlib">Machine Learning and Deep Learning using MADlib</a></h1>
 <p>Apache MADlib is an open-source library for scalable in-database analytics. The SynxDB MADlib extension provides the ability to run machine learning and deep learning workloads in a SynxDB.</p>
-<p>You can install it as an extension in a SynxDB system you can run data-parallel implementations of mathematical, statistical, graph, machine learning, and deep learning methods on structured and unstructured data. For SynxDB and MADlib version compatibility, refer to <a href="https://cwiki.apache.org/confluence/display/MADLIB/FAQ#FAQ-Q1-2WhatdatabaseplatformsdoesMADlibsupportandwhatistheupgradematrix?">MADlib FAQ</a>.</p>
+<p>You can install it as an extension in a SynxDB system you can run data-parallel implementations of mathematical, statistical, graph, machine learning, and deep learning methods on structured and unstructured data. For SynxDB and MADlib version compatibility, refer to <a href="https://cwiki.apache.org/confluence/display/MADLIB/FAQ">MADlib FAQ</a>.</p>
 <p>MADlib’s suite of SQL-based algorithms run at scale within a single SynxDB engine without needing to transfer data between the database and other tools.</p>
 <p>MADlib is part of the database fabric with no changes to the SynxDB architecture. This makes it easy for database administrators to deploy and manage since it is not a separate daemon or separate software running outside the database.</p>
 <p><img src="analytics/graphics/gp_synxdb_diagram.png" alt="SynxDB with MADlib" title="SynxDB MADlib Analytics Architecture" /></p>
@@ -15286,7 +15286,7 @@ Statement statistics:
 <p><strong>Important</strong> SynxDB does not support directly upgrading from MADlib 1.x to version 2.x. You must back up your MADlib models, uninstall version 1.x, install version 2.x, and reload the models.</p>
 </blockquote>
 <p>You upgrade an installed MADlib version 1.x or 2.x package with the SynxDB <code>gppkg</code> utility and the MADlib <code>madpack</code> command.</p>
-<p>For information about the upgrade paths that MADlib supports, see the MADlib support and upgrade matrix in the <a href="https://cwiki.apache.org/confluence/display/MADLIB/FAQ#FAQ-Q1-2WhatdatabaseplatformsdoesMADlibsupportandwhatistheupgradematrix?">MADlib FAQ page</a>.</p>
+<p>For information about the upgrade paths that MADlib supports, see the MADlib support and upgrade matrix in the <a href="https://cwiki.apache.org/confluence/display/MADLIB/FAQ">MADlib FAQ page</a>.</p>
 <h3 id="upgrading-a-madlib-1x-package"><a class="header" href="#upgrading-a-madlib-1x-package"><a id="topic_tb3_2gd_3w"></a>Upgrading a MADlib 1.x Package</a></h3>
 <blockquote>
 <p><strong>Important</strong> SynxDB does not support upgrading from MADlib version 1.x to version 2.x. Use this procedure to upgrade from an older MADlib version 1.x release to a newer version 1.x release.</p>
@@ -15910,8 +15910,8 @@ grouping_cols
 <li>PostGIS 2.5.4, and components Proj 4.8.0, Geos 3.10.2, GDAL 1.11.1, Json 0.12, Expat 2.4.4</li>
 <li>PostGIS 2.1.5, and components Proj 4.8.0, Geos 3.4.2, GDAL 1.11.1, Json 0.12, Expat 2.1.0</li>
 </ul>
-<p>For information about the supported SynxDB extension packages and software versions, see <a href="analytics/../install_guide/platform-requirements-overview.html#on-prem">Extensions</a> in the <em>SynxDB Tools and Extensions Compatibility</em> topic.</p>
-<p>There are significant changes in PostGIS 2.5.4 compared with 2.1.5. For a list of new and enhanced functions in PostGIS 2.5, see the PostGIS documentation <a href="https://postgis.net/docs/manual-2.5/PostGIS_Special_Functions_Index.html#NewFunctions_2_5">PostGIS Functions new or enhanced in 2.5</a> and <a href="https://postgis.net/docs/manual-2.5/release_notes.html">Release 2.5.4</a>.</p>
+<p>For information about the supported SynxDB extension packages and software versions, see <a href="analytics/../install_guide/platform-requirements-overview.html">Extensions</a> in the <em>SynxDB Tools and Extensions Compatibility</em> topic.</p>
+<p>There are significant changes in PostGIS 2.5.4 compared with 2.1.5. For a list of new and enhanced functions in PostGIS 2.5, see the PostGIS documentation <a href="https://postgis.net/docs/manual-2.5/PostGIS_Special_Functions_Index.html">PostGIS Functions new or enhanced in 2.5</a> and <a href="https://postgis.net/docs/manual-2.5/release_notes.html">Release 2.5.4</a>.</p>
 <blockquote>
 <p><strong>Note</strong> To upgrade PostGIS refer to  <a href="analytics/./postgis-upgrade.html">Upgrading PostGIS 2.1.5 or 2.5.4</a>.</p>
 </blockquote>
@@ -18553,7 +18553,7 @@ $$;
 </code></pre>
 <h2 id="installing-python-modules"><a class="header" href="#installing-python-modules"><a id="topic10"></a>Installing Python Modules</a></h2>
 <p>When you install a Python module for development with PL/Python, the SynxDB Python environment must have the module added to it across all segment hosts and mirror hosts in the cluster. When expanding SynxDB, you must add the Python modules to the new segment hosts.</p>
-<p>SynxDB provides a collection of data science-related Python modules that you can use to easily develop PL/Python functions in SynxDB. The modules are provided as two <code>.kg</code> format files that can be installed into a SynxDB cluster using the <code>gppkg</code> utility, with one package supporting development with Python 2.7 and the other supporting development with Python 3.9. See <a href="analytics//../install_guide/install_python_dsmod.html">Python Data Science Module Packages</a> for installation instructions and descriptions of the provided modules.</p>
+<p>SynxDB provides a collection of data science-related Python modules that you can use to easily develop PL/Python functions in SynxDB. The modules are provided as two <code>.gppkg</code> format files that can be installed into a SynxDB cluster using the <code>gppkg</code> utility, with one package supporting development with Python 2.7 and the other supporting development with Python 3.9. See <a href="analytics//../install_guide/install_python_dsmod.html">Python Data Science Module Packages</a> for installation instructions and descriptions of the provided modules.</p>
 <p>To develop with modules that are not part of th Python Data Science Module packages, you can use SynxDB utilities such as <code>gpssh</code> and <code>gpscp</code> to run commands or copy files to all hosts in the SynxDB cluster. These sections describe how to use those utilities to install and use additional Python modules:</p>
 <ul>
 <li><a href="analytics/pl_python.html#about_python_env">Verifying the Python Environment</a></li>
@@ -20195,7 +20195,7 @@ any SynxDB user appears on the Hadoop side as originating from the Kerberos prin
 <p><img src="pxf/graphics/impersonation_cases/impersonation-case-2-kerberos.png" alt="Accessing Hadoop as the Kerberos Principal" title="Accessing Hadoop as the Kerberos Principal" /></p>
 <p>The following table identifies the impersonation and service user settings, and the PXF and Hadoop configuration required for this use case:</p>
 <div class="table-wrapper"><table><thead><tr><th>Impersonation</th><th>Service User</th><th>PXF Configuration</th><th>Hadoop Configuration       </th></tr></thead><tbody>
-<tr><td>false</td><td>Identity of the Kerberos principal</td><td>Perform the <a href="pxf/pxf_kerbhdfs.html#procedure.html">Configuration Procedure</a> in this topic, and then turn off user impersonation as described in <a href="pxf/pxfuserimpers.html#pxf_cfg_impers">Configure PXF User Impersonation</a>.</td><td>None required.</td></tr>
+<tr><td>false</td><td>Identity of the Kerberos principal</td><td>Perform the configuration Procedure in this topic, and then turn off user impersonation as described in <a href="pxf/pxfuserimpers.html#pxf_cfg_impers">Configure PXF User Impersonation</a>.</td><td>None required.</td></tr>
 </tbody></table>
 </div>
 <h3 id="accessing-hadoop-as-a-custom-user-1"><a class="header" href="#accessing-hadoop-as-a-custom-user-1"><a id="custom_hadoop"></a>Accessing Hadoop as a &lt;custom&gt; User</a></h3>
@@ -20402,7 +20402,7 @@ root@kdc-server$ ssh host3.example.com chmod 400 /usr/local/pxf-gp6/keytabs/pxf.
 <p>If you want to access Hadoop as the SynxDB user:</p>
 <ol>
 <li>Activate user impersonation as described in <a href="pxf/pxfuserimpers.html#pxf_cfg_impers">Configure PXF User Impersonation</a> (this is the default setting).</li>
-<li><em>If you want to use Kerberos constrained delegation</em>, <a href="pxf/pxf_kerbhdfs.html#enable_kdc">activate</a> it for the server, and configure AD or IPA to provide the PXF Kerberos principal with the delegation rights for the SynxDB end users.</li>
+<li><em>If you want to use Kerberos constrained delegation</em>, activate it for the server, and configure AD or IPA to provide the PXF Kerberos principal with the delegation rights for the SynxDB end users.</li>
 <li><em>If you did not activate Kerberos constrained delegation</em>, configure Hadoop proxying for the <em>primary</em> component of the Kerberos principal as described in <a href="pxf/pxfuserimpers.html#hadoop">Configure Hadoop Proxying</a>. For example, if your principal is <code>gpadmin/_HOST@EXAMPLE.COM</code>, configure proxying for the Hadoop user <code>gpadmin</code>.</li>
 </ol>
 </li>
@@ -20485,7 +20485,7 @@ root@kdc-server$ ssh host3.example.com chmod 400 /usr/local/pxf-gp6/keytabs/pxf.
 <tr><td>fs.s3a.secret.key</td><td>The secret key associated with the AWS access key ID.</td><td>Your secret key.</td></tr>
 </tbody></table>
 </div>
-<p>If required, fine-tune PXF S3 connectivity by specifying properties identified in the <a href="https://hadoop.apache.org/docs/current/hadoop-aws/tools/hadoop-aws/index.html#S3A">S3A</a> section of the Hadoop-AWS module documentation in your <code>s3-site.xml</code> server configuration file.</p>
+<p>If required, fine-tune PXF S3 connectivity by specifying properties identified in the <a href="https://hadoop.apache.org/docs/current/hadoop-aws/tools/hadoop-aws/index.html">S3A</a> section of the Hadoop-AWS module documentation in your <code>s3-site.xml</code> server configuration file.</p>
 <p>You can override the credentials for an S3 server configuration by directly specifying the S3 access ID and secret key via custom options in the <code>CREATE EXTERNAL TABLE</code> command <code>LOCATION</code> clause. Refer to <a href="pxf/access_s3.html#s3_override">Overriding the S3 Server Configuration with DDL</a> for additional information.</p>
 <h3 id="configuring-s3-server-side-encryption"><a class="header" href="#configuring-s3-server-side-encryption"><a id="s3-sse"></a>Configuring S3 Server-Side Encryption</a></h3>
 <p>PXF supports Amazon Web Service S3 Server-Side Encryption (SSE) for S3 files that you access with readable and writable SynxDB external tables that specify the <code>pxf</code> protocol and an <code>s3:*</code> profile. AWS S3 server-side encryption protects your data at rest; it encrypts your object data as it writes to disk, and transparently decrypts the data for you when you access it.</p>
@@ -21479,7 +21479,7 @@ under the License.
 <pre><code class="language-pre">{"status":"UP","groups":["liveness","readiness"]}
 </code></pre>
 <h3 id="examining-pxf-metrics"><a class="header" href="#examining-pxf-metrics"><a id="examine_metrics"></a> Examining PXF Metrics</a></h3>
-<p>PXF exposes JVM, extended Tomcat, and system metrics via its integration with Spring Boot. Refer to <a href="https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-features.html#production-ready-metrics-meter">Supported Metrics</a> in the Spring Boot documentation for more information about these metrics.</p>
+<p>PXF exposes JVM, extended Tomcat, and system metrics via its integration with Spring Boot. Refer to <a href="https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-features.html">Supported Metrics</a> in the Spring Boot documentation for more information about these metrics.</p>
 <p>PXF also exposes metrics that are specific to its processing, including:</p>
 <div class="table-wrapper"><table><thead><tr><th>Metric Name</th><th>Description</th></tr></thead><tbody>
 <tr><td>pxf.fragments.sent</td><td>The number of fragments, and the total time that it took to send all fragments to SynxDB.</td></tr>
@@ -21579,7 +21579,7 @@ gpadmin@coordinator$ pxf cluster restart
 </code></pre>
 </li>
 <li>
-<p>Restart SynxDB as described in <a href="pxf/../admin_guide/managing/startstop.html#restarting-synxdb-database">Restarting SynxDB</a> in the SynxDB Documentation.</p>
+<p>Restart SynxDB as described in <a href="pxf/../admin_guide/managing/startstop.html">Restarting SynxDB</a>.</p>
 </li>
 <li>
 <p>Restart PXF on each SynxDB host:</p>
@@ -21633,7 +21633,7 @@ gpadmin@coordinator$ pxf cluster restart
 <p>Configure the listen address of the PXF Service as described in <a href="pxf/cfghostport.html#listen_address">Configuring the Listen Address</a>.</p>
 </li>
 <li>
-<p>Restart SynxDB as described in <a href="pxf/../admin_guide/managing/startstop.html#restarting-synxdb-database">Restarting SynxDB</a> in the SynxDB Documentation.</p>
+<p>Restart SynxDB as described in <a href="pxf/../admin_guide/managing/startstop.html">Restarting SynxDB</a>.</p>
 </li>
 <li>
 <p>Verify that PXF is running on the reconfigured host by invoking <code>http://&lt;PXF_HOST&gt;:&lt;PXF_PORT&gt;/actuator/health</code> to view PXF monitoring information as described in <a href="pxf/monitor_pxf.html#about_rtm">About PXF Service Runtime Monitoring</a>.</p>
@@ -27149,7 +27149,7 @@ See <a href="https://trino.io/docs/current/connector/memory.html">Trino Document
 <li>
 <p>Download the Trino JDBC driver and place it under <code>$PXF_BASE/lib</code>.
 If you <a href="pxf/about_pxf_dir.html#movebase">relocated $PXF_BASE</a>, make sure you use the updated location.
-See <a href="https://trino.io/docs/current/client/jdbc.html#installing">Trino Documentation - JDBC Driver</a> for instructions on downloading the Trino JDBC driver.
+See <a href="https://trino.io/docs/current/client/jdbc.html">Trino Documentation - JDBC Driver</a> for instructions on downloading the Trino JDBC driver.
 The following example downloads the driver and places it under <code>$PXF_BASE/lib</code>:</p>
 <ol>
 <li>
@@ -27885,7 +27885,7 @@ sync
 <li>Migrate PXF 5 <code>$PXF_CONF</code> configuration to <code>$PXF_BASE</code>.</li>
 </ul>
 <p><code>pxf cluster</code> requires a running SynxDB cluster. You must run the utility on the SynxDB coordinator host.</p>
-<p>If you want to manage the PXF Service instance on a specific segment host, use the <code>pxf</code> utility. See <a href="pxf/ref/pxf.html#topic1"><code>pxf</code></a>.</p>
+<p>If you want to manage the PXF Service instance on a specific segment host, use the <code>pxf</code> utility. See <a href="pxf/ref/pxf.html"><code>pxf</code></a>.</p>
 <h2 id="commands"><a class="header" href="#commands"><a id="commands"></a>Commands</a></h2>
 <dt>help</dt>
 <dd>Display the <code>pxf cluster</code> help message and then exit.</dd>
@@ -27922,7 +27922,7 @@ sync
 <pre><code class="language-shell">$ pxf cluster sync --delete
 </code></pre>
 <h2 id="see-also"><a class="header" href="#see-also"><a id="topic1__section6"></a>See Also</a></h2>
-<p><a href="pxf/ref/pxf.html#topic1"><code>pxf</code></a></p>
+<p><a href="pxf/ref/pxf.html"><code>pxf</code></a></p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="pxf"><a class="header" href="#pxf">pxf</a></h1>
 <p>Manage the PXF configuration and the PXF Service instance on the local SynxDB host.</p>
 <h2 id="synopsis-1"><a class="header" href="#synopsis-1"><a id="topic1__section2"></a>Synopsis</a></h2>
@@ -27951,7 +27951,7 @@ version
 <li>Copy the PXF extension control file from a PXF installation on the host to the SynxDB installation on the host after a SynxDB upgrade.</li>
 <li>Prepare a new <code>$PXF_BASE</code> runtime configuration directory on the host.</li>
 </ul>
-<p>(Use the <a href="pxf/ref/pxf-cluster.html#topic1"><code>pxf cluster</code></a> command to prepare a new <code>$PXF_BASE</code> on all hosts, copy the PXF extension control file to <code>$GPHOME</code> on all hosts, synchronize the PXF configuration to the SynxDB cluster, or to start, stop, or display the status of the PXF Service instance on all hosts in the cluster.)</p>
+<p>(Use the <a href="pxf/ref/pxf-cluster.html"><code>pxf cluster</code></a> command to prepare a new <code>$PXF_BASE</code> on all hosts, copy the PXF extension control file to <code>$GPHOME</code> on all hosts, synchronize the PXF configuration to the SynxDB cluster, or to start, stop, or display the status of the PXF Service instance on all hosts in the cluster.)</p>
 <h2 id="commands-1"><a class="header" href="#commands-1"><a id="commands"></a>Commands</a></h2>
 <dt>cluster</dt>
 <dd>Manage the PXF configuration and the PXF Service instance on all SynxDB hosts. See <code>pxf cluster</code>.</dd>
@@ -27990,7 +27990,7 @@ version
 <pre><code class="language-shell">$ pxf start
 </code></pre>
 <h2 id="see-also-1"><a class="header" href="#see-also-1"><a id="topic1__section6"></a>See Also</a></h2>
-<p><a href="pxf/ref/pxf-cluster.html#topic1"><code>pxf cluster</code></a></p>
+<p><a href="pxf/ref/pxf-cluster.html"><code>pxf cluster</code></a></p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="managing-a-synxdb-system"><a class="header" href="#managing-a-synxdb-system">Managing a SynxDB System</a></h1>
 <p>This section describes basic system administration tasks performed by a SynxDB system administrator.</p>
 <ul>
@@ -29066,7 +29066,7 @@ kinit
 <pre><code>=# CREATE ROLE jsmith WITH LOGIN;
 
 </code></pre>
-<p>A database role may have a number of attributes that define what sort of tasks that role can perform in the database. You can set these attributes when you create the role, or later using the <code>ALTER ROLE</code> command. See <a href="admin_guide/roles_privs.html#iq139556">Table 1</a> for a description of the role attributes you can set.</p>
+<p>A database role may have a number of attributes that define what sort of tasks that role can perform in the database. You can set these attributes when you create the role, or later using the <code>ALTER ROLE</code> command.</p>
 <h3 id="altering-role-attributes"><a class="header" href="#altering-role-attributes"><a id="topic4"></a>Altering Role Attributes</a></h3>
 <p>A database role may have a number of attributes that define what sort of tasks that role can perform in the database.</p>
 <div class="table-wrapper"><table><thead><tr><th>Attributes</th><th>Description</th></tr></thead><tbody>
@@ -29105,7 +29105,8 @@ kinit
 =# REVOKE admin FROM bob;
 
 </code></pre>
-<p>For managing object privileges, you would then grant the appropriate permissions to the group-level role only (see <a href="admin_guide/roles_privs.html#iq139925">Table 2</a>). The member user roles then inherit the object privileges of the group role. For example:</p>
+<p>For managing object privileges, you would then grant the appropriate permissions to the group-level role only
+. The member user roles then inherit the object privileges of the group role. For example:</p>
 <pre><code>=# GRANT ALL ON TABLE mytable TO admin;
 =# GRANT ALL ON SCHEMA myschema TO admin;
 =# GRANT ALL ON DATABASE mydb TO admin;
@@ -31402,10 +31403,7 @@ Tables backed up:  4 / 4 [======================================================
 <p><strong>Warning:</strong> Changes to the SynxDB segment configuration invalidate incremental backups. After you change the segment configuration (add or remove segment instances), you must create a full backup before you can create an incremental backup.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="using-gpbackup-storage-plugins"><a class="header" href="#using-gpbackup-storage-plugins">Using gpbackup Storage Plugins</a></h1>
 <p>You can configure the SynxDB <a href="admin_guide/managing/../../utility_guide/ref/gpbackup.html"><code>gpbackup</code></a> and <a href="admin_guide/managing/../../utility_guide/ref/gprestore.html"><code>gprestore</code></a> utilities to use a storage plugin to process backup files during a backup or restore operation. For example, during a backup operation, the plugin sends the backup files to a remote location. During a restore operation, the plugin retrieves the files from the remote location.</p>
-<p>You can also develop a custom storage plugin with the SynxDB Backup/Restore Storage Plugin API (Beta). See <a href="admin_guide/managing/backup-plugin-api.html">Backup/Restore Storage Plugin API</a>.</p>
-<ul>
-<li><strong><a href="admin_guide/managing/../managing/backup-s3-plugin.html">Using the S3 Storage Plugin with gpbackup and gprestore</a></strong></li>
-</ul>
+<p>You can also develop a custom storage plugin with the SynxDB Backup/Restore Storage Plugin API (Beta). See <a href="admin_guide/managing/./backup-plugin-api.html">Backup/Restore Storage Plugin API</a>.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="using-the-s3-storage-plugin-with-gpbackup-and-gprestore"><a class="header" href="#using-the-s3-storage-plugin-with-gpbackup-and-gprestore">Using the S3 Storage Plugin with gpbackup and gprestore</a></h1>
 <p>The S3 storage plugin application lets you use an Amazon Simple Storage Service (Amazon S3) location to store and retrieve backups when you run <a href="admin_guide/managing/../../utility_guide/ref/gpbackup.html">gpbackup</a> and <a href="admin_guide/managing/../../utility_guide/ref/gprestore.html">gprestore</a>. Amazon S3 provides secure, durable, highly-scalable object storage. The S3 plugin streams the backup data from a named pipe (FIFO) directly to the S3 bucket without generating local disk I/O.</p>
 <p>The S3 storage plugin can also connect to an Amazon S3 compatible service such as <a href="https://www.emc.com/en-us/storage/ecs/index.htm">Dell EMC Elastic Cloud Storage</a> (ECS), <a href="https://www.minio.io/">Minio</a>, and <a href="https://cloudian.com/products/hyperstore/">Cloudian HyperStore</a>.</p>
@@ -31415,7 +31413,7 @@ Tables backed up:  4 / 4 [======================================================
 <li>Upload/Delete for the S3 user ID that uploads the files</li>
 <li>Open/Download and View for the S3 user ID that accesses the files</li>
 </ul>
-<p>For information about Amazon S3, see <a href="https://aws.amazon.com/s3/">Amazon S3</a>. For information about Amazon S3 regions and endpoints, see <a href="http://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region">AWS service endpoints</a>. For information about S3 buckets and folders, see the <a href="https://aws.amazon.com/documentation/s3/">Amazon S3 documentation</a>.</p>
+<p>For information about Amazon S3, see <a href="https://aws.amazon.com/s3/">Amazon S3</a>. For information about Amazon S3 regions and endpoints, see <a href="http://docs.aws.amazon.com/general/latest/gr/rande.html">AWS service endpoints</a>. For information about S3 buckets and folders, see the <a href="https://aws.amazon.com/documentation/s3/">Amazon S3 documentation</a>.</p>
 <h2 id="installing-the-s3-storage-plugin"><a class="header" href="#installing-the-s3-storage-plugin"><a id="insts3"></a>Installing the S3 Storage Plugin</a></h2>
 <p>The S3 storage plugin is included with the SynxDB Backup and Restore release. Use the latest S3 plugin release with the latest Backup and Restore, to avoid any incompatibilities.</p>
 <p>The S3 storage plugin application must be in the same location on every SynxDB host, for example <code>$GPHOME/bin/gpbackup_s3_plugin</code>. The S3 storage plugin requires a configuration file, installed only on the master host.</p>
@@ -31488,7 +31486,7 @@ options:
 <p>If this option is specified, the plugin ignores the <code>region</code> option and does not use AWS to resolve the endpoint. When this option is not specified, the plugin uses the <code>region</code> to determine AWS S3 endpoint.</p>
 <p><code>aws_access_key_id</code>
 :   Optional. The S3 ID to access the S3 bucket location that stores backup files.</p>
-<p>If this parameter is not specified, S3 authentication uses information from the session environment. See <a href="admin_guide/managing/backup-s3-plugin.html#s3-key">aws_secret_access_key</a></p>
+<p>If this parameter is not specified, S3 authentication uses information from the session environment. See <code>aws_secret_access_key</code>.</p>
 <p><code>aws_secret_access_key</code>
 :   Required only if you specify <code>aws_access_key_id</code>. The S3 passcode for the S3 ID to access the S3 bucket location.</p>
 <p>If <code>aws_access_key_id</code> and <code>aws_secret_access_key</code> are not specified in the configuration file, the S3 plugin uses S3 authentication information from the system environment of the session running the backup operation. The S3 plugin searches for the information in these sources, using the first available source.</p>
@@ -31507,7 +31505,7 @@ options:
 <p><code>backup_max_concurrent_requests</code>
 :   Optional. The segment concurrency level for a file artifact within a single backup/upload request. The default value is set to 6. Use this parameter in conjuction with the <code>gpbackup --jobs</code> flag, to increase your overall backup concurrency.</p>
 <p>Example: In a 4 node cluster, with 12 segments (3 per node), if the <code>--jobs</code> flag is set to 10, there could be 120 concurrent backup requests. With the <code>backup_max_concurrent_requests</code> parameter set to 6, the total S3 concurrent upload threads during a single backup session would reach 720 (120 x 6).</p>
-<p><strong>Note:</strong> If the upload artifact is 10MB (see <a href="admin_guide/managing/backup-s3-plugin.html#multipart_chunksize">backup_multipart_chunksize</a>), the <code>backup_max_concurrent_requests</code> parameter would not take effect since the file is smaller than the chunk size.</p>
+<p><strong>Note:</strong> If the upload artifact is 10MB (see <code>backup_multipart_chunksize</code>), the <code>backup_max_concurrent_requests</code> parameter would not take effect since the file is smaller than the chunk size.</p>
 <p><code>backup_multipart_chunksize</code>
 :   Optional. The file chunk size of the S3 multipart upload request in Megabytes (for example 20MB), Gigabytes (for example 1GB), or bytes (for example 1048576B). The default value is 500MB and the minimum value is 5MB (or 5242880B). Use this parameter along with the <code>--jobs</code>flag and the <code>backup_max_concurrent_requests</code> parameter to fine tune your backups. Set the chunksize based on your individual segment file size. S3 supports up to 10,000 max total partitions for a single file upload.</p>
 <p><code>restore_max_concurrent_requests</code>
@@ -32552,7 +32550,7 @@ sdw5|sdw5-1|60012|/gpdata/mirror/gp10|14|10|m
 </li>
 </ol>
 <blockquote>
-<p><strong>Note</strong> After completing table redistribution, run the <code>VACUUM ANALYZE</code> and <code>REINDEX</code>commands on the catalog tables to update table statistics, and rebuild indexes. See <a href="admin_guide/expand/../managing/maintain.html">Routine Vacuum and Analyze</a> in the <em>Administration Guide</em> and <a href="admin_guide/expand/../../ref_guide/sql_commands/VACUUM.html#er20941"><code>VACUUM</code></a> in the <em>Reference Guide</em>.</p>
+<p><strong>Note</strong> After completing table redistribution, run the <code>VACUUM ANALYZE</code> and <code>REINDEX</code>commands on the catalog tables to update table statistics, and rebuild indexes. See <a href="admin_guide/expand/../managing/maintain.html">Routine Vacuum and Analyze</a> in the <em>Administration Guide</em> and <a href="admin_guide/expand/../../ref_guide/sql_commands/VACUUM.html"><code>VACUUM</code></a> in the <em>Reference Guide</em>.</p>
 </blockquote>
 <h2 id="monitoring-table-redistribution"><a class="header" href="#monitoring-table-redistribution"><a id="topic31"></a>Monitoring Table Redistribution</a></h2>
 <p>During the table redistribution process you can query the expansion schema to view:</p>
@@ -35286,7 +35284,7 @@ SynxDB supports highly available, fault-tolerant database services when you enab
 <p>Dynamically update resource queue settings to match daily operations flow.</p>
 </li>
 </ul>
-<p>See <a href="best_practices/../install_guide/prep_os.html#topic3__sysctl_file">Setting the SynxDB Recommended OS Parameters</a> and <a href="best_practices/workloads.html">Memory and Resource Management with Resource Queues</a>.</p>
+<p>See <a href="best_practices/../install_guide/prep_os.html">Setting the SynxDB Recommended OS Parameters</a> and <a href="best_practices/workloads.html">Memory and Resource Management with Resource Queues</a>.</p>
 <h2 id="partitioning"><a class="header" href="#partitioning"><a id="part"></a>Partitioning</a></h2>
 <ul>
 <li>Partition large tables only. Do not partition small tables.</li>
@@ -35332,7 +35330,7 @@ SynxDB supports highly available, fault-tolerant database services when you enab
 <li>Review plans to determine whether index are being used and partition elimination is occurring as expected.</li>
 <li>Know the location and content of system log files and monitor them on a regular basis, not just when problems arise.</li>
 </ul>
-<p>See <a href="best_practices/maintenance.html">System Monitoring and Maintenance</a>, <a href="best_practices/../admin_guide/query/topics/query-profiling.html#in198649">Query Profiling</a> and <a href="best_practices/logfiles.html">Monitoring SynxDB Log Files</a>.</p>
+<p>See <a href="best_practices/maintenance.html">System Monitoring and Maintenance</a>, <a href="best_practices/../admin_guide/query/topics/query-profiling.html">Query Profiling</a> and <a href="best_practices/logfiles.html">Monitoring SynxDB Log Files</a>.</p>
 <h2 id="analyze"><a class="header" href="#analyze"><a id="_Toc286661612"></a>ANALYZE</a></h2>
 <ul>
 <li>Determine if analyzing the database is actually needed. Analyzing is not needed if <code>gp_autostats_mode</code> is set to <code>on_no_stats</code> (the default) and the table is not partitioned.</li>
@@ -35461,7 +35459,7 @@ MIRROR_PORT_BASE = 7000
 * hard  nproc 131072
 </code></pre>
 <h2 id="os-memory-configuration"><a class="header" href="#os-memory-configuration"><a id="os_mem_config"></a>OS Memory Configuration</a></h2>
-<p>The Linux sysctl <code>vm.overcommit_memory</code> and <code>vm.overcommit_ratio</code> variables affect how the operating system manages memory allocation. See the <a href="best_practices/../install_guide/prep_os.html#topic3__sysctl_file"><code>/etc/sysctl.conf</code></a> file parameters guidelines in the <em>SynxDB Datatabase Installation Guide</em> for further details.</p>
+<p>The Linux sysctl <code>vm.overcommit_memory</code> and <code>vm.overcommit_ratio</code> variables affect how the operating system manages memory allocation. See the <a href="best_practices/../install_guide/prep_os.html"><code>/etc/sysctl.conf</code></a> file parameters guidelines in the <em>SynxDB Datatabase Installation Guide</em> for further details.</p>
 <p><code>vm.overcommit_memory</code> determines the method the OS uses for determining how much memory can be allocated to processes. This should be always set to 2, which is the only safe setting for the database.</p>
 <blockquote>
 <p><strong>Note</strong> For information on configuration of overcommit memory, refer to:</p>
@@ -35479,7 +35477,7 @@ MIRROR_PORT_BASE = 7000
 kernel.shmmni = 4096
 kernel.shmall = 197951838
 </code></pre>
-<p>See <a href="best_practices/../install_guide/prep_os.html#topic3/shared_memory_pages">Setting the SynxDB Recommended OS Parameters</a> for more details.</p>
+<p>See <a href="best_practices/../install_guide/prep_os.html">Setting the SynxDB Recommended OS Parameters</a> for more details.</p>
 <h2 id="number-of-segments-per-host"><a class="header" href="#number-of-segments-per-host"><a id="host_segs"></a>Number of Segments per Host</a></h2>
 <p>Determining the number of segments to run on each segment host has immense impact on overall system performance. The segments share the host’s CPU cores, memory, and NICs with each other and with other processes running on the host. Over-estimating the number of segments a server can accommodate is a common cause of suboptimal performance.</p>
 <p>The factors that must be considered when choosing how many segments to run per host include the following:</p>
@@ -35847,11 +35845,11 @@ VM Protect failed to allocate 4096 bytes, 0 MB available
 </li>
 <li>
 <p><strong>vm.overcommit_memory</strong></p>
-<p>This is a Linux kernel parameter, set in <code>/etc/sysctl.conf</code> and it should always be set to 2. It determines the method the OS uses for determining how much memory can be allocated to processes and 2 is the only safe setting for SynxDB. Please review the sysctl parameters in the <a href="best_practices/../install_guide/prep_os.html#topic3__sysctl_file">SynxDB Installation Guide</a>.</p>
+<p>This is a Linux kernel parameter, set in <code>/etc/sysctl.conf</code> and it should always be set to 2. It determines the method the OS uses for determining how much memory can be allocated to processes and 2 is the only safe setting for SynxDB. Please review the sysctl parameters in the <a href="best_practices/../install_guide/prep_os.html">installation documentation</a>.</p>
 </li>
 <li>
 <p><strong>vm.overcommit_ratio</strong></p>
-<p>This is a Linux kernel parameter, set in <a href="best_practices/../install_guide/prep_os.html#topic3__sysctl_file"><code>/etc/sysctl.conf</code></a>. It is the percentage of RAM that is used for application processes. The remainder is reserved for the operating system. The default on Red Hat is 50.</p>
+<p>This is a Linux kernel parameter, set in <a href="best_practices/../install_guide/prep_os.html"><code>/etc/sysctl.conf</code></a>. It is the percentage of RAM that is used for application processes. The remainder is reserved for the operating system. The default on Red Hat is 50.</p>
 <p>Setting <code>vm.overcommit_ratio</code> too high may result in not enough memory being reserved for the operating system, which can result in segment host failure or database failure. Setting the value too low reduces the amount of concurrency and query complexity that can be run by reducing the amount of memory available to SynxDB. When increasing the setting it is important to remember to always reserve some memory for operating system activities.</p>
 <p>See <a href="best_practices/../admin_guide/wlmgmt_intro.html">SynxDB Memory Overview</a> for instructions to calculate a value for <code>vm.overcommit_ratio</code>.</p>
 </li>
@@ -36369,7 +36367,7 @@ chmod 400 shadow gshadow
 <ul>
 <li>Connections between clients and the master database can be encrypted with SSL. This is enabled by setting the <code>ssl</code> server configuration parameter to <code>on</code> and editing the <code>pg_hba.conf</code> file. See “Encrypting Client/Server Connections” in the <em>SynxDB Administrator Guide</em> for information about enabling SSL in SynxDB.</li>
 <li>SynxDB 4.2.1 and above allow SSL encryption of data in transit between the SynxDB parallel file distribution server, <code>gpfdist</code>, and segment hosts. See <a href="best_practices/encryption.html#section_kjt_3kr_bs">Encrypting gpfdist Connections</a> for more information. </li>
-<li>Network communications between hosts in the SynxDB cluster can be encrypted using IPsec. An authenticated, encrypted VPN is established between every pair of hosts in the cluster. Check your operating system documentation for IPsec support, or consider a third-party solution such as that provided by <a href="https://www.zettaset.com">Zettaset</a>.</li>
+<li>Network communications between hosts in the SynxDB cluster can be encrypted using IPsec. An authenticated, encrypted VPN is established between every pair of hosts in the cluster. Check your operating system documentation for IPsec support, or consider a third-party solution.</li>
 <li>The <code>pgcrypto</code> module of encryption/decryption functions protects data at rest in the database. Encryption at the column level protects sensitive information, such as passwords, Social Security numbers, or credit card numbers. See <a href="best_practices/encryption.html#section_emf_3kr_bs">Encrypting Data in Tables using PGP</a> for an example.</li>
 </ul>
 <h2 id="best-practices-2"><a class="header" href="#best-practices-2"><a id="bp1"></a>Best Practices</a></h2>
@@ -36413,10 +36411,10 @@ chmod 400 shadow gshadow
 <div class="table-wrapper"><table><thead><tr><th style="text-align: left">Value Functionality</th><th style="text-align: left">Built-in</th><th style="text-align: left">With OpenSSL</th></tr></thead><tbody>
 <tr><td style="text-align: left">MD5</td><td style="text-align: left">yes</td><td style="text-align: left">yes</td></tr>
 <tr><td style="text-align: left">SHA1</td><td style="text-align: left">yes</td><td style="text-align: left">yes</td></tr>
-<tr><td style="text-align: left">SHA224/256/384/512</td><td style="text-align: left">yes</td><td style="text-align: left">yes <a href="best_practices/encryption.html#fntarg_1">1</a>.</td></tr>
-<tr><td style="text-align: left">Other digest algorithms</td><td style="text-align: left">no</td><td style="text-align: left">yes <a href="best_practices/encryption.html#fntarg_2">2</a></td></tr>
+<tr><td style="text-align: left">SHA224/256/384/512</td><td style="text-align: left">yes</td><td style="text-align: left">yes <a href="best_practices/encryption.html#fntarg">1</a>.</td></tr>
+<tr><td style="text-align: left">Other digest algorithms</td><td style="text-align: left">no</td><td style="text-align: left">yes <a href="best_practices/encryption.html#fntarg">2</a></td></tr>
 <tr><td style="text-align: left">Blowfish</td><td style="text-align: left">yes</td><td style="text-align: left">yes</td></tr>
-<tr><td style="text-align: left">AES</td><td style="text-align: left">yes</td><td style="text-align: left">yes<a href="best_practices/encryption.html#fntarg_3">3</a></td></tr>
+<tr><td style="text-align: left">AES</td><td style="text-align: left">yes</td><td style="text-align: left">yes<a href="best_practices/encryption.html#fntarg">3</a></td></tr>
 <tr><td style="text-align: left">DES/3DES/CAST5</td><td style="text-align: left">no</td><td style="text-align: left">yes</td></tr>
 <tr><td style="text-align: left">Raw Encryption</td><td style="text-align: left">yes</td><td style="text-align: left">yes</td></tr>
 <tr><td style="text-align: left">PGP Symmetric-Key</td><td style="text-align: left">yes</td><td style="text-align: left">yes</td></tr>
@@ -36723,7 +36721,10 @@ FORMAT 'TEXT' ( DELIMITER '|' NULL ' ') ;
 </code></pre>
 </li>
 </ol>
-<p><a href="best_practices/encryption.html#fnsrc_1">1</a> SHA2 algorithms were added to OpenSSL in version 0.9.8. For older versions, pgcrypto will use built-in code<a href="best_practices/encryption.html#fnsrc_2">2</a> Any digest algorithm OpenSSL supports is automatically picked up. This is not possible with ciphers, which need to be supported explicitly.<a href="best_practices/encryption.html#fnsrc_3">3</a> AES is included in OpenSSL since version 0.9.7. For older versions, pgcrypto will use built-in code.</p>
+<p><a id="fntarg"></a>
+[1] SHA2 algorithms were added to OpenSSL in version 0.9.8. For older versions, pgcrypto will use built-in code
+[2] Any digest algorithm OpenSSL supports is automatically picked up. This is not possible with ciphers, which need to be supported explicitly.
+[3] AES is included in OpenSSL since version 0.9.7. For older versions, pgcrypto will use built-in code.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="tuning-sql-queries"><a class="header" href="#tuning-sql-queries">Tuning SQL Queries</a></h1>
 <p>The SynxDB cost-based optimizer evaluates many strategies for running a query and chooses the least costly method.</p>
 <p>Like other RDBMS optimizers, the SynxDB optimizer takes into account factors such as the number of rows in tables to be joined, availability of indexes, and cardinality of column data when calculating the costs of alternative execution plans. The optimizer also accounts for the location of the data, preferring to perform as much of the work as possible on the segments and to minimize the amount of data that must be transmitted between segments to complete the query.</p>
@@ -37063,7 +37064,7 @@ sdw3|50001|/data2/mirror/gpseg3 sdw1|50001|/data/mirror/gpseg3
 <li><a href="ref_guide/sql_commands/ALTER_LANGUAGE.html">ALTER LANGUAGE</a></li>
 <li><a href="ref_guide/sql_commands/ALTER_OPERATOR.html">ALTER OPERATOR</a></li>
 <li><a href="ref_guide/sql_commands/ALTER_OPERATOR_CLASS.html">ALTER OPERATOR CLASS</a></li>
-<li><a href="ref_guide/sql_commands/ALTER_OPERATOR_FAMILY.html#as20941">ALTER OPERATOR FAMILY</a></li>
+<li><a href="ref_guide/sql_commands/ALTER_OPERATOR_FAMILY.html">ALTER OPERATOR FAMILY</a></li>
 <li><a href="ref_guide/sql_commands/ALTER_PROTOCOL.html">ALTER PROTOCOL</a></li>
 <li><a href="ref_guide/sql_commands/ALTER_RESOURCE_GROUP.html">ALTER RESOURCE GROUP</a></li>
 <li><a href="ref_guide/sql_commands/ALTER_RESOURCE_QUEUE.html">ALTER RESOURCE QUEUE</a></li>
@@ -37081,7 +37082,7 @@ sdw3|50001|/data2/mirror/gpseg3 sdw1|50001|/data/mirror/gpseg3
 <li><a href="ref_guide/sql_commands/ALTER_TYPE.html">ALTER TYPE</a></li>
 <li><a href="ref_guide/sql_commands/ALTER_USER.html">ALTER USER</a></li>
 <li><a href="ref_guide/sql_commands/ALTER_USER_MAPPING.html">ALTER USER MAPPING</a></li>
-<li><a href="ref_guide/sql_commands/ALTER_VIEW.html#am137232">ALTER VIEW</a></li>
+<li><a href="ref_guide/sql_commands/ALTER_VIEW.html">ALTER VIEW</a></li>
 <li><a href="ref_guide/sql_commands/ANALYZE.html">ANALYZE</a></li>
 <li><a href="ref_guide/sql_commands/BEGIN.html">BEGIN</a></li>
 <li><a href="ref_guide/sql_commands/CHECKPOINT.html">CHECKPOINT</a></li>
@@ -37105,7 +37106,7 @@ sdw3|50001|/data2/mirror/gpseg3 sdw1|50001|/data/mirror/gpseg3
 <li><a href="ref_guide/sql_commands/CREATE_LANGUAGE.html">CREATE LANGUAGE</a></li>
 <li><a href="ref_guide/sql_commands/CREATE_OPERATOR.html">CREATE OPERATOR</a></li>
 <li><a href="ref_guide/sql_commands/CREATE_OPERATOR_CLASS.html">CREATE OPERATOR CLASS</a></li>
-<li><a href="ref_guide/sql_commands/CREATE_OPERATOR_FAMILY.html#bx20941">CREATE OPERATOR FAMILY</a></li>
+<li><a href="ref_guide/sql_commands/CREATE_OPERATOR_FAMILY.html">CREATE OPERATOR FAMILY</a></li>
 <li><a href="ref_guide/sql_commands/CREATE_PROTOCOL.html">CREATE PROTOCOL</a></li>
 <li><a href="ref_guide/sql_commands/CREATE_RESOURCE_GROUP.html">CREATE RESOURCE GROUP</a></li>
 <li><a href="ref_guide/sql_commands/CREATE_RESOURCE_QUEUE.html">CREATE RESOURCE QUEUE</a></li>
@@ -37128,7 +37129,7 @@ sdw3|50001|/data2/mirror/gpseg3 sdw1|50001|/data/mirror/gpseg3
 <li><a href="ref_guide/sql_commands/DEALLOCATE.html">DEALLOCATE</a></li>
 <li><a href="ref_guide/sql_commands/DECLARE.html">DECLARE</a></li>
 <li><a href="ref_guide/sql_commands/DELETE.html">DELETE</a></li>
-<li><a href="ref_guide/sql_commands/DISCARD.html#dn20941">DISCARD</a></li>
+<li><a href="ref_guide/sql_commands/DISCARD.html">DISCARD</a></li>
 <li><a href="ref_guide/sql_commands/DO.html">DO</a></li>
 <li><a href="ref_guide/sql_commands/DROP_AGGREGATE.html">DROP AGGREGATE</a></li>
 <li><a href="ref_guide/sql_commands/DROP_CAST.html">DROP CAST</a></li>
@@ -37145,7 +37146,7 @@ sdw3|50001|/data2/mirror/gpseg3 sdw1|50001|/data/mirror/gpseg3
 <li><a href="ref_guide/sql_commands/DROP_LANGUAGE.html">DROP LANGUAGE</a></li>
 <li><a href="ref_guide/sql_commands/DROP_OPERATOR.html">DROP OPERATOR</a></li>
 <li><a href="ref_guide/sql_commands/DROP_OPERATOR_CLASS.html">DROP OPERATOR CLASS</a></li>
-<li><a href="ref_guide/sql_commands/DROP_OPERATOR_FAMILY.html#da20941">DROP OPERATOR FAMILY</a></li>
+<li><a href="ref_guide/sql_commands/DROP_OPERATOR_FAMILY.html">DROP OPERATOR FAMILY</a></li>
 <li><a href="ref_guide/sql_commands/DROP_OWNED.html">DROP OWNED</a></li>
 <li><a href="ref_guide/sql_commands/DROP_PROTOCOL.html">DROP PROTOCOL</a></li>
 <li><a href="ref_guide/sql_commands/DROP_RESOURCE_GROUP.html">DROP RESOURCE GROUP</a></li>
@@ -41930,7 +41931,7 @@ INSERT INTO a_view(id) VALUES(2);  -- ts will receive the current time
 <h2 id="compatibility-37"><a class="header" href="#compatibility-37"><a id="section6"></a>Compatibility</a></h2>
 <p><code>ALTER VIEW</code> is a SynxDB extension of the SQL standard.</p>
 <h2 id="see-also-41"><a class="header" href="#see-also-41"><a id="section7"></a>See Also</a></h2>
-<p><a href="ref_guide/sql_commands/CREATE_VIEW.html#cj20941">CREATE VIEW</a>, <a href="ref_guide/sql_commands/DROP_VIEW.html#dn20941">DROP VIEW</a> in the <em>SynxDB Utility Guide</em></p>
+<p><a href="ref_guide/sql_commands/CREATE_VIEW.html">CREATE VIEW</a>, <a href="ref_guide/sql_commands/DROP_VIEW.html">DROP VIEW</a></p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="analyze-2"><a class="header" href="#analyze-2">ANALYZE</a></h1>
 <p>Collects statistics about a database.</p>
 <h2 id="synopsis-51"><a class="header" href="#synopsis-51"><a id="section2"></a>Synopsis</a></h2>
@@ -42415,7 +42416,7 @@ IGNORE EXTERNAL PARTITIONS
 <h3 id="newline"><a class="header" href="#newline">NEWLINE</a></h3>
 <p>Specifies the newline used in your data files — <code>LF</code> (Line feed, 0x0A), <code>CR</code> (Carriage return, 0x0D), or <code>CRLF</code> (Carriage return plus line feed, 0x0D 0x0A). If not specified, a SynxDB segment will detect the newline type by looking at the first row of data it receives and using the first newline type encountered.</p>
 <h3 id="csv"><a class="header" href="#csv">CSV</a></h3>
-<p>Selects Comma Separated Value (CSV) mode. See <a href="ref_guide/sql_commands/COPY.html#section9">CSV Format</a>.</p>
+<p>Selects Comma Separated Value (CSV) mode. See <a href="ref_guide/sql_commands/COPY.html#csv_format">CSV Format</a>.</p>
 <h3 id="fill-missing-fields"><a class="header" href="#fill-missing-fields">FILL MISSING FIELDS</a></h3>
 <p>In <code>COPY FROM</code> more for both <code>TEXT</code> and <code>CSV</code>, specifying <code>FILL MISSING FIELDS</code> will set missing trailing field values to <code>NULL</code> (instead of reporting an error) when a row of data has missing data fields at the end of a line or row. Blank rows, fields with a <code>NOT NULL</code> constraint, and trailing delimiters on a line will still report an error.</p>
 <h3 id="log-errors"><a class="header" href="#log-errors">LOG ERRORS</a></h3>
@@ -42458,7 +42459,7 @@ IGNORE EXTERNAL PARTITIONS
 <p>Use the built-in SQL function <code>gp_read_error_log('table\_name')</code>. It requires <code>SELECT</code> privilege on table_name. This example displays the error log information for data loaded into table <code>ext_expenses</code> with a <code>COPY</code> command:</p>
 <pre><code>SELECT * from gp_read_error_log('ext_expenses');
 </code></pre>
-<p>For information about the error log format, see <a href="ref_guide/sql_commands/../../admin_guide/load/topics/g-viewing-bad-rows-in-the-error-table-or-error-log.html#topic58">Viewing Bad Rows in the Error Log</a> in the <em>SynxDB Administrator Guide</em>.</p>
+<p>For information about the error log format, see <a href="ref_guide/sql_commands/../../admin_guide/load/topics/g-viewing-bad-rows-in-the-error-table-or-error-log.html">Viewing Bad Rows in the Error Log</a> in the <em>SynxDB Administrator Guide</em>.</p>
 <p>The function returns <code>FALSE</code> if table_name does not exist.</p>
 </li>
 <li>
@@ -42501,7 +42502,8 @@ IGNORE EXTERNAL PARTITIONS
 </code></pre>
 <p>Notice how the pipe character that is part of the data has been escaped using the asterisk character (*). Also notice that we do not need to escape the backslash since we are using an alternative escape character.</p>
 <p>The following characters must be preceded by the escape character if they appear as part of a column value: the escape character itself, newline, carriage return, and the current delimiter character. You can specify a different escape character using the <code>ESCAPE AS</code> clause.</p>
-<p><strong>CSV Format</strong></p>
+<p><a id="csv_format"></a>
+<strong>CSV Format</strong></p>
 <p>This format option is used for importing and exporting the Comma Separated Value (CSV) file format used by many other programs, such as spreadsheets. Instead of the escaping rules used by SynxDB standard text format, it produces and recognizes the common CSV escaping mechanism.</p>
 <p>The values in each record are separated by the <code>DELIMITER</code> character. If the value contains the delimiter character, the <code>QUOTE</code> character, the <code>ESCAPE</code> character (which is double quote by default), the <code>NULL</code> string, a carriage return, or line feed character, then the whole value is prefixed and suffixed by the <code>QUOTE</code> character. You can also use <code>FORCE_QUOTE</code> to force quotes when outputting non-<code>NULL</code> values in specific columns.</p>
 <p>The CSV format has no standard way to distinguish a <code>NULL</code> value from an empty string. SynxDB <code>COPY</code> handles this by quoting. A <code>NULL</code> is output as the <code>NULL</code> parameter string and is not quoted, while a non-<code>NULL</code> value matching the <code>NULL</code> string is quoted. For example, with the default settings, a <code>NULL</code> is written as an unquoted empty string, while an empty string data value is written with double quotes (<code>""</code>). Reading values follows similar rules. You can use <code>FORCE_NOT_NULL</code> to prevent <code>NULL</code> input comparisons for specific columns. You can also use <code>FORCE_NULL</code> to convert quoted null string data values to <code>NULL</code>.</p>
@@ -43393,7 +43395,7 @@ text)  EXECUTE '/var/load_scripts/get_log_data.sh' ON HOST
 customer_id=123;
 </code></pre>
 <h2 id="notes-35"><a class="header" href="#notes-35"><a id="section8"></a>Notes</a></h2>
-<p>When you specify the <code>LOG ERRORS</code> clause, SynxDB captures errors that occur while reading the external table data. For information about the error log format, see <a href="ref_guide/sql_commands/../../admin_guide/load/topics/g-viewing-bad-rows-in-the-error-table-or-error-log.html#topic58">Viewing Bad Rows in the Error Log</a>.</p>
+<p>When you specify the <code>LOG ERRORS</code> clause, SynxDB captures errors that occur while reading the external table data. For information about the error log format, see <a href="ref_guide/sql_commands/../../admin_guide/load/topics/g-viewing-bad-rows-in-the-error-table-or-error-log.html">Viewing Bad Rows in the Error Log</a>.</p>
 <p>You can view and manage the captured error log data. The functions to manage log data depend on whether the data is persistent (the <code>PERSISTENTLY</code> keyword is used with the <code>LOG ERRORS</code> clause).</p>
 <ul>
 <li>
@@ -43618,7 +43620,7 @@ SELECT foo();
 <p><strong>Function Volatility and EXECUTE ON Attributes</strong></p>
 <p>Volatility attributes (<code>IMMUTABLE</code>, <code>STABLE</code>, <code>VOLATILE</code>) and <code>EXECUTE ON</code> attributes specify two different aspects of function execution. In general, volatility indicates when the function is run, and <code>EXECUTE ON</code> indicates where it is run.</p>
 <p>For example, a function defined with the <code>IMMUTABLE</code> attribute can be run at query planning time, while a function with the <code>VOLATILE</code> attribute must be run for every row in the query. A function with the <code>EXECUTE ON MASTER</code> attribute is run only on the master segment and a function with the <code>EXECUTE ON ALL SEGMENTS</code> attribute is run on all primary segment instances (not the master).</p>
-<p>See <a href="ref_guide/sql_commands/../../admin_guide/query/topics/functions-operators.html#topic26/in151167">Using Functions and Operators</a> in the <em>SynxDB Administrator Guide</em>.</p>
+<p>See <a href="ref_guide/sql_commands/../../admin_guide/query/topics/functions-operators.html">Using Functions and Operators</a>.</p>
 <p><strong>Functions And Replicated Tables</strong></p>
 <p>A user-defined function that runs only <code>SELECT</code> commands on replicated tables can run on segments. Replicated tables, created with the <code>DISTRIBUTED REPLICATED</code> clause, store all of their rows on every segment. It is safe for a function to read them on the segments, but updates to replicated tables must run on the master instance.</p>
 <h2 id="parameters-54"><a class="header" href="#parameters-54"><a id="section5"></a>Parameters</a></h2>
@@ -45171,7 +45173,7 @@ CREATE [ [GLOBAL | LOCAL] {TEMPORARY | TEMP} | UNLOGGED ] TABLE [IF NOT EXISTS]
 
 For columns of type `BIGINT`, `INTEGER`, `DATE`, `TIME`, or `TIMESTAMP`, delta compression is also applied if the `compresstype` option is set to `RLE_TYPE` compression. The delta compression algorithm is based on the delta between column values in consecutive rows and is designed to improve compression when data is loaded in sorted order or the compression is applied to column data that is in sorted order.
 
-For information about using table compression, see [Choosing the Table Storage Model](../../admin_guide/ddl/ddl-storage.html#topic1) in the *SynxDB Administrator Guide*.
+For information about using table compression, see [Choosing the Table Storage Model](../../admin_guide/ddl/ddl-storage.html) in the *SynxDB Administrator Guide*.
 </code></pre>
 <p><strong>compresslevel</strong> — For Zstd compression of append-optimized tables, set to an integer value from 1 (fastest compression) to 19 (highest compression ratio). For zlib compression, the valid range is from 1 to 9. If not declared, the default is 1. For <code>RLE_TYPE</code>, the compression level can be an integer value from 1 (fastest compression) to 4 (highest compression ratio).</p>
 <p>The <code>compresslevel</code> option is valid only if <code>appendoptimized=TRUE</code>.</p>
@@ -46826,7 +46828,7 @@ END $$ LANGUAGE plpgsql ;
 <h2 id="compatibility-106"><a class="header" href="#compatibility-106"><a id="section6"></a>Compatibility</a></h2>
 <p>There is no <code>DROP OPERATOR FAMILY</code> statement in the SQL standard.</p>
 <h2 id="see-also-107"><a class="header" href="#see-also-107"><a id="section7"></a>See Also</a></h2>
-<p><a href="ref_guide/sql_commands/ALTER_OPERATOR_FAMILY.html">ALTER OPERATOR FAMILY</a>, <a href="ref_guide/sql_commands/CREATE_OPERATOR_FAMILY.html">CREATE OPERATOR FAMILY</a>, <a href="ref_guide/sql_commands/ALTER_OPERATOR_CLASS.html">ALTER OPERATOR CLASS</a>, <a href="ref_guide/sql_commands/CREATE_OPERATOR_CLASS.html#bx20941">CREATE OPERATOR CLASS</a>, <a href="ref_guide/sql_commands/DROP_OPERATOR_CLASS.html">DROP OPERATOR CLASS</a></p>
+<p><a href="ref_guide/sql_commands/ALTER_OPERATOR_FAMILY.html">ALTER OPERATOR FAMILY</a>, <a href="ref_guide/sql_commands/CREATE_OPERATOR_FAMILY.html">CREATE OPERATOR FAMILY</a>, <a href="ref_guide/sql_commands/ALTER_OPERATOR_CLASS.html">ALTER OPERATOR CLASS</a>, <a href="ref_guide/sql_commands/CREATE_OPERATOR_CLASS.html">CREATE OPERATOR CLASS</a>, <a href="ref_guide/sql_commands/DROP_OPERATOR_CLASS.html">DROP OPERATOR CLASS</a></p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="drop-owned-1"><a class="header" href="#drop-owned-1">DROP OWNED</a></h1>
 <p>Removes database objects owned by a database role.</p>
 <h2 id="synopsis-120"><a class="header" href="#synopsis-120"><a id="section2"></a>Synopsis</a></h2>
@@ -47870,7 +47872,7 @@ INSERT INTO &lt;table&gt; [( &lt;column&gt; [, ...] )]
 <p>To insert data into a partitioned table, you specify the root partitioned table, the table created with the <code>CREATE TABLE</code> command. You also can specify a leaf child table of the partitioned table in an <code>INSERT</code> command. An error is returned if the data is not valid for the specified leaf child table. Specifying a child table that is not a leaf child table in the <code>INSERT</code> command is not supported. Execution of other DML commands such as <code>UPDATE</code> and <code>DELETE</code> on any child table of a partitioned table is not supported. These commands must be run on the root partitioned table, the table created with the <code>CREATE TABLE</code> command.</p>
 <p>For a partitioned table, all the child tables are locked during the <code>INSERT</code> operation when the Global Deadlock Detector is not enabled (the default). Only some of the leaf child tables are locked when the Global Deadlock Detector is enabled. For information about the Global Deadlock Detector, see <a href="ref_guide/sql_commands/../../admin_guide/dml.html#topic_gdd">Global Deadlock Detector</a>.</p>
 <p>For append-optimized tables, SynxDB supports a maximum of 127 concurrent <code>INSERT</code> transactions into a single append-optimized table.</p>
-<p>For writable S3 external tables, the <code>INSERT</code> operation uploads to one or more files in the configured S3 bucket, as described in <a href="ref_guide/sql_commands/../../admin_guide/external/g-s3-protocol.html#amazon-emr">s3:// Protocol</a>. Pressing <code>Ctrl-c</code> cancels the <code>INSERT</code> and stops uploading to S3.</p>
+<p>For writable S3 external tables, the <code>INSERT</code> operation uploads to one or more files in the configured S3 bucket, as described in <a href="ref_guide/sql_commands/../../admin_guide/external/g-s3-protocol.html">s3:// Protocol</a>. Pressing <code>Ctrl-c</code> cancels the <code>INSERT</code> and stops uploading to S3.</p>
 <h2 id="examples-119"><a class="header" href="#examples-119"><a id="section7"></a>Examples</a></h2>
 <p>Insert a single row into table <code>films</code>:</p>
 <pre><code>INSERT INTO films VALUES ('UA502', 'Bananas', 105, 
@@ -47904,7 +47906,7 @@ INSERT INTO &lt;table&gt; [( &lt;column&gt; [, ...] )]
 <p><code>INSERT</code> conforms to the SQL standard. The case in which a column name list is omitted, but not all the columns are filled from the <code>VALUES</code> clause or query, is disallowed by the standard.</p>
 <p>Possible limitations of the query clause are documented under <code>SELECT</code>.</p>
 <h2 id="see-also-133"><a class="header" href="#see-also-133"><a id="section9"></a>See Also</a></h2>
-<p><a href="ref_guide/sql_commands/COPY.html">COPY</a>, <a href="ref_guide/sql_commands/SELECT.html">SELECT</a>, <a href="ref_guide/sql_commands/CREATE_EXTERNAL_TABLE.html">CREATE EXTERNAL TABLE</a>, <a href="ref_guide/sql_commands/../../admin_guide/external/g-s3-protocol.html#amazon-emr">s3:// Protocol</a></p>
+<p><a href="ref_guide/sql_commands/COPY.html">COPY</a>, <a href="ref_guide/sql_commands/SELECT.html">SELECT</a>, <a href="ref_guide/sql_commands/CREATE_EXTERNAL_TABLE.html">CREATE EXTERNAL TABLE</a>, <a href="ref_guide/sql_commands/../../admin_guide/external/g-s3-protocol.html">s3:// Protocol</a></p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="listen"><a class="header" href="#listen">LISTEN</a></h1>
 <p>Listens for a notification.</p>
 <h2 id="synopsis-146"><a class="header" href="#synopsis-146"><a id="section2"></a>Synopsis</a></h2>
@@ -47983,6 +47985,7 @@ Asynchronous notification "virtual" received from server process with PID 8448.
 <li>EXCLUSIVE — Conflicts with the <code>ROW SHARE</code>, <code>ROW EXCLUSIVE</code>, <code>SHARE UPDATE EXCLUSIVE</code>, <code>SHARE</code>, <code>SHARE ROW EXCLUSIVE</code>, <code>EXCLUSIVE</code>, and <code>ACCESS EXCLUSIVE</code> lock modes. This mode allows only concurrent <code>ACCESS SHARE</code> locks, i.e., only reads from the table can proceed in parallel with a transaction holding this lock mode. This lock mode is automatically acquired for <code>UPDATE</code>, <code>SELECT FOR UPDATE</code>, and <code>DELETE</code> in SynxDB (which is more restrictive locking than in regular PostgreSQL). See <a href="ref_guide/sql_commands/LOCK.html#lock_note">Note</a>.</li>
 <li>ACCESS EXCLUSIVE — Conflicts with locks of all modes (<code>ACCESS SHARE</code>, <code>ROW SHARE</code>, <code>ROW EXCLUSIVE</code>, <code>SHARE UPDATE EXCLUSIVE</code>, <code>SHARE</code>, <code>SHARE``ROW EXCLUSIVE</code>, <code>EXCLUSIVE</code>, and <code>ACCESS EXCLUSIVE</code>). This mode guarantees that the holder is the only transaction accessing the table in any way. Acquired automatically by the <code>ALTER TABLE</code>, <code>DROP TABLE</code>, <code>TRUNCATE</code>, <code>REINDEX</code>, <code>CLUSTER</code>, and <code>VACUUM FULL</code> commands. This is the default lock mode for <code>LOCK TABLE</code> statements that do not specify a mode explicitly. This lock is also briefly acquired by <code>VACUUM</code> (without <code>FULL</code>) on append-optimized tables during processing.</li>
 </ul>
+<p><a id="lock_note"></a></p>
 <blockquote>
 <p><strong>Note</strong> By default SynxDB acquires the more restrictive <code>EXCLUSIVE</code> lock (rather than <code>ROW EXCLUSIVE</code> in PostgreSQL) for <code>UPDATE</code>, <code>DELETE</code>, and <code>SELECT...FOR UPDATE</code> operations on heap tables. When the Global Deadlock Detector is enabled the lock mode for <code>UPDATE</code> and <code>DELETE</code> operations on heap tables is <code>ROW EXCLUSIVE</code>. See <a href="ref_guide/sql_commands/../../admin_guide/dml.html#topic_gdd">Global Deadlock Detector</a>. SynxDB always holds a table-level lock with <code>SELECT...FOR UPDATE</code> statements.</p>
 </blockquote>
@@ -48632,7 +48635,7 @@ ROWS FROM( function_name ( [ argument [, ...] ] ) [ AS ( column_definition [, ..
   UNBOUNDED FOLLOWING
 
 </code></pre>
-<p><sup>2</sup>When a locking clause is specified (the <code>FOR</code> clause), the Global Deadlock Detector affects how table rows are locked. See item <a href="ref_guide/sql_commands/SELECT.html#eg138885">12</a> in Description and see “The Locking Clause” later in this section.</p>
+<p><sup>2</sup>When a locking clause is specified (the <code>FOR</code> clause), the Global Deadlock Detector affects how table rows are locked. See item 12 in the Description section and see <a href="ref_guide/sql_commands/SELECT.html#locking_clause">The Locking Clause</a>.</p>
 <h2 id="description-167"><a class="header" href="#description-167"><a id="section3"></a>Description</a></h2>
 <p><code>SELECT</code> retrieves rows from zero or more tables. The general processing of <code>SELECT</code> is as follows:</p>
 <ol>
@@ -48902,7 +48905,8 @@ OFFSET &lt;start&gt;
 <p>In this syntax, the start or count value is required by the standard to be a literal constant, a parameter, or a variable name; as a SynxDB extension, other expressions are allowed, but will generally need to be enclosed in parentheses to avoid ambiguity. If count is omitted in a <code>FETCH</code> clause, it defaults to 1. <code>ROW</code> and <code>ROWS</code> as well as <code>FIRST</code> and <code>NEXT</code> are noise words that don’t influence the effects of these clauses. According to the standard, the <code>OFFSET</code> clause must come before the <code>FETCH</code> clause if both are present; but SynxDB allows either order.</p>
 <p>When using <code>LIMIT</code>, it is a good idea to use an <code>ORDER BY</code> clause that constrains the result rows into a unique order. Otherwise you will get an unpredictable subset of the query’s rows — you may be asking for the tenth through twentieth rows, but tenth through twentieth in what ordering? You don’t know what ordering unless you specify <code>ORDER BY</code>.</p>
 <p>The query optimizer takes <code>LIMIT</code> into account when generating a query plan, so you are very likely to get different plans (yielding different row orders) depending on what you use for <code>LIMIT</code> and <code>OFFSET</code>. Thus, using different <code>LIMIT/OFFSET</code> values to select different subsets of a query result will give inconsistent results unless you enforce a predictable result ordering with <code>ORDER BY</code>. This is not a defect; it is an inherent consequence of the fact that SQL does not promise to deliver the results of a query in any particular order unless <code>ORDER BY</code> is used to constrain the order.</p>
-<p><strong>The Locking Clause</strong></p>
+<p><a id="locking_clause"></a>
+<strong>The Locking Clause</strong></p>
 <p><code>FOR UPDATE</code>, <code>FOR NO KEY UPDATE</code>, <code>FOR SHARE</code> and <code>FOR KEY SHARE</code> are <em>locking clauses</em>; they affect how <code>SELECT</code> locks rows as they are obtained from the table.</p>
 <p>The locking clause has the general form</p>
 <pre><code>FOR &lt;lock_strength&gt; [OF &lt;table_name&gt; [ , ... ] ] [ NOWAIT ]
@@ -49720,8 +49724,8 @@ employees.sales &gt;= v.target;
 <div class="table-wrapper"><table><thead><tr><th>Name</th><th>Alias</th><th>Size</th><th>Range</th><th>Description</th></tr></thead><tbody>
 <tr><td>bigint</td><td>int8</td><td>8 bytes</td><td>-922337203​6854775808 to 922337203​6854775807</td><td>large range integer</td></tr>
 <tr><td>bigserial</td><td>serial8</td><td>8 bytes</td><td>1 to 922337203​6854775807</td><td>large autoincrementing integer</td></tr>
-<tr><td>bit [ (n) ]</td><td> </td><td><em>n</em> bits</td><td><a href="https://www.postgresql.org/docs/9.4/sql-syntax.html#SQL-SYNTAX-BIT-STRINGS">bit string constant</a></td><td>fixed-length bit string</td></tr>
-<tr><td>bit varying [ (n) ]<sup>1</sup></td><td>varbit</td><td>actual number of bits</td><td><a href="https://www.postgresql.org/docs/9.4/sql-syntax.html#SQL-SYNTAX-BIT-STRINGS">bit string constant</a></td><td>variable-length bit string</td></tr>
+<tr><td>bit [ (n) ]</td><td> </td><td><em>n</em> bits</td><td><a href="https://www.postgresql.org/docs/9.4/sql-syntax.html">bit string constant</a></td><td>fixed-length bit string</td></tr>
+<tr><td>bit varying [ (n) ]<sup>1</sup></td><td>varbit</td><td>actual number of bits</td><td><a href="https://www.postgresql.org/docs/9.4/sql-syntax.html">bit string constant</a></td><td>variable-length bit string</td></tr>
 <tr><td>boolean</td><td>bool</td><td>1 byte</td><td>true/false, t/f, yes/no, y/n, 1/0</td><td>logical boolean (true/false)</td></tr>
 <tr><td>box</td><td> </td><td>32 bytes</td><td>((x1,y1),(x2,y2))</td><td>rectangular box in the plane - not allowed in distribution key columns.</td></tr>
 <tr><td>bytea<sup>1</sup></td><td> </td><td>1 byte + <em>binary string</em></td><td>sequence of <a href="https://www.postgresql.org/docs/9.4/datatype-binary.html#DATATYPE-BINARY-SQLESC">octets</a></td><td>variable-length binary string</td></tr>
@@ -49772,7 +49776,7 @@ employees.sales &gt;= v.target;
 </ul>
 <p><a id="if139219"></a><sup>1</sup> For variable length data types, if the data is greater than or equal to 127 bytes, the storage overhead is 4 bytes instead of 1.</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="datetime-types"><a class="header" href="#datetime-types">Date/Time Types</a></h1>
-<p>SynxDB supports the full set of SQL date and time types, shown in <a href="ref_guide/datatype-datetime.html#datatype-datetime-table">Table 1</a>. The operations available on these data types are described in <a href="https://www.postgresql.org/docs/9.4/functions-datetime.html">Date/Time Functions and Operators</a> in the PostgreSQL documentation. Dates are counted according to the Gregorian calendar, even in years before that calendar was introduced (see <a href="https://www.postgresql.org/docs/9.4/datetime-units-history.html">History of Units</a> in the PostgreSQL documentation for more information).</p>
+<p>SynxDB supports the full set of SQL date and time types, shown in the following table. The operations available on these data types are described in <a href="https://www.postgresql.org/docs/9.4/functions-datetime.html">Date/Time Functions and Operators</a> in the PostgreSQL documentation. Dates are counted according to the Gregorian calendar, even in years before that calendar was introduced (see <a href="https://www.postgresql.org/docs/9.4/datetime-units-history.html">History of Units</a> in the PostgreSQL documentation for more information).</p>
 <div class="table-wrapper"><table><thead><tr><th>Name</th><th>Storage Size</th><th>Description</th><th>Low Value</th><th>High Value</th><th>Resolution</th></tr></thead><tbody>
 <tr><td>timestamp [ (p) ] [ without time zone ]</td><td>8 bytes</td><td>both date and time (no time zone)</td><td>4713 BC</td><td>294276 AD</td><td>1 microsecond / 14 digits</td></tr>
 <tr><td>timestamp [ (p) ] with time zone</td><td>8 bytes</td><td>both date and time, with time zone</td><td>4713 BC</td><td>294276 AD</td><td>1 microsecond / 14 digits</td></tr>
@@ -49828,7 +49832,7 @@ MINUTE TO SECOND
 </code></pre>
 <p>where p is an optional precision specification giving the number of fractional digits in the seconds field. Precision can be specified for <code>time</code>, <code>timestamp</code>, and <code>interval</code> types. The allowed values are mentioned above. If no precision is specified in a constant specification, it defaults to the precision of the literal value.</p>
 <h2 id="dates"><a class="header" href="#dates"><a id="dates"></a>Dates</a></h2>
-<p><a href="ref_guide/datatype-datetime.html#table_owm_dfr_qfb">Table 2</a> shows some possible inputs for the <code>date</code> type.</p>
+<p>The following table shows some possible inputs for the <code>date</code> type.</p>
 <div class="table-wrapper"><table><thead><tr><th>Example</th><th>Description</th></tr></thead><tbody>
 <tr><td>1999-01-08</td><td>ISO 8601; January 8 in any mode (recommended format)</td></tr>
 <tr><td>January 8, 1999</td><td>unambiguous in any datestyle input mode</td></tr>
@@ -49850,7 +49854,7 @@ MINUTE TO SECOND
 </div>
 <h2 id="times"><a class="header" href="#times"><a id="times"></a>Times</a></h2>
 <p>The time-of-day types are <code>time [ (p) ] without time zone</code> and <code>time [ (p) ] with time zone</code>. <code>time</code> alone is equivalent to <code>time without time zone</code>.</p>
-<p>Valid input for these types consists of a time of day followed by an optional time zone. (See <a href="ref_guide/datatype-datetime.html#datatype-datetime-time-table">Table 3</a> and <a href="ref_guide/datatype-datetime.html#datatype-timezone-table">Table 4</a>.) If a time zone is specified in the input for <code>time without time zone</code>, it is silently ignored. You can also specify a date but it will be ignored, except when you use a time zone name that involves a daylight-savings rule, such as <code>America/New_York</code>. In this case specifying the date is required in order to determine whether standard or daylight-savings time applies. The appropriate time zone offset is recorded in the <code>time with time zone</code> value.</p>
+<p>Valid input for these types consists of a time of day followed by an optional time zone. If a time zone is specified in the input for <code>time without time zone</code>, it is silently ignored. You can also specify a date but it will be ignored, except when you use a time zone name that involves a daylight-savings rule, such as <code>America/New_York</code>. In this case specifying the date is required in order to determine whether standard or daylight-savings time applies. The appropriate time zone offset is recorded in the <code>time with time zone</code> value.</p>
 <div class="table-wrapper"><table><thead><tr><th>Example</th><th>Description</th></tr></thead><tbody>
 <tr><td><code>04:05:06.789</code></td><td>ISO 8601</td></tr>
 <tr><td><code>04:05:06</code></td><td>ISO 8601</td></tr>
@@ -49884,7 +49888,7 @@ MINUTE TO SECOND
 <p>When a <code>timestamp with time zone</code> value is output, it is always converted from UTC to the current timezone zone, and displayed as local time in that zone. To see the time in another time zone, either change timezone or use the <code>AT TIME ZONE</code> construct (see <a href="https://www.postgresql.org/docs/9.4/functions-datetime.html#FUNCTIONS-DATETIME-ZONECONVERT">AT TIME ZONE</a> in the PostgreSQL documentation).</p>
 <p>Conversions between <code>timestamp without time zone</code> and <code>timestamp with time zone</code> normally assume that the <code>timestamp without time zone</code> value should be taken or given as timezone local time. A different time zone can be specified for the conversion using <code>AT TIME ZONE</code>.</p>
 <h2 id="special-values"><a class="header" href="#special-values"><a id="specval"></a>Special Values</a></h2>
-<p>SynxDB supports several special date/time input values for convenience, as shown in <a href="ref_guide/datatype-datetime.html#datatype-datetime-special-table">Table 5</a>. The values <code>infinity</code> and <code>-infinity</code> are specially represented inside the system and will be displayed unchanged; but the others are simply notational shorthands that will be converted to ordinary date/time values when read. (In particular, <code>now</code> and related strings are converted to a specific time value as soon as they are read.) All of these values need to be enclosed in single quotes when used as constants in SQL commands.</p>
+<p>SynxDB supports several special date/time input values for convenience, as shown in the following table. The values <code>infinity</code> and <code>-infinity</code> are specially represented inside the system and will be displayed unchanged; but the others are simply notational shorthands that will be converted to ordinary date/time values when read. (In particular, <code>now</code> and related strings are converted to a specific time value as soon as they are read.) All of these values need to be enclosed in single quotes when used as constants in SQL commands.</p>
 <div class="table-wrapper"><table><thead><tr><th>Input String</th><th>Valid Types</th><th>Description</th></tr></thead><tbody>
 <tr><td><code>epoch</code></td><td><code>date</code>, <code>timestamp</code></td><td>1970-01-01 00:00:00+00 (Unix system time zero)</td></tr>
 <tr><td><code>infinity</code></td><td><code>date</code>, <code>timestamp</code></td><td>later than all other time stamps</td></tr>
@@ -49898,7 +49902,7 @@ MINUTE TO SECOND
 </div>
 <p>The following SQL-compatible functions can also be used to obtain the current time value for the corresponding data type: <code>CURRENT_DATE</code>, <code>CURRENT_TIME</code>, <code>CURRENT_TIMESTAMP</code>, <code>LOCALTIME</code>, <code>LOCALTIMESTAMP</code>. The latter four accept an optional subsecond precision specification. (See <a href="https://www.postgresql.org/docs/9.4/functions-datetime.html#FUNCTIONS-DATETIME-CURRENT">Current Date/Time</a> in the PostgreSQL documentation.) Note that these are SQL functions and are <em>not</em> recognized in data input strings.</p>
 <h2 id="datetime-output"><a class="header" href="#datetime-output"><a id="datatype-datetime-output"></a>Date/Time Output</a></h2>
-<p>The output format of the date/time types can be set to one of the four styles ISO 8601, SQL (Ingres), traditional POSTGRES (Unix <code>date</code> format), or German. The default is the ISO format. (The SQL standard requires the use of the ISO 8601 format. The name of the <code>SQL</code> output format is a historical accident.) <a href="ref_guide/datatype-datetime.html#datatype-datetime-output-table">Table 6</a> shows examples of each output style. The output of the <code>date</code> and <code>time</code> types is generally only the date or time part in accordance with the given examples. However, the POSTGRES style outputs date-only values in ISO format.</p>
+<p>The output format of the date/time types can be set to one of the four styles ISO 8601, SQL (Ingres), traditional POSTGRES (Unix <code>date</code> format), or German. The default is the ISO format. (The SQL standard requires the use of the ISO 8601 format. The name of the <code>SQL</code> output format is a historical accident.) The following table shows examples of each output style. The output of the <code>date</code> and <code>time</code> types is generally only the date or time part in accordance with the given examples. However, the POSTGRES style outputs date-only values in ISO format.</p>
 <div class="table-wrapper"><table><thead><tr><th>Style Specification</th><th>Description</th><th>Example</th></tr></thead><tbody>
 <tr><td><code>ISO</code></td><td>ISO 8601, SQL standard</td><td><code>1997-12-17 07:37:16-08</code></td></tr>
 <tr><td><code>SQL</code></td><td>traditional style</td><td><code>12/17/1997 07:37:16.00 PST</code></td></tr>
@@ -49909,7 +49913,7 @@ MINUTE TO SECOND
 <blockquote>
 <p><strong>Note</strong> ISO 8601 specifies the use of uppercase letter <code>T</code> to separate the date and time. SynxDB accepts that format on input, but on output it uses a space rather than <code>T</code>, as shown above. This is for readability and for consistency with RFC 3339 as well as some other database systems.</p>
 </blockquote>
-<p>In the SQL and POSTGRES styles, day appears before month if DMY field ordering has been specified, otherwise month appears before day. (See <a href="ref_guide/datatype-datetime.html#table_owm_dfr_qfb">Table 2</a> for how this setting also affects interpretation of input values.) <a href="ref_guide/datatype-datetime.html#datatype-datetime-output2-table">Table 7</a> shows examples.</p>
+<p>In the SQL and POSTGRES styles, day appears before month if DMY field ordering has been specified, otherwise month appears before day. (See <a href="ref_guide/datatype-datetime.html#table_owm_dfr_qfb">Table 2</a> for how this setting also affects interpretation of input values.) The following table shows examples.</p>
 <div class="table-wrapper"><table><thead><tr><th>datestyle Setting</th><th>Input Ordering</th><th>Example Output</th></tr></thead><tbody>
 <tr><td><code>SQL, DMY</code></td><td>day/month/year</td><td><code>17/12/1997 15:37:16.00 CET</code></td></tr>
 <tr><td><code>SQL, MDY</code></td><td>month/day/year</td><td><code>12/17/1997 07:37:16.00 PST</code></td></tr>
@@ -49956,7 +49960,7 @@ MINUTE TO SECOND
 P &lt;quantity&gt; &lt;unit&gt; &lt;quantity&gt; &lt;unit&gt; ...  T  &lt;quantity&gt; &lt;unit&gt; ...
 
 </code></pre>
-<p>The string must start with a <code>P</code>, and may include a <code>T</code> that introduces the time-of-day units. The available unit abbreviations are given in <a href="ref_guide/datatype-datetime.html#datatype-interval-iso8601-units">Table 8</a>. Units may be omitted, and may be specified in any order, but units smaller than a day must appear after <code>T</code>. In particular, the meaning of <code>M</code> depends on whether it is before or after <code>T</code>.</p>
+<p>The string must start with a <code>P</code>, and may include a <code>T</code> that introduces the time-of-day units. The available unit abbreviations are given in the following table. Units may be omitted, and may be specified in any order, but units smaller than a day must appear after <code>T</code>. In particular, the meaning of <code>M</code> depends on whether it is before or after <code>T</code>.</p>
 <div class="table-wrapper"><table><thead><tr><th>Abbreviation</th><th>Meaning</th></tr></thead><tbody>
 <tr><td>Y</td><td>Years</td></tr>
 <tr><td>M</td><td>Months (in the date part)</td></tr>
@@ -49976,7 +49980,7 @@ P  &lt;years&gt;-&lt;months&gt;-&lt;days&gt;   T &lt;hours&gt;:&lt;minutes&gt;:&
 <p>When writing an interval constant with a fields specification, or when assigning a string to an interval column that was defined with a fields specification, the interpretation of unmarked quantities depends on the fields. For example <code>INTERVAL '1' YEAR</code> is read as 1 year, whereas <code>INTERVAL '1'</code> means 1 second. Also, field values <code>to the right</code> of the least significant field allowed by the fields specification are silently discarded. For example, writing <code>INTERVAL '1 day 2:03:04' HOUR TO MINUTE</code> results in dropping the seconds field, but not the day field.</p>
 <p>According to the SQL standard all fields of an interval value must have the same sign, so a leading negative sign applies to all fields; for example the negative sign in the interval literal <code>'-1 2:03:04'</code> applies to both the days and hour/minute/second parts. SynxDB allows the fields to have different signs, and traditionally treats each field in the textual representation as independently signed, so that the hour/minute/second part is considered positive in this example. If IntervalStyle is set to <code>sql_standard</code> then a leading sign is considered to apply to all fields (but only if no additional signs appear). Otherwise the traditional SynxDB interpretation is used. To avoid ambiguity, it’s recommended to attach an explicit sign to each field if any field is negative.</p>
 <p>In the verbose input format, and in some fields of the more compact input formats, field values can have fractional parts; for example <code>'1.5 week'</code> or <code>'01:02:03.45'</code>. Such input is converted to the appropriate number of months, days, and seconds for storage. When this would result in a fractional number of months or days, the fraction is added to the lower-order fields using the conversion factors 1 month = 30 days and 1 day = 24 hours. For example, <code>'1.5 month'</code> becomes 1 month and 15 days. Only seconds will ever be shown as fractional on output.</p>
-<p><a href="ref_guide/datatype-datetime.html#datatype-interval-input-examples">Table 9</a> shows some examples of valid <code>interval</code> input.</p>
+<p>[The following table shows some examples of valid <code>interval</code> input.</p>
 <div class="table-wrapper"><table><thead><tr><th>Example</th><th>Description</th></tr></thead><tbody>
 <tr><td>1-2</td><td>SQL standard format: 1 year 2 months</td></tr>
 <tr><td>3 4:05:06</td><td>SQL standard format: 3 days 4 hours 5 minutes 6 seconds</td></tr>
@@ -49987,7 +49991,7 @@ P  &lt;years&gt;-&lt;months&gt;-&lt;days&gt;   T &lt;hours&gt;:&lt;minutes&gt;:&
 </div>
 <p>Internally <code>interval</code> values are stored as months, days, and seconds. This is done because the number of days in a month varies, and a day can have 23 or 25 hours if a daylight savings time adjustment is involved. The months and days fields are integers while the seconds field can store fractions. Because intervals are usually created from constant strings or <code>timestamp</code> subtraction, this storage method works well in most cases, but can cause unexpected results: <code>SELECT EXTRACT(hours from '80 minutes'::interval); date_part ----------- 1 SELECT EXTRACT(days from '80 hours'::interval); date_part ----------- 0</code> Functions <code>justify_days</code> and <code>justify_hours</code> are available for adjusting days and hours that overflow their normal ranges.</p>
 <h2 id="interval-output"><a class="header" href="#interval-output"><a id="datatype-interval-output"></a>Interval Output</a></h2>
-<p>The output format of the interval type can be set to one of the four styles <code>sql_standard</code>, <code>postgres</code>, <code>postgres_verbose</code>, or <code>iso_8601</code>, using the command <code>SET intervalstyle</code>. The default is the <code>postgres</code> format. <a href="ref_guide/datatype-datetime.html#interval-style-output-table">Table 10</a> shows examples of each output style.</p>
+<p>The output format of the interval type can be set to one of the four styles <code>sql_standard</code>, <code>postgres</code>, <code>postgres_verbose</code>, or <code>iso_8601</code>, using the command <code>SET intervalstyle</code>. The default is the <code>postgres</code> format. The following table shows examples of each output style.</p>
 <p>The <code>sql_standard</code> style produces output that conforms to the SQL standard’s specification for interval literal strings, if the interval value meets the standard’s restrictions (either year-month only or day-time only, with no mixing of positive and negative components). Otherwise the output looks like a standard year-month literal string followed by a day-time literal string, with explicit signs added to disambiguate mixed-sign intervals.</p>
 <p>The output of the <code>postgres</code> style matches the output of PostgreSQL releases prior to 8.4 when the <a href="ref_guide/config_params/guc-list.html">DateStyle</a> parameter was set to <code>ISO</code>.</p>
 <p>The output of the <code>postgres_verbose</code> style matches the output of PostgreSQL releases prior to 8.4 when the DateStyle parameter was set to non-<code>ISO</code> output.</p>
@@ -50016,7 +50020,7 @@ P  &lt;years&gt;-&lt;months&gt;-&lt;days&gt;   T &lt;hours&gt;:&lt;minutes&gt;:&
 <p>When the return value of a function is declared as a polymorphic type, there must be at least one argument position that is also polymorphic, and the actual data type supplied as the argument determines the actual result type for that call. For example, if there were not already an array subscripting mechanism, one could define a function that implements subscripting as <code>subscript(*anyarray*, integer) returns *anyelement*</code>. This declaration constrains the actual first argument to be an array type, and allows the parser to infer the correct result type from the actual first argument’s type. Another example is that a function declared as <code>myfunc(*anyarray*) returns *anyenum*</code> will only accept arrays of <code>enum</code> types.</p>
 <p>Note that <em>anynonarray</em> and <em>anyenum</em> do not represent separate type variables; they are the same type as <em>anyelement</em>, just with an additional constraint. For example, declaring a function as <code>myfunc(*anyelement*, *anyenum*)</code> is equivalent to declaring it as <code>myfunc(*anyenum*, *anyenum*)</code>: both actual arguments must be the same <code>enum</code> type.</p>
 <p>A variadic function (one taking a variable number of arguments) is polymorphic when its last parameter is declared as <code>VARIADIC *anyarray*</code>. For purposes of argument matching and determining the actual result type, such a function behaves the same as if you had declared the appropriate number of <em>anynonarray</em> parameters.</p>
-<p>For more information about polymorphic types, see the PostgreSQL documentation about <a href="https://www.postgresql.org/docs/9.4/xfunc-c.html#AEN56822">Polymorphic Arguments and Return Types</a>.</p>
+<p>For more information about polymorphic types, see the PostgreSQL documentation about <a href="https://www.postgresql.org/docs/9.4/xfunc-c.html">Polymorphic Arguments and Return Types</a>.</p>
 <h2 id="table-value-expressions"><a class="header" href="#table-value-expressions"><a id="topic_ig2_1pc_qfb"></a>Table Value Expressions</a></h2>
 <p>The <em>anytable</em> pseudo-type declares a function argument that is a table value expression. The notation for a table value expression is a <code>SELECT</code> statement enclosed in a <code>TABLE()</code> function. You can specify a distribution policy for the table by adding <code>SCATTER RANDOMLY</code>, or a <code>SCATTER BY</code> clause with a column list to specify the distribution key.</p>
 <p>The <code>SELECT</code> statement is run when the function is called and the result rows are distributed to segments so that each segment runs the function with a subset of the result table.</p>
@@ -50534,7 +50538,7 @@ SELECT foo();
 <td class="entry nocellnorowborder" style="vertical-align:top;" headers="d233567e2036 "><code class="ph codeph">anyelement</code>
 </td>
 <td class="entry nocellnorowborder" style="vertical-align:top;" headers="d233567e2039 ">Expands the object in <code class="ph codeph">from_json</code> to a row whose columns match
-                  the record type defined by base. See <a class="xref" href="ref_guide/function-summary.html#topic_z5d_snw_2z__json_proc_1">Note 1</a>.</td>
+                  the record type defined by base. See <a class="xref" href="ref_guide/function-summary.html#topic_note">Note 1</a>.</td>
 <td class="entry nocellnorowborder" style="vertical-align:top;" headers="d233567e2042 "><code class="ph codeph">select * from json_populate_record(null::myrowtype,
                     '{"a":1,"b":2}')</code>
 </td>
@@ -50553,7 +50557,7 @@ SELECT foo();
 <td class="entry nocellnorowborder" style="vertical-align:top;" headers="d233567e2036 "><code class="ph codeph">setof anyelement</code>
 </td>
 <td class="entry nocellnorowborder" style="vertical-align:top;" headers="d233567e2039 ">Expands the outermost array of objects in <code class="ph codeph">from_json</code> to a set
-                  of rows whose columns match the record type defined by base. See <a class="xref" href="ref_guide/function-summary.html#topic_z5d_snw_2z__json_proc_1">Note 1</a>.</td>
+                  of rows whose columns match the record type defined by base. See <a class="xref" href="ref_guide/function-summary.html#topic_note">Note 1</a>.</td>
 <td class="entry nocellnorowborder" style="vertical-align:top;" headers="d233567e2042 "><code class="ph codeph">select * from json_populate_recordset(null::myrowtype,
                     '[{"a":1,"b":2},{"a":3,"b":4}]')</code>
 </td>
@@ -50614,7 +50618,7 @@ SELECT foo();
 <td class="entry nocellnorowborder" style="vertical-align:top;" headers="d233567e2039 ">Returns the type of the outermost JSON value as a text string. Possible types
                   are <code class="ph codeph">object</code>, <code class="ph codeph">array</code>, <code class="ph codeph">string</code>,
 <code class="ph codeph">number</code>, <code class="ph codeph">boolean</code>, and <code class="ph codeph">null</code>.
-                  See <a class="xref" href="ref_guide/function-summary.html#topic_z5d_snw_2z__json_proc_2">Note 2</a></td>
+                  See <a class="xref" href="ref_guide/function-summary.html#topic_note">Note 2</a></td>
 <td class="entry nocellnorowborder" style="vertical-align:top;" headers="d233567e2042 "><code class="ph codeph">json_typeof('-123.4')</code>
 </td>
 <td class="entry nocellnorowborder" style="vertical-align:top;" headers="d233567e2045 ">
@@ -50627,7 +50631,7 @@ SELECT foo();
 </td>
 <td class="entry nocellnorowborder" style="vertical-align:top;" headers="d233567e2036 "><code class="ph codeph">record</code>
 </td>
-<td class="entry nocellnorowborder" style="vertical-align:top;" headers="d233567e2039 ">Builds an arbitrary record from a JSON object. See <a class="xref" href="ref_guide/function-summary.html#topic_z5d_snw_2z__json_proc_1">Note 1</a>. <p class="p">As with all
+<td class="entry nocellnorowborder" style="vertical-align:top;" headers="d233567e2039 ">Builds an arbitrary record from a JSON object. See <a class="xref" href="ref_guide/function-summary.html#topic_note">Note 1</a>. <p class="p">As with all
                     functions returning record, the caller must explicitly define the structure of
                     the record with an <code class="ph codeph">AS</code> clause.</p>
 </td>
@@ -50648,7 +50652,7 @@ SELECT foo();
 </td>
 <td class="entry row-nocellborder" style="vertical-align:top;" headers="d233567e2036 "><code class="ph codeph">setof record</code>
 </td>
-<td class="entry row-nocellborder" style="vertical-align:top;" headers="d233567e2039 ">Builds an arbitrary set of records from a JSON array of objects See <a class="xref" href="ref_guide/function-summary.html#topic_z5d_snw_2z__json_proc_1">Note 1</a>. <p class="p">As with all
+<td class="entry row-nocellborder" style="vertical-align:top;" headers="d233567e2039 ">Builds an arbitrary set of records from a JSON array of objects See <a class="xref" href="ref_guide/function-summary.html#topic_note">Note 1</a>. <p class="p">As with all
                     functions returning record, the caller must explicitly define the structure of
                     the record with an <code class="ph codeph">AS</code> clause.</p>
 </td>
@@ -50667,6 +50671,7 @@ SELECT foo();
 </tbody>
 </table>
 </div>
+<p><a id="topic_note"></a></p>
 <blockquote>
 <p><strong>Note</strong> The examples for the functions <code>json_populate_record()</code>, <code>json_populate_recordset()</code>, <code>json_to_record()</code> and <code>json_to_recordset()</code> use constants. However, the typical use would be to reference a table in the <code>FROM</code> clause and use one of its <code>json</code> or <code>jsonb</code> columns as an argument to the function. The extracted key values can then be referenced in other parts of the query. For example the value can be referenced in <code>WHERE</code> clauses and target lists. Extracting multiple values in this way can improve performance over extracting them separately with per-key operators.</p>
 </blockquote>
@@ -51784,16 +51789,6 @@ WARNING:  Deprecated call to string_agg(text), use string_agg(text, text) instea
 <div style="break-before: page; page-break-before: always;"></div><h1 id="gp_parallel_retrieve_cursor"><a class="header" href="#gp_parallel_retrieve_cursor">gp_parallel_retrieve_cursor</a></h1>
 <p>The <code>gp_parallel_retrieve_cursor</code> module is an enhanced cursor implementation that you can use to create a special kind of cursor on the SynxDB master node, and retrieve query results, on demand and in parallel, directly from the SynxDB segments. SynxDB refers to such a cursor as a <em>parallel retrieve cursor</em>.</p>
 <p>The <code>gp_parallel_retrieve_cursor</code> module is a SynxDB-specific cursor implementation loosely based on the PostgreSQL cursor.</p>
-<p>This topic includes the following sections:</p>
-<ul>
-<li><a href="ref_guide/modules/gp_parallel_retrieve_cursor.html#topic_reg">Installing and Registering the Module</a></li>
-<li><a href="ref_guide/modules/gp_parallel_retrieve_cursor.html#topic_about">About the gp_parallel_retrieve_cursor Module</a></li>
-<li><a href="ref_guide/modules/gp_parallel_retrieve_cursor.html#topic_using">Using the gp_parallel_retrieve_cursor Module</a></li>
-<li><a href="ref_guide/modules/gp_parallel_retrieve_cursor.html#topic_cfg">Limiting the Number of Concurrently Open Cursors</a></li>
-<li><a href="ref_guide/modules/gp_parallel_retrieve_cursor.html#topic_limits">Known Issues and Limitations</a></li>
-<li><a href="ref_guide/modules/gp_parallel_retrieve_cursor.html#topic_addtldocs">Additional Module Documentation</a></li>
-<li><a href="ref_guide/modules/gp_parallel_retrieve_cursor.html#topic_examples">Example</a></li>
-</ul>
 <h2 id="installing-and-registering-the-module-7"><a class="header" href="#installing-and-registering-the-module-7"><a id="topic_reg"></a>Installing and Registering the Module</a></h2>
 <p>The <code>gp_parallel_retrieve_cursor</code> module is installed when you install SynxDB. Before you can use any of the functions or views defined in the module, you must register the <code>gp_parallel_retrieve_cursor</code> extension in each database where you want to use the functionality:</p>
 <pre><code>CREATE EXTENSION gp_parallel_retrieve_cursor;
@@ -51803,9 +51798,9 @@ WARNING:  Deprecated call to string_agg(text), use string_agg(text, text) instea
 <p>You use a cursor to retrieve a smaller number of rows at a time from a larger query. When you declare a parallel retrieve cursor, the SynxDB Query Dispatcher (QD) dispatches the query plan to each Query Executor (QE), and creates an <em>endpoint</em> on each QE before it executes the query. An endpoint is a query result source for a parallel retrieve cursor on a specific QE. Instead of returning the query result to the QD, an endpoint retains the query result for retrieval via a different process: a direct connection to the endpoint. You open a special retrieve mode connection, called a <em>retrieve session</em>, and use the new <code>RETRIEVE</code> SQL command to retrieve query results from each parallel retrieve cursor endpoint. You can retrieve from parallel retrieve cursor endpoints on demand and in parallel.</p>
 <p>The <code>gp_parallel_retrieve_cursor</code> module provides the following functions and views that you can use to examine and manage parallel retrieve cursors and endpoints:</p>
 <div class="table-wrapper"><table><thead><tr><th>Function, View Name</th><th>Description</th></tr></thead><tbody>
-<tr><td>gp_get_endpoints()<br/><br/><a href="ref_guide/modules/../system_catalogs/gp_endpoints.html#topic1">gp_endpoints</a></td><td>List the endpoints associated with all active parallel retrieve cursors declared by the current user in the current database. When the SynxDB superuser invokes this function, it returns a list of all endpoints for all parallel retrieve cursors declared by all users in the current database.</td></tr>
-<tr><td>gp_get_session_endpoints()<br/><br/><a href="ref_guide/modules/../system_catalogs/gp_session_endpoints.html#topic1">gp_session_endpoints</a></td><td>List the endpoints associated with all parallel retrieve cursors declared in the current session for the current user.</td></tr>
-<tr><td>gp_get_segment_endpoints()<br/><br/><a href="ref_guide/modules/../system_catalogs/gp_segment_endpoints.html#topic1">gp_segment_endpoints</a></td><td>List the endpoints created in the QE for all active parallel retrieve cursors declared by the current user. When the SynxDB superuser accesses this view, it returns a list of all endpoints on the QE created for all parallel retrieve cursors declared by all users.</td></tr>
+<tr><td>gp_get_endpoints()<br/><br/><a href="ref_guide/modules/../system_catalogs/gp_endpoints.html">gp_endpoints</a></td><td>List the endpoints associated with all active parallel retrieve cursors declared by the current user in the current database. When the SynxDB superuser invokes this function, it returns a list of all endpoints for all parallel retrieve cursors declared by all users in the current database.</td></tr>
+<tr><td>gp_get_session_endpoints()<br/><br/><a href="ref_guide/modules/../system_catalogs/gp_session_endpoints.html">gp_session_endpoints</a></td><td>List the endpoints associated with all parallel retrieve cursors declared in the current session for the current user.</td></tr>
+<tr><td>gp_get_segment_endpoints()<br/><br/><a href="ref_guide/modules/../system_catalogs/gp_segment_endpoints.html">gp_segment_endpoints</a></td><td>List the endpoints created in the QE for all active parallel retrieve cursors declared by the current user. When the SynxDB superuser accesses this view, it returns a list of all endpoints on the QE created for all parallel retrieve cursors declared by all users.</td></tr>
 <tr><td>gp_wait_parallel_retrieve_cursor(cursorname text, timeout_sec int4 )</td><td>Return cursor status or block and wait for results to be retrieved from all endpoints associated with the specified parallel retrieve cursor.</td></tr>
 </tbody></table>
 </div>
@@ -51825,7 +51820,7 @@ WARNING:  Deprecated call to string_agg(text), use string_agg(text, text) instea
 </ol>
 <p>In addition to the above, you may optionally choose to open a utility-mode connection to an endpoint to <a href="ref_guide/modules/gp_parallel_retrieve_cursor.html#utility_endpoints">List segment-specific retrieve session information</a>.</p>
 <h3 id="declaring-a-parallel-retrieve-cursor"><a class="header" href="#declaring-a-parallel-retrieve-cursor"><a id="declare_cursor"></a>Declaring a Parallel Retrieve Cursor</a></h3>
-<p>You <a href="ref_guide/modules/../sql_commands/DECLARE.html#topic1">DECLARE</a> a cursor to retrieve a smaller number of rows at a time from a larger query. When you declare a parallel retrieve cursor, you can retrieve the query results directly from the SynxDB segments.</p>
+<p>You <a href="ref_guide/modules/../sql_commands/DECLARE.html">DECLARE</a> a cursor to retrieve a smaller number of rows at a time from a larger query. When you declare a parallel retrieve cursor, you can retrieve the query results directly from the SynxDB segments.</p>
 <p>The syntax for declaring a parallel retrieve cursor is similar to that of declaring a regular cursor; you must additionally include the <code>PARALLEL RETRIEVE</code> keywords in the command. You can declare a parallel retrieve cursor only within a transaction, and the cursor name that you specify when you declare the cursor must be unique within the transaction.</p>
 <p>For example, the following commands begin a transaction and declare a parallel retrieve cursor named <code>prc1</code> to retrieve the results from a specific query:</p>
 <pre><code>BEGIN;
@@ -51871,7 +51866,7 @@ SELECT * FROM gp_endpoints;
 <tr><td>endpointname</td><td>The endpoint identifier; you provide this identifier to the <code>RETRIEVE</code> command.</td></tr>
 </tbody></table>
 </div>
-<p>Refer to the <a href="ref_guide/modules/../system_catalogs/gp_endpoints.html#topic1">gp_endpoints</a> view reference page for more information about the endpoint attributes returned by these commands.</p>
+<p>Refer to the <a href="ref_guide/modules/../system_catalogs/gp_endpoints.html">gp_endpoints</a> view reference page for more information about the endpoint attributes returned by these commands.</p>
 <p>You can similarly invoke the <code>gp_get_session_endpoints()</code> function or examine the <code>gp_session_endpoints</code> view to list the endpoints created for the parallel retrieve cursors declared in the current session and by the current user.</p>
 <h3 id="opening-a-retrieve-session"><a class="header" href="#opening-a-retrieve-session"><a id="open_retrieve_conn"></a>Opening a Retrieve Session</a></h3>
 <p>After you declare a parallel retrieve cursor, you can open a retrieve session to each endpoint. Only a single retrieve session may be open to an endpoint at any given time.</p>
@@ -51894,7 +51889,7 @@ SELECT * FROM gp_endpoints;
 </code></pre>
 <p>To distinguish a retrieve session from other sessions running on a segment host, SynxDB includes the <code>[retrieve]</code> tag on the <code>ps</code> command output display for the process.</p>
 <h3 id="retrieving-data-from-the-endpoint"><a class="header" href="#retrieving-data-from-the-endpoint"><a id="retrieve_data"></a>Retrieving Data From the Endpoint</a></h3>
-<p>Once you establish a retrieve session, you retrieve the tuples associated with a query result on that endpoint using the <a href="ref_guide/modules/../sql_commands/RETRIEVE.html#topic1">RETRIEVE</a> command.</p>
+<p>Once you establish a retrieve session, you retrieve the tuples associated with a query result on that endpoint using the <a href="ref_guide/modules/../sql_commands/RETRIEVE.html">RETRIEVE</a> command.</p>
 <p>You can specify a (positive) number of rows to retrieve, or <code>ALL</code> rows:</p>
 <pre><code>RETRIEVE 7 FROM ENDPOINT prc10000003300000003;
 RETRIEVE ALL FROM ENDPOINT prc10000003300000003;
@@ -51977,7 +51972,7 @@ testdb=&gt; SELECT * from gp_segment_endpoints;
 <tr><td>cursorname</td><td>The name of the parallel retrieve cursor.</td></tr>
 </tbody></table>
 </div>
-<p>Refer to the <a href="ref_guide/modules/../system_catalogs/gp_segment_endpoints.html#topic1">gp_segment_endpoints</a> view reference page for more information about the endpoint attributes returned by these commands.</p>
+<p>Refer to the <a href="ref_guide/modules/../system_catalogs/gp_segment_endpoints.html">gp_segment_endpoints</a> view reference page for more information about the endpoint attributes returned by these commands.</p>
 <h2 id="limiting-the-number-of-concurrently-open-cursors"><a class="header" href="#limiting-the-number-of-concurrently-open-cursors"><a id="topic_cfg"></a>Limiting the Number of Concurrently Open Cursors</a></h2>
 <p>By default, SynxDB does not limit the number of parallel retrieve cursors that are active in the cluster (up to the maximum value of 1024). The SynxDB superuser can set the <a href="ref_guide/modules/../config_params/guc-list.html#gp_max_parallel_cursors">gp_max_parallel_cursors</a> server configuration parameter to limit the number of open cursors.</p>
 <h2 id="known-issues-and-limitations-3"><a class="header" href="#known-issues-and-limitations-3"><a id="topic_limits"></a>Known Issues and Limitations</a></h2>
@@ -54169,7 +54164,7 @@ SELECT * FROM ft1, t1 WHERE t1.ctid = '(0,2)';
 </tbody></table>
 </div>
 <h2 id="gp_external_enable_filter_pushdown"><a class="header" href="#gp_external_enable_filter_pushdown"><a id="gp_external_enable_filter_pushdown"></a>gp_external_enable_filter_pushdown</a></h2>
-<p>Enable filter pushdown when reading data from external tables. If pushdown fails, a query is run without pushing filters to the external data source (instead, SynxDB applies the same constraints to the result). See <a href="ref_guide/config_params/../../admin_guide/external/g-external-tables.html#topic3">Defining External Tables</a> for more information.</p>
+<p>Enable filter pushdown when reading data from external tables. If pushdown fails, a query is run without pushing filters to the external data source (instead, SynxDB applies the same constraints to the result). See <a href="ref_guide/config_params/../../admin_guide/external/g-external-tables.html">Defining External Tables</a> for more information.</p>
 <div class="table-wrapper"><table><thead><tr><th>Value Range</th><th>Default</th><th>Set Classifications</th></tr></thead><tbody>
 <tr><td>Boolean</td><td>on</td><td>master, session, reload</td></tr>
 </tbody></table>
@@ -56799,7 +56794,7 @@ gpbackup --help
 <h3 id="include-schema-file-file_name"><a class="header" href="#include-schema-file-file_name">–include-schema-file &lt;file_name&gt;</a></h3>
 <p>Optional. Specifies a text file containing a list of schemas to back up. Each line in the text file must define a single schema. The file must not include trailing lines. If a schema name uses any character other than a lowercase letter, number, or an underscore character, then you must include that name in double quotes. See <a href="utility_guide/ref/../../admin_guide/managing/backup-gpbackup.html">Filtering the Contents of a Backup or Restore</a> for more information.</p>
 <h3 id="include-table-schematable"><a class="header" href="#include-table-schematable">–include-table &lt;schema.table&gt;</a></h3>
-<p>Optional. Specifies a table to include in the backup. The table must be in the format <code>&lt;schema-name&gt;.&lt;table-name&gt;</code>. For information on specifying special characters in schema and table names, see <a href="http://docs-lena-gpbackup-globals.cfapps.io/backup-restore/1-18/utility_guide/ref/gpbackup.html#topic1__table_names">Schema and Table Names</a>.</p>
+<p>Optional. Specifies a table to include in the backup. The table must be in the format <code>&lt;schema-name&gt;.&lt;table-name&gt;</code>. For information on specifying special characters in schema and table names, see <a href="utility_guide/ref/gpbackup.html#table_names">Schema and Table Names</a>.</p>
 <p>You can specify this option multiple times. You cannot combine this option with a schema filtering option such as <code>--include-schema</code>, or another table filtering option such as <code>--exclude-table-file</code>.</p>
 <p>You can also specify the qualified name of a sequence, a view, or a materialized view.</p>
 <p>If you specify this option, the utility does not automatically back up dependent objects. You must also explicitly specify dependent objects that are required. For example if you back up a view or a materialized view, you must also back up the tables that the view or materialized view uses. If you back up a table that uses a sequence, you must also back up the sequence.</p>
@@ -57627,7 +57622,7 @@ This option is not available on Windows platforms.</p>
 This option is not available on Windows platforms.</p>
 <h3 id="-c-configyaml"><a class="header" href="#-c-configyaml">-c config.yaml</a></h3>
 <p>Specifies rules that <code>gpfdist</code> uses to select a transform to apply when loading or extracting data. The <code>gpfdist</code> configuration file is a YAML 1.1 document.</p>
-<p>For information about the file format, see <a href="utility_guide/ref/../../admin_guide/load/topics/transforming-xml-data.html#topic83">Configuration File Format</a> in the <em>SynxDB Administrator Guide</em>. For information about configuring data transformation with <code>gpfdist</code>, see <a href="utility_guide/ref/../../admin_guide/load/topics/transforming-xml-data.html#topic75">Transforming External Data with gpfdist and gpload</a> in the <em>SynxDB Administrator Guide</em>.</p>
+<p>For information about the file format, see <a href="utility_guide/ref/../../admin_guide/load/topics/transforming-xml-data.html#topic83">Configuration File Format</a> in the <em>SynxDB Administrator Guide</em>. For information about configuring data transformation with <code>gpfdist</code>, see <a href="utility_guide/ref/../../admin_guide/load/topics/transforming-xml-data.html">Transforming External Data with gpfdist and gpload</a>.</p>
 <p>This option is not available on Windows platforms.</p>
 <h3 id="-v-verbose-2"><a class="header" href="#-v-verbose-2">-v (verbose)</a></h3>
 <p>Verbose mode shows progress and status messages.</p>
@@ -57850,7 +57845,7 @@ gpinitsystem -? | --help
 -   Change the password immediately after installation.
 </code></pre>
 <h3 id="mirror-modegroupspread"><a class="header" href="#mirror-modegroupspread">–mirror-mode={group|spread}</a></h3>
-<p>Use this option to specify the placement of mirror segment instances on the segment hosts. The default, <code>group</code>, groups the mirror segments for all of a host’s primary segments on a single alternate host. <code>spread</code> spreads mirror segments for the primary segments on a host across different hosts in the SynxDB array. Spreading is only allowed if the number of hosts is greater than the number of segment instances per host. See <a href="utility_guide/ref/../../admin_guide/highavail/topics/g-overview-of-segment-mirroring.html#topic3">Overview of Segment Mirroring</a> for information about SynxDB mirroring strategies.</p>
+<p>Use this option to specify the placement of mirror segment instances on the segment hosts. The default, <code>group</code>, groups the mirror segments for all of a host’s primary segments on a single alternate host. <code>spread</code> spreads mirror segments for the primary segments on a host across different hosts in the SynxDB array. Spreading is only allowed if the number of hosts is greater than the number of segment instances per host. See <a href="utility_guide/ref/../../admin_guide/highavail/topics/g-overview-of-segment-mirroring.html">Overview of Segment Mirroring</a> for information about SynxDB mirroring strategies.</p>
 <h3 id="-v--version-5"><a class="header" href="#-v--version-5">-v | –version</a></h3>
 <p>Print the <code>gpinitsystem</code> version and exit.</p>
 <h3 id="---help-6"><a class="header" href="#---help-6">-? | –help</a></h3>
@@ -57861,43 +57856,43 @@ gpinitsystem -? | --help
 <pre><code>PORT_BASE = 6000
 MIRROR_PORT_BASE = 7000
 </code></pre>
-<p>ARRAY_NAME
-<strong>Required.</strong> A name for the cluster you are configuring. You can use any name you like. Enclose the name in quotes if the name contains spaces.</p>
-<p>MACHINE_LIST_FILE
-<strong>Optional.</strong> Can be used in place of the <code>-h</code> option. This specifies the file that contains the list of the segment host address names that comprise the SynxDB system. The master host is assumed to be the host from which you are running the utility and should not be included in this file. If your segment hosts have multiple network interfaces, then this file would include all addresses for the host. Give the absolute path to the file.</p>
-<p>SEG_PREFIX
-<strong>Required.</strong> This specifies a prefix that will be used to name the data directories on the master and segment instances. The naming convention for data directories in a SynxDB system is SEG_PREFIXnumber where number starts with 0 for segment instances (the master is always -1). So for example, if you choose the prefix <code>gpseg</code>, your master instance data directory would be named <code>gpseg-1</code>, and the segment instances would be named <code>gpseg0</code>, <code>gpseg1</code>, <code>gpseg2</code>, <code>gpseg3</code>, and so on.</p>
-<p>PORT_BASE
-<strong>Required.</strong> This specifies the base number by which primary segment port numbers are calculated. The first primary segment port on a host is set as <code>PORT_BASE</code>, and then incremented by one for each additional primary segment on that host. Valid values range from 1 through 65535.</p>
-<p>DATA_DIRECTORY
-<strong>Required.</strong> This specifies the data storage location(s) where the utility will create the primary segment data directories. The number of locations in the list dictate the number of primary segments that will get created per physical host (if multiple addresses for a host are listed in the host file, the number of segments will be spread evenly across the specified interface addresses). It is OK to list the same data storage area multiple times if you want your data directories created in the same location. The user who runs <code>gpinitsystem</code> (for example, the <code>gpadmin</code> user) must have permission to write to these directories. For example, this will create six primary segments per host:</p>
+<h3 id="array_name"><a class="header" href="#array_name">ARRAY_NAME</a></h3>
+<p><strong>Required.</strong> A name for the cluster you are configuring. You can use any name you like. Enclose the name in quotes if the name contains spaces.</p>
+<h3 id="machine_list_file"><a class="header" href="#machine_list_file">MACHINE_LIST_FILE</a></h3>
+<p><strong>Optional.</strong> Can be used in place of the <code>-h</code> option. This specifies the file that contains the list of the segment host address names that comprise the SynxDB system. The master host is assumed to be the host from which you are running the utility and should not be included in this file. If your segment hosts have multiple network interfaces, then this file would include all addresses for the host. Give the absolute path to the file.</p>
+<h3 id="seg_prefix"><a class="header" href="#seg_prefix">SEG_PREFIX</a></h3>
+<p><strong>Required.</strong> This specifies a prefix that will be used to name the data directories on the master and segment instances. The naming convention for data directories in a SynxDB system is SEG_PREFIXnumber where number starts with 0 for segment instances (the master is always -1). So for example, if you choose the prefix <code>gpseg</code>, your master instance data directory would be named <code>gpseg-1</code>, and the segment instances would be named <code>gpseg0</code>, <code>gpseg1</code>, <code>gpseg2</code>, <code>gpseg3</code>, and so on.</p>
+<h3 id="port_base"><a class="header" href="#port_base">PORT_BASE</a></h3>
+<p><strong>Required.</strong> This specifies the base number by which primary segment port numbers are calculated. The first primary segment port on a host is set as <code>PORT_BASE</code>, and then incremented by one for each additional primary segment on that host. Valid values range from 1 through 65535.</p>
+<h3 id="data_directory"><a class="header" href="#data_directory">DATA_DIRECTORY</a></h3>
+<p><strong>Required.</strong> This specifies the data storage location(s) where the utility will create the primary segment data directories. The number of locations in the list dictate the number of primary segments that will get created per physical host (if multiple addresses for a host are listed in the host file, the number of segments will be spread evenly across the specified interface addresses). It is OK to list the same data storage area multiple times if you want your data directories created in the same location. The user who runs <code>gpinitsystem</code> (for example, the <code>gpadmin</code> user) must have permission to write to these directories. For example, this will create six primary segments per host:</p>
 <pre><code>declare -a DATA_DIRECTORY=(/data1/primary /data1/primary 
 /data1/primary /data2/primary /data2/primary /data2/primary)
 </code></pre>
-<p>MASTER_HOSTNAME
-<strong>Required.</strong> The host name of the master instance. This host name must exactly match the configured host name of the machine (run the <code>hostname</code> command to determine the correct hostname).</p>
-<p>MASTER_DIRECTORY
-<strong>Required.</strong> This specifies the location where the data directory will be created on the master host. You must make sure that the user who runs <code>gpinitsystem</code> (for example, the <code>gpadmin</code> user) has permissions to write to this directory.</p>
-<p>MASTER_PORT
-<strong>Required.</strong> The port number for the master instance. This is the port number that users and client connections will use when accessing the SynxDB system.</p>
-<p>TRUSTED_SHELL
-<strong>Required.</strong> The shell the <code>gpinitsystem</code> utility uses to run commands on remote hosts. Allowed values are <code>ssh</code>. You must set up your trusted host environment before running the <code>gpinitsystem</code> utility (you can use <code>gpssh-exkeys</code> to do this).</p>
-<p>CHECK_POINT_SEGMENTS
-<strong>Required.</strong> Maximum distance between automatic write ahead log (WAL) checkpoints, in log file segments (each segment is normally 16 megabytes). This will set the <code>checkpoint_segments</code> parameter in the <code>postgresql.conf</code> file for each segment instance in the SynxDB system.</p>
-<p>ENCODING
-<strong>Required.</strong> The character set encoding to use. This character set must be compatible with the <code>--locale</code> settings used, especially <code>--lc-collate</code> and <code>--lc-ctype</code>. SynxDB supports the same character sets as PostgreSQL.</p>
-<p>DATABASE_NAME
-<strong>Optional.</strong> The name of a SynxDB database to create after the system is initialized. You can always create a database later using the <code>CREATE DATABASE</code> command or the <code>createdb</code> utility.</p>
-<p>MIRROR_PORT_BASE
-<strong>Optional.</strong> This specifies the base number by which mirror segment port numbers are calculated. The first mirror segment port on a host is set as <code>MIRROR_PORT_BASE</code>, and then incremented by one for each additional mirror segment on that host. Valid values range from 1 through 65535 and cannot conflict with the ports calculated by <code>PORT_BASE</code>.</p>
-<p>MIRROR_DATA_DIRECTORY
-<strong>Optional.</strong> This specifies the data storage location(s) where the utility will create the mirror segment data directories. There must be the same number of data directories declared for mirror segment instances as for primary segment instances (see the <code>DATA_DIRECTORY</code> parameter). The user who runs <code>gpinitsystem</code> (for example, the <code>gpadmin</code> user) must have permission to write to these directories. For example:</p>
+<h3 id="master_hostname"><a class="header" href="#master_hostname">MASTER_HOSTNAME</a></h3>
+<p><strong>Required.</strong> The host name of the master instance. This host name must exactly match the configured host name of the machine (run the <code>hostname</code> command to determine the correct hostname).</p>
+<h3 id="master_directory"><a class="header" href="#master_directory">MASTER_DIRECTORY</a></h3>
+<p><strong>Required.</strong> This specifies the location where the data directory will be created on the master host. You must make sure that the user who runs <code>gpinitsystem</code> (for example, the <code>gpadmin</code> user) has permissions to write to this directory.</p>
+<h3 id="master_port"><a class="header" href="#master_port">MASTER_PORT</a></h3>
+<p><strong>Required.</strong> The port number for the master instance. This is the port number that users and client connections will use when accessing the SynxDB system.</p>
+<h3 id="trusted_shell"><a class="header" href="#trusted_shell">TRUSTED_SHELL</a></h3>
+<p><strong>Required.</strong> The shell the <code>gpinitsystem</code> utility uses to run commands on remote hosts. Allowed values are <code>ssh</code>. You must set up your trusted host environment before running the <code>gpinitsystem</code> utility (you can use <code>gpssh-exkeys</code> to do this).</p>
+<h3 id="check_point_segments"><a class="header" href="#check_point_segments">CHECK_POINT_SEGMENTS</a></h3>
+<p><strong>Required.</strong> Maximum distance between automatic write ahead log (WAL) checkpoints, in log file segments (each segment is normally 16 megabytes). This will set the <code>checkpoint_segments</code> parameter in the <code>postgresql.conf</code> file for each segment instance in the SynxDB system.</p>
+<h3 id="encoding-2"><a class="header" href="#encoding-2">ENCODING</a></h3>
+<p><strong>Required.</strong> The character set encoding to use. This character set must be compatible with the <code>--locale</code> settings used, especially <code>--lc-collate</code> and <code>--lc-ctype</code>. SynxDB supports the same character sets as PostgreSQL.</p>
+<h3 id="database_name-1"><a class="header" href="#database_name-1">DATABASE_NAME</a></h3>
+<p><strong>Optional.</strong> The name of a SynxDB database to create after the system is initialized. You can always create a database later using the <code>CREATE DATABASE</code> command or the <code>createdb</code> utility.</p>
+<h3 id="mirror_port_base"><a class="header" href="#mirror_port_base">MIRROR_PORT_BASE</a></h3>
+<p><strong>Optional.</strong> This specifies the base number by which mirror segment port numbers are calculated. The first mirror segment port on a host is set as <code>MIRROR_PORT_BASE</code>, and then incremented by one for each additional mirror segment on that host. Valid values range from 1 through 65535 and cannot conflict with the ports calculated by <code>PORT_BASE</code>.</p>
+<h3 id="mirror_data_directory"><a class="header" href="#mirror_data_directory">MIRROR_DATA_DIRECTORY</a></h3>
+<p><strong>Optional.</strong> This specifies the data storage location(s) where the utility will create the mirror segment data directories. There must be the same number of data directories declared for mirror segment instances as for primary segment instances (see the <code>DATA_DIRECTORY</code> parameter). The user who runs <code>gpinitsystem</code> (for example, the <code>gpadmin</code> user) must have permission to write to these directories. For example:</p>
 <pre><code>declare -a MIRROR_DATA_DIRECTORY=(/data1/mirror 
 /data1/mirror /data1/mirror /data2/mirror /data2/mirror 
 /data2/mirror)
 </code></pre>
-<p>QD_PRIMARY_ARRAY, PRIMARY_ARRAY, MIRROR_ARRAY
-<strong>Required</strong> when using <code>input_configuration file</code> with <code>-I</code> option. These parameters specify the SynxDB master host, the primary segment, and the mirror segment hosts respectively. During new cluster initialization, use the <code>gpinitsystem</code> <code>-O output\_configuration\_file</code> to populate <code>QD_PRIMARY_ARRAY</code>, <code>PRIMARY_ARRAY</code>, <code>MIRROR_ARRAY</code>.</p>
+<h3 id="qd_primary_array-primary_array-mirror_array"><a class="header" href="#qd_primary_array-primary_array-mirror_array"><a id="array_params"></a>QD_PRIMARY_ARRAY, PRIMARY_ARRAY, MIRROR_ARRAY</a></h3>
+<p><strong>Required</strong> when using <code>input_configuration file</code> with <code>-I</code> option. These parameters specify the SynxDB master host, the primary segment, and the mirror segment hosts respectively. During new cluster initialization, use the <code>gpinitsystem</code> <code>-O output\_configuration\_file</code> to populate <code>QD_PRIMARY_ARRAY</code>, <code>PRIMARY_ARRAY</code>, <code>MIRROR_ARRAY</code>.</p>
 <p>To initialize a new cluster or re-create a cluster from a backed up configuration, edit these values in the input configuration file used with the <code>gpinitsystem</code> <code>-I input\_configuration\_file</code> option. Use one of the following formats to specify the host information:</p>
 <pre><code>&lt;hostname&gt;~&lt;address&gt;~&lt;port&gt;~&lt;data_directory&gt;/&lt;seg_prefix&lt;segment_id&gt;~&lt;dbid&gt;~&lt;content_id&gt;
 </code></pre>
@@ -57921,14 +57916,14 @@ sdw1~sdw1~50001~/gpdata/mirror2/gpseg3~9~3
 )
 </code></pre>
 <p>To re-create a cluster using a known SynxDB system configuration, you can edit the segment and content IDs to match the values of the system.</p>
-<p>HEAP_CHECKSUM
-<strong>Optional.</strong> This parameter specifies if checksums are enabled for heap data. When enabled, checksums are calculated for heap storage in all databases, enabling SynxDB to detect corruption in the I/O system. This option is set when the system is initialized and cannot be changed later.</p>
+<h3 id="heap_checksum"><a class="header" href="#heap_checksum">HEAP_CHECKSUM</a></h3>
+<p><strong>Optional.</strong> This parameter specifies if checksums are enabled for heap data. When enabled, checksums are calculated for heap storage in all databases, enabling SynxDB to detect corruption in the I/O system. This option is set when the system is initialized and cannot be changed later.</p>
 <p>The <code>HEAP_CHECKSUM</code> option is on by default and turning it off is strongly discouraged. If you set this option to off, data corruption in storage can go undetected and make recovery much more difficult.</p>
 <p>To determine if heap checksums are enabled in a SynxDB system, you can query the <code>data_checksums</code> server configuration parameter with the <code>gpconfig</code> management utility:</p>
 <pre><code>$ gpconfig -s data_checksums
 </code></pre>
-<p>HBA_HOSTNAMES
-<strong>Optional.</strong> This parameter controls whether <code>gpinitsystem</code> uses IP addresses or host names in the <code>pg_hba.conf</code> file when updating the file with addresses that can connect to SynxDB. The default value is <code>0</code>, the utility uses IP addresses when updating the file. When initializing a SynxDB system, specify <code>HBA_HOSTNAMES=1</code> to have the utility use host names in the <code>pg_hba.conf</code> file.</p>
+<h3 id="hba_hostnames"><a class="header" href="#hba_hostnames"><a id="hba_hostnames"></a>HBA_HOSTNAMES</a></h3>
+<p><strong>Optional.</strong> This parameter controls whether <code>gpinitsystem</code> uses IP addresses or host names in the <code>pg_hba.conf</code> file when updating the file with addresses that can connect to SynxDB. The default value is <code>0</code>, the utility uses IP addresses when updating the file. When initializing a SynxDB system, specify <code>HBA_HOSTNAMES=1</code> to have the utility use host names in the <code>pg_hba.conf</code> file.</p>
 <p>For information about how SynxDB resolves host names in the <code>pg_hba.conf</code> file, see <a href="utility_guide/ref/../../admin_guide/client_auth.html">Configuring Client Authentication</a>.</p>
 <h2 id="specifying-hosts-using-hostnames-or-ip-addresses-2"><a class="header" href="#specifying-hosts-using-hostnames-or-ip-addresses-2"><a id="spechosts"></a>Specifying Hosts using Hostnames or IP Addresses</a></h2>
 <p>When initializing a SynxDB system with <code>gpinitsystem</code>, you can specify segment hosts using either hostnames or IP addresses. For example, you can use hostnames or IP addresses in the file specified with the <code>-h</code> option.</p>
@@ -58186,7 +58181,7 @@ GPLOAD:
 <p>Required when <code>FORMAT</code> is <code>CSV</code>. Specifies the quotation character for <code>CSV</code> mode. The default is double-quote (<code>"</code>).</p>
 <h3 id="header-2"><a class="header" href="#header-2">HEADER</a></h3>
 <p>Optional. Specifies that the first line in the data file(s) is a header row (contains the names of the columns) and should not be included as data to be loaded. If using multiple data source files, all files must have a header row. The default is to assume that the input files do not have a header row.</p>
-<h3 id="encoding-2"><a class="header" href="#encoding-2">ENCODING</a></h3>
+<h3 id="encoding-3"><a class="header" href="#encoding-3">ENCODING</a></h3>
 <p>Optional. Character set encoding of the source data. Specify a string constant (such as <code>'SQL_ASCII'</code>), an integer encoding number, or <code>'DEFAULT'</code> to use the default client encoding. If not specified, the default client encoding is used. For information about supported character sets, see the <em>SynxDB Reference Guide</em>.</p>
 <blockquote>
 <p><strong>Note</strong> If you <em>change</em> the <code>ENCODING</code> value in an existing <code>gpload</code> control file, you must manually drop any external tables that were creating using the previous <code>ENCODING</code> configuration. <code>gpload</code> does not drop and recreate external tables to use the new <code>ENCODING</code> if <code>REUSE_TABLES</code> is set to <code>true</code>.</p>
@@ -58243,7 +58238,7 @@ Optional. Specifies operations to run prior to the load operation. Right now the
 <h3 id="staging_table"><a class="header" href="#staging_table">STAGING_TABLE</a></h3>
 <p>Optional. Specify the name of the temporary external table that is created during a <code>gpload</code> operation. The external table is used by <code>gpfdist</code>. <code>REUSE_TABLES: true</code> must also specified. If <code>REUSE_TABLES</code> is false or not specified, <code>STAGING_TABLE</code> is ignored. By default, <code>gpload</code> creates a temporary external table with a randomly generated name.</p>
 <p>If external_table_name contains a period (.), <code>gpload</code> returns an error. If the table exists, the utility uses the table. The utility returns an error if the existing table schema does not match the <code>OUTPUT</code> table schema.</p>
-<p>The utility uses the value of <a href="utility_guide/ref/gpload.html#cfschema">SCHEMA</a> in the <code>EXTERNAL</code> section as the schema for &lt;external_table_name&gt;. If the <code>SCHEMA</code> value is <code>%</code>, the schema for &lt;external_table_name&gt; is the same as the schema of the target table, the schema of <a href="utility_guide/ref/gpload.html#cftable">TABLE</a> in the <code>OUTPUT</code> section.</p>
+<p>The utility uses the value of <code>SCHEMA</code> in the <code>EXTERNAL</code> section as the schema for &lt;external_table_name&gt;. If the <code>SCHEMA</code> value is <code>%</code>, the schema for &lt;external_table_name&gt; is the same as the schema of the target table, the schema of <code>TABLE</code> in the <code>OUTPUT</code> section.</p>
 <p>If <code>SCHEMA</code> is not set, the utility searches for the table (using the schemas in the database <code>search_path</code>). If the table is not found, external_table_name is created in the default <code>PUBLIC</code> schema.</p>
 <p><code>gpload</code> creates the staging table using the distribution key(s) of the target table as the distribution key(s) for the staging table. If the target table was created <code>DISTRIBUTED RANDOMLY</code>, <code>gpload</code> uses <code>MATCH_COLUMNS</code> as the staging table’s distribution key(s).</p>
 <h3 id="fast_match"><a class="header" href="#fast_match">FAST_MATCH</a></h3>
@@ -58518,7 +58513,7 @@ PORT: master_port
      OPTIMIZE: STRICT IMMUTABLE
      MODE: SINGLE | MULTI
 </code></pre>
-<pre><code>  - TRANSITION \| CONSOLIDATE \| FINALIZE:
+<pre><code>  - TRANSITION | CONSOLIDATE | FINALIZE:
      NAME: function_name
      FUNCTION: function_definition
      LANGUAGE: perl | python | c
@@ -58561,7 +58556,7 @@ EXECUTE:
 <h3 id="database-2"><a class="header" href="#database-2">DATABASE</a></h3>
 <p>Optional. Specifies which database in SynxDB to connect to. If not specified, defaults to the default database or <code>$PGDATABASE</code> if set.</p>
 <h3 id="user-3"><a class="header" href="#user-3">USER</a></h3>
-<p>Optional. Specifies which database role to use to connect. If not specified, defaults to the current user or <code>$PGUSER</code> if set. You must be a SynxDB superuser to run functions written in untrusted Python and Perl. Regular database users can run functions written in trusted Perl. You also must be a database superuser to run MapReduce jobs that contain <a href="utility_guide/ref/gpmapreduce-yaml.html#FILE">FILE</a>, <a href="utility_guide/ref/gpmapreduce-yaml.html#GPFDIST">GPFDIST</a> and <a href="utility_guide/ref/gpmapreduce-yaml.html#EXEC">EXEC</a> input types.</p>
+<p>Optional. Specifies which database role to use to connect. If not specified, defaults to the current user or <code>$PGUSER</code> if set. You must be a SynxDB superuser to run functions written in untrusted Python and Perl. Regular database users can run functions written in trusted Perl. You also must be a database superuser to run MapReduce jobs that contain <code>FILE</code>, <code>GPFDIST</code> and <code>EXEC</code> input types.</p>
 <h3 id="host-1"><a class="header" href="#host-1">HOST</a></h3>
 <p>Optional. Specifies SynxDB master host name. If not specified, defaults to localhost or <code>$PGHOST</code> if set.</p>
 <h3 id="port-3"><a class="header" href="#port-3">PORT</a></h3>
@@ -58583,20 +58578,20 @@ EXECUTE:
 <h3 id="exec"><a class="header" href="#exec"><a id="EXEC"></a>EXEC</a></h3>
 <p>An operating system command to run on the SynxDB segment hosts. The command is run by all segment instances in the system by default. For example, if you have four segment instances per segment host, the command will be run four times on each host. You must be a SynxDB superuser to run MapReduce jobs with <code>EXEC</code> input.</p>
 <h3 id="columns-1"><a class="header" href="#columns-1">COLUMNS</a></h3>
-<p>Optional. Columns are specified as: <code>column_name``[``data_type``]</code>. If not specified, the default is <code>value text</code>. The <a href="utility_guide/ref/gpmapreduce-yaml.html#DELIMITER">DELIMITER</a> character is what separates two data value fields (columns). A row is determined by a line feed character (<code>0x0a</code>).</p>
+<p>Optional. Columns are specified as: <code>column_name``[``data_type``]</code>. If not specified, the default is <code>value text</code>. The <code>DELIMITER</code> character is what separates two data value fields (columns). A row is determined by a line feed character (<code>0x0a</code>).</p>
 <h3 id="format-3"><a class="header" href="#format-3">FORMAT</a></h3>
 <p>Optional. Specifies the format of the data - either delimited text (<code>TEXT</code>) or comma separated values (<code>CSV</code>) format. If the data format is not specified, defaults to <code>TEXT</code>.</p>
 <h3 id="delimiter-3"><a class="header" href="#delimiter-3">DELIMITER</a></h3>
-<p>Optional for <a href="utility_guide/ref/gpmapreduce-yaml.html#FILE">FILE</a>, <a href="utility_guide/ref/gpmapreduce-yaml.html#GPFDIST">GPFDIST</a> and <a href="utility_guide/ref/gpmapreduce-yaml.html#EXEC">EXEC</a> inputs. Specifies a single character that separates data values. The default is a tab character in <code>TEXT</code> mode, a comma in <code>CSV</code> mode. The delimiter character must only appear between any two data value fields. Do not place a delimiter at the beginning or end of a row.</p>
+<p>Optional for <code>FILE</code>, <code>FILE</code> and <code>FILE</code> inputs. Specifies a single character that separates data values. The default is a tab character in <code>TEXT</code> mode, a comma in <code>CSV</code> mode. The delimiter character must only appear between any two data value fields. Do not place a delimiter at the beginning or end of a row.</p>
 <h3 id="escape-3"><a class="header" href="#escape-3">ESCAPE</a></h3>
-<p>Optional for <a href="utility_guide/ref/gpmapreduce-yaml.html#FILE">FILE</a>, <a href="utility_guide/ref/gpmapreduce-yaml.html#GPFDIST">GPFDIST</a> and <a href="utility_guide/ref/gpmapreduce-yaml.html#EXEC">EXEC</a> inputs. Specifies the single character that is used for C escape sequences (such as <code>\n</code>,<code>\t</code>,<code>\100</code>, and so on) and for escaping data characters that might otherwise be taken as row or column delimiters. Make sure to choose an escape character that is not used anywhere in your actual column data. The default escape character is a \ (backslash) for text-formatted files and a <code>"</code> (double quote) for csv-formatted files, however it is possible to specify another character to represent an escape. It is also possible to deactivate escaping by specifying the value <code>'OFF'</code> as the escape value. This is very useful for data such as text-formatted web log data that has many embedded backslashes that are not intended to be escapes.</p>
+<p>Optional for <code>FILE</code>, <code>FILE</code> and <code>FILE</code> inputs. Specifies the single character that is used for C escape sequences (such as <code>\n</code>,<code>\t</code>,<code>\100</code>, and so on) and for escaping data characters that might otherwise be taken as row or column delimiters. Make sure to choose an escape character that is not used anywhere in your actual column data. The default escape character is a \ (backslash) for text-formatted files and a <code>"</code> (double quote) for csv-formatted files, however it is possible to specify another character to represent an escape. It is also possible to deactivate escaping by specifying the value <code>'OFF'</code> as the escape value. This is very useful for data such as text-formatted web log data that has many embedded backslashes that are not intended to be escapes.</p>
 <h3 id="null-4"><a class="header" href="#null-4">NULL</a></h3>
-<p>Optional for <a href="utility_guide/ref/gpmapreduce-yaml.html#FILE">FILE</a>, <a href="utility_guide/ref/gpmapreduce-yaml.html#GPFDIST">GPFDIST</a> and <a href="utility_guide/ref/gpmapreduce-yaml.html#EXEC">EXEC</a> inputs. Specifies the string that represents a null value. The default is <code>\N</code> in <code>TEXT</code> format, and an empty value with no quotations in <code>CSV</code> format. You might prefer an empty string even in <code>TEXT</code> mode for cases where you do not want to distinguish nulls from empty strings. Any input data item that matches this string will be considered a null value.</p>
+<p>Optional for <code>FILE</code>, <code>FILE</code> and <code>FILE</code> inputs. Specifies the string that represents a null value. The default is <code>\N</code> in <code>TEXT</code> format, and an empty value with no quotations in <code>CSV</code> format. You might prefer an empty string even in <code>TEXT</code> mode for cases where you do not want to distinguish nulls from empty strings. Any input data item that matches this string will be considered a null value.</p>
 <h3 id="quote-3"><a class="header" href="#quote-3">QUOTE</a></h3>
-<p>Optional for <a href="utility_guide/ref/gpmapreduce-yaml.html#FILE">FILE</a>, <a href="utility_guide/ref/gpmapreduce-yaml.html#GPFDIST">GPFDIST</a> and <a href="utility_guide/ref/gpmapreduce-yaml.html#EXEC">EXEC</a> inputs. Specifies the quotation character for <code>CSV</code> formatted files. The default is a double quote (<code>"</code>). In <code>CSV</code> formatted files, data value fields must be enclosed in double quotes if they contain any commas or embedded new lines. Fields that contain double quote characters must be surrounded by double quotes, and the embedded double quotes must each be represented by a pair of consecutive double quotes. It is important to always open and close quotes correctly in order for data rows to be parsed correctly.</p>
+<p>Optional for <code>FILE</code>, <code>FILE</code> and <code>FILE</code> inputs. Specifies the quotation character for <code>CSV</code> formatted files. The default is a double quote (<code>"</code>). In <code>CSV</code> formatted files, data value fields must be enclosed in double quotes if they contain any commas or embedded new lines. Fields that contain double quote characters must be surrounded by double quotes, and the embedded double quotes must each be represented by a pair of consecutive double quotes. It is important to always open and close quotes correctly in order for data rows to be parsed correctly.</p>
 <h3 id="error_limit-1"><a class="header" href="#error_limit-1">ERROR_LIMIT</a></h3>
 <p>If the input rows have format errors they will be discarded provided that the error limit count is not reached on any SynxDB segment instance during input processing. If the error limit is not reached, all good rows will be processed and any error rows discarded.</p>
-<h3 id="encoding-3"><a class="header" href="#encoding-3">ENCODING</a></h3>
+<h3 id="encoding-4"><a class="header" href="#encoding-4">ENCODING</a></h3>
 <p>Character set encoding to use for the data. Specify a string constant (such as <code>'SQL_ASCII'</code>), an integer encoding number, or <code>DEFAULT</code> to use the default client encoding. See <a href="utility_guide/ref/../../ref_guide/character_sets.html">Character Set Support</a> for more information.</p>
 <h3 id="output-1"><a class="header" href="#output-1"><a id="OUTPUT"></a>OUTPUT</a></h3>
 <p>Optional. Defines where to output the formatted data of this MapReduce job. If output is not defined, the default is <code>STDOUT</code> (standard output of the client). You can send output to a file on the client host or to an existing table in the database.</p>
@@ -58605,26 +58600,26 @@ EXECUTE:
 <h3 id="file-3"><a class="header" href="#file-3"><a id="OUTPUTFILE"></a>FILE</a></h3>
 <p>Specifies a file location on the MapReduce client machine to output data in the format: <code>/path/to/filename</code>.</p>
 <h3 id="table-11"><a class="header" href="#table-11"><a id="OUTPUTTABLE"></a>TABLE</a></h3>
-<p>Specifies the name of a table in the database to output data. If this table does not exist prior to running the MapReduce job, it will be created using the distribution policy specified with <a href="utility_guide/ref/gpmapreduce-yaml.html#KEYS">KEYS</a>.</p>
+<p>Specifies the name of a table in the database to output data. If this table does not exist prior to running the MapReduce job, it will be created using the distribution policy specified with <code>FILE</code>.</p>
 <h3 id="keys"><a class="header" href="#keys">KEYS</a></h3>
-<p>Optional for <a href="utility_guide/ref/gpmapreduce-yaml.html#OUTPUTTABLE">TABLE</a> output. Specifies the column(s) to use as the SynxDB distribution key. If the <a href="utility_guide/ref/gpmapreduce-yaml.html#EXECUTE">EXECUTE</a> task contains a <a href="utility_guide/ref/gpmapreduce-yaml.html#REDUCE">REDUCE</a> definition, then the <code>REDUCE</code> keys will be used as the table distribution key by default. Otherwise, the first column of the table will be used as the distribution key.</p>
+<p>Optional for <a href="utility_guide/ref/gpmapreduce-yaml.html#OUTPUTTABLE">TABLE</a> output. Specifies the column(s) to use as the SynxDB distribution key. If the <code>FILE</code> task contains a <code>FILE</code> definition, then the <code>REDUCE</code> keys will be used as the table distribution key by default. Otherwise, the first column of the table will be used as the distribution key.</p>
 <h3 id="mode-1"><a class="header" href="#mode-1">MODE</a></h3>
 <p>Optional for <a href="utility_guide/ref/gpmapreduce-yaml.html#OUTPUTTABLE">TABLE</a> output. If not specified, the default is to create the table if it does not already exist, but error out if it does exist. Declaring <code>APPEND</code> adds output data to an existing table (provided the table schema matches the output format) without removing any existing data. Declaring <code>REPLACE</code> will drop the table if it exists and then recreate it. Both <code>APPEND</code> and <code>REPLACE</code> will create a new table if one does not exist.</p>
 <h3 id="map"><a class="header" href="#map">MAP</a></h3>
-<p>Required. Each <code>MAP</code> function takes data structured in (<code>key</code>, <code>value</code>) pairs, processes each pair, and generates zero or more output (<code>key</code>, <code>value</code>) pairs. The SynxDB MapReduce framework then collects all pairs with the same key from all output lists and groups them together. This output is then passed to the <a href="utility_guide/ref/gpmapreduce-yaml.html#TASKREDUCE">REDUCE</a> task, which is comprised of <a href="utility_guide/ref/gpmapreduce-yaml.html#TCF">TRANSITION | CONSOLIDATE | FINALIZE</a> functions. There is one predefined <code>MAP</code> function named <code>IDENTITY</code> that returns (<code>key</code>, <code>value</code>) pairs unchanged. Although (<code>key</code>, <code>value</code>) are the default parameters, you can specify other prototypes as needed.</p>
+<p>Required. Each <code>MAP</code> function takes data structured in (<code>key</code>, <code>value</code>) pairs, processes each pair, and generates zero or more output (<code>key</code>, <code>value</code>) pairs. The SynxDB MapReduce framework then collects all pairs with the same key from all output lists and groups them together. This output is then passed to the <code>REDUCE</code> task, which is comprised of <code>TRANSITION | CONSOLIDATE | FINALIZE</code> functions. There is one predefined <code>MAP</code> function named <code>IDENTITY</code> that returns (<code>key</code>, <code>value</code>) pairs unchanged. Although (<code>key</code>, <code>value</code>) are the default parameters, you can specify other prototypes as needed.</p>
 <h3 id="transition--consolidate--finalize"><a class="header" href="#transition--consolidate--finalize">TRANSITION | CONSOLIDATE | FINALIZE</a></h3>
-<p><code>TRANSITION</code>, <code>CONSOLIDATE</code> and <code>FINALIZE</code> are all component pieces of <a href="utility_guide/ref/gpmapreduce-yaml.html#REDUCE">REDUCE</a>. A <code>TRANSITION</code> function is required. <code>CONSOLIDATE</code> and <code>FINALIZE</code> functions are optional. By default, all take <code>state</code> as the first of their input <a href="utility_guide/ref/gpmapreduce-yaml.html#PARAMETERS">PARAMETERS</a>, but other prototypes can be defined as well.</p>
-<p>A <code>TRANSITION</code> function iterates through each value of a given key and accumulates values in a <code>state</code> variable. When the transition function is called on the first value of a key, the <code>state</code> is set to the value specified by <a href="utility_guide/ref/gpmapreduce-yaml.html#INITIALIZE">INITIALIZE</a> of a <a href="utility_guide/ref/gpmapreduce-yaml.html#REDUCE">REDUCE</a> job (or the default state value for the data type). A transition takes two arguments as input; the current state of the key reduction, and the next value, which then produces a new <code>state</code>.</p>
+<p><code>TRANSITION</code>, <code>CONSOLIDATE</code> and <code>FINALIZE</code> are all component pieces of <code>FILE</code>. A <code>TRANSITION</code> function is required. <code>CONSOLIDATE</code> and <code>FINALIZE</code> functions are optional. By default, all take <code>state</code> as the first of their input <code>FILE</code>, but other prototypes can be defined as well.</p>
+<p>A <code>TRANSITION</code> function iterates through each value of a given key and accumulates values in a <code>state</code> variable. When the transition function is called on the first value of a key, the <code>state</code> is set to the value specified by <code>FILE</code> of a <code>FILE</code> job (or the default state value for the data type). A transition takes two arguments as input; the current state of the key reduction, and the next value, which then produces a new <code>state</code>.</p>
 <p>If a <code>CONSOLIDATE</code> function is specified, <code>TRANSITION</code> processing is performed at the segment-level before redistributing the keys across the SynxDB interconnect for final aggregation (two-phase aggregation). Only the resulting <code>state</code> value for a given key is redistributed, resulting in lower interconnect traffic and greater parallelism. <code>CONSOLIDATE</code> is handled like a <code>TRANSITION</code>, except that instead of <code>(state + value) =&gt; state</code>, it is <code>(state + state) =&gt; state</code>.</p>
 <p>If a <code>FINALIZE</code> function is specified, it takes the final <code>state</code> produced by <code>CONSOLIDATE</code> (if present) or <code>TRANSITION</code> and does any final processing before emitting the final result. <code>TRANSITION</code> and <code>CONSOLIDATE</code>functions cannot return a set of values. If you need a <code>REDUCE</code> job to return a set, then a <code>FINALIZE</code> is necessary to transform the final state into a set of output values.</p>
 <h3 id="name-96"><a class="header" href="#name-96">NAME</a></h3>
-<p>Required. A name for the function. Names must be unique with regards to the names of other objects in this MapReduce job (such as function, task, input and output names). You can also specify the name of a function built-in to SynxDB. If using a built-in function, do not supply <a href="utility_guide/ref/gpmapreduce-yaml.html#LANGUAGE">LANGUAGE</a> or a <a href="utility_guide/ref/gpmapreduce-yaml.html#FUNCTION">FUNCTION</a> body.</p>
+<p>Required. A name for the function. Names must be unique with regards to the names of other objects in this MapReduce job (such as function, task, input and output names). You can also specify the name of a function built-in to SynxDB. If using a built-in function, do not supply <code>FILE</code> or a <code>FILE</code> body.</p>
 <h3 id="function"><a class="header" href="#function">FUNCTION</a></h3>
-<p>Optional. Specifies the full body of the function using the specified <a href="utility_guide/ref/gpmapreduce-yaml.html#LANGUAGE">LANGUAGE</a>. If <code>FUNCTION</code> is not specified, then a built-in database function corresponding to <a href="utility_guide/ref/gpmapreduce-yaml.html#TCFNAME">NAME</a> is used.</p>
+<p>Optional. Specifies the full body of the function using the specified <code>FILE</code>. If <code>FUNCTION</code> is not specified, then a built-in database function corresponding to <code>NAME</code> is used.</p>
 <h3 id="language"><a class="header" href="#language">LANGUAGE</a></h3>
-<p>Required when <a href="utility_guide/ref/gpmapreduce-yaml.html#FUNCTION">FUNCTION</a> is used. Specifies the implementation language used to interpret the function. This release has language support for <code>perl</code>, <code>python</code>, and <code>C</code>. If calling a built-in database function, <code>LANGUAGE</code> should not be specified.</p>
+<p>Required when <code>FILE</code> is used. Specifies the implementation language used to interpret the function. This release has language support for <code>perl</code>, <code>python</code>, and <code>C</code>. If calling a built-in database function, <code>LANGUAGE</code> should not be specified.</p>
 <h3 id="library"><a class="header" href="#library">LIBRARY</a></h3>
-<p>Required when <a href="utility_guide/ref/gpmapreduce-yaml.html#LANGUAGE">LANGUAGE</a> is C (not allowed for other language functions). To use this attribute, <a href="utility_guide/ref/gpmapreduce-yaml.html#VERSION">VERSION</a> must be 1.0.0.2. The specified library file must be installed prior to running the MapReduce job, and it must exist in the same file system location on all SynxDB hosts (master and segments).</p>
+<p>Required when <code>FILE</code> is C (not allowed for other language functions). To use this attribute, <code>VERSION</code> must be 1.0.0.2. The specified library file must be installed prior to running the MapReduce job, and it must exist in the same file system location on all SynxDB hosts (master and segments).</p>
 <h3 id="parameters-156"><a class="header" href="#parameters-156">PARAMETERS</a></h3>
 <p>Optional. Function input parameters. The default type is <code>text</code>.</p>
 <ul>
@@ -58662,7 +58657,7 @@ EXECUTE:
 <li><code>SINGLE</code> - returns exactly one row per input record. <code>SINGLE</code> is the only mode supported for <code>TRANSITION</code> and <code>CONSOLIDATE</code> functions. When used with <code>MAP</code> and <code>FINALIZE</code> functions, <code>SINGLE</code> mode can provide modest performance improvement.</li>
 </ul>
 <h3 id="reduce"><a class="header" href="#reduce">REDUCE</a></h3>
-<p>Required. A <code>REDUCE</code> definition names the <a href="utility_guide/ref/gpmapreduce-yaml.html#TCF">TRANSITION | CONSOLIDATE | FINALIZE</a> functions that comprise the reduction of (<code>key</code>, <code>value</code>) pairs to the final result set. There are also several predefined <code>REDUCE</code> jobs you can run, which all operate over a column named <code>value</code>:</p>
+<p>Required. A <code>REDUCE</code> definition names the <code>TRANSITION | CONSOLIDATE | FINALIZE</code> functions that comprise the reduction of (<code>key</code>, <code>value</code>) pairs to the final result set. There are also several predefined <code>REDUCE</code> jobs you can run, which all operate over a column named <code>value</code>:</p>
 <ul>
 <li><code>IDENTITY</code> - returns (key, value) pairs unchanged</li>
 <li><code>SUM</code> - calculates the sum of numeric data</li>
@@ -58684,26 +58679,26 @@ EXECUTE:
 <h3 id="keys-1"><a class="header" href="#keys-1">KEYS</a></h3>
 <p>Optional. Defaults to <code>[key, *]</code>. When using a multi-column reduce it may be necessary to specify which columns are key columns and which columns are value columns. By default, any input columns that are not passed to the <code>TRANSITION</code> function are key columns, and a column named <code>key</code> is always a key column even if it is passed to the <code>TRANSITION</code> function. The special indicator <code>*</code> indicates all columns not passed to the <code>TRANSITION</code> function. If this indicator is not present in the list of keys then any unmatched columns are discarded.</p>
 <h3 id="task"><a class="header" href="#task">TASK</a></h3>
-<p>Optional. A <code>TASK</code> defines a complete end-to-end <code>INPUT</code>/<code>MAP</code>/<code>REDUCE</code> stage within a SynxDB MapReduce job pipeline. It is similar to <a href="utility_guide/ref/gpmapreduce-yaml.html#EXECUTE">EXECUTE</a> except it is not immediately run. A task object can be called as <a href="utility_guide/ref/gpmapreduce-yaml.html#INPUT">INPUT</a> to further processing stages.</p>
+<p>Optional. A <code>TASK</code> defines a complete end-to-end <code>INPUT</code>/<code>MAP</code>/<code>REDUCE</code> stage within a SynxDB MapReduce job pipeline. It is similar to <code>FILE</code> except it is not immediately run. A task object can be called as <code>FILE</code> to further processing stages.</p>
 <h3 id="name-98"><a class="header" href="#name-98">NAME</a></h3>
 <p>Required. The name of this task. Names must be unique with regards to the names of other objects in this MapReduce job (such as map function, reduce function, input and output names). Also, names cannot conflict with existing objects in the database (such as tables, functions or views).</p>
 <h3 id="source-1"><a class="header" href="#source-1">SOURCE</a></h3>
-<p>The name of an <a href="utility_guide/ref/gpmapreduce-yaml.html#INPUT">INPUT</a> or another <code>TASK</code>.</p>
+<p>The name of an <code>FILE</code> or another <code>TASK</code>.</p>
 <h3 id="map-1"><a class="header" href="#map-1">MAP</a></h3>
-<p>Optional. The name of a <a href="utility_guide/ref/gpmapreduce-yaml.html#MAP">MAP</a> function. If not specified, defaults to <code>IDENTITY</code>.</p>
+<p>Optional. The name of a <code>FILE</code> function. If not specified, defaults to <code>IDENTITY</code>.</p>
 <h3 id="reduce-1"><a class="header" href="#reduce-1">REDUCE</a></h3>
-<p>Optional. The name of a <a href="utility_guide/ref/gpmapreduce-yaml.html#REDUCE">REDUCE</a> function. If not specified, defaults to <code>IDENTITY</code>.</p>
+<p>Optional. The name of a <code>FILE</code> function. If not specified, defaults to <code>IDENTITY</code>.</p>
 <h3 id="execute-3"><a class="header" href="#execute-3">EXECUTE</a></h3>
 <p>Required. <code>EXECUTE</code> defines the final <code>INPUT</code>/<code>MAP</code>/<code>REDUCE</code> stage within a SynxDB MapReduce job pipeline.</p>
 <h3 id="run"><a class="header" href="#run">RUN</a></h3>
 <h3 id="source-2"><a class="header" href="#source-2">SOURCE</a></h3>
-<p>Required. The name of an <a href="utility_guide/ref/gpmapreduce-yaml.html#INPUT">INPUT</a> or <a href="utility_guide/ref/gpmapreduce-yaml.html#TASK">TASK</a>.</p>
+<p>Required. The name of an <code>FILE</code> or <code>FILE</code>.</p>
 <h3 id="target"><a class="header" href="#target">TARGET</a></h3>
 <p>Optional. The name of an <a href="utility_guide/ref/gpmapreduce-yaml.html#OUTPUT">OUTPUT</a>. The default output is <code>STDOUT</code>.</p>
 <h3 id="map-2"><a class="header" href="#map-2">MAP</a></h3>
-<p>Optional. The name of a <a href="utility_guide/ref/gpmapreduce-yaml.html#MAP">MAP</a> function. If not specified, defaults to <code>IDENTITY</code>.</p>
+<p>Optional. The name of a <code>FILE</code> function. If not specified, defaults to <code>IDENTITY</code>.</p>
 <h3 id="reduce-2"><a class="header" href="#reduce-2">REDUCE</a></h3>
-<p>Optional. The name of a <a href="utility_guide/ref/gpmapreduce-yaml.html#REDUCE">REDUCE</a> function. Defaults to <code>IDENTITY</code>.</p>
+<p>Optional. The name of a <code>FILE</code> function. Defaults to <code>IDENTITY</code>.</p>
 <h2 id="see-also-183"><a class="header" href="#see-also-183"><a id="section11"></a>See Also</a></h2>
 <p><a href="utility_guide/ref/gpmapreduce.html">gpmapreduce</a></p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="gpmemreport"><a class="header" href="#gpmemreport">gpmemreport</a></h1>
@@ -61276,10 +61271,10 @@ kernel notification method that it uses.
 <ul>
 <li><code>cpu_share</code> - Set the CPU limit for each container in the runtime configuration. The default value is 1024. The value is a relative weighting of CPU usage compared to other containers.</li>
 <li><code>memory_mb</code> - Set the memory limit for each container in the runtime configuration. The default value is 1024. The value is an integer that specifies the amount of memory in MB.</li>
-<li><code>resource_group_id</code> - Assign the specified resource group to the runtime configuration. The resource group limits the total CPU and memory resource usage for all containers that share this runtime configuration. You must specify the <code>groupid</code> of the resource group. For information about managing PL/Container resources, see <a href="utility_guide/ref/plcontainer.html#topic_resmgmt">About PL/Container Resource Management</a>.</li>
+<li><code>resource_group_id</code> - Assign the specified resource group to the runtime configuration. The resource group limits the total CPU and memory resource usage for all containers that share this runtime configuration. You must specify the <code>groupid</code> of the resource group.</li>
 <li><code>roles</code> - Specify the SynxDB roles that are allowed to run a container for the runtime configuration. You can specify a single role name or comma separated lists of role names. The default is no restriction.</li>
 <li><code>use_container_logging</code> - Enable or deactivate Docker logging for the container. The value is either <code>yes</code> (activate logging) or <code>no</code> (deactivate logging, the default).
-<br/><br/>The SynxDB server configuration parameter <a href="utility_guide/ref/../../ref_guide/config_params/guc-list.html">log_min_messages</a> controls the log level. The default log level is <code>warning</code>. For information about PL/Container log information, see <a href="utility_guide/ref/plcontainer.html#plc_notes">Notes</a>.</li>
+<br/><br/>The SynxDB server configuration parameter <a href="utility_guide/ref/../../ref_guide/config_params/guc-list.html">log_min_messages</a> controls the log level. The default log level is <code>warning</code>.</li>
 </ul>
 <h4 id="-v--volume-shared-volume"><a class="header" href="#-v--volume-shared-volume">{<strong>-v</strong> | <strong>–volume</strong>} shared-volume</a></h4>
 <p>Optional. Specify a Docker volume to bind mount. You can specify this option multiple times to define multiple volumes.</p>
@@ -61943,7 +61938,7 @@ bar
 <p>If set to <code>all</code>, all nonempty input lines are printed to standard output as they are read. (This does not apply to lines read interactively.) To select this behavior on program start-up, use the switch <code>-a</code>. If set to queries, <code>psql</code> prints each query to standard output as it is sent to the server. The switch for this is <code>-e</code>.</p>
 <h4 id="echo_hidden"><a class="header" href="#echo_hidden">ECHO_HIDDEN</a></h4>
 <p>When this variable is set to <code>on</code> and a backslash command queries the database, the query is first shown. This feature helps you to study SynxDB internals and provide similar functionality in your own programs. (To select this behavior on program start-up, use the switch <code>-E</code>.) If you set the variable to the value <code>noexec</code>, the queries are just shown but are not actually sent to the server and run.</p>
-<h4 id="encoding-4"><a class="header" href="#encoding-4">ENCODING</a></h4>
+<h4 id="encoding-5"><a class="header" href="#encoding-5">ENCODING</a></h4>
 <p>The current client character set encoding.</p>
 <h4 id="fetch_count"><a class="header" href="#fetch_count">FETCH_COUNT</a></h4>
 <p>If this variable is set to an integer value &gt; 0, the results of <code>SELECT</code> queries are fetched and displayed in groups of that many rows, rather than the default behavior of collecting the entire result set before display. Therefore only a limited amount of memory is used, regardless of the size of the result set. Settings of 100 to 1000 are commonly used when enabling this feature. Keep in mind that when using this feature, a query may fail after having already displayed some rows.</p>
@@ -61983,7 +61978,7 @@ bar
 <p>The database user you are currently connected as. This is set every time you connect to a database (including program start-up), but can be unset.</p>
 <h4 id="verbosity"><a class="header" href="#verbosity">VERBOSITY</a></h4>
 <p>This variable can be set to the values <code>default</code>, <code>verbose</code>, or <code>terse</code> to control the verbosity of error reports.</p>
-<h3 id="sql-interpolation"><a class="header" href="#sql-interpolation">SQL Interpolation</a></h3>
+<h3 id="sql-interpolation"><a class="header" href="#sql-interpolation"><a id="section14"></a>SQL Interpolation</a></h3>
 <p>A key feature of <code>psql</code> variables is that you can substitute (“interpolate”) them into regular SQL statements, as well as the arguments of meta-commands. Furthermore, <code>psql</code> provides facilities for ensuring that variable values used as SQL literals and identifiers are properly quoted. The syntax for interpolating a value without any quoting is to prepend the variable name with a colon (<code>:</code>). For example,</p>
 <pre><code>testdb=&gt; \set foo 'my_table'
 testdb=&gt; SELECT * FROM :foo;
@@ -63979,6 +63974,7 @@ which can cause query performance degradation in the system, including catalog q
 <tr><td><code>rsgqueueduration</code></td><td>interval</td><td></td><td>For a queued query, the total time the query has been queued.</td></tr>
 </tbody></table>
 </div>
+<p><a id="rsg_note"></a></p>
 <blockquote>
 <p><strong>Note</strong>
 When resource groups are enabled. Only query dispatcher (QD) processes will have a <code>rsgid</code> and <code>rsgname</code>. Other server processes such as a query executer (QE) process or session connection processes will have a <code>rsgid</code> value of <code>0</code> and a <code>rsgname</code> value of <code>unknown</code>. QE processes are managed by the same resource group as the dispatching QD process.</p>
@@ -64319,7 +64315,7 @@ testdb=# SELECT * FROM pg_stat_last_operation WHERE objid='trial'::regclass::oid
 <tr><td><code>typlen</code></td><td>int2</td><td> </td><td>For a fixed-size type, <code>typlen</code> is the number of bytes in the internal representation of the type. But for a variable-length type, <code>typlen</code> is negative. <code>-1</code> indicates a ‘varlena’ type (one that has a length word), <code>-2</code> indicates a null-terminated C string.</td></tr>
 <tr><td><code>typbyval</code></td><td>boolean</td><td> </td><td>Determines whether internal routines pass a value of this type by value or by reference. <code>typbyval</code>had better be false if <code>typlen</code> is not 1, 2, or 4 (or 8 on machines where Datum is 8 bytes). Variable-length types are always passed by reference. Note that <code>typbyval</code> can be false even if the length would allow pass-by-value.</td></tr>
 <tr><td><code>typtype</code></td><td>char</td><td> </td><td><code>b</code> for a base type, <code>c</code> for a composite type, <code>d</code> for a domain, <code>e</code> for an enum type, <code>p</code> for a pseudo-type, or <code>r</code> for a range type. See also <code>typrelid</code> and <code>typbasetype</code>.</td></tr>
-<tr><td><code>typcategory</code></td><td>char</td><td> </td><td>Arbitrary classification of data types that is used by the parser to determine which implicit casts should be preferred. See <a href="ref_guide/system_catalogs/pg_type.html#typcategory">Category Codes</a>.</td></tr>
+<tr><td><code>typcategory</code></td><td>char</td><td> </td><td>Arbitrary classification of data types that is used by the parser to determine which implicit casts should be preferred. See the category codes below.</td></tr>
 <tr><td><code>typispreferred</code></td><td>boolean</td><td> </td><td>True if the type is a preferred cast target within its <code>typcategory</code></td></tr>
 <tr><td><code>typisdefined</code></td><td>boolean</td><td> </td><td>True if the type is defined, false if this is a placeholder entry for a not-yet-defined type. When false, nothing except the type name, namespace, and OID can be relied on.</td></tr>
 <tr><td><code>typdelim</code></td><td>char</td><td> </td><td>Character that separates two values of this type when parsing array input. Note that the delimiter is associated with the array element data type, not the array data type.</td></tr>

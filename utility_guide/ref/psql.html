@@ -633,7 +633,7 @@ bar
 <p>The database user you are currently connected as. This is set every time you connect to a database (including program start-up), but can be unset.</p>
 <h4 id="verbosity"><a class="header" href="#verbosity">VERBOSITY</a></h4>
 <p>This variable can be set to the values <code>default</code>, <code>verbose</code>, or <code>terse</code> to control the verbosity of error reports.</p>
-<h3 id="sql-interpolation"><a class="header" href="#sql-interpolation">SQL Interpolation</a></h3>
+<h3 id="sql-interpolation"><a class="header" href="#sql-interpolation"><a id="section14"></a>SQL Interpolation</a></h3>
 <p>A key feature of <code>psql</code> variables is that you can substitute (“interpolate”) them into regular SQL statements, as well as the arguments of meta-commands. Furthermore, <code>psql</code> provides facilities for ensuring that variable values used as SQL literals and identifiers are properly quoted. The syntax for interpolating a value without any quoting is to prepend the variable name with a colon (<code>:</code>). For example,</p>
 <pre><code>testdb=&gt; \set foo 'my_table'
 testdb=&gt; SELECT * FROM :foo;

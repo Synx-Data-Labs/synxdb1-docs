@@ -226,10 +226,10 @@
 <ul>
 <li><code>cpu_share</code> - Set the CPU limit for each container in the runtime configuration. The default value is 1024. The value is a relative weighting of CPU usage compared to other containers.</li>
 <li><code>memory_mb</code> - Set the memory limit for each container in the runtime configuration. The default value is 1024. The value is an integer that specifies the amount of memory in MB.</li>
-<li><code>resource_group_id</code> - Assign the specified resource group to the runtime configuration. The resource group limits the total CPU and memory resource usage for all containers that share this runtime configuration. You must specify the <code>groupid</code> of the resource group. For information about managing PL/Container resources, see <a href="#topic_resmgmt">About PL/Container Resource Management</a>.</li>
+<li><code>resource_group_id</code> - Assign the specified resource group to the runtime configuration. The resource group limits the total CPU and memory resource usage for all containers that share this runtime configuration. You must specify the <code>groupid</code> of the resource group.</li>
 <li><code>roles</code> - Specify the SynxDB roles that are allowed to run a container for the runtime configuration. You can specify a single role name or comma separated lists of role names. The default is no restriction.</li>
 <li><code>use_container_logging</code> - Enable or deactivate Docker logging for the container. The value is either <code>yes</code> (activate logging) or <code>no</code> (deactivate logging, the default).
-<br/><br/>The SynxDB server configuration parameter <a href="../../ref_guide/config_params/guc-list.html">log_min_messages</a> controls the log level. The default log level is <code>warning</code>. For information about PL/Container log information, see <a href="#plc_notes">Notes</a>.</li>
+<br/><br/>The SynxDB server configuration parameter <a href="../../ref_guide/config_params/guc-list.html">log_min_messages</a> controls the log level. The default log level is <code>warning</code>.</li>
 </ul>
 <h4 id="-v--volume-shared-volume"><a class="header" href="#-v--volume-shared-volume">{<strong>-v</strong> | <strong>–volume</strong>} shared-volume</a></h4>
 <p>Optional. Specify a Docker volume to bind mount. You can specify this option multiple times to define multiple volumes.</p>

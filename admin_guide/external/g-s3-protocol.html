@@ -160,7 +160,7 @@
 <p>The <code>s3</code> protocol is used in a URL that specifies the location of an Amazon S3 bucket and a prefix to use for reading or writing files in the bucket.</p>
 <p>Amazon Simple Storage Service (Amazon S3) provides secure, durable, highly-scalable object storage. For information about Amazon S3, see <a href="https://aws.amazon.com/s3/">Amazon S3</a>.</p>
 <p>You can define read-only external tables that use existing data files in the S3 bucket for table data, or writable external tables that store the data from INSERT operations to files in the S3 bucket. SynxDB uses the S3 URL and prefix specified in the protocol URL either to select one or more files for a read-only table, or to define the location and filename format to use when uploading S3 files for <code>INSERT</code> operations to writable tables.</p>
-<p>The <code>s3</code> protocol also supports <a href="https://www.dell.com/en-us/dt/learn/data-storage/ecs.htm">Dell Elastic Cloud Storage</a> (ECS), an Amazon S3 compatible service.</p>
+<p>The <code>s3</code> protocol also supports <a href="https://www.dell.com/en-us/lp/learn/data-storage/ecs.htm">Dell Elastic Cloud Storage</a> (ECS), an Amazon S3 compatible service.</p>
 <blockquote>
 <p><strong>Note</strong> The <code>pxf</code> protocol can access data in S3 and other object store systems such as Azure, Google Cloud Storage, and Minio. The <code>pxf</code> protocol can also access data in external Hadoop systems (HDFS, Hive, HBase), and SQL databases. See <a href="g-pxf-protocol.html">pxf:// Protocol</a>.</p>
 </blockquote>
@@ -281,7 +281,7 @@ s3://s3-us-west-2.amazonaws.com/test1/abcdefff
 </ul>
 <p>Wildcard characters are not supported in an S3_prefix; however, the S3 prefix functions as if a wildcard character immediately followed the prefix itself.</p>
 <p>All of the files selected by the S3 URL (S3_endpoint/bucket_name/S3_prefix) are used as the source for the external table, so they must have the same format. Each file must also contain complete data rows. A data row cannot be split between files.</p>
-<p>For information about the Amazon S3 endpoints see <a href="http://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region">http://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region</a>. For information about S3 buckets and folders, see the Amazon S3 documentation <a href="https://aws.amazon.com/documentation/s3/">https://aws.amazon.com/documentation/s3/</a>. For information about the S3 file prefix, see the Amazon S3 documentation <a href="http://docs.aws.amazon.com/AmazonS3/latest/dev/ListingKeysHierarchy.html">Listing Keys Hierarchically Using a Prefix and Delimiter</a>.</p>
+<p>For information about the Amazon S3 endpoints see <a href="http://docs.aws.amazon.com/general/latest/gr/rande.html">http://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region</a>. For information about S3 buckets and folders, see the Amazon S3 documentation <a href="https://aws.amazon.com/documentation/s3/">https://aws.amazon.com/documentation/s3/</a>. For information about the S3 file prefix, see the Amazon S3 documentation <a href="http://docs.aws.amazon.com/AmazonS3/latest/dev/ListingKeysHierarchy.html">Listing Keys Hierarchically Using a Prefix and Delimiter</a>.</p>
 <p>You use the <code>config</code> or <code>config_server</code> parameter to specify the location of the required <code>s3</code> protocol configuration file that contains AWS connection credentials and communication parameters as described in <a href="#s3_config_param">About Specifying the Configuration File Location</a>.</p>
 <p>Use the <code>section</code> parameter to specify the name of the configuration file section from which the <code>s3</code> protocol reads configuration parameters. The default <code>section</code> is named <code>default</code>. When you specify the section name in the configuration file, enclose it in brackets (for example, <code>[default]</code>).</p>
 <h2 id="about-reading-and-writing-s3-data-files"><a class="header" href="#about-reading-and-writing-s3-data-files"><a id="section_c2f_zvs_3x"></a>About Reading and Writing S3 Data Files</a></h2>
@@ -431,7 +431,7 @@ chunksize = 67108864
 </li>
 <li>
 <p>AWS signature version 4 signing process is supported.</p>
-<p>For information about the S3 endpoints supported by each signing process, see <a href="http://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region">http://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region</a>.</p>
+<p>For information about the S3 endpoints supported by each signing process, see <a href="http://docs.aws.amazon.com/general/latest/gr/rande.html">http://docs.aws.amazon.com/general/latest/gr/rande.html#s3_region</a>.</p>
 </li>
 <li>
 <p>Only a single URL and optional configuration file location and region parameters is supported in the <code>LOCATION</code> clause of the <code>CREATE EXTERNAL TABLE</code> command.</p>

@@ -245,7 +245,7 @@ any SynxDB user appears on the Hadoop side as originating from the Kerberos prin
 <p><img src="graphics/impersonation_cases/impersonation-case-2-kerberos.png" alt="Accessing Hadoop as the Kerberos Principal" title="Accessing Hadoop as the Kerberos Principal" /></p>
 <p>The following table identifies the impersonation and service user settings, and the PXF and Hadoop configuration required for this use case:</p>
 <div class="table-wrapper"><table><thead><tr><th>Impersonation</th><th>Service User</th><th>PXF Configuration</th><th>Hadoop Configuration       </th></tr></thead><tbody>
-<tr><td>false</td><td>Identity of the Kerberos principal</td><td>Perform the <a href="#procedure.html">Configuration Procedure</a> in this topic, and then turn off user impersonation as described in <a href="pxfuserimpers.html#pxf_cfg_impers">Configure PXF User Impersonation</a>.</td><td>None required.</td></tr>
+<tr><td>false</td><td>Identity of the Kerberos principal</td><td>Perform the configuration Procedure in this topic, and then turn off user impersonation as described in <a href="pxfuserimpers.html#pxf_cfg_impers">Configure PXF User Impersonation</a>.</td><td>None required.</td></tr>
 </tbody></table>
 </div>
 <h3 id="accessing-hadoop-as-a-custom-user"><a class="header" href="#accessing-hadoop-as-a-custom-user"><a id="custom_hadoop"></a>Accessing Hadoop as a &lt;custom&gt; User</a></h3>
@@ -452,7 +452,7 @@ root@kdc-server$ ssh host3.example.com chmod 400 /usr/local/pxf-gp6/keytabs/pxf.
 <p>If you want to access Hadoop as the SynxDB user:</p>
 <ol>
 <li>Activate user impersonation as described in <a href="pxfuserimpers.html#pxf_cfg_impers">Configure PXF User Impersonation</a> (this is the default setting).</li>
-<li><em>If you want to use Kerberos constrained delegation</em>, <a href="#enable_kdc">activate</a> it for the server, and configure AD or IPA to provide the PXF Kerberos principal with the delegation rights for the SynxDB end users.</li>
+<li><em>If you want to use Kerberos constrained delegation</em>, activate it for the server, and configure AD or IPA to provide the PXF Kerberos principal with the delegation rights for the SynxDB end users.</li>
 <li><em>If you did not activate Kerberos constrained delegation</em>, configure Hadoop proxying for the <em>primary</em> component of the Kerberos principal as described in <a href="pxfuserimpers.html#hadoop">Configure Hadoop Proxying</a>. For example, if your principal is <code>gpadmin/_HOST@EXAMPLE.COM</code>, configure proxying for the Hadoop user <code>gpadmin</code>.</li>
 </ol>
 </li>

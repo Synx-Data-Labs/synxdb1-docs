@@ -179,7 +179,7 @@
 <tr><td>fs.s3a.secret.key</td><td>The secret key associated with the AWS access key ID.</td><td>Your secret key.</td></tr>
 </tbody></table>
 </div>
-<p>If required, fine-tune PXF S3 connectivity by specifying properties identified in the <a href="https://hadoop.apache.org/docs/current/hadoop-aws/tools/hadoop-aws/index.html#S3A">S3A</a> section of the Hadoop-AWS module documentation in your <code>s3-site.xml</code> server configuration file.</p>
+<p>If required, fine-tune PXF S3 connectivity by specifying properties identified in the <a href="https://hadoop.apache.org/docs/current/hadoop-aws/tools/hadoop-aws/index.html">S3A</a> section of the Hadoop-AWS module documentation in your <code>s3-site.xml</code> server configuration file.</p>
 <p>You can override the credentials for an S3 server configuration by directly specifying the S3 access ID and secret key via custom options in the <code>CREATE EXTERNAL TABLE</code> command <code>LOCATION</code> clause. Refer to <a href="access_s3.html#s3_override">Overriding the S3 Server Configuration with DDL</a> for additional information.</p>
 <h3 id="configuring-s3-server-side-encryption"><a class="header" href="#configuring-s3-server-side-encryption"><a id="s3-sse"></a>Configuring S3 Server-Side Encryption</a></h3>
 <p>PXF supports Amazon Web Service S3 Server-Side Encryption (SSE) for S3 files that you access with readable and writable SynxDB external tables that specify the <code>pxf</code> protocol and an <code>s3:*</code> profile. AWS S3 server-side encryption protects your data at rest; it encrypts your object data as it writes to disk, and transparently decrypts the data for you when you access it.</p>

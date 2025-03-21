@@ -175,7 +175,7 @@
 <pre><code>=# CREATE ROLE jsmith WITH LOGIN;
 
 </code></pre>
-<p>A database role may have a number of attributes that define what sort of tasks that role can perform in the database. You can set these attributes when you create the role, or later using the <code>ALTER ROLE</code> command. See <a href="#iq139556">Table 1</a> for a description of the role attributes you can set.</p>
+<p>A database role may have a number of attributes that define what sort of tasks that role can perform in the database. You can set these attributes when you create the role, or later using the <code>ALTER ROLE</code> command.</p>
 <h3 id="altering-role-attributes"><a class="header" href="#altering-role-attributes"><a id="topic4"></a>Altering Role Attributes</a></h3>
 <p>A database role may have a number of attributes that define what sort of tasks that role can perform in the database.</p>
 <div class="table-wrapper"><table><thead><tr><th>Attributes</th><th>Description</th></tr></thead><tbody>
@@ -214,7 +214,8 @@
 =# REVOKE admin FROM bob;
 
 </code></pre>
-<p>For managing object privileges, you would then grant the appropriate permissions to the group-level role only (see <a href="#iq139925">Table 2</a>). The member user roles then inherit the object privileges of the group role. For example:</p>
+<p>For managing object privileges, you would then grant the appropriate permissions to the group-level role only
+. The member user roles then inherit the object privileges of the group role. For example:</p>
 <pre><code>=# GRANT ALL ON TABLE mytable TO admin;
 =# GRANT ALL ON SCHEMA myschema TO admin;
 =# GRANT ALL ON DATABASE mydb TO admin;

@@ -291,9 +291,9 @@ FROM generate_series(1,10) AS s(i);
 <h4 id="limitations-of-aggregate-expressions"><a class="header" href="#limitations-of-aggregate-expressions"><a id="topic12"></a>Limitations of Aggregate Expressions</a></h4>
 <p>The following are current limitations of the aggregate expressions:</p>
 <ul>
-<li>SynxDB does not support the following keywords: <code>ALL</code>, <code>DISTINCT</code>, and <code>OVER</code>. See <a href="functions-operators.html#in2073121">Table 5</a> for more details.</li>
+<li>SynxDB does not support the following keywords: <code>ALL</code>, <code>DISTINCT</code>, and <code>OVER</code>. See <a href="functions-operators.html">Using Functions and Operators</a> for more details.</li>
 <li>An aggregate expression can appear only in the result list or <code>HAVING</code> clause of a <code>SELECT</code> command. It is forbidden in other clauses, such as <code>WHERE</code>, because those clauses are logically evaluated before the results of aggregates form. This restriction applies to the query level to which the aggregate belongs.</li>
-<li>When an aggregate expression appears in a subquery, the aggregate is normally evaluated over the rows of the subquery. If the aggregate’s arguments (and filter_clause if any) contain only outer-level variables, the aggregate belongs to the nearest such outer level and evaluates over the rows of that query. The aggregate expression as a whole is then an outer reference for the subquery in which it appears, and the aggregate expression acts as a constant over any one evaluation of that subquery. The restriction about appearing only in the result list or <code>HAVING</code> clause applies with respect to the query level at which the aggregate appears. See <a href="#topic15">Scalar Subqueries</a> and <a href="functions-operators.html#in204913">Table 3</a>.</li>
+<li>When an aggregate expression appears in a subquery, the aggregate is normally evaluated over the rows of the subquery. If the aggregate’s arguments (and filter_clause if any) contain only outer-level variables, the aggregate belongs to the nearest such outer level and evaluates over the rows of that query. The aggregate expression as a whole is then an outer reference for the subquery in which it appears, and the aggregate expression acts as a constant over any one evaluation of that subquery. The restriction about appearing only in the result list or <code>HAVING</code> clause applies with respect to the query level at which the aggregate appears. See <a href="#topic15">Scalar Subqueries</a> and <a href="functions-operators.html">Using Functions and Operators</a>.</li>
 <li>SynxDB does not support specifying an aggregate function as an argument to another aggregate function.</li>
 <li>SynxDB does not support specifying a window function as an argument to an aggregate function.</li>
 </ul>
@@ -304,7 +304,7 @@ FROM generate_series(1,10) AS s(i);
 <p>The syntax of a window expression is:</p>
 <pre><code>window_function ( [expression [, ...]] ) [ FILTER ( WHERE filter_clause ) ] OVER ( window_specification )
 </code></pre>
-<p>Where <em><code>window_function</code></em> is one of the functions listed in <a href="functions-operators.html#in164369">Table 4</a> or a user-defined window function, <em><code>expression</code></em> is any value expression that does not contain a window expression, and <em><code>window_specification</code></em> is:</p>
+<p>Where <em><code>window_function</code></em> is one of the functions listed in <a href="functions-operators.html">Using Functions and Operators</a> or a user-defined window function, <em><code>expression</code></em> is any value expression that does not contain a window expression, and <em><code>window_specification</code></em> is:</p>
 <pre><code>[window_name]
 [PARTITION BY expression [, ...]]
 [[ORDER BY expression [ASC | DESC | USING operator] [NULLS {FIRST | LAST}] [, ...]

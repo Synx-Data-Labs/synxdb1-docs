@@ -269,7 +269,7 @@ PARTITION BY LIST (gender)
 </blockquote>
 <p>For more information about default partitions, see <a href="#topic80">Adding a Default Partition</a>.</p>
 <h3 id="defining-multi-level-partitions"><a class="header" href="#defining-multi-level-partitions"><a id="topic70"></a>Defining Multi-level Partitions</a></h3>
-<p>You can create a multi-level partition design with subpartitions of partitions. Using a <em>subpartition template</em> ensures that every partition has the same subpartition design, including partitions that you add later. For example, the following SQL creates the two-level partition design shown in <a href="#im207241">Figure 1</a>:</p>
+<p>You can create a multi-level partition design with subpartitions of partitions. Using a <em>subpartition template</em> ensures that every partition has the same subpartition design, including partitions that you add later. For example, the following SQL creates a two-level partition design:</p>
 <pre><code>CREATE TABLE sales (trans_id int, date date, amount 
 decimal(9,2), region text) 
 DISTRIBUTED BY (trans_id)
@@ -390,7 +390,7 @@ GRANT SELECT ON sales TO guest;
 <p>Best practice for loading data into partitioned tables is to create an intermediate staging table, load it, and then exchange it into your partition design. See <a href="#topic83">Exchanging a Partition</a>.</p>
 <h2 id="verifying-your-partition-strategy"><a class="header" href="#verifying-your-partition-strategy"><a id="topic74"></a>Verifying Your Partition Strategy</a></h2>
 <p>When a table is partitioned based on the query predicate, you can use <code>EXPLAIN</code> to verify that the query optimizer scans only the relevant data to examine the query plan.</p>
-<p>For example, suppose a <em>sales</em> table is date-range partitioned by month and subpartitioned by region as shown in <a href="#im207241">Figure 1</a>. For the following query:</p>
+<p>For example, suppose a <em>sales</em> table is date-range partitioned by month and subpartitioned by region.</p>
 <pre><code>EXPLAIN SELECT * FROM sales WHERE date='01-07-12' AND 
 region='usa';
 

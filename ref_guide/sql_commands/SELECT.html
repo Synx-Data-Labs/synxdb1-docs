@@ -217,7 +217,7 @@ ROWS FROM( function_name ( [ argument [, ...] ] ) [ AS ( column_definition [, ..
   UNBOUNDED FOLLOWING
 
 </code></pre>
-<p><sup>2</sup>When a locking clause is specified (the <code>FOR</code> clause), the Global Deadlock Detector affects how table rows are locked. See item <a href="#eg138885">12</a> in Description and see “The Locking Clause” later in this section.</p>
+<p><sup>2</sup>When a locking clause is specified (the <code>FOR</code> clause), the Global Deadlock Detector affects how table rows are locked. See item 12 in the Description section and see <a href="#locking_clause">The Locking Clause</a>.</p>
 <h2 id="description"><a class="header" href="#description"><a id="section3"></a>Description</a></h2>
 <p><code>SELECT</code> retrieves rows from zero or more tables. The general processing of <code>SELECT</code> is as follows:</p>
 <ol>
@@ -487,7 +487,8 @@ OFFSET &lt;start&gt;
 <p>In this syntax, the start or count value is required by the standard to be a literal constant, a parameter, or a variable name; as a SynxDB extension, other expressions are allowed, but will generally need to be enclosed in parentheses to avoid ambiguity. If count is omitted in a <code>FETCH</code> clause, it defaults to 1. <code>ROW</code> and <code>ROWS</code> as well as <code>FIRST</code> and <code>NEXT</code> are noise words that don’t influence the effects of these clauses. According to the standard, the <code>OFFSET</code> clause must come before the <code>FETCH</code> clause if both are present; but SynxDB allows either order.</p>
 <p>When using <code>LIMIT</code>, it is a good idea to use an <code>ORDER BY</code> clause that constrains the result rows into a unique order. Otherwise you will get an unpredictable subset of the query’s rows — you may be asking for the tenth through twentieth rows, but tenth through twentieth in what ordering? You don’t know what ordering unless you specify <code>ORDER BY</code>.</p>
 <p>The query optimizer takes <code>LIMIT</code> into account when generating a query plan, so you are very likely to get different plans (yielding different row orders) depending on what you use for <code>LIMIT</code> and <code>OFFSET</code>. Thus, using different <code>LIMIT/OFFSET</code> values to select different subsets of a query result will give inconsistent results unless you enforce a predictable result ordering with <code>ORDER BY</code>. This is not a defect; it is an inherent consequence of the fact that SQL does not promise to deliver the results of a query in any particular order unless <code>ORDER BY</code> is used to constrain the order.</p>
-<p><strong>The Locking Clause</strong></p>
+<p><a id="locking_clause"></a>
+<strong>The Locking Clause</strong></p>
 <p><code>FOR UPDATE</code>, <code>FOR NO KEY UPDATE</code>, <code>FOR SHARE</code> and <code>FOR KEY SHARE</code> are <em>locking clauses</em>; they affect how <code>SELECT</code> locks rows as they are obtained from the table.</p>
 <p>The locking clause has the general form</p>
 <pre><code>FOR &lt;lock_strength&gt; [OF &lt;table_name&gt; [ , ... ] ] [ NOWAIT ]

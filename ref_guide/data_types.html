@@ -164,8 +164,8 @@
 <div class="table-wrapper"><table><thead><tr><th>Name</th><th>Alias</th><th>Size</th><th>Range</th><th>Description</th></tr></thead><tbody>
 <tr><td>bigint</td><td>int8</td><td>8 bytes</td><td>-922337203​6854775808 to 922337203​6854775807</td><td>large range integer</td></tr>
 <tr><td>bigserial</td><td>serial8</td><td>8 bytes</td><td>1 to 922337203​6854775807</td><td>large autoincrementing integer</td></tr>
-<tr><td>bit [ (n) ]</td><td> </td><td><em>n</em> bits</td><td><a href="https://www.postgresql.org/docs/9.4/sql-syntax.html#SQL-SYNTAX-BIT-STRINGS">bit string constant</a></td><td>fixed-length bit string</td></tr>
-<tr><td>bit varying [ (n) ]<sup>1</sup></td><td>varbit</td><td>actual number of bits</td><td><a href="https://www.postgresql.org/docs/9.4/sql-syntax.html#SQL-SYNTAX-BIT-STRINGS">bit string constant</a></td><td>variable-length bit string</td></tr>
+<tr><td>bit [ (n) ]</td><td> </td><td><em>n</em> bits</td><td><a href="https://www.postgresql.org/docs/9.4/sql-syntax.html">bit string constant</a></td><td>fixed-length bit string</td></tr>
+<tr><td>bit varying [ (n) ]<sup>1</sup></td><td>varbit</td><td>actual number of bits</td><td><a href="https://www.postgresql.org/docs/9.4/sql-syntax.html">bit string constant</a></td><td>variable-length bit string</td></tr>
 <tr><td>boolean</td><td>bool</td><td>1 byte</td><td>true/false, t/f, yes/no, y/n, 1/0</td><td>logical boolean (true/false)</td></tr>
 <tr><td>box</td><td> </td><td>32 bytes</td><td>((x1,y1),(x2,y2))</td><td>rectangular box in the plane - not allowed in distribution key columns.</td></tr>
 <tr><td>bytea<sup>1</sup></td><td> </td><td>1 byte + <em>binary string</em></td><td>sequence of <a href="https://www.postgresql.org/docs/9.4/datatype-binary.html#DATATYPE-BINARY-SQLESC">octets</a></td><td>variable-length binary string</td></tr>

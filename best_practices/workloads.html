@@ -207,11 +207,11 @@ VM Protect failed to allocate 4096 bytes, 0 MB available
 </li>
 <li>
 <p><strong>vm.overcommit_memory</strong></p>
-<p>This is a Linux kernel parameter, set in <code>/etc/sysctl.conf</code> and it should always be set to 2. It determines the method the OS uses for determining how much memory can be allocated to processes and 2 is the only safe setting for SynxDB. Please review the sysctl parameters in the <a href="../install_guide/prep_os.html#topic3__sysctl_file">SynxDB Installation Guide</a>.</p>
+<p>This is a Linux kernel parameter, set in <code>/etc/sysctl.conf</code> and it should always be set to 2. It determines the method the OS uses for determining how much memory can be allocated to processes and 2 is the only safe setting for SynxDB. Please review the sysctl parameters in the <a href="../install_guide/prep_os.html">installation documentation</a>.</p>
 </li>
 <li>
 <p><strong>vm.overcommit_ratio</strong></p>
-<p>This is a Linux kernel parameter, set in <a href="../install_guide/prep_os.html#topic3__sysctl_file"><code>/etc/sysctl.conf</code></a>. It is the percentage of RAM that is used for application processes. The remainder is reserved for the operating system. The default on Red Hat is 50.</p>
+<p>This is a Linux kernel parameter, set in <a href="../install_guide/prep_os.html"><code>/etc/sysctl.conf</code></a>. It is the percentage of RAM that is used for application processes. The remainder is reserved for the operating system. The default on Red Hat is 50.</p>
 <p>Setting <code>vm.overcommit_ratio</code> too high may result in not enough memory being reserved for the operating system, which can result in segment host failure or database failure. Setting the value too low reduces the amount of concurrency and query complexity that can be run by reducing the amount of memory available to SynxDB. When increasing the setting it is important to remember to always reserve some memory for operating system activities.</p>
 <p>See <a href="../admin_guide/wlmgmt_intro.html">SynxDB Memory Overview</a> for instructions to calculate a value for <code>vm.overcommit_ratio</code>.</p>
 </li>

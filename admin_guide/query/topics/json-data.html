@@ -327,7 +327,7 @@ SELECT '"foo"'::jsonb ? 'foo';
 </ul>
 <h3 id="gin-indexes-on-jsonb-data"><a class="header" href="#gin-indexes-on-jsonb-data"><a id="topic_yjx_dq2_rfb"></a>GIN Indexes on jsonb Data</a></h3>
 <p>GIN indexes can be used to efficiently search for keys or key/value pairs occurring within a large number of <code>jsonb</code> documents (datums). Two GIN operator classes are provided, offering different performance and flexibility trade-offs.</p>
-<p>The default GIN operator class for jsonb supports queries with the <code>@&gt;</code>, <code>?</code>, <code>?&amp;</code> and <code>?|</code> operators. (For details of the semantics that these operators implement, see the table <a href="#table_dcb_y3w_mq">Table 3</a>.) An example of creating an index with this operator class is:</p>
+<p>The default GIN operator class for jsonb supports queries with the <code>@&gt;</code>, <code>?</code>, <code>?&amp;</code> and <code>?|</code> operators. (For details of the semantics that these operators implement, see the <a href="#topic_o5y_14w_2z">operator table</a>.) An example of creating an index with this operator class is:</p>
 <pre><code>CREATE INDEX idxgin ON api USING gin (jdoc);
 </code></pre>
 <p>The non-default GIN operator class <code>jsonb_path_ops</code> supports indexing the <code>@&gt;</code> operator only. An example of creating an index with this operator class is:</p>
@@ -756,7 +756,7 @@ Array with n elements &gt; array with n - 1 elements
                 <td class="entry" headers="topic_z5d_snw_2z__table_wfc_y3w_mb__entry__2"><code class="ph codeph">anyelement</code>
                 </td>
                 <td class="entry" headers="topic_z5d_snw_2z__table_wfc_y3w_mb__entry__3">Expands the object in <code class="ph codeph">from_json</code> to a row whose columns match
-                  the record type defined by base. See <a class="xref" href="#topic_z5d_snw_2z__json_proc_1">Note 1</a>.</td>
+                  the record type defined by base. See <a class="xref" href="#tablenotes">Note 1</a>.</td>
                 <td class="entry" headers="topic_z5d_snw_2z__table_wfc_y3w_mb__entry__4"><code class="ph codeph">select * from json_populate_record(null::myrowtype,
                     '{"a":1,"b":2}')</code>
                 </td>
@@ -774,7 +774,7 @@ Array with n elements &gt; array with n - 1 elements
                 <td class="entry" headers="topic_z5d_snw_2z__table_wfc_y3w_mb__entry__2"><code class="ph codeph">setof anyelement</code>
                 </td>
                 <td class="entry" headers="topic_z5d_snw_2z__table_wfc_y3w_mb__entry__3">Expands the outermost array of objects in <code class="ph codeph">from_json</code> to a set
-                  of rows whose columns match the record type defined by base. See <a class="xref" href="#topic_z5d_snw_2z__json_proc_1">Note 1</a>.</td>
+                  of rows whose columns match the record type defined by base. See <a class="xref" href="#tablenotes">Note 1</a>.</td>
                 <td class="entry" headers="topic_z5d_snw_2z__table_wfc_y3w_mb__entry__4"><code class="ph codeph">select * from json_populate_recordset(null::myrowtype,
                     '[{"a":1,"b":2},{"a":3,"b":4}]')</code>
                 </td>
@@ -832,7 +832,7 @@ Array with n elements &gt; array with n - 1 elements
                 <td class="entry" headers="topic_z5d_snw_2z__table_wfc_y3w_mb__entry__3">Returns the type of the outermost JSON value as a text string. Possible types
                   are <code class="ph codeph">object</code>, <code class="ph codeph">array</code>, <code class="ph codeph">string</code>,
                     <code class="ph codeph">number</code>, <code class="ph codeph">boolean</code>, and <code class="ph codeph">null</code>.
-                  See <a class="xref" href="#topic_z5d_snw_2z__json_proc_2">Note
+                  See <a class="xref" href="#tablenotes">Note
                   2</a>.</td>
                 <td class="entry" headers="topic_z5d_snw_2z__table_wfc_y3w_mb__entry__4"><code class="ph codeph">json_typeof('-123.4')</code>
                 </td>
@@ -845,7 +845,7 @@ Array with n elements &gt; array with n - 1 elements
                   </p></td>
                 <td class="entry" headers="topic_z5d_snw_2z__table_wfc_y3w_mb__entry__2"><code class="ph codeph">record</code>
                 </td>
-                <td class="entry" headers="topic_z5d_snw_2z__table_wfc_y3w_mb__entry__3">Builds an arbitrary record from a JSON object. See <a class="xref" href="#topic_z5d_snw_2z__json_proc_1">Note 1</a>. <p class="p">As with all
+                <td class="entry" headers="topic_z5d_snw_2z__table_wfc_y3w_mb__entry__3">Builds an arbitrary record from a JSON object. See <a class="xref" href="#tablenotes">Note 1</a>. <p class="p">As with all
                     functions returning record, the caller must explicitly define the structure of
                     the record with an <code class="ph codeph">AS</code> clause.</p></td>
                 <td class="entry" headers="topic_z5d_snw_2z__table_wfc_y3w_mb__entry__4"><code class="ph codeph">select * from json_to_record('{"a":1,"b":[1,2,3],"c":"bar"}') as x(a
@@ -864,7 +864,7 @@ Array with n elements &gt; array with n - 1 elements
                   </p></td>
                 <td class="entry" headers="topic_z5d_snw_2z__table_wfc_y3w_mb__entry__2"><code class="ph codeph">setof record</code>
                 </td>
-                <td class="entry" headers="topic_z5d_snw_2z__table_wfc_y3w_mb__entry__3">Builds an arbitrary set of records from a JSON array of objects See <a class="xref" href="#topic_z5d_snw_2z__json_proc_1">Note 1</a>. <p class="p">As with all
+                <td class="entry" headers="topic_z5d_snw_2z__table_wfc_y3w_mb__entry__3">Builds an arbitrary set of records from a JSON array of objects See <a class="xref" href="#tablenotes">Note 1</a>. <p class="p">As with all
                     functions returning record, the caller must explicitly define the structure of
                     the record with an <code class="ph codeph">AS</code> clause.</p></td>
                 <td class="entry" headers="topic_z5d_snw_2z__table_wfc_y3w_mb__entry__4"><code class="ph codeph">select * from
@@ -880,6 +880,7 @@ Array with n elements &gt; array with n - 1 elements
                 </td>
               </tr>
             </tbody></table>
+<p><a id="tablenotes"></a></p>
 <blockquote>
 <p><strong>Note</strong> The examples for the functions <code>json_populate_record()</code>, <code>json_populate_recordset()</code>, <code>json_to_record()</code> and <code>json_to_recordset()</code> use constants. However, the typical use would be to reference a table in the <code>FROM</code> clause and use one of its <code>json</code> or <code>jsonb</code> columns as an argument to the function. The extracted key values can then be referenced in other parts of the query. For example the value can be referenced in <code>WHERE</code> clauses and target lists. Extracting multiple values in this way can improve performance over extracting them separately with per-key operators.</p>
 </blockquote>

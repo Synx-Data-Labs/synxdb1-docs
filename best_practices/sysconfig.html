@@ -199,7 +199,7 @@ MIRROR_PORT_BASE = 7000
 * hard  nproc 131072
 </code></pre>
 <h2 id="os-memory-configuration"><a class="header" href="#os-memory-configuration"><a id="os_mem_config"></a>OS Memory Configuration</a></h2>
-<p>The Linux sysctl <code>vm.overcommit_memory</code> and <code>vm.overcommit_ratio</code> variables affect how the operating system manages memory allocation. See the <a href="../install_guide/prep_os.html#topic3__sysctl_file"><code>/etc/sysctl.conf</code></a> file parameters guidelines in the <em>SynxDB Datatabase Installation Guide</em> for further details.</p>
+<p>The Linux sysctl <code>vm.overcommit_memory</code> and <code>vm.overcommit_ratio</code> variables affect how the operating system manages memory allocation. See the <a href="../install_guide/prep_os.html"><code>/etc/sysctl.conf</code></a> file parameters guidelines in the <em>SynxDB Datatabase Installation Guide</em> for further details.</p>
 <p><code>vm.overcommit_memory</code> determines the method the OS uses for determining how much memory can be allocated to processes. This should be always set to 2, which is the only safe setting for the database.</p>
 <blockquote>
 <p><strong>Note</strong> For information on configuration of overcommit memory, refer to:</p>
@@ -217,7 +217,7 @@ MIRROR_PORT_BASE = 7000
 kernel.shmmni = 4096
 kernel.shmall = 197951838
 </code></pre>
-<p>See <a href="../install_guide/prep_os.html#topic3/shared_memory_pages">Setting the SynxDB Recommended OS Parameters</a> for more details.</p>
+<p>See <a href="../install_guide/prep_os.html">Setting the SynxDB Recommended OS Parameters</a> for more details.</p>
 <h2 id="number-of-segments-per-host"><a class="header" href="#number-of-segments-per-host"><a id="host_segs"></a>Number of Segments per Host</a></h2>
 <p>Determining the number of segments to run on each segment host has immense impact on overall system performance. The segments share the host’s CPU cores, memory, and NICs with each other and with other processes running on the host. Over-estimating the number of segments a server can accommodate is a common cause of suboptimal performance.</p>
 <p>The factors that must be considered when choosing how many segments to run per host include the following:</p>

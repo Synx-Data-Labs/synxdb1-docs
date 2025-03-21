@@ -162,7 +162,7 @@
 <ul>
 <li>Connections between clients and the master database can be encrypted with SSL. This is enabled by setting the <code>ssl</code> server configuration parameter to <code>on</code> and editing the <code>pg_hba.conf</code> file. See “Encrypting Client/Server Connections” in the <em>SynxDB Administrator Guide</em> for information about enabling SSL in SynxDB.</li>
 <li>SynxDB 4.2.1 and above allow SSL encryption of data in transit between the SynxDB parallel file distribution server, <code>gpfdist</code>, and segment hosts. See <a href="#section_kjt_3kr_bs">Encrypting gpfdist Connections</a> for more information. </li>
-<li>Network communications between hosts in the SynxDB cluster can be encrypted using IPsec. An authenticated, encrypted VPN is established between every pair of hosts in the cluster. Check your operating system documentation for IPsec support, or consider a third-party solution such as that provided by <a href="https://www.zettaset.com">Zettaset</a>.</li>
+<li>Network communications between hosts in the SynxDB cluster can be encrypted using IPsec. An authenticated, encrypted VPN is established between every pair of hosts in the cluster. Check your operating system documentation for IPsec support, or consider a third-party solution.</li>
 <li>The <code>pgcrypto</code> module of encryption/decryption functions protects data at rest in the database. Encryption at the column level protects sensitive information, such as passwords, Social Security numbers, or credit card numbers. See <a href="#section_emf_3kr_bs">Encrypting Data in Tables using PGP</a> for an example.</li>
 </ul>
 <h2 id="best-practices"><a class="header" href="#best-practices"><a id="bp1"></a>Best Practices</a></h2>
@@ -206,10 +206,10 @@
 <div class="table-wrapper"><table><thead><tr><th style="text-align: left">Value Functionality</th><th style="text-align: left">Built-in</th><th style="text-align: left">With OpenSSL</th></tr></thead><tbody>
 <tr><td style="text-align: left">MD5</td><td style="text-align: left">yes</td><td style="text-align: left">yes</td></tr>
 <tr><td style="text-align: left">SHA1</td><td style="text-align: left">yes</td><td style="text-align: left">yes</td></tr>
-<tr><td style="text-align: left">SHA224/256/384/512</td><td style="text-align: left">yes</td><td style="text-align: left">yes <a href="#fntarg_1">1</a>.</td></tr>
-<tr><td style="text-align: left">Other digest algorithms</td><td style="text-align: left">no</td><td style="text-align: left">yes <a href="#fntarg_2">2</a></td></tr>
+<tr><td style="text-align: left">SHA224/256/384/512</td><td style="text-align: left">yes</td><td style="text-align: left">yes <a href="#fntarg">1</a>.</td></tr>
+<tr><td style="text-align: left">Other digest algorithms</td><td style="text-align: left">no</td><td style="text-align: left">yes <a href="#fntarg">2</a></td></tr>
 <tr><td style="text-align: left">Blowfish</td><td style="text-align: left">yes</td><td style="text-align: left">yes</td></tr>
-<tr><td style="text-align: left">AES</td><td style="text-align: left">yes</td><td style="text-align: left">yes<a href="#fntarg_3">3</a></td></tr>
+<tr><td style="text-align: left">AES</td><td style="text-align: left">yes</td><td style="text-align: left">yes<a href="#fntarg">3</a></td></tr>
 <tr><td style="text-align: left">DES/3DES/CAST5</td><td style="text-align: left">no</td><td style="text-align: left">yes</td></tr>
 <tr><td style="text-align: left">Raw Encryption</td><td style="text-align: left">yes</td><td style="text-align: left">yes</td></tr>
 <tr><td style="text-align: left">PGP Symmetric-Key</td><td style="text-align: left">yes</td><td style="text-align: left">yes</td></tr>
@@ -516,7 +516,10 @@ FORMAT 'TEXT' ( DELIMITER '|' NULL ' ') ;
 </code></pre>
 </li>
 </ol>
-<p><a href="#fnsrc_1">1</a> SHA2 algorithms were added to OpenSSL in version 0.9.8. For older versions, pgcrypto will use built-in code<a href="#fnsrc_2">2</a> Any digest algorithm OpenSSL supports is automatically picked up. This is not possible with ciphers, which need to be supported explicitly.<a href="#fnsrc_3">3</a> AES is included in OpenSSL since version 0.9.7. For older versions, pgcrypto will use built-in code.</p>
+<p><a id="fntarg"></a>
+[1] SHA2 algorithms were added to OpenSSL in version 0.9.8. For older versions, pgcrypto will use built-in code
+[2] Any digest algorithm OpenSSL supports is automatically picked up. This is not possible with ciphers, which need to be supported explicitly.
+[3] AES is included in OpenSSL since version 0.9.7. For older versions, pgcrypto will use built-in code.</p>
 
                     </main>
 
