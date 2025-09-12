@@ -2,6 +2,8 @@
 Configure Database System
 ============================
 
+From a user's perspective, |product_name| functions as a complete relational database management system (RDBMS). Physically, however, it is a distributed system composed of multiple PostgreSQL instances. To enable these independent instances to work together as a unified cluster, |product_name| manages distributed processing for data storage, computing, communication, and management. It abstracts away the complexity of the distributed system, presenting users with a single, logical database view.
+
 Server configuration parameters affect the behavior of |product_name|. They are part of the PostgreSQL "Grand Unified Configuration" system, so they are sometimes called "GUCs". Most of the |product_name| server configuration parameters are the same as the PostgreSQL configuration parameters, but some are specific to |product_name|.
 
 Coordinator and local parameters
@@ -18,7 +20,9 @@ Set configuration parameters
 
 Many configuration parameters limit who can change them and where or when they can be set. For example, to change certain parameters, you must be a |product_name| superuser. Other parameters can be set only at the system level in the ``postgresql.conf`` file or require a system restart to take effect.
 
-Many configuration parameters are session parameters. You can set session parameters at the system level, the database level, the role level or the session level. Database users can change most session parameters within their session, but some require superuser permissions.
+Many configuration parameters are session parameters. For example, |product_name| supports timeout management, which can be controlled using the ``statement_timeout`` parameter for timeout. You can set session parameters at the system level, the database level, the role level or the session level. Database users can change most session parameters within their session, but some require superuser permissions.
+
+For example, |product_name| controls session handling through several GUC parameters. You can configure ``idle_session_timeout`` to automatically terminate sessions that have been idle for a specified period. In addition, when a coordinator node receives a concurrent session request from a client, it will terminate the new session request to manage connection resources.
 
 Set a local configuration parameter
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

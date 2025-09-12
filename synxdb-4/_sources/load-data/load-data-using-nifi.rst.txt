@@ -1,0 +1,38 @@
+Load Data Using Apache NiFi
+================================
+
+Apache NiFi is a powerful open-source tool for automating the movement of data between disparate systems. It provides a web-based user interface for creating, monitoring, and controlling data flows. In the context of |product_name|, NiFi can be used as a robust and scalable ETL/ELT tool to ingest data from a wide variety of sources.
+
+How it works
+------------
+
+NiFi operates on the concept of flow-based programming. You build a data pipeline (a "dataflow") by dragging and dropping components called "Processors" onto a canvas and connecting them.
+
+-  **Processors**: These are the basic building blocks that perform a specific task, such as pulling data from a source, transforming it, or pushing it to a destination. For |product_name|, you would typically use JDBC-based processors like `PutDatabaseRecord` or `ExecuteSQL` to load data.
+-  **Connections**: These are queues that link processors together, allowing them to operate at different speeds. They provide back pressure, preventing upstream processors from overwhelming downstream ones.
+-  **Visual flow**: The entire pipeline is visualized on a canvas, making it easy to understand, manage, and debug complex data flows without writing extensive code.
+
+Because |product_name| is compatible with PostgreSQL, you can use NiFi's standard PostgreSQL JDBC drivers to connect and load data.
+
+Key benefits of using NiFi with |product_name|
+-------------------------------------------------
+
+-  **Visual Management**: Easily build and visualize complex data ingestion pipelines, reducing development and maintenance time.
+-  **Data Provenance**: NiFi automatically records a detailed chain of custody for every piece of data that flows through the system. This is invaluable for compliance, troubleshooting, and understanding your data lineage.
+-  **Broad Connectivity**: With over 300 pre-built processors, NiFi can connect to countless data sources, including filesystems, databases, message queues (like Kafka), and cloud services (like S3).
+-  **Scalability and Reliability**: NiFi is designed to be clustered, allowing for high throughput and fault tolerance. It guarantees data delivery, ensuring that data is not lost in transit.
+-  **Real-time Transformation**: Perform data transformations, filtering, and enrichment on the fly as data is moving, before it lands in |product_name|.
+
+Example Use Case: Ingesting Log Files
+---------------------------------------
+
+A common use case is ingesting application log files (for example, in CSV or JSON format) from a filesystem and loading them into a table in |product_name|.
+
+A typical NiFi flow for this scenario would look like this:
+
+1. **GetFile processor**: Monitors a directory for new log files and ingests them into the flow.
+2. **SplitRecord processor**: Breaks down large files into smaller, more manageable records (for example, line by line).
+3. **UpdateRecord processor**: Performs transformations on the data, such as changing date formats, renaming fields, or removing unnecessary columns.
+4. **PutDatabaseRecord processor**: Connects to |product_name| via a JDBC connection pool and inserts the records into the target table in batches.
+
+This entire process is configured and monitored through NiFi's graphical interface, providing a powerful and user-friendly way to manage your data loading pipelines.

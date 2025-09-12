@@ -1,5 +1,7 @@
-Deploy on Physical Machines
+On-Premise Deployment
 *******************************
+
+This section provides guidance for on-premise deployments of |product_name|, covering both bare-metal physical servers and virtualized infrastructure.
 
 .. toctree::
    :maxdepth: 2

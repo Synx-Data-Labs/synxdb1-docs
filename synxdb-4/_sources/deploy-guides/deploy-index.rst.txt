@@ -1,6 +1,8 @@
 Deployment Guides
 ***********************
 
+|product_name| supports on-premise deployment on both bare-metal and virtualized infrastructure, meeting deployment requirements with flexibility.
+
 .. toctree::
    :maxdepth: 2
 

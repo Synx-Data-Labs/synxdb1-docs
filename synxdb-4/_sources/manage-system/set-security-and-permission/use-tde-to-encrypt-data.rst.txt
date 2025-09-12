@@ -108,7 +108,7 @@ Key management module
 
 The key management module has a two-tier architecture. We use encryption algorithms to encrypt data, and encryption algorithms require keys. To reduce the overhead of repeated encryption and decryption caused by key changes, the industry mostly adopts a multi-layer key management structure.
 
-**Two-tier key structure:** The two-tier key structure includes a master key and a data encryption key (DEK). The master key is used to encrypt the DEK and is stored outside the database. The plaintext DEK is used to encrypt the database data. It can be encrypted with the master key to generate a ciphertext DEK, which is stored locally in the database.
+**Two-tier key structure:** The two-tier key structure includes a master key and a data encryption key (DEK). The master key is used to encrypt the DEK and is stored outside the database. Users can also create and manage master keys in an external Key Management System (KMS), and |product_name| uses these keys for storage encryption. The plaintext DEK is used to encrypt the database data. It can be encrypted with the master key to generate a ciphertext DEK, which is stored locally in the database.
 
 How to use
 ----------

@@ -5,7 +5,9 @@ Release date: July, 2025
 
 Version number: v4.0.0
 
-|product_name| v4.0.0 is a major release that brings significant enhancements to the database kernel and introduces a new monitoring tool, DBCC and a new backup and recovery tool, CBDR. This release represents a substantial leap forward in performance, reliability, and manageability.
+|product_name| v4.0.0 is a major release that brings significant enhancements to the database kernel and introduces a new monitoring tool, DBCC and a new backup and recovery tool, CBDR.
+
+This release builds upon the stability and maturity of its predecessors; previous versions have undergone rigorous testing for functionality, performance, and availability, and have been proven in long-term deployments across many client systems. This release represents a substantial leap forward in performance, reliability, and manageability.
 
 - **Enhanced Query Processing**: Major improvements in query optimization and execution, including advanced index-only scans, dynamic partition elimination, and improved join strategies. The ORCA optimizer now supports more complex query patterns and provides better performance for analytical workloads.
 
@@ -21,6 +23,11 @@ Version number: v4.0.0
 
 This release also includes numerous bug fixes and stability improvements.
 
+Availability
+--------------
+
+The new version of |product_name| is released through the official channels of the management team, and the software package can be downloaded from the official website.
+
 New features
 -----------------
 
@@ -31,6 +38,8 @@ New features
 
 Database
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+- **Virtualization support**: SynxDB v4.0 is fully capable of running in virtualized environments. All servers, including the coordinator, standby, and segment nodes, can be deployed as virtual machines, providing flexibility for on-premise deployments.
 
 .. raw:: latex
 

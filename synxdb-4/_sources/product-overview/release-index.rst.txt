@@ -1,6 +1,10 @@
 Releases
 ***********************
 
+Typically, a new version is released every month. Each release includes a new version of the software package and the corresponding technical documentation, which will be uploaded to the official website. At the same time, customers will be notified that a new version is available for download and system upgrade. Customers are responsible for evaluating whether to perform the upgrade based on their specific needs.
+
+For version upgrade introduction, see :ref:`manage-system/upgrade-the-system:upgrade |product_name|`.
+
 .. toctree::
    :maxdepth: 2
 

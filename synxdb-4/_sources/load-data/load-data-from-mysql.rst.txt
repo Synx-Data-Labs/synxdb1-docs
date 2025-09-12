@@ -5,10 +5,6 @@
 Load Data from MySQL Server Using MySQL_FDW
 =============================================
 
-.. Code Testcase File: https://code.synxdb.xyz/cloudberry/plugins/mysql_fdw_cloudberry/-/blob/main/sql/connection_validation.sql?ref_type=heads
-.. Doc Testcase on Feishu: https://synxdb.feishu.cn/docx/XgcvdDEoUoKl3TxRYWVcoGkhnKV
-
-
 MySQL FDW is a Foreign Data Wrapper (FDW). You can use it to connect |product_name| to a MySQL database. MySQL FDW is developed based on Linux and can run on any POSIX-compliant system.
 
 Prerequisites

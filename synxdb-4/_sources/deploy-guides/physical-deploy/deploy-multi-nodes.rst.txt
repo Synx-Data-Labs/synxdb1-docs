@@ -5,7 +5,7 @@
 Deploy on Mulitiple Nodes
 ==============================
 
-This document introduces how to manually deploy |product_name| on physical machines using RPM package on multiple nodes. Before reading this document, it is recommended to first read :ref:`deploy-guides/physical-deploy/software-and-hardware-config-requirements:software and hardware configuration`.
+This document introduces how to manually deploy |product_name| on physical machines or virtual machines using RPM package on multiple nodes. Before reading this document, it is recommended to first read :ref:`deploy-guides/physical-deploy/software-and-hardware-config-requirements:software and hardware configuration`.
 
 The deployment method in this document is for production environments.
 

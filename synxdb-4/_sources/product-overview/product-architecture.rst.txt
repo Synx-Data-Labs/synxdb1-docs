@@ -5,9 +5,11 @@ This document introduces the product architecture and the implementation mechani
 
 In most cases, |product_name| is similar to PostgreSQL in terms of SQL support, features, configuration options, and user functionalities. Users can interact with |product_name| in a similar way to how they interact with a standalone PostgreSQL system.
 
-|product_name| uses MPP (Massively Parallel Processing) architecture to store and process large volumes of data, by distributing data and computing workloads across multiple servers or hosts.
+|product_name| uses MPP (Massively Parallel Processing) architecture to store and process large volumes of data, by distributing data and computing workloads across multiple servers or hosts. To ensure high availability, the coordinator node can be deployed with a standby node. This configuration supports automatic client failover, which can be achieved in seconds using a virtual IP (VIP). After a failover, applications need to reconnect to the new active coordinator to resume submitting queries.
 
 MPP, known as the shared-nothing architecture, refers to systems with multiple hosts that work together to perform a task. Each host has its own processor, memory, disk, network resources, and operating system. |product_name| uses this high-performance architecture to distribute data loads and can use all system resources in parallel to process queries.
+
+The MPP architecture allows for horizontal scaling of nodes while maintaining consistent server processing capabilities. This means that as you add more nodes, the performance and capacity growth is nearly linear, often greater than 1:1 compared to the resource investment, which can help save costs.
 
 From users' view, |product_name| is a complete relational database management system (RDBMS). In a physical view, it contains multiple PostgreSQL instances. To make these independent PostgreSQL instances work together, |product_name| performs distributed cluster processing at different levels for data storage, computing, communication, and management. |product_name| hides the complex details of the distributed system, giving users a single logical database view. This greatly eases the work of developers and operational staff.
 
@@ -18,7 +20,7 @@ The architecture diagram of |product_name| is as follows:
 Coordinator node
 -------------------
 
-Coordinator node (or control node) is the gateway to the |product_name| system, which accepts client connections and SQL queries, and allocates tasks to data node instances. Users interact with |product_name| by connecting to the coordinator node using a client program (such as psql) or an application programming interface (API) (such as JDBC, ODBC, or libpq PostgreSQL C API).
+Coordinator node (or control node) is the gateway to the |product_name| system. It accepts client connections and SQL queries, allocates tasks to data node instances, and terminates the session upon receiving a disconnection or closure request from the client. Users interact with |product_name| by connecting to the coordinator node using a client program (such as psql) or an application programming interface (API) (such as JDBC, ODBC, or libpq PostgreSQL C API).
 
 -  The coordinator node acts as the global system directory, containing a set of system tables that record the metadata of |product_name|.
 -  The coordinator node does not store user data. User data is stored only in data node instances.
@@ -47,3 +49,8 @@ MVCC
 MVCC minimizes lock contention to ensure performance in a multi-user environment. This is done by avoiding explicit locking for database transactions.
 
 In concurrency control, MVCC does not introduce conflicts for query (read) locks and write locks. In addition, read and write operations do not block each other. This is the biggest advantages of MVCC over the lock mechanism.
+
+Kernel-level reliability
+------------------------
+
+|product_name| uses PostgreSQL as its database kernel, inheriting its robust mechanisms for system exception control to ensure high reliability. The architecture provides fine-grained control over function execution, allowing developers to specify whether a function runs on the coordinator or segment nodes to prevent data inconsistencies. In addition, through PostgreSQL's permission management system, functions can be configured to execute with the permissions of their definer, enhancing security. The system also provides standard programming interfaces for exception handling and logging.

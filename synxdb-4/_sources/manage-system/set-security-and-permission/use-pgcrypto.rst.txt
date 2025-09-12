@@ -5,7 +5,7 @@
 Encrypt Data with pgcrypto
 ==========================
 
-``pgcrypto`` is the encryption module for |product_name|, providing encryption functions.
+``pgcrypto`` is the encryption module for |product_name|, providing encryption functions. It is one of the multiple data encryption algorithms supported by |product_name| to protect data at rest and in transit.
 
 This module is "trusted", which means that non-superusers with ``CREATE`` permission on the current database can install the ``pgcrypto`` module.
 

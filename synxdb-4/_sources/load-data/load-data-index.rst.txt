@@ -14,4 +14,5 @@ Load Data
    load-data-from-oss-and-hdfs
    load-data-from-hive
    load-data-from-mysql
+   load-data-using-nifi
    customize-multi-char-delimiters

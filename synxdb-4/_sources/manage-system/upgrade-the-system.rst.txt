@@ -1,0 +1,36 @@
+Upgrade |product_name|
+========================
+
+This document describes the general process and quality assurance measures for upgrading |product_name|. When planning an upgrade, users can estimate the specific configuration requirements for the database cluster based on the |product_name| hardware performance benchmark, taking into account the data size and concurrent access volume.
+
+To support a smooth upgrade, each new version of |product_name| is accompanied by detailed technical documentation. This includes comprehensive release notes detailing all changes and new features, along with a step-by-step upgrade guide.
+
+Compatibility
+-------------
+
+- **Minor versions (for example, 4.x)**: Maintains on-disk data and server-side application binary interface (ABI) compatibility.
+- **Major versions (for example, 4.x to 5.0)**: A major version bump signals breaking changes and requires a full redeployment and data migration.
+
+Upgrade methods
+---------------
+
+- **In-place upgrade (for example, 4.x to 4.y)**: For non-breaking updates (no storage, catalog, or ABI changes). Apply the patch or minor release, perform rolling restarts where supported. Rollback is available.
+- **Redeployment and data migration (for example, 4.x to 5.0)**: For breaking changes affecting storage, catalog, ABI, or runtime. Provision a new cluster, migrate data (via export/import or logical replication), validate, and then cut over.
+
+Quick guide
+-----------
+
+- **Security, bugfix, performance, or feature updates without format/ABI change**: Use an in-place upgrade.
+- **Catalog, storage, ABI, or runtime baseline changes**: Use redeployment and data migration.
+
+Script testing and validation
+-----------------------------
+
+To ensure a smooth software version upgrade and data migration process, the upgrade and migration scripts provided for specific projects have undergone comprehensive testing and validation to guarantee that they meet the strict technical requirements of each project in terms of functionality, performance, and stability.
+
+The main testing and validation stages include:
+
+- **Functional testing**: Ensures that the scripts can accurately complete all upgrade and migration tasks.
+- **Performance testing**: Evaluates the execution efficiency of the scripts under various loads to ensure they meet the performance requirements of the production environment.
+- **Data security backup**: Verifies the reliability of backup and recovery mechanisms to ensure data safety during the migration process.
+- **Small-batch validation in production environment**: Conducts small-scale data validation in the production environment before the formal migration to ensure a flawless process.

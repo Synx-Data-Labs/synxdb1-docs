@@ -2,8 +2,6 @@
 Use Oracle Compatibility SQL via Orafce
 ===========================================
 
-.. Doc testcase on Feishu: https://synxdb.feishu.cn/docx/KoO7dS170oWT7hxdNeIcDxo2nZg
-
 |product_name| supports Orafce version 4.9.
 
 The ``orafce`` module provides Oracle Compatibility SQL functions in |product_name|. These functions target PostgreSQL but can also be used in |product_name|.

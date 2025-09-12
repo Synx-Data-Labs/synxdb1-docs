@@ -2,10 +2,12 @@
 
    \newpage
 
-Prepare to Deploy on Physical Machine
+Prepare to Deploy On-Premise
 ========================================
 
-Before deploying |product_name| on physical machines, you need to do some preparations. Read this document and :ref:`deploy-guides/physical-deploy/software-and-hardware-config-requirements:software and hardware configuration` before you start to deploy |product_name|.
+Before deploying |product_name| on-premise (on either physical machines or virtual machines), you need to do some preparations. Read this document and :ref:`deploy-guides/physical-deploy/software-and-hardware-config-requirements:software and hardware configuration` before you start to deploy |product_name|.
+
+|product_name| provides rollback capabilities to ensure system stability. During the initial installation, rollback is supported if the process fails. For future upgrades, in-place updates for maintenance versions also support version rollbacks. However, for major version upgrades that require full redeployment and data migration, a rollback operation is not applicable as the process involves creating a new, separate cluster.
 
 Plan the deployment architecture
 -----------------------------------

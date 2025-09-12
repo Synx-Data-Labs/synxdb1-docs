@@ -37,24 +37,34 @@ For different scenarios, |product_name| supports multiple storage formats, inclu
 
 -  **Efficient data compression function**: |product_name| supports multiple compression algorithms, such as Zlib 1-9 and Zstandard 1~19, to improve data processing performance and maintain a balance between CPU and compression ratio.
 
+-  **Data lifecycle management**: |product_name| supports data lifecycle management, allowing users to define rules for regular data archiving. This feature, combined with data compression, helps manage storage costs and performance over the long term.
+
 -  **Optimization for small tables**: You can choose to use the Replication Table and specify a custom Hash algorithm when creating the table, allowing for more flexible control of data distribution.
 
 Multi-layer data security
 ---------------------------
 
-|product_name| enhances user data protection by supporting function encryption and transparent data encryption (TDE). TDE means that the |product_name| kernel performs these processes invisibly to users. The data formats subject to TDE include Heap tables, AO row storage, and AOCS column storage. In addition to common encryption algorithms like AES, |product_name| also supports national secret algorithms, allowing seamless integration of your own algorithms into TDE process.
+|product_name| enhances user data protection by supporting function encryption and transparent data encryption (TDE). TDE means that the |product_name| kernel performs these processes invisibly to users. The data formats subject to TDE include Heap tables, AO row storage, and AOCS column storage. In addition to common encryption algorithms like AES, |product_name| also supports ISO/IEC secret algorithms, allowing seamless integration of your own algorithms into TDE process.
 
 |product_name| focuses on data security and provides security protection measures. These security measures are designed to satisfy different database environment needs and offer multi-layer security protection:
 
--  **Database isolation**: In |product_name|, data is not shared between databases, which achieves isolation in a multi-database environment. If cross-database access is required, you can use the DBLink feature.
+-  **Multi-tenant isolation**: |product_name| supports multi-tenant isolation at both the database and schema levels. Data is not shared between databases, ensuring strong isolation in a multi-database environment. Within a database, each tenant can define their own schemas and set access permissions for database objects, providing granular control and security.
 
 -  **Internal data organization**: The logical organization of data in the database includes data objects such as tables, views, indexes, and functions. Data access can be performed across schemas.
 
 -  **Data storage security**: |product_name| offers different storage modes to support data redundancy. It uses encryption methods including AES 128, AES 192, AES 256, DES, and national secret encryption to secure data storage. It also supports ciphertext authentication, which includes encryption algorithms like SCRAM-SHA-256, MD5, LDAP, RADIUS.
 
--  **User data protection**: |product_name| supports function encryption and decryption, and transparent data encryption and decryption. The process is implemented by the |product_name| kernel without any user interaction. It supports data formats such as Heap tables, AO row storage, and AOCS column storage. In addition to common encryption algorithms like AES, |product_name| also supports national secret algorithms, allowing you to easily add your own algorithms into transparent data encryption.
+-  **Secure session management**: To enhance security, |product_name| uses randomly generated session tokens, making sessions less predictable and more resistant to hijacking.
+
+-  **User data protection**: |product_name| provides comprehensive data protection through function-level encryption and transparent data encryption (TDE). The encryption and decryption processes are handled by the |product_name| kernel, requiring no user interaction, and are supported for Heap tables, AO row storage, and AOCS column storage.
+
+-  **Key management**: |product_name| supports multiple data encryption algorithms (such as pgcrypto and SSL/TLS) for data in transit and at rest. Users can create keys in an external Key Management System (KMS) and manage them independently, while |product_name| uses these keys for data encryption. In addition to common encryption algorithms like AES, |product_name| also supports ISO secret algorithms, allowing you to easily add your own algorithms into transparent data encryption. To further enhance key security, |product_name| also supports integration with third-party encryption key management systems.
 
 -  **Detailed permission settings**: To satisfy different users and objects (like schemas, tables, rows, columns, views, functions), |product_name| provides a range of permission setting options, including ``SELECT``, ``UPDATE``, execution, and ownership.
+-  **Customizable disclaimer**: Supports custom development of disclaimer functions related to data confidentiality to meet enterprise-specific compliance requirements.
+-  **Compliance with international standards**: |product_name| complies with the Information Security Management Code of Conduct of ISO 27002:2005 (or subsequent versions).
+-  **Proactive security assurance**: |product_name| undergoes regular vulnerability scanning, security assessments, and proactive vulnerability remediation to ensure the security of the platform.
+-  **Secure development lifecycle**: The development process for |product_name| adheres to established software development standards, including the Software Development Lifecycle (SDLC), Process Model Maturity, ACS, and NIST frameworks to ensure a high level of security and quality. This includes conducting dependency package scanning to ensure that all security vulnerabilities in open-source components are addressed.
 
 Data loading
 -------------
@@ -74,13 +84,19 @@ Data loading
 Multi-layer fault tolerance
 -----------------------------
 
-To ensure data security and service continuity, |product_name| adopts a multi-level fault-tolerant mechanism of data pages, checksum, mirror node configuration, and control node backup.
+To ensure data security and service continuity, |product_name| provides high availability and disaster recovery capabilities with a multi-level fault-tolerant mechanism from hardware to software. It consists of disk redundancy, data page checksums, segment mirroring, and coordinator high availability. The longest duration of business interruption varies for different failure scenarios.
 
--  **Checksum of data page**: In the underlying storage, |product_name| uses the checksum mechanism to detect bad blocks to ensure data integrity.
+-  **Disk redundancy**: At the hardware level, disk reliability is ensured through configurations such as RAID 5.
+-  **Data page checksum**: In the underlying storage, |product_name| uses the checksum mechanism to detect bad blocks to ensure data integrity.
+-  **Segment high availability**: Segment nodes can be deployed with mirror nodes. If a primary segment fails, the system automatically fails over to its corresponding mirror node to ensure service continuity. The longest duration of business interruption caused by segment node downtime and mirror node failover is in seconds.
+-  **Coordinator high availability**: As the gateway to the |product_name| system, the coordinator node accepts client connections, processes SQL queries, and distributes tasks. To ensure high availability for this critical component, it can be deployed with a standby node to support client failover. The longest duration of business interruption caused by the coordinator node crashing and standby node failover is in minutes. The mechanism includes:
 
--  **Mirror node configuration**: By configuring mirror nodes among segments (or data nodes), |product_name| can achieve high availability and failover of services. Once an unrecoverable failure of the coordinator node is detected, the system will automatically switch to the backup segment to ensure that user queries will not be affected.
-
--  **Backup of control nodes**: Similar to segments, coordinator nodes (or control nodes) can also be configured as backup nodes or standby nodes in case the coordinator node fails. Once the coordinator node fails, the system will automatically switch to the standby node to ensure the continuity of services.
+   - **Active-standby configuration**: The coordinator node has a standby node.
+   - **Fault monitoring**: The system continuously monitors the status of the primary coordinator.
+   - **Automatic failover with VIP**: In case of a failure, the system automatically fails over to the standby node. This process can include a virtual IP (VIP) failover, which typically completes in seconds.
+   - **Client reconnection**: After a failover, client applications must reconnect to the newly promoted standby node (often via the VIP) to continue submitting queries.
+-  **Disaster recovery**: For data center-level failures, the system supports failover to a backup data center. The longest duration of business interruption caused by the downtime of the data center and the failover to a backup data center is in hours.
+-  **Online operational changes**: In SynxDB v4.0, implementation and configuration changes do not affect the normal operation of business services, ensuring operational continuity.
 
 Rich data analysis support
 ----------------------------
@@ -91,7 +107,7 @@ Rich data analysis support
 
 -  **Machine learning components MADlib**: |product_name| integrates MADlib components, providing users with fully SQL-driven machine learning features, enabling deep integration of algorithms, computing power, and data.
 
--  **Support multiple programming languages**: |product_name| provides developers with rich programming languages, including R, Python, Perl, Java, and PostgreSQL, so that they can easily write custom functions.
+-  **Support multiple programming languages**: |product_name| provides developers with rich programming languages, including R, Python, Perl, Java, and PostgreSQL, so that they can easily write custom functions. For example, |product_name| allows execution of Java code within the database. However, this feature relies on JVM security policies, which must be configured by the user.
 
 -  **High-performance parallel computing based on MPP engine**: The MPP engine of |product_name| supports high-performance parallel computing, seamlessly integrated with SQL, and can perform fast computing and analysis on SQL execution results.
 
@@ -103,7 +119,7 @@ Rich data analysis support
 
    -  Complex spatial and geographic calculations: including sphere length calculations as well as spatial aggregation functions (such as contain, cover, intersect).
 
--  **|product_name| text component**: This component supports using ElasticSearch to accelerate file retrieval capabilities. Compared with traditional GIN data text query performance, this component has an order of magnitude improvement. It supports multiple word segmentation, natural language processing, and query result rendering.
+-  **Text component**: This component supports using ElasticSearch to accelerate file retrieval capabilities. Compared with traditional GIN data text query performance, this component has an order of magnitude improvement. It supports multiple word segmentation, natural language processing, and query result rendering.
 
 Flexible workload management
 ------------------------------
@@ -116,6 +132,15 @@ Flexible workload management
 
 -  **Dynamic resource group allocation (SQL-level management)**: Through dynamic resource group allocation, |product_name| can flexibly allocate resources before or during the execution of SQL statements, which can give priority to specific queries and shorten the execution time.
 
+Advanced diagnostics and maintainability
+-------------------------------------------
+
+To facilitate fault analysis and resolution, |product_name| provides advanced diagnostic capabilities:
+
+-  **Runtime log level adjustment**: Supports the ability to switch process log levels at runtime through signals (traps), enabling detailed diagnostics without service interruption.
+-  **Selective process step execution**: Supports the ability to exclude the execution of individual process steps when analyzing or fixing errors, which helps to isolate faults.
+-  **Configuration and version alignment alarms**: (Planning) To ensure cluster stability and consistency, |product_name| will support alarms for misaligned configuration data and/or software versions. This feature will be configurable down to the individual parameter level, providing timely alerts when inconsistencies are detected across the cluster.
+
 Multiple compatibility
 -------------------------
 
@@ -126,7 +151,5 @@ The compatibility of |product_name| is reflected in multiple aspects such as SQL
 -  **Component compatibility**: Based on the PostgreSQL 14.4 kernel, |product_name| is compatible with most of the PostgreSQL components and extensions commonly used.
 
 -  **Tool and program compatibility**: Good connectivity with various BI tools, mining forecasting tools, ETL tools, and J2EE/.NET applications.
-
 -  **Hardware platform compatibility**: Can run on a variety of hardware architectures, including X86, ARM, Phytium, Kunpeng, and Haiguang.
-
 -  **Operating system compatibility**: Compatible with multiple operating system environments, such as CentOS and RHEL.

@@ -5,7 +5,7 @@
 Load Data from Object Storage and HDFS
 ============================================
 
-You can use the ``datalake_fdw`` extension to load data from an object storage (such as Amazon S3, QingCloud, Alibaba Cloud, Huawei Cloud, and Tencent Cloud), HDFS, and ORC tables in Hive into |product_name| for data query and access.
+You can use the ``datalake_fdw`` extension to load data from an object storage (such as Amazon S3), HDFS, and ORC tables in Hive into |product_name| for data query and access.
 
 Currently, supported data formats are CSV, TEXT, ORC, and PARQUET.
 
@@ -35,7 +35,7 @@ To load data using ``datalake_fdw``, you need to create a foreign data wrapper (
 Load data from object storage
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-You can load data from Amazon S3, QingCloud, Alibaba Cloud, Tencent Cloud, and other object storages into |product_name|. Follow these steps:
+You can load data from Amazon S3 or other object storages into |product_name|. Follow these steps:
 
 1. Create a foreign table wrapper ``FOREIGN DATA WRAPPER``. Note that there are no options in the SQL statement below, and you need to execute it exactly as provided.
 
@@ -74,7 +74,6 @@ You can load data from Amazon S3, QingCloud, Alibaba Cloud, Tencent Cloud, and o
 
           Example:
 
-          - Host for QingCloud public cloud: ``pek3b.qingstor.com``
           - Host for private cloud: ``192.168.1.1:9000``
       * - ``protocol``
         - Specifies the cloud platform for the object storage.
@@ -84,11 +83,6 @@ You can load data from Amazon S3, QingCloud, Alibaba Cloud, Tencent Cloud, and o
 
           - ``s3b``: Amazon Cloud (uses v2 signature)
           - ``s3``: Amazon Cloud (uses v4 signature)
-          - ``ali``: Alibaba Cloud object storage
-          - ``qs``: QingCloud object storage
-          - ``cos``: Tencent object storage
-          - ``huawei``: Huawei object storage
-          - ``ks3``: Kingstor object storage
       * - ``isvirtual``
         - Use **virtual-host-style** or **path-host-style** to parse the host of the object storage.
         - Required: Optional

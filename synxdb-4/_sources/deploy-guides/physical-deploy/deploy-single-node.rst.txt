@@ -5,6 +5,8 @@
 Deploy on Single Node
 =======================
 
+This document introduces how to manually deploy |product_name| on a single physical or virtual machine.
+
 |product_name| is not fully compatible with PostgreSQL, and some features and syntax are |product_name|-specific. If your business already relies on |product_name| and you want to use the |product_name|-specific syntax and features on a single node to avoid compatibility issues with PostgreSQL, you can consider deploying |product_name| free of segments.
 
 |product_name| provides the single-computing-node deployment mode. This mode runs under the utility ``gp_role``, with only one coordinator (QD) node and one coordinator standby node, without a segment node or data distribution. You can directly connect to the coordinator and run queries as if you were connecting to a regular multi-node cluster. Note that some SQL statements are not effective in this mode because data distribution does not exist, and some SQL statements are not supported. See :ref:`deploy-guides/physical-deploy/manual-deploy/deploy-single-node:user-behavior changes` for details.

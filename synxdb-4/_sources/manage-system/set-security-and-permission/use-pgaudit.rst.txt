@@ -324,3 +324,8 @@ Audit entries are written to the standard logging facility and contain the follo
 -  **PARAMETER**: If ``pgaudit.log_parameter`` is set, this field will contain the statement parameters as quoted CSV, or ``<none>`` if there are no parameters. Otherwise, the field is ``<not logged>``.
 
 Use `log_line_prefix <http://www.postgresql.org/docs/14/runtime-config-logging.html#GUC-LOG-LINE-PREFIX>`__ to add any other fields you need to meet your audit logging requirements. A typical log line prefix might be ``'%m %u %d [%p]: '``, which would provide the date/time, username, database name, and process ID for each audit log.
+
+Log visualization and retrieval
+-------------------------------
+
+Because pgAudit writes audit entries to the standard PostgreSQL logging facility, logs can be retrieved and visualized using tools that support this format. |product_name| supports using the PgAdmin tool or a customized GUI application for log visualization and retrieval to facilitate analysis and monitoring of database activities.

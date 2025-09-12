@@ -117,6 +117,6 @@ Data rows that have been deleted or updated still occupy physical space on disk.
 
    VACUUM mytable;
 
-The ``VACUUM`` command can be used to collect table-level statistics, such as row count and page count. After loading data, perform ``VACUUM`` operations on all tables (including AO tables).
+The ``VACUUM`` command can be used to collect table-level statistics, such as row count and page count. After loading data, perform ``VACUUM`` operations on all tables (including AO tables). In SynxDB v4.0, the ``VACUUM`` (data cleaning) operation does not affect the normal operation of business services.
 
 When maintaining data in |product_name|, especially when frequently performing update and delete operations, you need to use the ``VACUUM``, ``VACUUM FULL``, and ``VACUUM ANALYZE`` commands.

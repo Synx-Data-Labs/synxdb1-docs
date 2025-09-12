@@ -5,6 +5,12 @@ A |product_name| system is a single instance of |product_name|. There might be m
 
 A |product_name| database system (DBMS) can have multiple databases. This is different from some DBMSs where "the database instance is the database", such as Oracle. Although you can create multiple databases in a |product_name| system, a client program can only connect to and access one database at a time, and cannot perform cross-database queries.
 
+Data retention policies in |product_name| are managed by defining data lifecycle rules. This includes features like table data compression, which users can flexibly configure to optimize storage.
+
+.. note::
+
+   The tasks described in this topic, such as creating and dropping databases, are fundamental database management operations. For more complex maintenance scenarios that might require downtime, |product_name| provides a suite of operation and maintenance tools to help manage these activities.
+
 Templates and default databases
 -------------------------------
 

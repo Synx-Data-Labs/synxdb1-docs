@@ -3,6 +3,8 @@ Expand and Shrink a Cluster
 
 |product_name| achieves elastic scaling through ``gpshrink`` and ``gpexpand``, which are the tools for shrinking and expanding a cluster.
 
+The underlying MPP architecture is designed for horizontal scaling. By adding or removing nodes, you can adjust the cluster's processing capabilities. This design ensures that performance and capacity scale nearly linearly with the number of nodes, delivering a cost-effective solution where the performance gain is often greater than the resource investment.
+
 -  When cluster resources are idle, for example, if disk space usage is consistently below 20% or CPU/memory utilization remains low, you can use ``gpshrink`` to shrink the cluster and save server resources.
 -  When cluster resources are under pressure, for example, if disk space usage is consistently above 80% or CPU/memory utilization remains high, you can use ``gpexpand`` to expand the cluster and add server resources.
 

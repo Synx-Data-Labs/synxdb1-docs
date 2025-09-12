@@ -1,15 +1,17 @@
 Software and Hardware Configuration
 =======================================
 
-This document introduces the software and hardware configuration required for |product_name|.
+This document introduces the recommended software and hardware configurations for |product_name|. The following are baseline recommendations. You should estimate the specific configuration requirements for their database cluster based on the |product_name| hardware performance benchmark, taking into account factors like data size and concurrent access volume.
 
 Hardware requirements
 ------------------------
 
-Physical machine
-~~~~~~~~~~~~~~~~~~~~~~~
+On-Premise servers (physical or virtual)
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The following section describes the recommended physical machine configuration for |product_name| in test and production environments.
+|product_name| has passed comprehensive hardware compatibility testing and supports hardware servers from mainstream manufacturers, ensuring reliable operation across hardware environments.
+
+The following section describes the recommended hardware resource configuration for |product_name| in test and production environments. These recommendations apply to both bare-metal servers and virtual machines.
 
 For development or test environments
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

@@ -5,7 +5,7 @@
 Create and Manage Tables
 ========================
 
-Tables in |product_name| are similar to tables in other relational databases, except that table row data is distributed across different segments. When creating a table, you need to specify the table's distribution strategy.
+Tables in |product_name| are similar to tables in other relational databases, except that table row data is distributed across different segments. When creating a table, you need to specify the table's distribution strategy. |product_name| also provides features for managing data over its lifecycle. Users can flexibly manage data retention by defining data lifecycle rules. These built-in, customizable rules support features like table data compression and regular data archiving.
 
 Create tables
 -------------

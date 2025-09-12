@@ -9,3 +9,6 @@ Product Overview
    product-scenarios
    comparison-with-gp
    release-index
+   tpc-ds-benchmark-report
+   product-roadmap
+

@@ -1,7 +1,7 @@
 Data Loading Overview
 ========================
 
-|product_name| loads external data by converting it into external tables via loading tools. Then, it reads from or writes to these external tables to complete the external data loading process.
+|product_name| integrates with external systems, including big data systems, using external tables. This approach leverages a variety of loading tools and protocols, allowing you to choose the most suitable method based on the data source. The system loads external data by creating an external table that references the source, and then uses SQL commands to read data from or write data to it.
 
 Data loading process
 --------------------

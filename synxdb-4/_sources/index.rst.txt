@@ -7,6 +7,10 @@
 
    Greenplum® is a registered trademark of Broadcom Inc. Synx Data Labs and SynxDB are not affiliated with, endorsed by, or sponsored by Broadcom Inc. Any references to Greenplum are for comparative, educational, and interoperability purposes only.
 
+.. note::
+
+   |product_name| v4.0 is the latest stable and recommended product and version.
+
 .. toctree::
    :maxdepth: 2
    :caption: Table of Contents

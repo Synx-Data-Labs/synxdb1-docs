@@ -1,0 +1,48 @@
+# Product Release Roadmap
+
+This document outlines the planned development and release schedule for our products.
+
+## 2024
+
+**Apache Cloudberry™ (Incubating) incubation:** Cloudberry was officially approved as an Apache Incubator project.
+
+:::{note}
+Apache Cloudberry™ (Incubating) is an advanced and mature open-source Massively Parallel Processing (MPP) database, derived from the open-source version of the Greenplum Database® but built on a more modern PostgreSQL kernel and with more advanced enterprise capabilities. Cloudberry can serve as a data warehouse and can also be used for large-scale analytics and AI/ML workloads.
+
+:::
+
+:::{important}
+**Apache Disclaimer**
+
+Apache Cloudberry is an effort undergoing incubation at The Apache Software Foundation (ASF), sponsored by the Apache Incubator. Incubation is required of all newly accepted projects until a further review indicates that the infrastructure, communications, and decision making process have stabilized in a manner consistent with other successful ASF projects. While incubation status is not necessarily a reflection of the completeness or stability of the code, it does indicate that the project has yet to be fully endorsed by the ASF.
+:::
+
+## 2025
+
+**Synx Data Labs:** A provider of database solutions based on the open-source Cloudberry, and also a provider of the last open-source Greenplum Products as of May 24, 2024.
+
+### Q1: Existing Greenplum replacement
+
+- **SynxDB v1:** Based on Greenplum 5.x and Postgres 8.3.
+- **SynxDB v2:** Based on Greenplum 6.x and Postgres 9.4.
+- **SynxDB v3:** Based on Greenplum 7.x and Postgres 12.
+
+### Q2: SynxDB v4 release
+
+- Based on Cloudberry v2 (Postgres 14.4).
+
+### Q3: SynxDB Elastic (Planned GA)
+
+- Based on Cloudberry v2 (Postgres 14.4).
+- Features cloud-native architecture.
+
+## 2026 (Planned)
+
+### SynxDB v5
+
+- Based on Cloudberry v3 (Postgres 16.x).
+
+### SynxDB Elastic
+
+- Based on Cloudberry v3 (Postgres 16.x).
+- Features cloud-native architecture.

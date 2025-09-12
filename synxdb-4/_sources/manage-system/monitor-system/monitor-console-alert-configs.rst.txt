@@ -1,12 +1,12 @@
 View and Create Alert  Rules
 ===============================
 
-You can view and create alert rules in the |monitor_console|. The system continuously monitors system events or resource usage and promptly notifies relevant personnel when anomalies occur.
+You can view and create alert rules in the DBCC. The system continuously monitors system events or resource usage and promptly notifies relevant personnel when anomalies occur.
 
 Access the alert page
 -----------------------------------
 
-1. Make sure you are logged in to the |monitor_console|:
+1. Make sure you are logged in to the DBCC:
 
    .. code-block::
 
@@ -70,7 +70,7 @@ Set notification policy
 Specify who will receive alerts and under what conditions:
 
 -  **Contact Group**: Select an existing contact group. This field is required.
--  **Effective Time**: Set the time range for notifications, such as all day (00:00:00 - 23:59:59).
+-  **Effective Time**: Set time-based rules for alarms to define when they are active. For example, you can set alerts to be effective only during business hours.
 -  **Repetition Notification**: Set how frequently the alert is sent.
 -  **Priority Level**: Set the severity level of the alert.
 

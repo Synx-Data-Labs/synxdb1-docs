@@ -1,0 +1,302 @@
+# TPC-DS Benchmark Report
+
+TPC-DS is a decision support benchmark developed by the Transaction Processing Performance Council (TPC). TPC-DS models several generally applicable aspects of a decision support system, including queries and data maintenance. TPC-DS aims to provide a comprehensive and realistic workload for testing and evaluating the performance of database systems in a retail environment. The TPC-DS benchmark simulates the sales and return data of three sales channels (stores, Internet, and catalog) in a retail enterprise. In addition to creating tables for sales and return data models, it also includes a simple inventory system and a promotion system.
+
+The benchmark tested a total of 99 complex SQL queries against 24 tables. The test utilized a 1TB data volume, and the primary performance metric was the response time of each query, that is, the duration between submitting the query and returning the results.
+
+The following section presents the performance of three databases in single concurrency and 5-concurrency scenarios. The time unit is seconds, which measured the total time required for all SQL statements to complete.
+
+| **Database** | **Total Execution Time in Single Concurrency** | **Total Execution Time in 5-Concurrency** |
+| ------------ | ---------------------------------------------- | ------------------------------------------ |
+| SynxDB       | 5335                                           | 21125                                      |
+| Greenplum 6  | 6834                                           | 28255                                      |
+| Greenplum 7  | 6088                                           | 24750                                      |
+
+:::{admonition} Disclaimer
+:class: attention
+
+Greenplum® is a registered trademark of Broadcom Inc. Synx Data Labs and SynxDB are not affiliated with, endorsed by, or sponsored by Broadcom Inc. Any references to Greenplum are for comparative, educational, and interoperability purposes only.
+:::
+
+## Test environment
+
+### Hardware
+
+In this test, we used AWS platform compute instances. To ensure fairness and comparability of the test environment, identical hardware resources were allocated to SynxDB and Greenplum, enabling accurate comparison between them.
+
+| **Instance Type** | **Number of Instance** | **Region**      |
+|---------------|--------------------|-------------|
+| r5.4xlarge    | 5                  | us-east-2a  |
+
+The configuration of a single instance was as follows:
+
+| **Processors** | **Memory**  | **Storage**               | **Network**    |
+|------------|---------|-----------------------|------------|
+| 16 cores   | 128 GB  | 8 * 500GB EBS (gp3)   | 10 Gbit/s  |
+
+Total resources were as follows:
+
+| **Total Processors** | **Total Memory** | **Total Storage** | **Total Network** |
+|------------------|--------------|---------------|---------------|
+| 80 cores         | 640 GB       | 20000 GB      | 50 Gbit/s     |
+
+### Software
+
+Based on the aforementioned hardware resources, both SynxDB and Greenplum were deployed in a multi-node manner. 8 primary segments and 8 mirrors were deployed on each instance (mirror-mode=grouped), while the coordinator nodes and data nodes were deployed independently. The deployment architecture diagram is as follows:
+
+![](../images/tpc-ds-benchmark-1.png)
+
+Operating system and database kernel information:
+
+| **Item**                 | **SynxDB**      | **Greenplum**                                 |
+| ------------------------ | --------------- | --------------------------------------------- |
+| Operating system version | Rocky Linux 9.5 | Rocky Linux 9.5                               |
+| Database version         | SynxDB 4.0    | OSS Greenplum 6.27.1<br />OSS Greenplum 7.1.0 |
+
+## Test program
+
+Tests were conducted on both SynxDB and Greenplum with a data scale of 1TB. All test results were obtained through actual measurements by SynxDB engineers using the same machine configuration and database parameters. The following methods were adopted during the testing process:
+
+- Used TPC-DS benchmark test tool.
+- Data storage method: AOCS columnar storage.
+- Data compression method and level: Used zstd compression with compression level 1.
+
+## Test steps
+
+1. Prepare the test environment.
+
+    1. Install the SynxDB 4.0 test cluster following the SynxDB official documentation.
+    2. Download and install Greenplum 6.27.1 and Greenplum 7.1.0.
+
+2. Set parameters. Both SynxDB and Greenplum were configured with tunable parameters and options different from the defaults. The database tuning options were as follows:
+
+    | **Parameter name**                             | **SynxDB**  | **Greenplum 6**     |
+    | ------------------------------------------ | ------- | ------- |
+    | gp_vmem_protect_limit                      | 15000   | 15000   |
+    | max_statement_mem                          | '14GB'  | '14GB'  |
+    | statement_mem                              | '12GB'  | '12GB'  |
+    | gp_fts_probe_timeout                       | 600     | 600     |
+    | gp_fts_probe_interval                      | 600     | 600     |
+    | gp_segment_connect_timeout                 | 1800    | 1800    |
+    | gp_interconnect_queue_depth                | 10      | 10      |
+    | gp_interconnect_snd_queue_depth            | 8       | 8       |
+    | gp_interconnect_min_retries_before_timeout | 100     | 100     |
+    | gp_autostats_mode                          | 'none'  | 'none'  |
+    | autovacuum                                 | off     | off     |
+    | max_connections                            | 100/500 | 100/500 |
+    | max_prepared_transactions                  | 100     | 100     |
+    | gp_enable_runtime_filter_pushdown          | on      | /       |
+
+3. Download the TPC-DS benchmark test tool from <https://github.com/HashDataFE/TPC-DS-CBDB>.
+4. Run the `run.sh` script.
+5. Check the execution results through the `tpcds_%y%m%d_%H%M%S.log` log file.
+
+## Test conclusion
+
+Multiple tests were conducted on both SynxDB and OSS Greenplum, and the best results were selected for performance comparison.
+
+### Data loading performance
+
+The following table shows the comparison of loading TPC-DS data tables with a data volume of **1TB**.
+
+| **Database**    | **Loading Speed** | **Time Required to Load 1TB of Data** |
+| --------------- | ----------------- | ------------------------------------- |
+| **SynxDB**      | 700(MB/s)         | 25 (minutes)                          |
+| **Greenplum 6** | 700(MB/s)         | 25 (minutes)                          |
+| **Greenplum 7** | 700(MB/s)         | 25 (minutes)                          |
+
+### Performance testing of 99 queries
+
+The comparison of the 99 SQL statements of TPC-DS was as follows:
+
+| **SynxDB (s)** | **Greenplum 6 (s)** | **Greenplum 7 (s)** |
+| -------------- | ------------------- | ------------------- |
+| 5335           | 6834                | 6088                |
+
+**Conclusion**: In terms of sequential execution, SynxDB was approximately **21.9%** faster than Greenplum 6 and about **12.3%** faster than Greenplum 7.
+
+![](../images/tpc-ds-benchmark-2.png)
+
+The details of SQL execution time were as follows:
+
+<table><thead><tr><th>NO.</th><th>SynxDB (s)</th><th>Greenplum 6 (s)</th><th>Greenplum 7 (s)</th></tr></thead><tbody><tr><td>Q01</td><td>5</td><td>8</td><td>6</td></tr><tr><td>Q02</td><td>45</td><td>83</td><td>45</td></tr><tr><td>Q03</td><td>10</td><td>18</td><td>17</td></tr><tr><td>Q04</td><td>179</td><td>207</td><td>184</td></tr><tr><td>Q05</td><td>42</td><td>66</td><td>50</td></tr><tr><td>Q06</td><td>11</td><td>17</td><td>17</td></tr><tr><td>Q07</td><td>26</td><td>37</td><td>35</td></tr><tr><td>Q08</td><td>14</td><td>20</td><td>19</td></tr><tr><td>Q09</td><td>138</td><td>212</td><td>157</td></tr><tr><td>Q10</td><td>20</td><td>33</td><td>29</td></tr><tr><td>Q11</td><td>106</td><td>119</td><td>109</td></tr><tr><td>Q12</td><td>3</td><td>5</td><td>4</td></tr><tr><td>Q13</td><td>38</td><td>60</td><td>47</td></tr><tr><td>Q14</td><td>314</td><td>347</td><td>314</td></tr><tr><td>Q15</td><td>7</td><td>11</td><td>10</td></tr><tr><td>Q16</td><td>17</td><td>47</td><td>29</td></tr>
+<tr><td>Q17</td><td>24</td><td>54</td><td>41</td></tr><tr><td>Q18</td><td>17</td><td>26</td><td>26</td></tr><tr><td>Q19</td><td>14</td><td>23</td><td>20</td></tr><tr><td>Q20</td><td>5</td><td>8</td><td>8</td></tr><tr><td>Q21</td><td>6</td><td>11</td><td>11</td></tr><tr><td>Q22</td><td>26</td><td>29</td><td>33</td></tr><tr><td>Q23</td><td>677</td><td>781</td><td>707</td></tr><tr><td>Q24</td><td>203</td><td>236</td><td>239</td></tr><tr><td>Q25</td><td>26</td><td>53</td><td>39</td></tr><tr><td>Q26</td><td>13</td><td>18</td><td>18</td></tr><tr><td>Q27</td><td>24</td><td>34</td><td>35</td></tr><tr><td>Q28</td><td>73</td><td>119</td><td>99</td></tr><tr><td>Q29</td><td>28</td><td>50</td><td>38</td></tr><tr><td>Q30</td><td>4</td><td>3</td><td>3</td></tr><tr><td>Q31</td><td>30</td><td>41</td><td>37</td></tr><tr><td>Q32</td><td>9</td><td>17</td><td>15</td></tr><tr><td>Q33</td><td>22</td><td>35</td><td>35</td></tr><tr><td>Q34</td><td>17</td><td>27</td><td>24</td></tr>
+<tr><td>Q35</td><td>29</td><td>44</td><td>41</td></tr><tr><td>Q36</td><td>32</td><td>37</td><td>35</td></tr><tr><td>Q37</td><td>7</td><td>16</td><td>12</td></tr><tr><td>Q38</td><td>59</td><td>72</td><td>68</td></tr><tr><td>Q39</td><td>29</td><td>34</td><td>31</td></tr><tr><td>Q40</td><td>8</td><td>15</td><td>11</td></tr><tr><td>Q41</td><td>1</td><td>1</td><td>1</td></tr><tr><td>Q42</td><td>10</td><td>19</td><td>18</td></tr><tr><td>Q43</td><td>19</td><td>29</td><td>23</td></tr><tr><td>Q44</td><td>33</td><td>41</td><td>50</td></tr><tr><td>Q45</td><td>5</td><td>7</td><td>6</td></tr><tr><td>Q46</td><td>23</td><td>32</td><td>31</td></tr><tr><td>Q47</td><td>54</td><td>61</td><td>52</td></tr><tr><td>Q48</td><td>33</td><td>55</td><td>39</td></tr><tr><td>Q49</td><td>42</td><td>57</td><td>48</td></tr><tr><td>Q50</td><td>15</td><td>33</td><td>32</td></tr><tr><td>Q51</td><td>47</td><td>56</td><td>50</td></tr><tr><td>Q52</td><td>10</td><td>18</td><td>16</td></tr>
+<tr><td>Q53</td><td>17</td><td>22</td><td>21</td></tr><tr><td>Q54</td><td>17</td><td>39</td><td>37</td></tr><tr><td>Q55</td><td>10</td><td>18</td><td>16</td></tr><tr><td>Q56</td><td>21</td><td>34</td><td>32</td></tr><tr><td>Q57</td><td>26</td><td>28</td><td>24</td></tr><tr><td>Q58</td><td>19</td><td>31</td><td>29</td></tr><tr><td>Q59</td><td>113</td><td>176</td><td>109</td></tr><tr><td>Q60</td><td>23</td><td>35</td><td>36</td></tr><tr><td>Q61</td><td>33</td><td>56</td><td>43</td></tr><tr><td>Q62</td><td>12</td><td>15</td><td>11</td></tr><tr><td>Q63</td><td>14</td><td>24</td><td>22</td></tr><tr><td>Q64</td><td>75</td><td>89</td><td>109</td></tr><tr><td>Q65</td><td>69</td><td>82</td><td>72</td></tr><tr><td>Q66</td><td>18</td><td>23</td><td>21</td></tr><tr><td>Q67</td><td>938</td><td>892</td><td>883</td></tr><tr><td>Q68</td><td>24</td><td>33</td><td>31</td></tr><tr><td>Q69</td><td>18</td><td>32</td><td>27</td></tr><tr><td>Q70</td><td>59</td><td>62</td><td>64</td></tr>
+<tr><td>Q71</td><td>23</td><td>34</td><td>32</td></tr><tr><td>Q72</td><td>54</td><td>278</td><td>57</td></tr><tr><td>Q73</td><td>15</td><td>22</td><td>20</td></tr><tr><td>Q74</td><td>88</td><td>85</td><td>80</td></tr><tr><td>Q75</td><td>58</td><td>78</td><td>76</td></tr><tr><td>Q76</td><td>21</td><td>24</td><td>24</td></tr><tr><td>Q77</td><td>29</td><td>41</td><td>37</td></tr><tr><td>Q78</td><td>129</td><td>227</td><td>194</td></tr><tr><td>Q79</td><td>34</td><td>38</td><td>41</td></tr><tr><td>Q80</td><td>41</td><td>64</td><td>49</td></tr><tr><td>Q81</td><td>6</td><td>6</td><td>5</td></tr><tr><td>Q82</td><td>18</td><td>21</td><td>19</td></tr><tr><td>Q83</td><td>3</td><td>5</td><td>4</td></tr><tr><td>Q84</td><td>2</td><td>4</td><td>3</td></tr><tr><td>Q85</td><td>10</td><td>17</td><td>13</td></tr><tr><td>Q86</td><td>11</td><td>12</td><td>11</td></tr><tr><td>Q87</td><td>58</td><td>70</td><td>68</td></tr><tr><td>Q88</td><td>83</td><td>165</td><td>162</td></tr>
+<tr><td>Q89</td><td>18</td><td>27</td><td>24</td></tr><tr><td>Q90</td><td>6</td><td>10</td><td>8</td></tr><tr><td>Q91</td><td>1</td><td>4</td><td>2</td></tr><tr><td>Q92</td><td>6</td><td>10</td><td>9</td></tr><tr><td>Q93</td><td>19</td><td>34</td><td>32</td></tr><tr><td>Q94</td><td>21</td><td>23</td><td>14</td></tr><tr><td>Q95</td><td>325</td><td>234</td><td>338</td></tr><tr><td>Q96</td><td>11</td><td>23</td><td>22</td></tr><tr><td>Q97</td><td>57</td><td>60</td><td>56</td></tr><tr><td>Q98</td><td>12</td><td>18</td><td>16</td></tr><tr><td>Q99</td><td>22</td><td>28</td><td>22</td></tr></tbody></table>
+
+### Throughput testing in TPC-DS scenario
+
+The performance comparison of 99 SQL statements of TPC-DS in a 5-concurrency scenario is as follows:
+
+| **SynxDB (s)** | **Greenplum 6 (s)** | **Greenplum 7 (s)** |
+| -------------- | ------------------- | ------------------- |
+| 21125           | 28255                | 24750                |
+
+**Conclusion**: In the 5-concurrency scenario, SynxDB was **25.2%** faster than Greenplum 6 and **14.6%** faster than Greenplum 7. In multi-concurrency scenarios, SynxDB outperformed Greenplum 6 and Greenplum 7 in terms of performance.
+
+![](../images/tpc-ds-benchmark-3.png)
+
+The detailed data was as follows:
+
+<div class="responsive-table-wrapper">
+<style>
+.responsive-table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+    margin: 20px 0;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.responsive-table-wrapper table {
+    min-width: 1000px;
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 11px;
+    margin: 0;
+    background-color: white;
+}
+
+.responsive-table-wrapper th {
+    background-color: #f8f9fa;
+    font-weight: bold;
+    border: 1px solid #dee2e6;
+    padding: 8px 4px;
+    text-align: center;
+    color: #495057;
+    font-size: 10px;
+    white-space: nowrap;
+}
+
+.responsive-table-wrapper td {
+    border: 1px solid #dee2e6;
+    padding: 6px 4px;
+    text-align: center;
+    font-size: 10px;
+    white-space: nowrap;
+}
+
+.responsive-table-wrapper tbody tr:nth-child(even) {
+    background-color: #f8f9fa;
+}
+
+.responsive-table-wrapper tbody tr:hover {
+    background-color: #e9ecef;
+}
+
+/* 固定第一列 */
+.responsive-table-wrapper th:first-child,
+.responsive-table-wrapper td:first-child {
+    position: sticky;
+    left: 0;
+    background-color: #ffffff;
+    font-weight: bold;
+    z-index: 10;
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+}
+
+.responsive-table-wrapper tbody tr:nth-child(even) td:first-child {
+    background-color: #f8f9fa;
+}
+
+.responsive-table-wrapper tbody tr:hover td:first-child {
+    background-color: #e9ecef;
+}
+
+/* 数据库列分组颜色 */
+.responsive-table-wrapper th:nth-child(2),
+.responsive-table-wrapper th:nth-child(3),
+.responsive-table-wrapper th:nth-child(4),
+.responsive-table-wrapper th:nth-child(5),
+.responsive-table-wrapper th:nth-child(6),
+.responsive-table-wrapper td:nth-child(2),
+.responsive-table-wrapper td:nth-child(3),
+.responsive-table-wrapper td:nth-child(4),
+.responsive-table-wrapper td:nth-child(5),
+.responsive-table-wrapper td:nth-child(6) {
+    background-color: #e3f2fd !important;
+}
+
+.responsive-table-wrapper th:nth-child(7),
+.responsive-table-wrapper th:nth-child(8),
+.responsive-table-wrapper th:nth-child(9),
+.responsive-table-wrapper th:nth-child(10),
+.responsive-table-wrapper th:nth-child(11),
+.responsive-table-wrapper td:nth-child(7),
+.responsive-table-wrapper td:nth-child(8),
+.responsive-table-wrapper td:nth-child(9),
+.responsive-table-wrapper td:nth-child(10),
+.responsive-table-wrapper td:nth-child(11) {
+    background-color: #fff3e0 !important;
+}
+
+.responsive-table-wrapper th:nth-child(12),
+.responsive-table-wrapper th:nth-child(13),
+.responsive-table-wrapper th:nth-child(14),
+.responsive-table-wrapper th:nth-child(15),
+.responsive-table-wrapper th:nth-child(16),
+.responsive-table-wrapper td:nth-child(12),
+.responsive-table-wrapper td:nth-child(13),
+.responsive-table-wrapper td:nth-child(14),
+.responsive-table-wrapper td:nth-child(15),
+.responsive-table-wrapper td:nth-child(16) {
+    background-color: #e8f5e8 !important;
+}
+
+/* 移动端优化 */
+@media (max-width: 768px) {
+    .responsive-table-wrapper table {
+        font-size: 9px;
+    }
+    
+    .responsive-table-wrapper th,
+    .responsive-table-wrapper td {
+        padding: 4px 2px;
+    }
+}
+
+/* 滚动条样式优化 */
+.responsive-table-wrapper::-webkit-scrollbar {
+    height: 8px;
+}
+
+.responsive-table-wrapper::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+.responsive-table-wrapper::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 4px;
+}
+
+.responsive-table-wrapper::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+</style>
+
+<table><thead><tr><th rowspan="2">NO.</th><th colspan="5">SynxDB (s)</th><th colspan="5">Greenplum 6 (s)</th><th colspan="5">Greenplum 7 (s)</th></tr><tr><th>S1</th><th>S2</th><th>S3</th><th>S4</th><th>S5</th><th>S1</th><th>S2</th><th>S3</th><th>S4</th><th>S5</th><th>S1</th><th>S2</th><th>S3</th><th>S4</th><th>S5</th></tr></thead><tbody><tr><td>Q01</td><td>23</td><td>21</td><td>61</td><td>36</td><td>22</td><td>41</td><td>45</td><td>18</td><td>21</td><td>28</td><td>25</td><td>36</td><td>31</td><td>47</td><td>17</td></tr><tr><td>Q02</td><td>259</td><td>223</td><td>211</td><td>132</td><td>197</td><td>323</td><td>266</td><td>371</td><td>227</td><td>336</td><td>166</td><td>149</td><td>228</td><td>314</td><td>203</td></tr><tr><td>Q03</td><td>27</td><td>52</td><td>38</td><td>25</td><td>31</td><td>60</td><td>92</td><td>107</td><td>54</td><td>79</td><td>66</td><td>88</td><td>74</td><td>55</td><td>57</td></tr>
+<tr><td>Q04</td><td>803</td><td>734</td><td>867</td><td>539</td><td>685</td><td>949</td><td>1018</td><td>912</td><td>548</td><td>985</td><td>734</td><td>1055</td><td>1153</td><td>626</td><td>670</td></tr><tr><td>Q05</td><td>88</td><td>91</td><td>107</td><td>99</td><td>98</td><td>152</td><td>231</td><td>202</td><td>177</td><td>159</td><td>106</td><td>130</td><td>154</td><td>138</td><td>118</td></tr><tr><td>Q06</td><td>81</td><td>44</td><td>45</td><td>52</td><td>74</td><td>74</td><td>88</td><td>79</td><td>78</td><td>103</td><td>62</td><td>82</td><td>83</td><td>113</td><td>97</td></tr><tr><td>Q07</td><td>142</td><td>89</td><td>88</td><td>113</td><td>105</td><td>163</td><td>129</td><td>114</td><td>171</td><td>99</td><td>160</td><td>101</td><td>108</td><td>154</td><td>86</td></tr><tr><td>Q08</td><td>51</td><td>58</td><td>61</td><td>43</td><td>67</td><td>64</td><td>69</td><td>85</td><td>63</td><td>108</td><td>75</td><td>91</td><td>81</td><td>50</td><td>104</td></tr>
+<tr><td>Q09</td><td>225</td><td>197</td><td>233</td><td>178</td><td>234</td><td>269</td><td>246</td><td>243</td><td>240</td><td>224</td><td>195</td><td>186</td><td>192</td><td>174</td><td>161</td></tr><tr><td>Q10</td><td>56</td><td>52</td><td>54</td><td>58</td><td>41</td><td>94</td><td>189</td><td>92</td><td>100</td><td>60</td><td>122</td><td>81</td><td>105</td><td>67</td><td>80</td></tr><tr><td>Q11</td><td>518</td><td>473</td><td>903</td><td>845</td><td>809</td><td>395</td><td>527</td><td>1195</td><td>557</td><td>768</td><td>546</td><td>523</td><td>1113</td><td>700</td><td>745</td></tr><tr><td>Q12</td><td>7</td><td>16</td><td>12</td><td>13</td><td>14</td><td>18</td><td>35</td><td>15</td><td>14</td><td>27</td><td>20</td><td>43</td><td>16</td><td>31</td><td>17</td></tr><tr><td>Q13</td><td>116</td><td>158</td><td>143</td><td>185</td><td>107</td><td>150</td><td>362</td><td>269</td><td>394</td><td>268</td><td>180</td><td>237</td><td>151</td><td>244</td><td>237</td></tr>
+<tr><td>Q14</td><td>818</td><td>974</td><td>707</td><td>691</td><td>771</td><td>672</td><td>954</td><td>704</td><td>647</td><td>802</td><td>790</td><td>981</td><td>681</td><td>635</td><td>804</td></tr><tr><td>Q15</td><td>18</td><td>24</td><td>19</td><td>20</td><td>21</td><td>34</td><td>35</td><td>33</td><td>32</td><td>25</td><td>28</td><td>32</td><td>32</td><td>28</td><td>39</td></tr><tr><td>Q16</td><td>119</td><td>61</td><td>58</td><td>50</td><td>53</td><td>576</td><td>558</td><td>385</td><td>170</td><td>373</td><td>106</td><td>115</td><td>110</td><td>81</td><td>295</td></tr><tr><td>Q17</td><td>92</td><td>87</td><td>89</td><td>99</td><td>153</td><td>136</td><td>123</td><td>368</td><td>220</td><td>100</td><td>128</td><td>142</td><td>243</td><td>130</td><td>121</td></tr><tr><td>Q18</td><td>65</td><td>53</td><td>66</td><td>102</td><td>63</td><td>116</td><td>70</td><td>66</td><td>87</td><td>51</td><td>66</td><td>87</td><td>70</td><td>137</td><td>47</td></tr>
+<tr><td>Q19</td><td>78</td><td>51</td><td>57</td><td>63</td><td>82</td><td>99</td><td>91</td><td>75</td><td>148</td><td>97</td><td>92</td><td>93</td><td>69</td><td>88</td><td>115</td></tr><tr><td>Q20</td><td>14</td><td>17</td><td>18</td><td>18</td><td>20</td><td>25</td><td>28</td><td>24</td><td>28</td><td>23</td><td>38</td><td>30</td><td>40</td><td>39</td><td>38</td></tr><tr><td>Q21</td><td>21</td><td>10</td><td>38</td><td>8</td><td>22</td><td>29</td><td>24</td><td>24</td><td>20</td><td>37</td><td>39</td><td>31</td><td>22</td><td>25</td><td>56</td></tr><tr><td>Q22</td><td>52</td><td>106</td><td>83</td><td>46</td><td>89</td><td>266</td><td>65</td><td>79</td><td>70</td><td>52</td><td>202</td><td>62</td><td>57</td><td>62</td><td>54</td></tr><tr><td>Q23</td><td>3222</td><td>3287</td><td>3186</td><td>4500</td><td>3269</td><td>3470</td><td>3726</td><td>3697</td><td>5115</td><td>2665</td><td>3094</td><td>3226</td><td>2819</td><td>4791</td><td>2694</td></tr>
+<tr><td>Q24</td><td>971</td><td>1024</td><td>1385</td><td>809</td><td>569</td><td>932</td><td>1171</td><td>1699</td><td>677</td><td>517</td><td>1078</td><td>1229</td><td>1432</td><td>831</td><td>579</td></tr><tr><td>Q25</td><td>111</td><td>71</td><td>89</td><td>93</td><td>84</td><td>248</td><td>169</td><td>172</td><td>164</td><td>163</td><td>205</td><td>107</td><td>132</td><td>114</td><td>122</td></tr><tr><td>Q26</td><td>40</td><td>47</td><td>94</td><td>43</td><td>47</td><td>82</td><td>163</td><td>86</td><td>62</td><td>44</td><td>61</td><td>49</td><td>60</td><td>58</td><td>63</td></tr><tr><td>Q27</td><td>115</td><td>176</td><td>118</td><td>95</td><td>85</td><td>291</td><td>200</td><td>156</td><td>92</td><td>91</td><td>168</td><td>138</td><td>171</td><td>80</td><td>91</td></tr><tr><td>Q28</td><td>106</td><td>124</td><td>120</td><td>120</td><td>143</td><td>166</td><td>223</td><td>164</td><td>195</td><td>210</td><td>125</td><td>200</td><td>217</td><td>182</td><td>167</td></tr>
+<tr><td>Q29</td><td>82</td><td>70</td><td>106</td><td>67</td><td>141</td><td>170</td><td>145</td><td>143</td><td>119</td><td>195</td><td>94</td><td>162</td><td>110</td><td>120</td><td>182</td></tr><tr><td>Q30</td><td>10</td><td>12</td><td>9</td><td>8</td><td>11</td><td>11</td><td>14</td><td>13</td><td>8</td><td>10</td><td>12</td><td>14</td><td>8</td><td>8</td><td>11</td></tr><tr><td>Q31</td><td>98</td><td>78</td><td>152</td><td>113</td><td>134</td><td>82</td><td>86</td><td>126</td><td>147</td><td>107</td><td>123</td><td>74</td><td>87</td><td>77</td><td>154</td></tr><tr><td>Q32</td><td>56</td><td>52</td><td>29</td><td>31</td><td>41</td><td>81</td><td>97</td><td>64</td><td>52</td><td>91</td><td>75</td><td>85</td><td>51</td><td>58</td><td>95</td></tr><tr><td>Q33</td><td>75</td><td>72</td><td>65</td><td>75</td><td>64</td><td>227</td><td>95</td><td>92</td><td>90</td><td>123</td><td>106</td><td>90</td><td>97</td><td>130</td><td>110</td></tr>
+<tr><td>Q34</td><td>55</td><td>70</td><td>40</td><td>55</td><td>55</td><td>116</td><td>126</td><td>88</td><td>94</td><td>76</td><td>103</td><td>76</td><td>113</td><td>97</td><td>95</td></tr><tr><td>Q35</td><td>112</td><td>108</td><td>121</td><td>94</td><td>113</td><td>151</td><td>131</td><td>118</td><td>45</td><td>102</td><td>158</td><td>212</td><td>162</td><td>77</td><td>134</td></tr><tr><td>Q36</td><td>198</td><td>146</td><td>116</td><td>74</td><td>127</td><td>170</td><td>205</td><td>150</td><td>86</td><td>174</td><td>307</td><td>148</td><td>114</td><td>86</td><td>185</td></tr><tr><td>Q37</td><td>27</td><td>15</td><td>32</td><td>20</td><td>12</td><td>73</td><td>52</td><td>30</td><td>34</td><td>29</td><td>101</td><td>40</td><td>35</td><td>32</td><td>56</td></tr><tr><td>Q38</td><td>188</td><td>411</td><td>184</td><td>271</td><td>175</td><td>256</td><td>184</td><td>246</td><td>138</td><td>221</td><td>152</td><td>463</td><td>388</td><td>170</td><td>182</td></tr>
+<tr><td>Q39</td><td>108</td><td>156</td><td>86</td><td>146</td><td>161</td><td>103</td><td>141</td><td>69</td><td>152</td><td>147</td><td>133</td><td>71</td><td>226</td><td>139</td><td>125</td></tr><tr><td>Q40</td><td>37</td><td>37</td><td>39</td><td>22</td><td>40</td><td>64</td><td>62</td><td>54</td><td>41</td><td>74</td><td>35</td><td>53</td><td>45</td><td>39</td><td>52</td></tr><tr><td>Q41</td><td>1</td><td>1</td><td>3</td><td>1</td><td>1</td><td>1</td><td>2</td><td>1</td><td>2</td><td>2</td><td>0</td><td>1</td><td>0</td><td>1</td><td>1</td></tr><tr><td>Q42</td><td>26</td><td>36</td><td>27</td><td>36</td><td>43</td><td>77</td><td>103</td><td>92</td><td>72</td><td>53</td><td>69</td><td>67</td><td>110</td><td>68</td><td>94</td></tr><tr><td>Q43</td><td>90</td><td>59</td><td>74</td><td>49</td><td>63</td><td>108</td><td>98</td><td>131</td><td>73</td><td>108</td><td>154</td><td>73</td><td>107</td><td>144</td><td>95</td></tr>
+<tr><td>Q44</td><td>68</td><td>50</td><td>65</td><td>58</td><td>66</td><td>72</td><td>113</td><td>76</td><td>118</td><td>76</td><td>84</td><td>77</td><td>80</td><td>64</td><td>82</td></tr><tr><td>Q45</td><td>23</td><td>18</td><td>19</td><td>16</td><td>26</td><td>31</td><td>21</td><td>17</td><td>18</td><td>31</td><td>25</td><td>25</td><td>28</td><td>30</td><td>28</td></tr><tr><td>Q46</td><td>88</td><td>95</td><td>23</td><td>68</td><td>97</td><td>161</td><td>112</td><td>70</td><td>105</td><td>117</td><td>137</td><td>131</td><td>93</td><td>82</td><td>300</td></tr><tr><td>Q47</td><td>157</td><td>141</td><td>57</td><td>125</td><td>106</td><td>138</td><td>133</td><td>333</td><td>116</td><td>121</td><td>152</td><td>133</td><td>181</td><td>160</td><td>169</td></tr><tr><td>Q48</td><td>101</td><td>101</td><td>34</td><td>84</td><td>146</td><td>239</td><td>253</td><td>107</td><td>323</td><td>221</td><td>163</td><td>223</td><td>113</td><td>171</td><td>220</td></tr>
+<tr><td>Q49</td><td>102</td><td>124</td><td>94</td><td>108</td><td>80</td><td>114</td><td>132</td><td>135</td><td>57</td><td>125</td><td>128</td><td>108</td><td>149</td><td>57</td><td>185</td></tr><tr><td>Q50</td><td>36</td><td>103</td><td>56</td><td>36</td><td>43</td><td>113</td><td>153</td><td>121</td><td>90</td><td>171</td><td>130</td><td>189</td><td>129</td><td>117</td><td>153</td></tr><tr><td>Q51</td><td>114</td><td>179</td><td>162</td><td>139</td><td>225</td><td>168</td><td>208</td><td>211</td><td>97</td><td>116</td><td>158</td><td>228</td><td>145</td><td>173</td><td>149</td></tr><tr><td>Q52</td><td>81</td><td>38</td><td>40</td><td>53</td><td>51</td><td>74</td><td>71</td><td>61</td><td>106</td><td>38</td><td>88</td><td>112</td><td>77</td><td>84</td><td>54</td></tr><tr><td>Q53</td><td>65</td><td>57</td><td>39</td><td>94</td><td>62</td><td>86</td><td>92</td><td>122</td><td>105</td><td>66</td><td>79</td><td>106</td><td>118</td><td>114</td><td>26</td></tr>
+<tr><td>Q54</td><td>69</td><td>67</td><td>51</td><td>80</td><td>67</td><td>129</td><td>115</td><td>161</td><td>94</td><td>129</td><td>289</td><td>125</td><td>143</td><td>89</td><td>242</td></tr><tr><td>Q55</td><td>36</td><td>57</td><td>31</td><td>30</td><td>55</td><td>61</td><td>76</td><td>68</td><td>51</td><td>52</td><td>85</td><td>73</td><td>87</td><td>46</td><td>58</td></tr><tr><td>Q56</td><td>50</td><td>50</td><td>68</td><td>72</td><td>47</td><td>77</td><td>117</td><td>111</td><td>87</td><td>74</td><td>103</td><td>73</td><td>106</td><td>145</td><td>92</td></tr><tr><td>Q57</td><td>101</td><td>76</td><td>69</td><td>94</td><td>81</td><td>97</td><td>146</td><td>81</td><td>70</td><td>79</td><td>82</td><td>66</td><td>92</td><td>87</td><td>70</td></tr><tr><td>Q58</td><td>64</td><td>56</td><td>46</td><td>56</td><td>56</td><td>108</td><td>107</td><td>129</td><td>63</td><td>82</td><td>93</td><td>93</td><td>145</td><td>64</td><td>104</td></tr>
+<tr><td>Q59</td><td>531</td><td>280</td><td>452</td><td>235</td><td>514</td><td>799</td><td>454</td><td>634</td><td>505</td><td>831</td><td>465</td><td>272</td><td>436</td><td>253</td><td>454</td></tr><tr><td>Q60</td><td>81</td><td>58</td><td>75</td><td>84</td><td>54</td><td>95</td><td>116</td><td>87</td><td>96</td><td>75</td><td>99</td><td>85</td><td>86</td><td>130</td><td>95</td></tr><tr><td>Q61</td><td>138</td><td>71</td><td>66</td><td>77</td><td>93</td><td>175</td><td>121</td><td>117</td><td>935</td><td>1267</td><td>113</td><td>115</td><td>123</td><td>115</td><td>131</td></tr><tr><td>Q62</td><td>41</td><td>34</td><td>40</td><td>51</td><td>33</td><td>53</td><td>48</td><td>59</td><td>69</td><td>47</td><td>52</td><td>45</td><td>31</td><td>57</td><td>83</td></tr><tr><td>Q63</td><td>79</td><td>89</td><td>58</td><td>76</td><td>42</td><td>101</td><td>132</td><td>134</td><td>101</td><td>62</td><td>116</td><td>117</td><td>158</td><td>109</td><td>89</td></tr>
+<tr><td>Q64</td><td>324</td><td>233</td><td>322</td><td>255</td><td>272</td><td>370</td><td>269</td><td>258</td><td>457</td><td>233</td><td>379</td><td>337</td><td>320</td><td>259</td><td>288</td></tr><tr><td>Q65</td><td>367</td><td>177</td><td>164</td><td>233</td><td>207</td><td>282</td><td>249</td><td>227</td><td>166</td><td>191</td><td>207</td><td>217</td><td>225</td><td>192</td><td>322</td></tr><tr><td>Q66</td><td>55</td><td>67</td><td>17</td><td>43</td><td>51</td><td>53</td><td>89</td><td>37</td><td>47</td><td>55</td><td>53</td><td>81</td><td>52</td><td>45</td><td>78</td></tr><tr><td>Q67</td><td>3947</td><td>3853</td><td>4151</td><td>4255</td><td>4461</td><td>5552</td><td>5279</td><td>5484</td><td>7135</td><td>6889</td><td>4569</td><td>4224</td><td>4419</td><td>5219</td><td>5510</td></tr>
+<tr><td>Q68</td><td>79</td><td>92</td><td>122</td><td>86</td><td>60</td><td>116</td><td>190</td><td>124</td><td>96</td><td>135</td><td>100</td><td>165</td><td>197</td><td>141</td><td>134</td></tr><tr><td>Q69</td><td>59</td><td>53</td><td>57</td><td>60</td><td>49</td><td>100</td><td>63</td><td>64</td><td>74</td><td>64</td><td>83</td><td>64</td><td>72</td><td>98</td><td>71</td></tr><tr><td>Q70</td><td>412</td><td>179</td><td>203</td><td>188</td><td>199</td><td>269</td><td>232</td><td>177</td><td>175</td><td>146</td><td>424</td><td>216</td><td>166</td><td>226</td><td>183</td></tr><tr><td>Q71</td><td>74</td><td>68</td><td>88</td><td>106</td><td>91</td><td>133</td><td>109</td><td>129</td><td>89</td><td>185</td><td>104</td><td>119</td><td>135</td><td>109</td><td>151</td></tr><tr><td>Q72</td><td>209</td><td>225</td><td>233</td><td>372</td><td>205</td><td>805</td><td>767</td><td>747</td><td>1012</td><td>1009</td><td>379</td><td>544</td><td>407</td><td>386</td><td>430</td></tr>
+<tr><td>Q73</td><td>57</td><td>41</td><td>51</td><td>47</td><td>87</td><td>72</td><td>92</td><td>119</td><td>104</td><td>111</td><td>126</td><td>100</td><td>84</td><td>74</td><td>88</td></tr><tr><td>Q74</td><td>511</td><td>506</td><td>533</td><td>384</td><td>361</td><td>401</td><td>306</td><td>305</td><td>610</td><td>396</td><td>567</td><td>560</td><td>388</td><td>806</td><td>559</td></tr><tr><td>Q75</td><td>301</td><td>348</td><td>202</td><td>226</td><td>269</td><td>288</td><td>298</td><td>267</td><td>226</td><td>192</td><td>400</td><td>242</td><td>360</td><td>263</td><td>373</td></tr><tr><td>Q76</td><td>37</td><td>57</td><td>80</td><td>46</td><td>55</td><td>66</td><td>85</td><td>100</td><td>51</td><td>73</td><td>72</td><td>71</td><td>68</td><td>64</td><td>48</td></tr><tr><td>Q77</td><td>74</td><td>93</td><td>67</td><td>59</td><td>111</td><td>127</td><td>111</td><td>91</td><td>88</td><td>147</td><td>97</td><td>110</td><td>86</td><td>109</td><td>118</td></tr>
+<tr><td>Q78</td><td>502</td><td>402</td><td>390</td><td>347</td><td>516</td><td>811</td><td>731</td><td>607</td><td>430</td><td>902</td><td>925</td><td>624</td><td>561</td><td>331</td><td>771</td></tr><tr><td>Q79</td><td>118</td><td>135</td><td>141</td><td>256</td><td>157</td><td>230</td><td>117</td><td>119</td><td>66</td><td>177</td><td>116</td><td>112</td><td>120</td><td>102</td><td>239</td></tr><tr><td>Q80</td><td>138</td><td>109</td><td>233</td><td>145</td><td>108</td><td>217</td><td>134</td><td>170</td><td>223</td><td>164</td><td>157</td><td>97</td><td>161</td><td>171</td><td>138</td></tr><tr><td>Q81</td><td>14</td><td>14</td><td>23</td><td>9</td><td>15</td><td>20</td><td>21</td><td>19</td><td>12</td><td>22</td><td>20</td><td>12</td><td>23</td><td>14</td><td>30</td></tr><tr><td>Q82</td><td>59</td><td>53</td><td>30</td><td>25</td><td>29</td><td>54</td><td>81</td><td>81</td><td>61</td><td>64</td><td>78</td><td>73</td><td>49</td><td>46</td><td>51</td></tr>
+<tr><td>Q83</td><td>5</td><td>11</td><td>6</td><td>10</td><td>7</td><td>12</td><td>17</td><td>10</td><td>12</td><td>16</td><td>10</td><td>16</td><td>9</td><td>16</td><td>12</td></tr><tr><td>Q84</td><td>5</td><td>6</td><td>8</td><td>4</td><td>7</td><td>8</td><td>11</td><td>7</td><td>8</td><td>9</td><td>9</td><td>14</td><td>9</td><td>7</td><td>12</td></tr><tr><td>Q85</td><td>46</td><td>57</td><td>33</td><td>34</td><td>32</td><td>98</td><td>92</td><td>55</td><td>79</td><td>61</td><td>87</td><td>70</td><td>64</td><td>57</td><td>136</td></tr><tr><td>Q86</td><td>44</td><td>80</td><td>26</td><td>26</td><td>24</td><td>38</td><td>34</td><td>40</td><td>25</td><td>34</td><td>59</td><td>41</td><td>26</td><td>28</td><td>45</td></tr><tr><td>Q87</td><td>314</td><td>433</td><td>430</td><td>219</td><td>226</td><td>341</td><td>306</td><td>569</td><td>204</td><td>320</td><td>373</td><td>287</td><td>358</td><td>224</td><td>239</td></tr>
+<tr><td>Q88</td><td>112</td><td>116</td><td>126</td><td>130</td><td>155</td><td>203</td><td>213</td><td>337</td><td>168</td><td>226</td><td>224</td><td>182</td><td>274</td><td>148</td><td>240</td></tr><tr><td>Q89</td><td>47</td><td>72</td><td>18</td><td>111</td><td>95</td><td>96</td><td>98</td><td>42</td><td>138</td><td>103</td><td>83</td><td>73</td><td>126</td><td>133</td><td>92</td></tr><tr><td>Q90</td><td>18</td><td>10</td><td>12</td><td>55</td><td>15</td><td>20</td><td>25</td><td>23</td><td>21</td><td>14</td><td>18</td><td>22</td><td>26</td><td>18</td><td>21</td></tr><tr><td>Q91</td><td>4</td><td>3</td><td>11</td><td>5</td><td>4</td><td>22</td><td>14</td><td>14</td><td>17</td><td>17</td><td>6</td><td>5</td><td>5</td><td>5</td><td>4</td></tr><tr><td>Q92</td><td>16</td><td>21</td><td>64</td><td>56</td><td>23</td><td>33</td><td>53</td><td>40</td><td>27</td><td>33</td><td>28</td><td>46</td><td>26</td><td>26</td><td>24</td></tr>
+<tr><td>Q93</td><td>56</td><td>57</td><td>49</td><td>62</td><td>1</td><td>107</td><td>80</td><td>207</td><td>1</td><td>166</td><td>82</td><td>69</td><td>105</td><td>1</td><td>149</td></tr><tr><td>Q94</td><td>288</td><td>142</td><td>29</td><td>21</td><td>24</td><td>275</td><td>136</td><td>231</td><td>154</td><td>184</td><td>69</td><td>50</td><td>53</td><td>84</td><td>72</td></tr><tr><td>Q95</td><td>728</td><td>1522</td><td>1301</td><td>1056</td><td>1174</td><td>732</td><td>1472</td><td>1174</td><td>1201</td><td>1078</td><td>868</td><td>1781</td><td>1086</td><td>1384</td><td>1328</td></tr><tr><td>Q96</td><td>107</td><td>45</td><td>41</td><td>23</td><td>30</td><td>215</td><td>85</td><td>70</td><td>81</td><td>199</td><td>137</td><td>114</td><td>163</td><td>75</td><td>82</td></tr><tr><td>Q97</td><td>163</td><td>182</td><td>156</td><td>114</td><td>274</td><td>182</td><td>206</td><td>189</td><td>136</td><td>287</td><td>153</td><td>141</td><td>170</td><td>176</td><td>325</td></tr>
+<tr><td>Q98</td><td>68</td><td>55</td><td>49</td><td>31</td><td>42</td><td>205</td><td>85</td><td>90</td><td>70</td><td>48</td><td>160</td><td>76</td><td>89</td><td>55</td><td>93</td></tr><tr><td>Q99</td><td>187</td><td>99</td><td>116</td><td>71</td><td>114</td><td>109</td><td>109</td><td>122</td><td>115</td><td>140</td><td>58</td><td>108</td><td>101</td><td>143</td><td>110</td></tr></tbody></table>
+</div>

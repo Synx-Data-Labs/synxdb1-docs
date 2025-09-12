@@ -7,6 +7,14 @@ Connect to Databases
 
 This document describes how to connect to |product_name|.
 
+|product_name| relies on traditional authentication methods inherited from PostgreSQL and supports some authentication approaches specified in identity federation standards. Native multi-factor authentication (MFA) is not supported.
+
+To enhance login security, you can integrate external authentication systems (like LDAP or Kerberos) with an external MFA solution. To protect connections, |product_name| incorporates a client connection protocol control mechanism from PostgreSQL, ensuring session security and preventing attacks. For encrypting data in transit, |product_name| supports protocols like SSL/TLS.
+
+|product_name| enhances security by disallowing weak ciphers and any cipher with a key length of less than 128 bits. This security standard is also enforced by the web client of the |monitor_console|.
+
+In addition, |product_name| supports generating new session tokens during login, role change, and logout to further enhance security.
+
 Connection parameters
 ---------------------
 
@@ -135,7 +143,7 @@ At the prompt, you can type SQL commands. An SQL command must end with a semicol
 Connect using application interfaces
 ------------------------------------
 
-You might want to develop your own client application to interact with |product_name|. PostgreSQL provides a series of database drivers for the most common database application programming interfaces (APIs), which can also be used with |product_name|. These drivers need to be downloaded separately.
+You might want to develop your own client application to interact with |product_name|. |product_name| provides a series of database drivers for the most common database application programming interfaces (APIs). The API sends SQL to the database service and verifies the legality of the SQL statement. These drivers need to be downloaded separately.
 
 Each driver (except for ``libpq``, which is supplied with PostgreSQL) is an independent PostgreSQL development project. You need to download, install, and configure these applications to connect to |product_name|. These drivers are as follows:
 
@@ -197,7 +205,7 @@ There are many reasons why a client application might fail to connect to |produc
    * - Problem
      - Solution
    * - No ``pg_hba.conf`` entry for host or user
-     - To allow remote clients to connect to |product_name|, you need to configure the |product_name| coordinator instance to accept these connections. This is done by adding an appropriate entry to the ``pg_hba.conf`` configuration file, which is located in the data directory of the coordinator instance.
+     - To allow remote clients to connect to |product_name|, you need to configure the |product_name| coordinator instance to accept these connections. This is done by adding an appropriate entry to the ``pg_hba.conf`` configuration file, which is located in the data directory of the coordinator instance. |product_name| also supports client CA certificate authentication by setting the authentication method to `cert` in this file. When using this mechanism, users must ensure that the CA certificate provider is legitimate.
    * - |product_name| is not running
      - If the |product_name| coordinator instance is stopped, users will not be able to connect. You can verify that the |product_name| system is running by running the ``gpstate`` utility on the |product_name| coordinator host.
    * - Network issues: Connection timed out

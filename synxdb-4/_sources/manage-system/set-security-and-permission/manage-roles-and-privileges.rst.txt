@@ -16,7 +16,7 @@ To bootstrap the |product_name| system, a freshly initialized system always cont
 Create new roles (users)
 ------------------------
 
-A user-level role is considered to be a database role that can log in to the database and initiate a database session. Therefore, when you create a new user-level role using the ``CREATE ROLE`` command, you must specify the ``LOGIN`` privilege. For example:
+A user-level role is a database role that can log in and initiate a database session. To create one, you must specify the ``LOGIN`` privilege with the ``CREATE ROLE`` command. Each user role in |product_name| must have a unique name, because it is uniquely identified by an internal OID (Object Identifier), and cannot be created repeatedly. For example:
 
 .. code:: sql
 
@@ -206,6 +206,11 @@ Security best practices for roles and privileges
 -  **Limit users who have the SUPERUSER role attribute.**
 
    Roles that are superusers bypass all access privilege checks in |product_name|, as well as resource queuing. Only system administrators should be given superuser rights. See :ref:`Alter Role Attributes <manage-system/set-security-and-permission/manage-roles-and-privileges:alter role attributes>`.
+
+Data confidentiality disclaimer
+-------------------------------
+
+To meet enterprise-specific compliance requirements, |product_name| supports the custom development of disclaimer functions related to data confidentiality.
 
 Encrypt data
 ------------
