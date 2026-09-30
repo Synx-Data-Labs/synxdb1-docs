@@ -126,7 +126,7 @@
         }
 
         .version-card.current::before {
-            content: "CURRENT";
+            content: "LIVE";
             position: absolute;
             top: 0;
             right: 0;
@@ -276,6 +276,7 @@
         .version-card:nth-child(1) { animation-delay: 0.1s; }
         .version-card:nth-child(2) { animation-delay: 0.2s; }
         .version-card:nth-child(3) { animation-delay: 0.3s; }
+        .version-card:nth-child(4) { animation-delay: 0.4s; }
     </style>
 </head>
 <body>
@@ -295,13 +296,22 @@
             <p class="section-subtitle">Choose the version that matches your SynxDB installation</p>
             
             <div class="version-grid">
-                <!-- Current Version -->
+                <!-- SynxDB — live, auto-updating docs site -->
                 <div class="version-card current">
-                    <h3 class="version-title">SynxDB 4.0</h3>
+                    <h3 class="version-title">SynxDB</h3>
                     <p class="version-description">
                         Latest stable release documentation with the most up-to-date features, enterprise capabilities, and enhanced performance optimizations.
                     </p>
-                    <a href="synxdb-4/index.html" class="version-link">View Documentation</a>
+                    <a href="https://synxdb-docs.synxdata.com/" class="version-link" aria-label="View SynxDB documentation">View Documentation</a>
+                </div>
+
+                <!-- SynxDB Cloud — live, auto-updating docs site -->
+                <div class="version-card current">
+                    <h3 class="version-title">SynxDB Cloud</h3>
+                    <p class="version-description">
+                        Fully managed, cloud-native SynxDB — provisioning, architecture, and operations documentation.
+                    </p>
+                    <a href="https://synxdb-cloud-docs.synxdata.com/" class="version-link" aria-label="View SynxDB Cloud documentation">View Documentation</a>
                 </div>
 
                 <!-- Future Version Placeholder -->
@@ -315,11 +325,12 @@
 
                 <!-- Legacy Version Placeholder -->
                 <div class="version-card">
-                    <h3 class="version-title">SynxDB 2.0</h3>
+                    <h3 class="version-title">SynxDB 2.0 (archived)</h3>
                     <p class="version-description">
                         Enterprise-grade database with a scalable architecture, and can act as a drop-in replacement for Greenplum 6 to seamless migration without change your existing workloads.
                     </p>
-                    <a href="synxdb-2/index.html" class="version-link">View Documentation</a>
+                    <a href="synxdb-2/index.html" class="version-link" aria-label="View SynxDB 2.0 (archived) documentation">View Documentation</a>
+                </div>
             </div>
         </div>
     </main>
